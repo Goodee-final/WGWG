@@ -9,5 +9,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/side.jsp"></jsp:include>
+	
+	<!-- 나는 윤수연~ -->
 </body>
 </html>
