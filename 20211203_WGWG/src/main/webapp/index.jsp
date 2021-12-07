@@ -11,5 +11,6 @@
 	<jsp:include page="/WEB-INF/views/side.jsp"></jsp:include>
 	
 	<!-- 나는 윤수연~ -->
+	<!-- 나는 진선희~!!~ -->
 </body>
 </html>
