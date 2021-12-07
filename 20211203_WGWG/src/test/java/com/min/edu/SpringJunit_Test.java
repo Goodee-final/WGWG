@@ -49,7 +49,6 @@ public class SpringJunit_Test {
 	public void test() {
 		//assertNotNull(dao.selectFormcList());
 		assertNotNull(dao.selectFormList());
-
 	}
 
 }
