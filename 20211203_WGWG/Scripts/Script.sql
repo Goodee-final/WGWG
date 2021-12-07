@@ -1,0 +1,727 @@
+/* 사원 */
+CREATE TABLE EMP (
+   EMP_NO NUMBER(8) NOT NULL, /* 사원번호 */
+   EMP_NM VARCHAR2(50), /* 이름 */
+   PW VARCHAR2(255), /* 비밀번호 */
+   EMAIL VARCHAR(40), /* 이메일 */
+   PHOTO VARCHAR2(255), /* 사진 */
+   ADDRESS VARCHAR2(255), /* 주소 */
+   TEL VARCHAR(30), /* 전화번호 */
+   HIREDATE DATE, /* 입사년도 */
+   WORK_ST VARCHAR2(10), /* 근무상태 */
+   RANK_NO NUMBER(8), /* 직급번호 */
+   DEPT_NO NUMBER(8) /* 부서번호 */
+);
+
+ALTER TABLE EMP
+   ADD
+      CONSTRAINT PK_EMP
+      PRIMARY KEY (
+         EMP_NO
+      );
+
+/* 직급구분 */
+CREATE TABLE RANK (
+   RANK_NO NUMBER(8) NOT NULL, /* 직급번호 */
+   RANK_NM VARCHAR2(20) /* 직급 명 */
+);
+
+ALTER TABLE RANK
+   ADD
+      CONSTRAINT PK_RANK
+      PRIMARY KEY (
+         RANK_NO
+      );
+
+/* 부서 */
+CREATE TABLE DEPARTMENT (
+   DEPT_NO NUMBER(8) NOT NULL, /* 부서번호 */
+   DEPT_NM VARCHAR2(50) /* 부서명 */
+);
+
+ALTER TABLE DEPARTMENT
+   ADD
+      CONSTRAINT PK_DEPARTMENT
+      PRIMARY KEY (
+         DEPT_NO
+      );
+
+/* 양식 */
+CREATE TABLE FORM (
+   FORM_NO NUMBER(8) NOT NULL, /* 양식번호 */
+   FORM_NM VARCHAR2(50), /* 양식이름 */
+   FORM_REG_DT DATE, /* 양식등록일 */
+   TEMPLATE CLOB, /* 양식템플릿 */
+   FORM_CLASS_NO NUMBER(8) /* 분류코드 */
+);
+
+ALTER TABLE FORM
+   ADD
+      CONSTRAINT PK_FORM
+      PRIMARY KEY (
+         FORM_NO
+      );
+
+/* 연차 */
+CREATE TABLE ANNUAL (
+   EMP_NO NUMBER(8) NOT NULL, /* 사원번호 */
+   TOTAL_ANNUAL NUMBER(4), /* 총연차갯수 */
+   USED_ANNUAL NUMBER(4) /* 올해사용연차갯수 */
+);
+
+ALTER TABLE ANNUAL
+   ADD
+      CONSTRAINT PK_ANNUAL
+      PRIMARY KEY (
+         EMP_NO
+      );
+
+/* 서명 */
+CREATE TABLE SIGN (
+   EMP_NO NUMBER(8), /* 사원번호 */
+   SIGN_REG_DT DATE, /* 등록날짜 */
+   SIGN_EXP_DT DATE, /* 만료기한 */
+   SIGN_IMG VARCHAR2(255) /* 서명이미지 */
+);
+
+/* 부서변경히스토리 */
+CREATE TABLE DEPT_HISTORY (
+   HISTORY_NO NUMBER(8) NOT NULL, /* 히스토리번호 */
+   CHANGE_DT DATE, /* 변경날짜 */
+   DEPT_NO NUMBER(8) /* 부서번호 */
+);
+
+ALTER TABLE DEPT_HISTORY
+   ADD
+      CONSTRAINT PK_DEPT_HISTORY
+      PRIMARY KEY (
+         HISTORY_NO
+      );
+
+/* 양식분류 */
+CREATE TABLE FORM_CLASSIFICATION (
+   FORM_CLASS_NO NUMBER(8) NOT NULL, /* 분류코드 */
+   FORM_CLASS_NM VARCHAR2(50) /* 분류명 */
+);
+
+ALTER TABLE FORM_CLASSIFICATION
+   ADD
+      CONSTRAINT PK_FORM_CLASSIFICATION
+      PRIMARY KEY (
+         FORM_CLASS_NO
+      );
+
+/* 참조피드백 */
+CREATE TABLE REFERENCE (
+   APP_DOC_NO NUMBER(8) NOT NULL, /* 결재문서번호 */
+   EMP_NO NUMBER(8) NOT NULL, /* 참조사원번호 */
+   FEEDBACK VARCHAR2(10) /* 피드백 */
+);
+
+ALTER TABLE REFERENCE
+   ADD
+      CONSTRAINT PK_REFERENCE
+      PRIMARY KEY (
+         APP_DOC_NO,
+         EMP_NO
+      );
+
+/* 알림 */
+CREATE TABLE NOTIFICATION (
+   NOTIFICATION_NO NUMBER(8) NOT NULL, /* 알림번호 */
+   NOTIFICATION_CHK NUMBER(2), /* 확인여부 */
+   APP_DOC_NO NUMBER(8) /* 결재문서번호 */
+);
+
+ALTER TABLE NOTIFICATION
+   ADD
+      CONSTRAINT PK_NOTIFICATION
+      PRIMARY KEY (
+         NOTIFICATION_NO
+      );
+
+/* 전자결재 */
+CREATE TABLE APPROVAL_DOCUMENT (
+   APP_DOC_NO NUMBER(8) NOT NULL, /* 결재문서번호 */
+   APP_DOC_ST VARCHAR2(10), /* 상태 */
+   APP_DOC_REG_DT DATE, /* 작성일 */
+   APP_DOC_TITLE VARCHAR2(255), /* 제목 */
+   REF_EMP_NO VARCHAR2(255), /* 참조할사원 */
+   APP_DOC_CONTENT CLOB, /* 작성내용 */
+   APP_LINE_NO NUMBER(8), /* 결제라인번호 */
+   APP_FILE_NO NUMBER(8), /* 첨부파일번호 */
+   EMP_NO NUMBER(8), /* 사원번호 */
+   FORM_NO NUMBER(8) /* 양식번호 */
+);
+
+ALTER TABLE APPROVAL_DOCUMENT
+   ADD
+      CONSTRAINT PK_APPROVAL_DOCUMENT
+      PRIMARY KEY (
+         APP_DOC_NO
+      );
+
+/* 결재첨부파일 */
+CREATE TABLE APPROVAL_FILE (
+   APP_FILE_NO NUMBER(8) NOT NULL, /* 첨부파일번호 */
+   APP_FILE_NM VARCHAR2(50), /* 첨부파일기존이름 */
+   APP_FILE_SAVE_NM VARCHAR2(50), /* 첨부파일저장이름 */
+   APP_FILE_SIZE VARCHAR2(255) /* 첨부파일사이즈 */
+);
+
+ALTER TABLE APPROVAL_FILE
+   ADD
+      CONSTRAINT PK_APPROVAL_FILE
+      PRIMARY KEY (
+         APP_FILE_NO
+      );
+
+/* 결제라인 */
+CREATE TABLE APPROVAL_LINE (
+   APP_LINE_NO NUMBER(8) NOT NULL, /* 결제라인번호 */
+   APPROVER VARCHAR2(4000), /* 결재자 */
+   BOOKMARK VARCHAR2(255) /* 즐겨찾기한사원번호 */
+);
+
+ALTER TABLE APPROVAL_LINE
+   ADD
+      CONSTRAINT PK_APPROVAL_LINE
+      PRIMARY KEY (
+         APP_LINE_NO
+      );
+
+/* 채팅메시지  */
+CREATE TABLE CHAT_MESSAGE (
+   CHAT_MESSAGE_NO NUMBER(8) NOT NULL, /* 채팅메시지id */
+   CHAT_ROOM_NO NUMBER(8), /* 채팅방id */
+   CHAT_MESSAGE_CONTENT VARCHAR2(500), /* 채팅메시지내용 */
+   CHAT_MESSAGE_REG_DT DATE, /* 채팅메시지보낸시간 */
+   EMP_NO NUMBER(8) /* 채팅메시지보낸ID */
+);
+
+ALTER TABLE CHAT_MESSAGE
+   ADD
+      CONSTRAINT PK_CHAT_MESSAGE
+      PRIMARY KEY (
+         CHAT_MESSAGE_NO
+      );
+
+/* 채팅방 */
+CREATE TABLE CHAT_ROOM (
+   CHAT_ROOM_NO NUMBER(8) NOT NULL, /* 채팅방id */
+   CHAT_ROOM_NM VARCHAR(255), /* 채팅방이름 */
+   CHAT_ROOM_SIZE NUMBER(4), /* 참여자수 */
+   EMP_NO NUMBER(8) /* 참여자ID */
+);
+
+ALTER TABLE CHAT_ROOM
+   ADD
+      CONSTRAINT PK_CHAT_ROOM
+      PRIMARY KEY (
+         CHAT_ROOM_NO
+      );
+
+/* 채팅멤버 */
+CREATE TABLE CHAT_MEMBER (
+   CHAT_MEMBER_NO NUMBER(8) NOT NULL, /* 멤버id */
+   CHAT_MEMBER_ST VARCHAR2(10), /* 채팅방참여상태 */
+   CHAT_MEMBER_HISTORY CLOB, /* 채팅내역 */
+   EMP_NO NUMBER(8), /* 본인ID */
+   CHAT_ROOM_NO NUMBER(8) /* 채팅방id */
+);
+
+ALTER TABLE CHAT_MEMBER
+   ADD
+      CONSTRAINT PK_CHAT_MEMBER
+      PRIMARY KEY (
+         CHAT_MEMBER_NO
+      );
+
+/* 업무일지 */
+CREATE TABLE WORKLOG (
+   WORKLOG_NO NUMBER(8) NOT NULL, /* 업무일지번호 */
+   WORKLOG_REG_DT DATE, /* 작성일 */
+   WORKLOG_MODIFY_DT DATE, /* 수정일 */
+   WORKLOG_CONTENT CLOB, /* 문서내용 */
+   EMP_NO NUMBER(8) /* 사원번호 */
+);
+
+ALTER TABLE WORKLOG
+   ADD
+      CONSTRAINT PK_WORKLOG
+      PRIMARY KEY (
+         WORKLOG_NO
+      );
+
+/* 사용한연차 */
+CREATE TABLE USED_ANNUAL (
+   USED_ANNUAL_NO NUMBER(8) NOT NULL, /* 연차번호 */
+   USED_ANNUAL_STARTDAY DATE, /* 시작날짜 */
+   USED_ANNUAL_ENDDAY DATE, /* 끝나는날짜 */
+   DAY NUMBER(4), /* 사용일수 */
+   EMP_NO NUMBER(8) /* 사원번호 */
+);
+
+ALTER TABLE USED_ANNUAL
+   ADD
+      CONSTRAINT PK_USED_ANNUAL
+      PRIMARY KEY (
+         USED_ANNUAL_NO
+      );
+
+/* 일정관리 */
+CREATE TABLE SCHEDULE (
+   SCHEDULE_NO NUMBER(8) NOT NULL, /* 일정번호 */
+   SCHEDULE_TITLE VARCHAR2(255), /* 일정제목 */
+   SCHEDULE_CONTENT VARCHAR2(255), /* 일정내용 */
+   SCHEDULE_STARTDAY DATE, /* 시작날짜 */
+   SCHEDULE_ENDDAY DATE, /* 끝날짜 */
+   ALLDAY VARCHAR2(10), /* 하루종일일정 */
+   SCHEDULE_TX_COLOR VARCHAR2(30), /* 글자색 */
+   SCHEDULE_BG_COLOR VARCHAR2(30), /* 배경색 */
+   SCHEDULE_CHK CHAR(1), /* 일정구분 */
+   EMP_NO NUMBER(8) /* 사원번호 */
+);
+
+ALTER TABLE SCHEDULE
+   ADD
+      CONSTRAINT PK_SCHEDULE
+      PRIMARY KEY (
+         SCHEDULE_NO
+      );
+
+/* 공유일정 */
+CREATE TABLE SHARED_SCHEDULE (
+   SHARED_SCHEDULE_NO NUMBER(8) NOT NULL, /* 공유일정번호 */
+   EMP_NO NUMBER(8), /* 공유받은사원ID */
+   SCHEDULE_CHK CHAR(1), /* 승인여부 */
+   SCHEDULE_NO NUMBER(8) /* 일정번호 */
+);
+
+ALTER TABLE SHARED_SCHEDULE
+   ADD
+      CONSTRAINT PK_SHARED_SCHEDULE
+      PRIMARY KEY (
+         SHARED_SCHEDULE_NO
+      );
+
+/* 공지사항 */
+CREATE TABLE NOTICE (
+   NOTICE_NO NUMBER(8) NOT NULL, /* 공지사항번호 */
+   NOTICE_TITLE VARCHAR2(255), /* 공지사항제목 */
+   NOTICE_CONTENT CLOB, /* 공지사항내용 */
+   NOTICE_REG_DT DATE, /* 게시날짜 */
+   NOTICE_CHK VARCHAR2(10), /* 공지구분 */
+   COL NUMBER(8) /* 사원번호 */
+);
+
+ALTER TABLE NOTICE
+   ADD
+      CONSTRAINT PK_NOTICE
+      PRIMARY KEY (
+         NOTICE_NO
+      );
+
+/* 첨부파일 */
+CREATE TABLE NOTICE_FILE (
+   NOTICE_FILE_NO NUMBER(8) NOT NULL, /* 첨부파일번호 */
+   NOTICE_FILE_NM VARCHAR2(50), /* 첨부파일기존이름 */
+   NOTICE_FILE_SAVE_NM VARCHAR2(50), /* 첨부파일저장이름 */
+   NOTICE_FILE_SIZE VARCHAR2(255), /* 첨부파일사이즈 */
+   NOTICE_FILE_REG_DT DATE, /* 첨부파일생성날짜 */
+   NOTICE_NO NUMBER(8) /* 공지사항번호 */
+);
+
+ALTER TABLE NOTICE_FILE
+   ADD
+      CONSTRAINT PK_NOTICE_FILE
+      PRIMARY KEY (
+         NOTICE_FILE_NO
+      );
+
+/* 예약 */
+CREATE TABLE RESERVATION (
+   RES_NO NUMBER(8) NOT NULL, /* 예약번호 */
+   ROOM_NO NUMBER(8), /* 회의실번호 */
+   RES_DT DATE, /* 예약날짜 */
+   RES_TIME DATE, /* 예약시간 */
+   EMP_NO NUMBER(8) /* 사원번호 */
+);
+
+ALTER TABLE RESERVATION
+   ADD
+      CONSTRAINT PK_RESERVATION
+      PRIMARY KEY (
+         RES_NO
+      );
+
+/* 근태 */
+CREATE TABLE ATTENDANCE (
+   ATTENDANCE_NO NUMBER(8) NOT NULL, /* 근태번호 */
+   ATTENDANCE_MO_DT DATE, /* 수정하고싶은 날짜 */
+   ATTENDANCE_MO_ST_TIME VARCHAR2(30), /* 수정출근시간 */
+   ATTENDANCE_MO_ED_TIME VARCHAR2(30), /* 수정퇴근시간 */
+   ATTENDANCE_MO_REG_DT DATE, /* 수정 요청일 */
+   ATTENDANCE_MO_REASON VARCHAR2(255), /* 반려사유 */
+   ATTENDANCE_MO_CHK NUMBER(2), /* 승인여부 */
+   EMP_NO NUMBER(8) /* 사원번호 */
+);
+
+ALTER TABLE ATTENDANCE
+   ADD
+      CONSTRAINT PK_ATTENDANCE
+      PRIMARY KEY (
+         ATTENDANCE_NO
+      );
+
+/* 근무기록 */
+CREATE TABLE WORK (
+   EMP_NO NUMBER(8) NOT NULL, /* 사원번호 */
+   WORK_LOG CLOB /* 출퇴근기록 */
+);
+
+ALTER TABLE WORK
+   ADD
+      CONSTRAINT PK_WORK
+      PRIMARY KEY (
+         EMP_NO
+      );
+
+/* 회의실 */
+CREATE TABLE ROOM (
+   ROOM_NO NUMBER(8) NOT NULL, /* 회의실번호 */
+   ROOM_NM VARCHAR2(50) /* 회의실명 */
+);
+
+ALTER TABLE ROOM
+   ADD
+      CONSTRAINT PK_ROOM
+      PRIMARY KEY (
+         ROOM_NO
+      );
+
+ALTER TABLE EMP
+   ADD
+      CONSTRAINT FK_RANK_TO_EMP
+      FOREIGN KEY (
+         RANK_NO
+      )
+      REFERENCES RANK (
+         RANK_NO
+      );
+
+ALTER TABLE EMP
+   ADD
+      CONSTRAINT FK_DEPARTMENT_TO_EMP
+      FOREIGN KEY (
+         DEPT_NO
+      )
+      REFERENCES DEPARTMENT (
+         DEPT_NO
+      );
+
+ALTER TABLE FORM
+   ADD
+      CONSTRAINT FK_FORM_CLASSIFICATION_TO_FORM
+      FOREIGN KEY (
+         FORM_CLASS_NO
+      )
+      REFERENCES FORM_CLASSIFICATION (
+         FORM_CLASS_NO
+      );
+
+ALTER TABLE ANNUAL
+   ADD
+      CONSTRAINT FK_EMP_TO_ANNUAL
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+
+ALTER TABLE SIGN
+   ADD
+      CONSTRAINT FK_EMP_TO_SIGN
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+
+ALTER TABLE DEPT_HISTORY
+   ADD
+      CONSTRAINT FK_DEPARTMENT_TO_DEPT_HISTORY
+      FOREIGN KEY (
+         DEPT_NO
+      )
+      REFERENCES DEPARTMENT (
+         DEPT_NO
+      );
+
+ALTER TABLE REFERENCE
+   ADD
+      CONSTRAINT FK_APRVL_DCMNT_TO_REFERENCE
+      FOREIGN KEY (
+         APP_DOC_NO
+      )
+      REFERENCES APPROVAL_DOCUMENT (
+         APP_DOC_NO
+      );
+
+ALTER TABLE NOTIFICATION
+   ADD
+      CONSTRAINT FK_APRVL_DCMNT_TO_NTFCTN
+      FOREIGN KEY (
+         APP_DOC_NO
+      )
+      REFERENCES APPROVAL_DOCUMENT (
+         APP_DOC_NO
+      );
+
+ALTER TABLE APPROVAL_DOCUMENT
+   ADD
+      CONSTRAINT FK_APRVL_LN_TO_APRVL_DCMNT
+      FOREIGN KEY (
+         APP_LINE_NO
+      )
+      REFERENCES APPROVAL_LINE (
+         APP_LINE_NO
+      );
+
+ALTER TABLE APPROVAL_DOCUMENT
+   ADD
+      CONSTRAINT FK_APRVL_FL_TO_APRVL_DCMNT
+      FOREIGN KEY (
+         APP_FILE_NO
+      )
+      REFERENCES APPROVAL_FILE (
+         APP_FILE_NO
+      );
+
+ALTER TABLE APPROVAL_DOCUMENT
+   ADD
+      CONSTRAINT FK_EMP_TO_APPROVAL_DOCUMENT
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+
+ALTER TABLE APPROVAL_DOCUMENT
+   ADD
+      CONSTRAINT FK_FORM_TO_APPROVAL_DOCUMENT
+      FOREIGN KEY (
+         FORM_NO
+      )
+      REFERENCES FORM (
+         FORM_NO
+      );
+
+ALTER TABLE CHAT_MESSAGE
+   ADD
+      CONSTRAINT FK_CHAT_ROOM_TO_CHAT_MESSAGE
+      FOREIGN KEY (
+         CHAT_ROOM_NO
+      )
+      REFERENCES CHAT_ROOM (
+         CHAT_ROOM_NO
+      );
+
+ALTER TABLE CHAT_ROOM
+   ADD
+      CONSTRAINT FK_EMP_TO_CHAT_ROOM
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+
+ALTER TABLE CHAT_MEMBER
+   ADD
+      CONSTRAINT FK_CHAT_ROOM_TO_CHAT_MEMBER
+      FOREIGN KEY (
+         CHAT_ROOM_NO
+      )
+      REFERENCES CHAT_ROOM (
+         CHAT_ROOM_NO
+      );
+
+ALTER TABLE WORKLOG
+   ADD
+      CONSTRAINT FK_EMP_TO_WORKLOG
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+
+ALTER TABLE USED_ANNUAL
+   ADD
+      CONSTRAINT FK_EMP_TO_USED_ANNUAL
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+
+ALTER TABLE SCHEDULE
+   ADD
+      CONSTRAINT FK_EMP_TO_SCHEDULE
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+
+ALTER TABLE SHARED_SCHEDULE
+   ADD
+      CONSTRAINT FK_SCHEDULE_TO_SHARED_SCHEDULE
+      FOREIGN KEY (
+         SCHEDULE_NO
+      )
+      REFERENCES SCHEDULE (
+         SCHEDULE_NO
+      );
+
+ALTER TABLE NOTICE_FILE
+   ADD
+      CONSTRAINT FK_NOTICE_TO_NOTICE_FILE
+      FOREIGN KEY (
+         NOTICE_NO
+      )
+      REFERENCES NOTICE (
+         NOTICE_NO
+      );
+
+ALTER TABLE RESERVATION
+   ADD
+      CONSTRAINT FK_EMP_TO_RESERVATION
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+
+ALTER TABLE RESERVATION
+   ADD
+      CONSTRAINT FK_ROOM_TO_RESERVATION
+      FOREIGN KEY (
+         ROOM_NO
+      )
+      REFERENCES ROOM (
+         ROOM_NO
+      );
+
+ALTER TABLE ATTENDANCE
+   ADD
+      CONSTRAINT FK_WORK_TO_ATTENDANCE
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES WORK (
+         EMP_NO
+      );
+
+ALTER TABLE WORK
+   ADD
+      CONSTRAINT FK_EMP_TO_WORK
+      FOREIGN KEY (
+         EMP_NO
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+      
+ALTER TABLE WG.NOTICE RENAME COLUMN COL TO EMP_NO;
+ALTER TABLE WG.RESERVATION DROP COLUMN RES_TIME;
+
+DROP TABLE CHAT_MEMBER;
+DROP TABLE CHAT_MESSAGE;
+DROP TABLE CHAT_ROOM ;
+
+/* 채팅메시지  */
+CREATE TABLE CHAT_MESSAGE (
+   CHAT_MESSAGE_NO NUMBER(8) NOT NULL, /* 채팅메시지id */
+   CHAT_ROOM_NO NUMBER(8), /* 채팅방id */
+   CHAT_MESSAGE_CONTENT VARCHAR2(500), /* 채팅메시지내용 */
+   CHAT_MESSAGE_REG_DT DATE, /* 채팅메시지보낸시간 */
+   EMP_NO NUMBER(8) /* 채팅메시지보낸ID */
+);
+
+ALTER TABLE CHAT_MESSAGE
+   ADD
+      CONSTRAINT PK_CHAT_MESSAGE
+      PRIMARY KEY (
+         CHAT_MESSAGE_NO
+      );
+
+/* 채팅방 */
+CREATE TABLE CHAT_ROOM (
+   CHAT_ROOM_NO NUMBER(8) NOT NULL, /* 채팅방id */
+   CHAT_ROOM_NM VARCHAR(255), /* 채팅방이름 */
+   CHAT_ROOM_SIZE NUMBER(4), /* 참여자수 */
+   COL VARCHAR2(255), /* 참여자ID */
+   EMP_NO2 NUMBER(8) /* 본인ID */
+);
+
+ALTER TABLE CHAT_ROOM
+   ADD
+      CONSTRAINT PK_CHAT_ROOM
+      PRIMARY KEY (
+         CHAT_ROOM_NO
+      );
+
+/* 채팅멤버 */
+CREATE TABLE CHAT_MEMBER (
+   EMP_NO2 NUMBER(8) NOT NULL, /* 본인ID */
+   CHAT_MEMBER_ST VARCHAR2(10), /* 채팅방참여상태 */
+   CHAT_MEMBER_HISTORY CLOB /* 채팅내역 */
+);
+
+ALTER TABLE CHAT_MEMBER
+   ADD
+      CONSTRAINT PK_CHAT_MEMBER
+      PRIMARY KEY (
+         EMP_NO2
+      );
+
+ALTER TABLE CHAT_MESSAGE
+   ADD
+      CONSTRAINT FK_CHAT_ROOM_TO_CHAT_MESSAGE
+      FOREIGN KEY (
+         CHAT_ROOM_NO
+      )
+      REFERENCES CHAT_ROOM (
+         CHAT_ROOM_NO
+      );
+
+ALTER TABLE CHAT_ROOM
+   ADD
+      CONSTRAINT FK_CHAT_MEMBER_TO_CHAT_ROOM
+      FOREIGN KEY (
+         EMP_NO2
+      )
+      REFERENCES CHAT_MEMBER (
+         EMP_NO2
+      );
+
+ALTER TABLE CHAT_MEMBER
+   ADD
+      CONSTRAINT FK_EMP_TO_CHAT_MEMBER
+      FOREIGN KEY (
+         EMP_NO2
+      )
+      REFERENCES EMP (
+         EMP_NO
+      );
+      
+--근태 테이블 수정
+ALTER TABLE WG.ATTENDANCE DROP COLUMN ATTENDANCE_MO_DT;
