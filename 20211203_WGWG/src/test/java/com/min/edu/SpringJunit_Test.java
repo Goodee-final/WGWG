@@ -10,6 +10,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.min.edu.model.FormDaoImpl;
+import com.min.edu.model.IFormDao;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
@@ -23,12 +26,14 @@ public class SpringJunit_Test {
 	@Autowired
 	private ApplicationContext context;
 	
-	
 	/*
 	 * bean중에서 root-context.xml에 의해서 생성된 한개의 SqlSessionTemplate bean을 DI(주입)
 	 */
 	@Autowired
 	private SqlSessionTemplate session;
+	
+	@Autowired
+	private IFormDao dao = new FormDaoImpl();
 	
 	/*
 	 * servlet-context.xml의 <context:component-scan base-package="com.min.edu">에 의해서
@@ -42,15 +47,8 @@ public class SpringJunit_Test {
 	
 	@Test
 	public void test() {
-		//assertNotNull(context);
-		//assertNotNull(session);
-		//assertNotEquals(0, dao.selectBoard().size());
-		
-		
-		/*
-		 * 시나리오
-		 * selectkey에 의해서 자동으로 seq 입력, Parameter인 setSeq
-		 */
+		//assertNotNull(dao.selectFormcList());
+		assertNotNull(dao.selectFormList());
 
 	}
 
