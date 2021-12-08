@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- 접속정보 Properties 파일 읽어옴 -->
+	<context:property-placeholder location="classpath:properties/db.properties"/>
+	
+	<!-- 
+		접속정보 객체 BasicDataSource bean 생성
+		namespaces p를 선언했다면 
+		p:driverClassName=${driver} p:~~
+	-->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${driver}"/>
+		<property name="url" value="${url}"/>
+		<property name="username" value="${user}"/>
+		<property name="password" value="${pw}"/>
+	</bean>
+	
+	<!-- 
+		Mybatis SqlSessionFactory를 Bean으로 생성
+		mybatis.jar
+		Mybatis-spring.jar 필요함
+		
+		mybatis는 두개의 정보가 필요하다 1) 접속정보 2) mybatis에서 사용하는 환경(Alias, Setting, Mapper)
+	 -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="classpath:mybatis/configuration.xml"/>
+	</bean>
+	
+	<!-- Spring DI(의존적 주입)을 위한 SqlSessionTemplate bean 생성 -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactoryBean"/>
+	</bean>
+	
+	<!-- 
+		tx Transaction을 TransactionManager 생성
+		1) Annotation을 위한 설정 => servlet-context.xml <tx:annotation-driven>
+		2) AOP 설정 => advice(실행되는 메소드), pointCut(실행되는 곳)
+		
+		spring-orm 필요
+	-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 
+		servlet-context.xml에 Annotation 설정이 아닌 자동으로 AOP를 통해서 Transaction 동작
+		Transaction의 동작 메소드는 throw가 발생 즉, 예외가 발생했을 시 Transaction을 작동시킴
+		advice가 예외 발생시 가 됨
+	 -->
+	 
+	 <tx:advice id="txManager" transaction-manager="transactionManager">
+	 	<tx:attributes>
+	 		<tx:method name="*" propagation="REQUIRED" rollback-for="Exception"/>
+	 	</tx:attributes>
+	 </tx:advice>
+	 
+	 <aop:config>
+      <aop:advisor advice-ref="txManager" pointcut="execution(public * com.min.edu.model.*Service*.*(..))"/>
+   	 </aop:config>
+</beans>
