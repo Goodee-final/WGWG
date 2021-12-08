@@ -12,5 +12,6 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
+
 </body>
 </html>
