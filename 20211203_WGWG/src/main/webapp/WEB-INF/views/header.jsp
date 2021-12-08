@@ -21,23 +21,16 @@
 	
 	.header {
 		max-width: 1600px;
-		height: 120px;
-		background-color: rgb(54, 69, 94) !important;
+		height: 100px;
+		background-color: #073865 !important;
 		margin: 0;
 		padding: 0;
 	}
-	#logo {
-		color: white;
-		font-size: 1.7rem;
-		font-family: 'Roboto Slab', serif;
-		margin-top: 25px;
-	}
 	
 	#logo-image{
-		width: 70px;
+		width: 250px;
 		height: 70px;
-		margin: 10px;
-		background-image: url("");
+		background-image: url("./img/logo.png");
 		background-color: white;
 		background-repeat: no-repeat;
 		background-position: center;
@@ -54,18 +47,89 @@
   
     .right {
     	float: right;
+    	margin-right: 30px;
+    	color: white;
+    }
+    .right .nav li {
+    	margin-left: 15px;
+    }
+    .center {
+    	margin: 0 auto;
+    	width: 900px;
+    	height: 100px;
+    	display: inline-block;
+    	margin-left: 80px;
+    	color: white;
+    }
+    .nav-menu li {
+    	margin-right: 45px;
+    	padding-top: 20px;
+    	font-size: 1.3rem;
+    }
+    .nav-menu li:hover {
+    	text-decoration: underline;
+    	font-weight: bold;
+    	cursor: pointer;
+    }
+    .nav-icon {
+    	width: 35px;
+    	height:35px;
+    	margin: 0 auto;
+    	margin-top: 15px;
+    	margin-right: 5px;
+    }
+    .nav-icon:hover {
+    	cursor: pointer;
+    }
+    #mypage-img {
+    	background-image: url("./img/user.svg");
+    	background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+    }
+    #alert-img {
+    	background-image: url("./img/bell.svg");
+    	background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+    }
+    #logout-img {
+    	background-image: url("./img/logoutt.svg");
+    	background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
     }
 </style>
 <body>
 	<div class="header">
 		<div class="left">
 			<ul class="nav">
-				<li><div id="logo-image">로고이미지</div></li>
-				<li id="logo">GOODEE COMPANY</li>
+				<li><div id="logo-image"></div></li>
+			</ul>
+		</div>
+		<div class="center">
+			<ul class="nav nav-menu">
+				<li>전자결재</li>
+				<li>근태관리</li>
+				<li>공지사항</li>
+				<li>일정관리</li>
+				<li>예약관리</li>
+				<li>업무일지</li>
+				<li>채팅</li>
 			</ul>
 		</div>
 		<div class="right">
-		
+			<ul class="nav">
+				<li>
+					<div class="nav-icon" id="mypage-img"></div>
+				</li>
+				<li>
+					<div class="nav-icon" id="alert-img"></div>
+				</li>
+				<li>
+					<div class="nav-icon" id="logout-img"></div>
+				</li>
+			</ul>
 		</div>
 	</div>
 </body>
