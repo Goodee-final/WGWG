@@ -1,6 +1,19 @@
 {
 	"folders": {},
 	"connections": {
+<<<<<<< HEAD
+		"oracle_thin-17d94dbc132-27e99525a26f0845": {
+			"provider": "oracle",
+			"driver": "oracle_thin",
+			"name": "xe",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "61.75.28.215:1521",
+				"port": "1521",
+				"database": "xe",
+				"url": "jdbc:oracle:thin:@//61.75.28.215:1521:1521/xe",
+=======
 		"oracle_thin-17d7f4f57f9-4e64ea956d8cd4a3": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
@@ -41,6 +54,7 @@
 				"port": "1521",
 				"database": "XE",
 				"url": "jdbc:oracle:thin:@//61.75.28.215:1521/XE",
+>>>>>>> branch 'main' of https://github.com/Goodee-final/WGWG.git
 				"home": "C:\\oraclexe\\app\\oracle\\product\\11.2.0\\server",
 				"type": "dev",
 				"provider-properties": {
