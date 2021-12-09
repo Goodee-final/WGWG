@@ -9,13 +9,11 @@
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/side.jsp"></jsp:include>
+	<div style="margin-left:18%">
 	
-	<!-- 나는 윤수연~ -->
-
-	<!-- 나는 윤수연~2 2-->
-		<!-- 나는 윤수연~3-->
-
-	<!-- 나는 진선희~!!~ -->
+	
+	<a href="./signlist.do">전자서명</a>
+</div>
 
 </body>
 </html>
