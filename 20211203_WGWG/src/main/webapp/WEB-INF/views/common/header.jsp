@@ -21,20 +21,21 @@
 	
 	.header {
 		max-width: 1600px;
-		height: 100px;
+		height: 80px;
 		background-color: #073865 !important;
 		margin: 0;
 		padding: 0;
 	}
 	
 	#logo-image{
-		width: 250px;
-		height: 70px;
+		width: 200px;
+		height: 40px;
 		background-image: url("./img/logo.png");
 		background-color: white;
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: cover;
+		margin: 0 auto;
 	}
 	
 	.nav li{
@@ -53,29 +54,12 @@
     .right .nav li {
     	margin-left: 15px;
     }
-    .center {
-    	margin: 0 auto;
-    	width: 900px;
-    	height: 100px;
-    	display: inline-block;
-    	margin-left: 80px;
-    	color: #eee;
-    }
-    .nav-menu li {
-    	margin-right: 45px;
-    	padding-top: 20px;
-    	font-size: 1.3rem;
-    }
-    .nav-menu li:hover {
-    	font-weight: bold;
-    	cursor: pointer;
-    }
     .nav-icon {
     	width: 35px;
     	height:35px;
     	margin: 0 auto;
-    	margin-top: 15px;
     	margin-right: 5px;
+    	margin-top: 5px;
     }
     .nav-icon:hover {
     	cursor: pointer;
@@ -104,17 +88,6 @@
 		<div class="left">
 			<ul class="nav">
 				<li><div id="logo-image"></div></li>
-			</ul>
-		</div>
-		<div class="center">
-			<ul class="nav nav-menu">
-				<li>전자결재</li>
-				<li>근태관리</li>
-				<li>공지사항</li>
-				<li>일정관리</li>
-				<li>예약관리</li>
-				<li>업무일지</li>
-				<li>채팅</li>
 			</ul>
 		</div>
 		<div class="right">
