@@ -46,7 +46,6 @@ public class SpringJunit_Test {
 		//assertNotNull(session);
 		//assertNotEquals(0, dao.selectBoard().size());
 		
-		
 		/*
 		 * 시나리오
 		 * selectkey에 의해서 자동으로 seq 입력, Parameter인 setSeq
