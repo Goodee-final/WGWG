@@ -59,7 +59,7 @@
     	height: 100px;
     	display: inline-block;
     	margin-left: 80px;
-    	color: white;
+    	color: #eee;
     }
     .nav-menu li {
     	margin-right: 45px;
@@ -67,7 +67,6 @@
     	font-size: 1.3rem;
     }
     .nav-menu li:hover {
-    	text-decoration: underline;
     	font-weight: bold;
     	cursor: pointer;
     }
