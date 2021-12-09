@@ -17,7 +17,7 @@
 		namespaces p를 선언했다면 
 		p:driverClassName=${driver} p:~~
 	-->
-	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="${driver}"/>
 		<property name="url" value="${url}"/>
 		<property name="username" value="${user}"/>
