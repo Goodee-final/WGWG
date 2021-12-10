@@ -193,7 +193,15 @@
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc10</artifactId>
 			<version>19.12.0.0</version>
+		</dependency> 
+		
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>       
 		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>20211203_WGWG</finalName>
