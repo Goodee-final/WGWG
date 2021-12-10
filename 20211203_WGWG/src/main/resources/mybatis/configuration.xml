@@ -7,6 +7,8 @@
   
 	<typeAlias type="com.min.edu.vo.ScheduleVO" alias="ScheduleVo"/>
 	<typeAlias type="com.min.edu.vo.SharedScheduleVO" alias="SharedVo"/>
+	<typeAlias type="com.min.edu.vo.NoticeVO" alias="NoticeVo"/>
+	<typeAlias type="com.min.edu.vo.NoticeFileVO" alias="NoticeFileVo"/>
   
 	<typeAlias type="com.min.edu.vo.Sign" alias="signDto"/>
   
@@ -23,6 +25,7 @@
 	<mapper resource="mapper/form_mapper.xml"/>
   
 	<mapper resource="mapper/schedule.xml"/>
+	<mapper resource="mapper/notice.xml"/>
   
 	<mapper resource="mapper/sign_mapper.xml"/>
   

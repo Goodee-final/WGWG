@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.NoticeDaoImpl">
+  <resultMap type="NoticeVo" id="BoardDtoMap">
+		<result column="NOTICE_NO" property="notice_no"/>
+		<result column="NOTICE_TITLE" property="notice_title"/>
+		<result column="NOTICE_CONTENT" property="notice_content"/>
+		<result column="NOTICE_REG_DT" property="notice_reg_dt"/>
+		<result column="NOTICE_CHK" property="notice_chk"/>
+		<result column="EMP_NO" property="emp_no"/>
+		<collection property="fileVo" resultMap="FileDtoMap"/>
+	</resultMap>
+	
+	<resultMap type="NoticeFileVO" id="FileDtoMap">
+		<result column="NOTICE_FILE_NO" property="notice_file_no"/>
+		<result column="NOTICE_FILE_NM" property="notice_file_nm"/>
+		<result column="NOTICE_FILE_SAVE_NM" property="notice_file_save_nm"/>
+		<result column="NOTICE_FILE_SIZE" property="notice_file_size"/>
+		<result column="NOTICE_FILE_REG_DT" property="notice_file_reg_dt"/>
+		<result column="NOTICE_NO" property="notice_no"/>
+	</resultMap>
+	
+	<!-- 회사의 공지사항 -->
+	<!-- <select id="getAllListC" resultType="NoticeVo">
+		SELECT n.NOTICE_NO, n.NOTICE_TITLE, n.NOTICE_REG_DT, e.EMP_NM 
+			FROM NOTICE n JOIN EMP e				
+			ORDER BY n.NOTICE_NO			
+	</select> -->
+	
+	<!-- 본인이 속한 부서의 공지사항 -->
+	<!-- <select id="getdeptlist" parameterType="Integer" resultType="NoticeVo">
+		SELECT n.NOTICE_NO, n.NOTICE_TITLE, n.NOTICE_REG_DT, e.EMP_NM 
+			FROM NOTICE n JOIN EMP e	
+			ON e.DEPT_NO = #{dept_no}
+			ORDER BY n.NOTICE_NO			
+	</select> -->
+	<!-- 전체공지사항 -->
+	<select id="getAllList" resultType="NoticeVo">
+		SELECT n.NOTICE_NO, n.NOTICE_TITLE, n.NOTICE_REG_DT
+			FROM NOTICE n
+			ORDER BY n.NOTICE_NO
+	</select>	
+	<!-- 글입력 -->
+	<insert id="insertBoard" parameterType="NoticeVo">
+		INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
+							 NOTICE_REG_DT, NOTICE_CHK, EMP_NO)
+			VALUES(NOTICE_SEQ.NEXTVAL,#{notice_title},#{notice_content},#{notice_reg_dt},SYSDATE,#{emp_no})
+	</insert>
+	
+	<!-- 파일입력 -->
+	<insert id="insertFile" parameterType="NoticeFileVo">
+		INSERT INTO NOTICEFILE
+			(NOTICE_FILE_NO, NOTICE_FILE_NM, NOTICE_FILE_SAVE_NM, 
+			NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT, NOTICE_NO)
+			VALUES(NOTICEFILE_SEQ.NEXTVAL, #{notice_file_nm}, #{notice_file_save_nm},
+						 #{notice_file_size}, SYSDATE,NOTICE_SEQ.CURRVAL)		
+	</insert>
+	<!--  글 + 파일이름 -->
+	<!-- <select id="getBoard" parameterType="java.lang.String" resultMap="FileDtoMap">
+		SELECT SEQ,N.ID ID , TITLE,CONTENT,REGDATE,ORGIN_NAME
+			FROM NOTICE N JOIN NOTICEFILE F
+			ON N.SEQ = F.N_SEQ
+			WHERE N.SEQ = #{seq}
+	</select>
+ -->	
+	<!-- 파일만 -->
+	<!-- <select id="getFile" parameterType="java.lang.String" resultType="NoticeFileVo">
+		SELECT F_SEQ, ORIGIN_NAME, STORED_NAME,
+			 FILE_SIZE, F_REGDATE, F_DELFLAG, N_SEQ, ID
+		FROM NOTICE WHERE SEQ = #{seq}
+	</select> -->
+	
+	<!-- 페이징 리스트 -->
+	<!-- <select id="getPageList" parameterType="com.min.edu.vo.NoticePageVO" resultType="NoticeVo">
+		SELECT SEQ,TITLE,CONTENT,DEPTCHK,REGDATE,ID
+			FROM (SELECT SEQ,TITLE,CONTENT,DEPTCHK,REGDATE,ID, ROWNUM RN)
+				FROM (SELECT SEQ,TITLE,CONTENT,DEPTCHK,REGDATE,ID
+						FROM NOTICE ORDER BY SEQ DESC))
+			WHERE RN #{startList} AND #{endList}
+	</select> -->
+</mapper>

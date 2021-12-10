@@ -11,8 +11,6 @@ import com.min.edu.vo.ScheduleVO;
 
 @Service
 public class ServiceScheduleImpl2 implements IServiceSchedule2 {
-
-	
 	
 	@Autowired
 	private IScheduleDao dao;
