@@ -8,12 +8,9 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/views/side.jsp"></jsp:include>
-	<div style="margin-left:18%">
-	
-	
-	<a href="./signlist.do">전자서명</a>
-</div>
+	<jsp:include page="/WEB-INF/views/side2.jsp"></jsp:include>
 
+</div>
+<img src="/20211203_WGWG/src/main/webapp/resources/images/signature.png" width="100px;" height="100px;">
 </body>
 </html>

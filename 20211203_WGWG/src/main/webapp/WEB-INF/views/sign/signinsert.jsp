@@ -17,10 +17,10 @@
 	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
 	<!-- Page Content -->
-	<div style="margin-left: 18%">
-		<h1 style="margin: 50px;">전자서명 등록</h1>
+	<div style="margin-left: 230px; padding:50px;">
+		<h1 >전자서명 등록</h1>
 
-		<table>
+		<table >
 			<tr>
 				<td>
 					<p>유의 사항</p>
@@ -36,7 +36,7 @@
 					<p>기본 이미지</p>
 				</td>
 				<td>
-					<img alt="" src="" width="100px" height="100px">
+					<img src="signimg/approve.PNG" width="75px" height="75px">
 				</td>
 			</tr>
 			<tr>
@@ -45,8 +45,7 @@
 				</td>
 				<td class="flex-box">
 					<img alt="" src="" width="100px" height="100px">
-					<button>파일등록</button>
-					<p>url</p>
+					<input type="file">
 				</td>
 			
 			</tr>
