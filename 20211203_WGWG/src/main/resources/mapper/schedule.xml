@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.ScheduleDaoImpl">
+
+<resultMap type="com.min.edu.vo.ScheduleVO" id="joinSchedule">
+	<result property="schedule_no" column="SCHEDULE_NO"/>
+	<result property="schedule_title" column="SCHEDULE_TITLE"/>
+	<result property="schedule_content" column="SCHEDULE_CONTENT"/>
+	<result property="schedule_startday" column="SCHEDULE_STARTDAY"/>
+	<result property="schedule_endday" column="SCHEDULE_ENDDAY"/>
+	<result property="allday" column="ALLDAY"/>
+	<result property="emp_no" column="EMP_NO"/>
+	<collection property="sharedschedule" resultMap="shavo"></collection>	
+</resultMap>
+
+<resultMap type="com.min.edu.vo.SharedScheduleVO" id="shavo">
+     <result property="emp_no" column="EMP_NO"/>     
+</resultMap>
+<!-- TEST는 공유일정받은사람들이 y일경우 상세보기 눌렀을때 화면목록에 떠야될 내용들? 
+(수정해야될부분) 사원번호로 뜨고 있는걸 이름으로 뜨도록 조인해서 사용할것?
+-->
+<select id="test" parameterType="Integer" resultMap="joinSchedule">
+	 SELECT  s.SCHEDULE_NO,s.SCHEDULE_TITLE, s.SCHEDULE_CONTENT,
+	 		s.SCHEDULE_STARTDAY, s.SCHEDULE_ENDDAY, s.ALLDAY, 
+			 s.EMP_NO,ss.EMP_NO
+         FROM SCHEDULE s  JOIN SHARED_SCHEDULE ss 
+         ON s.SCHEDULE_NO = ss.SCHEDULE_NO
+         WHERE s.SCHEDULE_NO = #{schedule_no} AND ss.SCHEDULE_CHK ='Y'          
+</select>
+<!-- 개인일정 등록 -->
+<insert id="insertScheduleP" parameterType="ScheduleVo" >
+	INSERT INTO SCHEDULE
+				(SCHEDULE_NO, SCHEDULE_TITLE, SCHEDULE_CONTENT, 
+				SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, 
+				 SCHEDULE_CHK, EMP_NO)
+		VALUES(SCHEDULE_NO_SEQ.NEXTVAL, #{schedule_title}, #{schedule_content},
+				 #{schedule_startday}, #{schedule_endday}, #{allday},
+				  'P', #{emp_no})
+</insert>
+<!-- 회사일정 등록 이것도 사업지원팀일 경우만 생각해서 다시 쿼리문 작성해야됨.-->
+<insert id="insertScheduleC" parameterType="ScheduleVo" >
+	INSERT INTO SCHEDULE
+				(SCHEDULE_NO, SCHEDULE_TITLE, SCHEDULE_CONTENT, 
+				SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, 
+				 SCHEDULE_CHK, EMP_NO)
+		VALUES(SCHEDULE_NO_SEQ.NEXTVAL, #{schedule_title}, #{schedule_content},
+				 #{schedule_startday}, #{schedule_endday}, #{allday},
+				 'C', #{emp_no})
+</insert>
+<!-- 개인일정 List -->
+<select id="getAllPerList" parameterType="java.lang.Integer" resultType="ScheduleVo">
+	 SELECT SCHEDULE_NO,SCHEDULE_TITLE, SCHEDULE_CONTENT, SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY,SCHEDULE_CHK,EMP_NO
+ 		FROM SCHEDULE
+ 		WHERE EMP_NO = #{emp_no} AND SCHEDULE_CHK ='P'
+</select>
+<!-- 회사일정 List -->
+<select id="getAllComList" resultType="ScheduleVo">
+	SELECT SCHEDULE_NO,SCHEDULE_TITLE, SCHEDULE_CONTENT,
+	 		SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY			
+	FROM SCHEDULE s 
+	WHERE SCHEDULE_CHK ='C'
+</select>
+<!-- 굥유일정 List -->
+<select id="getAllSharedList" parameterType="Integer" resultType="ScheduleVo">
+SELECT S.SCHEDULE_NO ,S.SCHEDULE_TITLE ,S.SCHEDULE_CONTENT,
+		S.SCHEDULE_STARTDAY ,S.SCHEDULE_ENDDAY ,S.ALLDAY
+	FROM SCHEDULE S JOIN SHARED_SCHEDULE P
+	ON S.SCHEDULE_NO = P.SCHEDULE_NO AND P.SCHEDULE_CHK ='Y' AND S.SCHEDULE_CHK ='P'
+ 	WHERE P.EMP_NO = #{emp_no}
+ </select>
+<!-- 개인일정 상세보기 -->
+<select id="getOnePerson" parameterType="Integer" resultType="ScheduleVo"> 
+	SELECT SCHEDULE_NO,SCHEDULE_TITLE, SCHEDULE_CONTENT,
+	 		SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY
+	FROM SCHEDULE s 
+	WHERE SCHEDULE_CHK ='P' AND SCHEDULE_NO =#{schedule_no}
+</select>
+<!-- 공유한 일정이 있으면 공유한 사람들 인원 나오도록? -->
+<!-- <select id="getShaPerson">
+	SELECT *
+		FROM 
+</select> -->
+<!-- 회사일정 상세보기 -->
+<select id="getOneCompany" parameterType="Integer" resultType="ScheduleVo">
+	SELECT SCHEDULE_NO,SCHEDULE_TITLE, SCHEDULE_CONTENT,
+	 		SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY
+	FROM SCHEDULE s 
+	WHERE SCHEDULE_CHK ='C' AND SCHEDULE_NO =#{schedule_no}
+</select>
+<!-- 개인일정 수정 -->
+<update id="updateScheduleP" parameterType="ScheduleVo">
+	UPDATE SCHEDULE 	
+	SET SCHEDULE_TITLE=#{schedule_title}, SCHEDULE_CONTENT=#{schedule_content}, SCHEDULE_STARTDAY=#{schedule_startday}, 
+		SCHEDULE_ENDDAY=#{schedule_endday}, ALLDAY=#{allday}
+	WHERE SCHEDULE_NO=#{schedule_no} AND EMP_NO =#{emp_no} AND SCHEDULE_CHK ='P'
+</update>
+<!-- 회사일정 수정 부서까지 생각해야됨 -->
+<update id="updateScheduleC" parameterType="ScheduleVo">
+UPDATE SCHEDULE
+	SET SCHEDULE_TITLE=#{schedule_title}, SCHEDULE_CONTENT=#{schedule_content}, SCHEDULE_STARTDAY=#{schedule_startday}, 
+		SCHEDULE_ENDDAY=#{schedule_endday}, ALLDAY=#{allday}
+	WHERE SCHEDULE_NO=#{schedule_no} EMP_NO =#{emp_no}
+</update>
+
+<!-- 개인일정 삭제 -->
+<delete id="deleteScheduleP" parameterType="Integer">
+	DELETE 
+		FROM SCHEDULE WHERE SCHEDULE_NO=#{schedule_no} AND SCHEDULE_CHK ='P'
+</delete>
+<!-- 회사일정 삭제 -->
+<delete id="deleteScheduleC" parameterType="Integer">
+	DELETE 
+		FROM SCHEDULE WHERE SCHEDULE_NO=#{schedule_no} AND SCHEDULE_CHK ='C'
+</delete>
+</mapper>
