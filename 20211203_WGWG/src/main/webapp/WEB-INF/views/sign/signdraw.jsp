@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
-
 <!doctype html>
 <html>
 <head>
@@ -85,26 +83,18 @@ canvas {
 }
 
 .save{
-
 	margin-top: 40px;
-	
 }
-
-#title{
-	margin:50px;
-}
-
 
 </style>
 
 </head>
 <body>
+
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<%-- 	<jsp:include page="/WEB-INF/views/sign/sidebar3.jsp"></jsp:include> --%>
-<%-- <!--  -->	<jsp:include page="/WEB-INF/views/sign/sidebar2.jsp"></jsp:include> --%>
-	<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
 	<!-- Page Content -->
-	<div style="margin-left: 18%; height: 100%;">
+	<div style="margin-left: 230px; padding:50px;">
 	
 		<h1 id="title">전자서명 만들기</h1>
 		<div id="container-box">
@@ -113,25 +103,16 @@ canvas {
 					<canvas></canvas>
 				</div>
 				<div class="signature-pad--footer">
-					
-
-
-
 						<div data-action="clear">
 							<i style='font-size:24px; ' class='fas'>&#xf01e;</i>
 						</div>
-			
 				</div>
 			</div>
 			<button type="button" class="btn btn-primary save" data-action="save">생성하기</button>
 			
 		</div>
 
-
 	</div>
-
-
-
 
 	<script>
 		var canvas = $("#signature-pad canvas")[0];
