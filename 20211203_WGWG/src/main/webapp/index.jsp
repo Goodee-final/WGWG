@@ -8,7 +8,7 @@
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
 </body>
 </html>
