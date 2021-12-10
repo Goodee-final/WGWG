@@ -5,11 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>인덱스</title>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/side.jsp"></jsp:include>
-
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+  
 	<!-- 나는 윤수연~ -->
 
 	<!-- 나는 윤수연~2 2-->

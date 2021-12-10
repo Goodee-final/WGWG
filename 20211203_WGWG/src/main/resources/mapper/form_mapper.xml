@@ -9,14 +9,18 @@
 	<result property="fcdto.form_class_nm" column="FORM_CLASS_NM"/>
 </resultMap>
 
+<!-- 양식 분류 리스트 -->
 <select id="selectFormcList" resultType="java.util.Map">
 	SELECT FORM_CLASS_NO, FORM_CLASS_NM
 		FROM FORM_CLASSIFICATION
 </select>
 
+<!-- 양식 리스트(조인) -->
 <select id="selectFormList" resultMap="FormJoinVo">
 	SELECT F.FORM_NO, F.FORM_NM, F.FORM_REG_DT, FC.FORM_CLASS_NM 
 		FROM FORM f JOIN FORM_CLASSIFICATION fc 
 		ON F.FORM_CLASS_NO = FC.FORM_CLASS_NO
 </select>
+
+<!-- 양식 상세조회 -->
 </mapper>

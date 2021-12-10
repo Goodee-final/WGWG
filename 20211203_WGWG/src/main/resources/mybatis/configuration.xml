@@ -5,6 +5,7 @@
 <typeAliases>
 	<typeAlias type="com.min.edu.vo.FormClassification" alias="formcDto"/>
 	<typeAlias type="com.min.edu.vo.Sign" alias="signDto"/>
+	<typeAlias type="com.min.edu.vo.Emp" alias="empvo"/>
 </typeAliases>
 	
 <!-- 
@@ -16,5 +17,7 @@
 <mappers>
 	<mapper resource="mapper/form_mapper.xml"/>
 	<mapper resource="mapper/sign_mapper.xml"/>
+	<mapper resource="mapper/emp_mapper.xml"/>
+	<mapper resource="mapper/emp_seq_mapper.xml"/>
 </mappers>
 </configuration>
