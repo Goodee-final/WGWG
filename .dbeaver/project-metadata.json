@@ -1,4 +1,1 @@
-
-{"resources":{"Scripts/Script.sql":{"sql-editor-data-source-id":"oracle_thin-17d94f57a05-5c656318bb6e608","default-datasource":"oracle_thin-17d94f57a05-5c656318bb6e608","default-schema":"C##WG"}}}
-
-{"resources":{"Scripts/Script_odw.sql":{"sql-editor-data-source-id":"oracle_thin-17d9e2c2339-3adafc4991222609","default-datasource":"oracle_thin-17d9e2c2339-3adafc4991222609","default-schema":"C##WG"}}}
+{"resources":{"Scripts/Script_jsh.sql":{"default-schema":"C##WG","sql-editor-data-source-id":"oracle_thin-17d94f57a05-5c656318bb6e608","default-datasource":"oracle_thin-17d94f57a05-5c656318bb6e608"}}}

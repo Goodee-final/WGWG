@@ -54,7 +54,8 @@ public class SpringJunit_Test {
 	@Test
 	public void test() {
 		//assertNotNull(dao.selectFormcList());
-		//assertNotNull(dao.selectFormList());
+		assertNotNull(dao.selectFormList());
+		//assertNotNull(dao.selectFormDetail(1));
 		
 		Emp emp = new Emp();
 		emp.setEmp_nm("홍길동");
@@ -67,7 +68,7 @@ public class SpringJunit_Test {
 		emp.setPosition_no(1);
 		emp.setDept_no(20);
 		
-		assertEquals(true, edao.insert_emp(emp));
+		//assertEquals(true, edao.insert_emp(emp));
 
 	}
 

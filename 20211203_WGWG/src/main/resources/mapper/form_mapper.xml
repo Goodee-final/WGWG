@@ -9,6 +9,14 @@
 	<result property="fcdto.form_class_nm" column="FORM_CLASS_NM"/>
 </resultMap>
 
+<resultMap type="com.min.edu.vo.Form" id="FormDetailJoinVo">
+	<result property="form_no" column="FORM_NO"/>
+	<result property="form_nm" column="FORM_NM"/>
+	<result property="template" column="TEMPLATE"/>
+	<result property="form_reg_dt" column="FORM_REG_DT"/>
+	<result property="fcdto.form_class_nm" column="FORM_CLASS_NM"/>
+</resultMap>
+
 <!-- 양식 분류 리스트 -->
 <select id="selectFormcList" resultType="java.util.Map">
 	SELECT FORM_CLASS_NO, FORM_CLASS_NM
@@ -23,4 +31,10 @@
 </select>
 
 <!-- 양식 상세조회 -->
+<select id="selectFormDetail" parameterType="java.lang.Integer" resultMap="FormDetailJoinVo">
+	SELECT F.FORM_NO, F.FORM_NM, F.FORM_REG_DT, F.TEMPLATE, FC.FORM_CLASS_NM 
+		FROM FORM f JOIN FORM_CLASSIFICATION fc 
+		ON F.FORM_CLASS_NO = FC.FORM_CLASS_NO
+		WHERE FORM_NO = ${form_no}
+</select>
 </mapper>
