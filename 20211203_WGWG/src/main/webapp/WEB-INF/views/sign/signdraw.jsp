@@ -14,7 +14,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <style>
-
 .signature-pad {
 	position: relative;
 	display: -webkit-box;
@@ -98,9 +97,7 @@ canvas {
 
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
-<%-- 	<jsp:include page="/WEB-INF/views/sign/sidebar3.jsp"></jsp:include> --%>
-<%-- <!--  -->	<jsp:include page="/WEB-INF/views/sign/sidebar2.jsp"></jsp:include> --%>
+
 	<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
 	<!-- Page Content -->
 	<div style="margin-left: 230px; padding:50px;">

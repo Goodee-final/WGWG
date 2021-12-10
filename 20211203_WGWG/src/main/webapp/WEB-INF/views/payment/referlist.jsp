@@ -8,7 +8,7 @@
 </head>
 <body>
 
-		<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+		
 		<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
 		
 		
