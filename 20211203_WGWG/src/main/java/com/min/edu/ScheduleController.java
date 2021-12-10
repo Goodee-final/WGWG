@@ -28,7 +28,7 @@ public class ScheduleController {
 	
 	@GetMapping(value="/loadForm.do")
 	public String loadForm() {
-		return "Calendar";
+		return "schedule/Calendar";
 	}
 	
 	@SuppressWarnings("unchecked")
