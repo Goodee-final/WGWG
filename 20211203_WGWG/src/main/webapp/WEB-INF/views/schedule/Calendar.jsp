@@ -33,9 +33,8 @@
         </div>
     </div>
 <!--  -->
-
        <div id="calendarList" class="lnb-calendars-d1 list-group"></div>
-</div>
+       
  	<div class="col-xs-9">
 		<div id="menu">
 		    <span id="menu-navi">
