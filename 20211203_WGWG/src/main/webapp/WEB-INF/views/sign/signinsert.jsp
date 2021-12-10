@@ -14,7 +14,7 @@
 </style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
 	<!-- Page Content -->
 	<div style="margin-left: 18%">
