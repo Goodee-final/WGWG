@@ -31,4 +31,10 @@ public class FormDaoImpl implements IFormDao {
 		return sqlSession.selectList(NS+"selectFormList");
 	}
 
+	@Override
+	public Form selectFormDetail(int form_no) {
+		logger.info("양식 상세조회 {}", form_no);
+		return sqlSession.selectOne(NS+"selectFormDetail", form_no);
+	}
+
 }

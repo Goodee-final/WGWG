@@ -18,5 +18,8 @@ public class FormClassification {
 		this.form_class_nm = form_class_nm;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "FormClassification [form_class_no=" + form_class_no + ", form_class_nm=" + form_class_nm + "]";
+	}
 }
