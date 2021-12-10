@@ -10,8 +10,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.min.edu.model.EmpDaoImpl;
 import com.min.edu.model.FormDaoImpl;
+import com.min.edu.model.IEmpDao;
 import com.min.edu.model.IFormDao;
+import com.min.edu.vo.Emp;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,6 +38,9 @@ public class SpringJunit_Test {
 	@Autowired
 	private IFormDao dao = new FormDaoImpl();
 	
+	@Autowired
+	private IEmpDao edao = new EmpDaoImpl();
+	
 	/*
 	 * servlet-context.xml의 <context:component-scan base-package="com.min.edu">에 의해서
 	 * base-package 하위에 있는 org.springframwork.stereotype인
@@ -48,7 +54,20 @@ public class SpringJunit_Test {
 	@Test
 	public void test() {
 		//assertNotNull(dao.selectFormcList());
-		assertNotNull(dao.selectFormList());
+		//assertNotNull(dao.selectFormList());
+		
+		Emp emp = new Emp();
+		emp.setEmp_nm("홍길동");
+		emp.setEmail("email@email.com");
+		emp.setPhoto("photo");
+		emp.setAddress("서울시 암사동");
+		emp.setTel("010-1234-5678");
+		emp.setHiredate("2021-12-08");
+		emp.setWork_st(1);
+		emp.setPosition_no(1);
+		emp.setDept_no(20);
+		
+		assertEquals(true, edao.insert_emp(emp));
 
 	}
 

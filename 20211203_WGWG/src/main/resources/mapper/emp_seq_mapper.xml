@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.cron.CronDaoImpl">
+
+	<update id="drop_seq">
+		DROP SEQUENCE EMP_SEQ
+	</update>
+	
+	<insert id="create_seq">
+		CREATE SEQUENCE EMP_SEQ
+		START WITH 1 
+		INCREMENT BY 1
+	</insert>
+	
+</mapper>
