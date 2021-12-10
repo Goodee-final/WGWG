@@ -98,6 +98,10 @@ canvas {
 </head>
 <body>
 
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<%-- 	<jsp:include page="/WEB-INF/views/sign/sidebar3.jsp"></jsp:include> --%>
+<%-- <!--  -->	<jsp:include page="/WEB-INF/views/sign/sidebar2.jsp"></jsp:include> --%>
+
 	<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
 	<!-- Page Content -->
 	<div style="margin-left: 230px; padding:50px;">

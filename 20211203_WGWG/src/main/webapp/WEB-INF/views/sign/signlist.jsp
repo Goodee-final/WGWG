@@ -9,9 +9,12 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 	<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
+  <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<!-- Page Content -->
 	<div style="margin-left: 230px; padding:50px;">
+
 
 		<div>
 			<h1>서명관리</h1>
@@ -28,6 +31,7 @@
 			</c:forEach>
 			</div>
 			
+
 		
 			</div>
 				<img src="./resources/images/signature.png" width="300px" height="300px">
@@ -35,6 +39,8 @@
 				<img src="<spring:url value='/resources/images/signature.png'/>" width="300px" height="300px">
 				<img src="resources/images/sponge.png" width="300px" height="300px">
 				<img src="resources/images/signature.png" width="300px" height="300px">
+
 		</div>
+	</div>
 </body>
 </html>

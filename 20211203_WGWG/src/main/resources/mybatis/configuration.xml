@@ -4,7 +4,12 @@
 <!-- mapper(query) xml에서 공통으로 사용하는 type 객체를 Alias로 선언 -->
 <typeAliases>
 	<typeAlias type="com.min.edu.vo.FormClassification" alias="formcDto"/>
+  
+	<typeAlias type="com.min.edu.vo.ScheduleVO" alias="ScheduleVo"/>
+	<typeAlias type="com.min.edu.vo.SharedScheduleVO" alias="SharedVo"/>
+  
 	<typeAlias type="com.min.edu.vo.Sign" alias="signDto"/>
+  
 	<typeAlias type="com.min.edu.vo.Emp" alias="empvo"/>
 </typeAliases>
 	
@@ -16,7 +21,11 @@
 <!-- SqlSession에서 사용하는 mapper 파일을 연결 -->
 <mappers>
 	<mapper resource="mapper/form_mapper.xml"/>
+  
+	<mapper resource="mapper/schedule.xml"/>
+  
 	<mapper resource="mapper/sign_mapper.xml"/>
+  
 	<mapper resource="mapper/emp_mapper.xml"/>
 	<mapper resource="mapper/emp_seq_mapper.xml"/>
 </mappers>
