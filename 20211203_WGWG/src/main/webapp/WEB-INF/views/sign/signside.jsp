@@ -6,8 +6,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <title>Insert title here</title>
-<script src="https://kit.fontawesome.com/d42fd504d6.js"
-	crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
 <style type="text/css">
 
 #container {
@@ -71,8 +70,6 @@ ul {
 	color: #107EE6;
 }
 
-
-
 .w3-sidebar>ul>li>a {
 	text-decoration: none;
 	color: #073865;
@@ -119,13 +116,10 @@ i {
 
 
 </style>
-
 </head>
 
-
 <body>
-
-		<!-- Sidebar -->
+	<!-- Sidebar -->
 	<!--  w3-light-grey -->
 	<div class="w3-sidebar w3-bar-block"
 		style="width: 230px; background-color: white; border-right: 2px solid #073865;">
@@ -187,10 +181,6 @@ i {
 				</ul></li>
 		</ul>
 	</div>
-
-
-
-
 
 </body>
 </html>
