@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib  prefix="spring" uri="http://www.springframework.org/tags" %>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,37 +10,39 @@
 </head>
 <body>
 
-	<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
-  <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<!-- Page Content -->
-	<div style="margin-left: 230px; padding:50px;">
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+	<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
+	<!-- Page Content -->
+	<div style="margin-left: 230px; padding: 50px;">
 
 		<div>
 			<h1>서명관리</h1>
-			
+
 			<div>
-			<c:forEach var="sign" items="${signList}" varStatus="status">
+				<c:forEach var="sign" items="${signList}" varStatus="status">
 
-				<div>
-					<P>서명${status.count}</P>
-					<img src=<spring:url value='/resources/images/sponge.png'/> width="300px" height="300px">
-					<button>상세보기</button>
-				</div>
-		
-			</c:forEach>
-			</div>
-			
+					<div>
+						<P>서명${status.count}</P>
+						<img src=<spring:url value='/resources/images/sponge.png'/>
+							width="300px" height="300px">
+						<button>상세보기</button>
+					</div>
 
-		
+				</c:forEach>
 			</div>
-				<img src="./resources/images/signature.png" width="300px" height="300px">
-				<img src="../resources/images/signature.png" width="300px" height="300px">
-				<img src="<spring:url value='/resources/images/signature.png'/>" width="300px" height="300px">
-				<img src="resources/images/sponge.png" width="300px" height="300px">
-				<img src="resources/images/signature.png" width="300px" height="300px">
+
 
 		</div>
+		<img src="./resources/images/signature.png" width="300px"
+			height="300px"> <img src="../resources/images/signature.png"
+			width="300px" height="300px"> <img
+			src="<spring:url value='/resources/images/signature.png'/>"
+			width="300px" height="300px"> <img
+			src="resources/images/sponge.png" width="300px" height="300px">
+		<img src="resources/images/signature.png" width="300px" height="300px">
+
+
 	</div>
 </body>
 </html>
