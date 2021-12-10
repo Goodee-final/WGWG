@@ -32,7 +32,7 @@ public class NoticeController {
 		
 		String rowSize = request.getParameter("rowSize");
 		if(rowSize==null) {
-			rowSize= "10 ";
+			rowSize= "10";
 		}
 		List<NoticeVO> cntlists = service.getAllList();
 		NoticePageVO pg =
