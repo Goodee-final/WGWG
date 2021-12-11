@@ -28,7 +28,7 @@ public class ScheduleController {
 	
 	@GetMapping(value="/loadForm.do")
 	public String loadForm() {
-		return "Calendar";
+		return "schedule/Calendar";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -38,7 +38,7 @@ public class ScheduleController {
 		
 		JSONArray jlist = new JSONArray();
 		ScheduleVO vo = null;
-		session.setAttribute("userid",19961018);
+		session.setAttribute("userid",3);
 		int writer = (int) session.getAttribute("userid");
 		List<ScheduleVO> lists = iService.getAllPerList(writer);
 		

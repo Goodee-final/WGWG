@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.min.edu.model.INoticeService;
 import com.min.edu.vo.NoticePageVO;
@@ -20,25 +22,22 @@ public class NoticeController {
 	@Autowired
 	private INoticeService service;
 	
-	@GetMapping(value="/noticeList")
-	public String getAllList(HttpServletRequest request) {
-		String spageNo = request.getParameter("pageNo");
-		int pageNo = 0;
-		if(spageNo == null) {
-			pageNo= 1;
-		}else {
-			pageNo= Integer.parseInt(spageNo);
+	@GetMapping(value="/noticeList.do")
+	public String getAllList(NoticePageVO vo, Model model
+			, @RequestParam(value="nowPage", required=false)String nowPage
+			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+		int total = service.countNotice();
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "5";
 		}
-		
-		String rowSize = request.getParameter("rowSize");
-		if(rowSize==null) {
-			rowSize= "10";
-		}
-		List<NoticeVO> cntlists = service.getAllList();
-		NoticePageVO pg =
-				new NoticePageVO(Integer.parseInt(rowSize), pageNo, cntlists.size());
-		return null;
-		
-		/* List<NoticeVO> lists = service.getpage */
+		vo = new NoticePageVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+		model.addAttribute("viewAll", service.selectNotice(vo));
+		return "notice/notice";
 	}
 }
