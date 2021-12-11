@@ -22,10 +22,15 @@
 		padding-left: 100px;
 		border-collapse: collapse;
 	}
-	td {
+	th, td {
 	  padding: 8px;
 	  text-align: left;
+	  border-top: 1px solid #ddd;
 	  border-bottom: 1px solid #ddd;
+	}
+	th {
+		background-color: #eee;
+		text-align: center !important;
 	}
 	#backbtn {
 		width: 150px;
@@ -37,6 +42,10 @@
 		color: white;
 		margin-left: 920px;
 	}
+	#template {
+		text-align: center !important;
+		
+	}
 </style>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -45,14 +54,22 @@
 		<h1 class="title">양식 상세보기</h1>
 		<table class="formDetail">
 			<tr>
-				<td colspan="2">양식제목: ${selectForm.form_nm}</td>
+				<th>양&nbsp;&nbsp;식&nbsp;&nbsp;제&nbsp;&nbsp;목</th>
+				<td>${selectForm.form_nm}</td>
 			</tr>
 			<tr>
-				<td>양식분류: ${selectForm.fcdto.form_class_nm}</td>
-				<td>양식등록일: ${selectForm.form_reg_dt}</td>
+				<th>양&nbsp;&nbsp;식&nbsp;&nbsp;분&nbsp;&nbsp;류</th>
+				<td>${selectForm.fcdto.form_class_nm}</td>
 			</tr>
 			<tr>
-				<td colspan="2">양식내용: ${selectForm.template}</td>
+				<th>양&nbsp;식&nbsp;등&nbsp;록&nbsp;일</th>
+				<td>${selectForm.form_reg_dt}</td>
+			</tr>
+			<tr>
+				<th id="template" colspan="2">양&nbsp;&nbsp;식&nbsp;&nbsp;내&nbsp;&nbsp;용</th>
+			</tr>
+			<tr>
+				<td colspan="2">${selectForm.template}</td>
 			</tr>
 		</table>
 		<button id="backbtn" onclick="location.href='./formlist.do'">목록으로 돌아가기</button>
