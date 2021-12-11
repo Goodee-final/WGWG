@@ -26,4 +26,25 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		return sqlSession.selectList(NS+"selectAllDoc");
 	}
 
+
+	@Override
+	public String selectOneDoc(int empno) {
+		logger.info("ApprovalDocDaoImpl selectOneDoc");
+		return sqlSession.selectOne(NS+"selectOneDoc", empno);
+	}
+
+
+	@Override
+	public String selectEmpInfo(int empno) {
+		logger.info("ApprovalDocDaoImpl selectEmpInfo");
+		return sqlSession.selectOne(NS+"selectEmpInfo", empno);
+	}
+
+
+	@Override
+	public String selectAllEmp() {
+		logger.info("ApprovalDocDaoImpl selectAllEmp");
+		return sqlSession.selectOne(NS+"selectAllEmp");
+	}
+
 }

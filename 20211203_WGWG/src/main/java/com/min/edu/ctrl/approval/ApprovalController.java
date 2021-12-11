@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,8 +26,8 @@ public class ApprovalController {
 	   private IApprovalService approvalServiceImpl;
 	   
 	   
-	   @RequestMapping(value="/docList.do", method = RequestMethod.GET)
-	   public String docList(Model model) {
+	   @GetMapping(value="/doclist.do")
+	   public String doclist(Model model) {
 		  //session.setAttribute("userid", "USER25");
 		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
 		  //session을 삭제하는 방법 두가지
@@ -37,6 +38,30 @@ public class ApprovalController {
 	      List<Approval_Doc> doclists = approvalServiceImpl.selectAllDoc();
 	      model.addAttribute("doclists", doclists);
 	      return "/approval/doclist";
+	   }
+	   
+	   @RequestMapping(value="/docinsert.do", method = {RequestMethod.GET, RequestMethod.POST})
+	   public String docinsert(Model model) {
+		  //session.setAttribute("userid", "USER25");
+		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
+		  //session을 삭제하는 방법 두가지
+		  //1. session 객체 자체를 삭제
+		  //2. session 객체 하나의 값은 삭제 remove("userid")
+		  
+	      logger.info("ApprovalController 기안하기 문서 작성");
+	      return "/approval/docinsert";
+	   }
+	   
+	   @RequestMapping(value="/appline.do", method = {RequestMethod.GET, RequestMethod.POST})
+	   public String appline(Model model) {
+		  //session.setAttribute("userid", "USER25");
+		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
+		  //session을 삭제하는 방법 두가지
+		  //1. session 객체 자체를 삭제
+		  //2. session 객체 하나의 값은 삭제 remove("userid")
+		  
+	      logger.info("ApprovalController 결재라인 등록");
+	      return "/approval/appline";
 	   }
 	   
 	   
