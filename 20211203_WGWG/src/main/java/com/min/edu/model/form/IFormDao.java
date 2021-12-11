@@ -1,4 +1,4 @@
-package com.min.edu.model;
+package com.min.edu.model.form;
 
 import java.util.List;
 

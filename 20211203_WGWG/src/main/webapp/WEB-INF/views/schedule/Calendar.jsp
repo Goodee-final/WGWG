@@ -12,7 +12,11 @@
 <link rel="stylesheet" type="text/css" href="./dist/tui-calendar.css">
 <link rel="stylesheet" href="./css/Calendar.css">
 </head>
+
 <body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
+<div style="margin-left: 230px; padding:50px;">
 <div class="col-xs-2" style="margin-top: 63px;">
 	<div>
         <!-- <div class="lnb-new-schedule">
@@ -54,6 +58,7 @@
 		</div>
 		<div id="calendar" style="height: 600px;"></div>
 	</div>
+	</div>
 </body>
 
 <script id="template-lnb-calendars-item" type="x-tmpl-mustache">
@@ -75,7 +80,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-<script src =" https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js "></script>
+<script src ="https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js "></script>
 <script src="./dist/tui-calendar.js"></script>
 <script src="./js/Calendar.js"></script>
 </html>

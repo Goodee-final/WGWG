@@ -19,18 +19,17 @@
 			<c:forEach var="sign" items="${signList}" varStatus="status">
 				<div>
 					<P>서명${status.count}</P>
-					<img src=<spring:url value='/img/sign/sponge.png'/> width="300px" height="300px">
-					<button>상세보기</button>
+					<img src="<%=request.getContextPath()%>${sign.sign_img}" width="150px" height="150px">
+					<p>등록일:${sign.sign_reg_dt}</p>
+					<p>만료일:${sign.sign_exp_dt}</p>
+					<button onclick="location.href=''">삭제하기</button>
 				</div>
 		
 			</c:forEach>
 			</div>
 		</div>
-		<img src="./img/sign/signature.png" width="300px" height="300px">
-		<img src="../img/sign/signature.png" width="300px" height="300px">
-		<img src="<spring:url value='/img/sign/signature.png'/>" width="300px" height="300px">
-		<img src="img/sign/sponge.png" width="300px" height="300px">
-		<img src="img/sign/signature.png" width="300px" height="300px">
-	</div>
+		
+	
+	
 </body>
 </html>

@@ -36,9 +36,9 @@
 	</select> -->
 	<!-- 전체공지사항 -->
 	<select id="getAllList" resultType="NoticeVo">
-		SELECT n.NOTICE_NO, n.NOTICE_TITLE, n.NOTICE_REG_DT
-			FROM NOTICE n
-			ORDER BY n.NOTICE_NO
+		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
+			FROM NOTICE
+			ORDER BY NOTICE_NO
 	</select>	
 	<!-- 글입력 -->
 	<insert id="insertBoard" parameterType="NoticeVo">
@@ -56,26 +56,37 @@
 						 #{notice_file_size}, SYSDATE,NOTICE_SEQ.CURRVAL)		
 	</insert>
 	<!--  글 + 파일이름 -->
-	<!-- <select id="getBoard" parameterType="java.lang.String" resultMap="FileDtoMap">
-		SELECT SEQ,N.ID ID , TITLE,CONTENT,REGDATE,ORGIN_NAME
-			FROM NOTICE N JOIN NOTICEFILE F
-			ON N.SEQ = F.N_SEQ
-			WHERE N.SEQ = #{seq}
+	<select id="getBoard" parameterType="Integer" resultMap="FileDtoMap">
+		SELECT N.NOTICE_NO,N.EMP_NO, N.NOTICE_TITLE,N.NOTICE_CONTENT,N.NOTICE_REG_DT,F.NOTICE_FILE_NM
+			FROM NOTICE N JOIN NOTICE_FILE F
+			ON N.NOTICE_NO = F.NOTICE_FILE_NO
+			WHERE N.NOTICE_NO = #{notice_no}
 	</select>
- -->	
-	<!-- 파일만 -->
-	<!-- <select id="getFile" parameterType="java.lang.String" resultType="NoticeFileVo">
-		SELECT F_SEQ, ORIGIN_NAME, STORED_NAME,
-			 FILE_SIZE, F_REGDATE, F_DELFLAG, N_SEQ, ID
-		FROM NOTICE WHERE SEQ = #{seq}
-	</select> -->
 	
-	<!-- 페이징 리스트 -->
-	<!-- <select id="getPageList" parameterType="com.min.edu.vo.NoticePageVO" resultType="NoticeVo">
-		SELECT SEQ,TITLE,CONTENT,DEPTCHK,REGDATE,ID
-			FROM (SELECT SEQ,TITLE,CONTENT,DEPTCHK,REGDATE,ID, ROWNUM RN)
-				FROM (SELECT SEQ,TITLE,CONTENT,DEPTCHK,REGDATE,ID
-						FROM NOTICE ORDER BY SEQ DESC))
-			WHERE RN #{startList} AND #{endList}
-	</select> -->
+	<!-- 파일만 -->
+	<select id="getFile" parameterType="Integer" resultType="NoticeFileVo">
+		SELECT NOTICE_FILE_NO, NOTICE_FILE_NM, NOTICE_FILE_SAVE_NM, 
+						NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT, NOTICE_NO
+			FROM NOTICE_FILE
+			WHERE NOTICE_FILE_NO = #{notice_file_no}
+	</select>
+	
+	<!-- 총 게시글 갯수 출력 -->
+	<select id="countNotice" resultType="Integer">
+		SELECT COUNT(*) FROM NOTICE
+	</select>
+	
+	<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="selectNotice" resultType="NoticeVo">
+		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
+							FROM NOTICE 
+							ORDER BY NOTICE_NO DESC 
+							) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
 </mapper>
