@@ -148,7 +148,7 @@ i {
 				
 			<li class="w3-bar-item nav1"><i class="fas fa-thumbtack"></i> <a href="#">공지사항</a>
 				<ul class="nav-flyout">
-					<li><a href="#" 
+					<li><a href="./noticeList.do" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공지사항</a></li>
 					<li><a href="./signdraw.do"
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공지사항</a></li>
@@ -156,7 +156,7 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i> <a href="#">일정관리</a>
 				<ul class="nav-flyout">
-					<li><a href="#" 
+					<li><a href="./loadForm.do" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</a></li>
 					<li><a href="./signdraw.do"
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</a></li>
