@@ -24,7 +24,7 @@
 	font-size: 10px;
 	width: 100%;
 	height: 100%;
-	max-width: 500px;
+	max-width: 600px;
 	max-height: 350px;
 	border: 1px solid #e8e8e8;
 	background-color: #fff;
@@ -117,8 +117,8 @@ canvas {
 	<script>
 		var canvas = $("#signature-pad canvas")[0];
 		var sign = new SignaturePad(canvas, {
-			minWidth : 2,
-			maxWidth : 2,
+			minWidth : 4,
+			maxWidth : 4,
 			penColor : "rgb(0, 0, 0)"
 		});
 
