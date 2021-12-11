@@ -1,4 +1,4 @@
-package com.min.edu.model;
+package com.min.edu.model.form;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import com.min.edu.vo.FormClassification;
 public class FormDaoImpl implements IFormDao {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	private final String NS = "com.min.edu.model.FormDaoImpl.";
+	private final String NS = "com.min.edu.model.Form.FormDaoImpl.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;

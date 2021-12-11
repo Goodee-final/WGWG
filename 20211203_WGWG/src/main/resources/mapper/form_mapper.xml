@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.min.edu.model.FormDaoImpl">
+<mapper namespace="com.min.edu.model.Form.FormDaoImpl">
 
 <resultMap type="com.min.edu.vo.Form" id="FormJoinVo">
 	<result property="form_no" column="FORM_NO"/>
@@ -28,6 +28,7 @@
 	SELECT F.FORM_NO, F.FORM_NM, F.FORM_REG_DT, FC.FORM_CLASS_NM 
 		FROM FORM f JOIN FORM_CLASSIFICATION fc 
 		ON F.FORM_CLASS_NO = FC.FORM_CLASS_NO
+		ORDER BY FORM_NO DESC
 </select>
 
 <!-- 양식 상세조회 -->

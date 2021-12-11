@@ -184,7 +184,16 @@ i {
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;채팅</a></li>
 					<li><a href="./signdraw.do"
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;채팅</a></li>
-				</ul></li>
+				</ul>
+			</li>
+			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i><a href="#">양식함</a>
+				<ul class="nav-flyout">
+					<li><a href="./formlist.do" 
+						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식목록</a></li>
+					<li><a href="./forminsert.do"
+						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식등록</a></li>
+				</ul>
+			</li>
 		</ul>
 	</div>
 </body>
