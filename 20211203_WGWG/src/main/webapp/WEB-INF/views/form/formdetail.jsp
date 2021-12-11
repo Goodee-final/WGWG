@@ -42,10 +42,6 @@
 		color: white;
 		margin-left: 920px;
 	}
-	#template {
-		text-align: center !important;
-		
-	}
 </style>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
