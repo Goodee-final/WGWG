@@ -11,9 +11,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.min.edu.model.EmpDaoImpl;
-import com.min.edu.model.FormDaoImpl;
 import com.min.edu.model.IEmpDao;
-import com.min.edu.model.IFormDao;
+import com.min.edu.model.form.FormDaoImpl;
+import com.min.edu.model.form.IFormDao;
 import com.min.edu.vo.Emp;
 
 

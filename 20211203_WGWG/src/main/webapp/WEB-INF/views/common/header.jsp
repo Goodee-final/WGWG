@@ -25,11 +25,15 @@
 		background-color: #073865 !important;
 		margin: 0;
 		padding: 0;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
 	}
 	
 	#logo-image{
 		width: 200px;
-		height: 40px;
+		height: 45px;
 		background-image: url("./img/logo.png");
 		background-color: white;
 		background-repeat: no-repeat;
