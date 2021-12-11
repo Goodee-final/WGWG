@@ -1,5 +1,8 @@
 package com.min.edu.vo;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Emp {
 
 	private int emp_no;
