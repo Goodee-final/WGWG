@@ -48,7 +48,6 @@ public class UploadController {
 	public String uploadForm(MultipartFile file, Model model, HttpServletRequest request)
 			throws IOException, Exception {
 
-	
 		logger.info("orinalName" + file.getOriginalFilename());
 		logger.info("size: " + file.getSize());
 		logger.info("contentType: " + file.getContentType());
