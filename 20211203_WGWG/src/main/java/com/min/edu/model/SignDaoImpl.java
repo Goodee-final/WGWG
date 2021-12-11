@@ -26,4 +26,12 @@ public class SignDaoImpl implements ISignDao {
 		return sqlSession.selectList(NS+"selectSignList", empno);
 	}
 
+
+	@Override
+	public int insertSign(Sign sign) {
+		logger.info("전자서명 등록");
+		return sqlSession.insert(NS+"insertSign", sign);
+		
+	}
+
 }

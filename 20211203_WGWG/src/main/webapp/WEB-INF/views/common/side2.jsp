@@ -148,7 +148,7 @@ i {
 				
 			<li class="w3-bar-item nav1"><i class="fas fa-thumbtack"></i> <a href="#">공지사항</a>
 				<ul class="nav-flyout">
-					<li><a href="#" 
+					<li><a href="./noticeList.do" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공지사항</a></li>
 					<li><a href="./signdraw.do"
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공지사항</a></li>
@@ -156,7 +156,7 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i> <a href="#">일정관리</a>
 				<ul class="nav-flyout">
-					<li><a href="#" 
+					<li><a href="./loadForm.do" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</a></li>
 					<li><a href="./signdraw.do"
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</a></li>
@@ -184,15 +184,16 @@ i {
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;채팅</a></li>
 					<li><a href="./signdraw.do"
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;채팅</a></li>
-				</ul></li>
-				
-			<li class="w3-bar-item nav1"><i class="fas fa-users"></i><a href="#">사원관리</a>
+				</ul>
+			</li>
+			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i><a href="#">양식함</a>
 				<ul class="nav-flyout">
-					<li><a href="./insert_emp.do" 
-						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원등록</a></li>
-					<li><a href="./signdraw.do"
-						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원조회</a></li>
-				</ul></li>
+					<li><a href="./formlist.do" 
+						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식목록</a></li>
+					<li><a href="./forminsert.do"
+						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식등록</a></li>
+				</ul>
+			</li>
 		</ul>
 	</div>
 </body>
