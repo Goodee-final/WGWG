@@ -1,0 +1,57 @@
+package com.min.edu.ctrl.approval;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.min.edu.model.approval.IApprovalService;
+import com.min.edu.vo.approval.Approval_Doc;
+
+@Controller
+public class ApprovalController {
+	
+	   private Logger logger = LoggerFactory.getLogger(this.getClass());
+	   
+	   @Autowired
+	   private IApprovalService approvalServiceImpl;
+	   
+	   
+	   @RequestMapping(value="/docList.do", method = RequestMethod.GET)
+	   public String docList(Model model) {
+		  //session.setAttribute("userid", "USER25");
+		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
+		  //session을 삭제하는 방법 두가지
+		  //1. session 객체 자체를 삭제
+		  //2. session 객체 하나의 값은 삭제 remove("userid")
+		  
+	      logger.info("ApprovalController 전체글 조회 List");
+	      List<Approval_Doc> doclists = approvalServiceImpl.selectAllDoc();
+	      model.addAttribute("doclists", doclists);
+	      return "/approval/doclist";
+	   }
+	   
+	   
+	   
+//	   @PostMapping("/replyBoard.do")
+//	   public String replyBoard(Answerboard_VO vo, HttpSession session) {
+//		   String writer = (String) session.getAttribute("userid");
+//		   logger.info("BoardController 답글달기 replyBoard : {}", vo);
+//		   logger.info("BoardController 답글달기 replyBoard : {}", writer);
+//		   vo.setId(writer);
+//		   int cnt = answerboardServiceImpl.reply(vo);
+//		   if(cnt > 0) {
+//			   return "redirect:/boardList.do";
+//		   }else {
+//				return "index.jsp";
+//		   } 
+//	   }
+}
