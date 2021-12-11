@@ -9,15 +9,13 @@
 	.flex-box{
 		display: flex;
 		justify-content: center;
-		align-items: flex-end;;
+		align-items: flex-end;
 	}
 </style>
 </head>
 <body>
-
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-
-	<jsp:include page="/WEB-INF/views/sign/signside.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
 	<!-- Page Content -->
 	<div style="margin-left: 230px; padding:50px;">
 		<h1 >전자서명 등록</h1>
@@ -38,7 +36,7 @@
 					<p>기본 이미지</p>
 				</td>
 				<td>
-					<img src="signimg/approve.PNG" width="75px" height="75px">
+					<img src="img/sign/approve.PNG" width="75px" height="75px">
 				</td>
 			</tr>
 			<tr>
@@ -54,5 +52,4 @@
 		</table>
 	</div>
 </body>
-
 </html>
