@@ -2,6 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.min.edu.model.approval.ApprovalDaoImpl">
 	
+	<resultMap type="com.min.edu.vo.Emp" id="AllEmpVo">
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="emp_nm" column="EMP_NM"/>
+		<result property="pvo.position_nm" column="POSITION_NM"/>
+		<result property="dvo.dept_nm" column="DEPT_NM"/>
+	</resultMap>
+	
+	<resultMap type="com.min.edu.vo.approval.Approval_Doc" id="DocDetailVo">
+		<result property="APP_DOC_NO" column="APP_DOC_NO"/>
+		<result property="APP_DOC_ST" column="APP_DOC_ST"/>
+		<result property="APP_DOC_REG_DT" column="APP_DOC_REG_DT"/>
+		<result property="APP_DOC_TITLE" column="APP_DOC_TITLE"/>
+		<result property="EMP_NO" column="EMP_NO"/>
+		<result property="fvo.FORM_NM" column="FORM_NM"/>
+		<result property="REF_EMP_NO" column="REF_EMP_NO"/>
+		<result property="APP_DOC_CONTENT" column="APP_DOC_CONTENT"/>
+		<result property="alvo.APPROVAL" column="APPROVAL"/>
+	</resultMap>
+	
+	
 	<select id="selectAllDoc" resultType="DocVo">
 		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO
 			FROM "C##WG".APPROVAL_DOCUMENT

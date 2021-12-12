@@ -17,6 +17,7 @@ public class Emp {
 	private int position_no;
 	private int dept_no;
 	
+	
 	public Emp() {}
 	
 	public Emp(int emp_no, String emp_nm, String pw, String email, String photo, String address, String tel,
