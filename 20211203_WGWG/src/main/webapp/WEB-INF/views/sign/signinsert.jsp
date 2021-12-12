@@ -71,6 +71,12 @@
 <!--  -->
 
 <style type="text/css">
+	.container{
+		margin-top: 80px;
+		margin-left: 230px;
+		padding: 50px;
+	}
+
 .flex-box {
 	display: flex;
 	justify-content: center;
@@ -82,7 +88,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
 	<!-- Page Content -->
-	<div style="margin-left: 230px; padding: 50px;">
+	<div class="container">
 		<h1>전자서명 등록</h1>
 
 		<form action="./uploadForm.do" id="form1" method="POST"
@@ -106,7 +112,7 @@
 							<b>기본 이미지</b>
 						</p>
 					</td>
-					<td><img src="<%=request.getContextPath()%>/img/sign/approve.PNG" width="75px" height="75px">
+					<td><img src="img/sign/approve.PNG" width="75px" height="75px">
 					</td>
 				</tr>
 				<tr>

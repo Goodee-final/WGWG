@@ -11,16 +11,22 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <title>전자 서명 관리</title>
 <style type="text/css">
-	td{
-		padding:35px;
-	}
+td {
+	padding: 35px;
+}
+
+.container {
+	margin-top: 80px;
+	margin-left: 230px;
+	padding: 50px;
+}
 </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
 	<!-- Page Content -->
-	<div style="margin-left: 230px; padding: 50px;">
+	<div class="container">
 		<div>
 			<h1>서명관리</h1>
 			<div>
@@ -36,29 +42,28 @@
 					<c:set var="j" value="5" />
 
 					<table>
-					<tbody>
-						<c:forEach var="sign" items="${signList}" varStatus="status">
-					
+						<tbody>
+							<c:forEach var="sign" items="${signList}" varStatus="status">
+
 								<c:if test="${i%j == 0 }">
 									<tr>
-										</c:if>
-										<td style="padding: 35px;">
-											<P>서명${status.count}</P> <img
-											src="img/sign/${sign.sign_img}"
-											width="150px" height="150px">
-											<p>등록일:${sign.sign_reg_dt}</p>
-											<p style="color: red">만료일:${sign.sign_exp_dt}</p>
-											<button class="btn btn-primary"
-												onclick="location.href='./signdelete.do?sign_no=${sign.sign_no}'">삭제하기</button>
-										</td>
-										<c:if test="${i%j == j-1 }">
+								</c:if>
+								<td style="padding: 35px;">
+									<P>서명${status.count}</P> <img src="img/sign/${sign.sign_img}"
+									width="150px" height="150px">
+									<p>등록일:${sign.sign_reg_dt}</p>
+									<p style="color: red">만료일:${sign.sign_exp_dt}</p>
+									<button class="btn btn-primary"
+										onclick="location.href='./signdelete.do?sign_no=${sign.sign_no}'">삭제하기</button>
+								</td>
+								<c:if test="${i%j == j-1 }">
 									</tr>
 								</c:if>
 								<c:set var="i" value="${i+1 }" />
-					
 
-						</c:forEach>
-					</tbody>
+
+							</c:forEach>
+						</tbody>
 					</table>
 				</c:if>
 			</div>
