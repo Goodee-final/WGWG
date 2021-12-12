@@ -44,7 +44,7 @@
 										</c:if>
 										<td style="padding: 35px;">
 											<P>서명${status.count}</P> <img
-											src="<%=request.getContextPath()%>/img/sign/${sign.sign_img}"
+											src="img/sign/${sign.sign_img}"
 											width="150px" height="150px">
 											<p>등록일:${sign.sign_reg_dt}</p>
 											<p style="color: red">만료일:${sign.sign_exp_dt}</p>
