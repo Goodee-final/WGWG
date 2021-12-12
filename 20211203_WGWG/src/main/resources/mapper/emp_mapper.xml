@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.min.edu.model.EmpDaoImpl">
+<mapper namespace="com.min.edu.model.emp.EmpDaoImpl">
 
 	<insert id="insert_emp" parameterType="empvo">
 		INSERT INTO C##WG.EMP(EMP_NO, EMP_NM, PW, 
@@ -13,4 +13,9 @@
   							#{position_no}, #{dept_no})
 	</insert>
 
+	<select id="getLogin" parameterType="java.util.Map"  resultType="empvo">
+		SELECT EMP_NO,EMP_NM ,EMAIL ,PHOTO ,POSITION_NO ,DEPT_NO 
+ 			FROM EMP e 
+ 			WHERE EMP_NO=#{emp_no} AND PW=#{pw}
+	</select>
 </mapper>
