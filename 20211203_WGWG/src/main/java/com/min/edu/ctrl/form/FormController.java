@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.min.edu.model.form.IFormDao;
 import com.min.edu.vo.Form;
+import com.min.edu.vo.FormClassification;
 
 
 @Controller
@@ -37,5 +38,14 @@ public class FormController {
 		Form selectForm = dao.selectFormDetail(form_no);
 		model.addAttribute("selectForm",selectForm);
 		return "./form/formdetail";
+	}
+	
+	@RequestMapping(value="/forminsert.do", method=RequestMethod.GET)
+	public String formInsertForm(Model model) {
+		logger.info("양식 등록화면 이동");
+		List<FormClassification> fclist = dao.selectFormcList();
+		model.addAttribute("fclist", fclist);
+		logger.info("크기 {}", fclist.size());
+		return "./form/forminsert";
 	}
 }
