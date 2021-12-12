@@ -6,6 +6,10 @@
 		SELECT sign_no, emp_no, TO_CHAR(sign_reg_dt,'yyyy-mm-dd') sign_reg_dt, TO_CHAR(sign_exp_dt, 'yyyy-mm-dd') sign_exp_dt , sign_img, sign_img_size FROM SIGN s WHERE emp_no = #{emp_no} order by sign_no
 	</select>
 	
+	<select id="selectSignOne" resultType="signDto">
+		SELECT sign_no, emp_no, TO_CHAR(sign_reg_dt,'yyyy-mm-dd') sign_reg_dt, TO_CHAR(sign_exp_dt, 'yyyy-mm-dd') sign_exp_dt , sign_img, sign_img_size FROM SIGN s WHERE sign_no = #{sign_no}
+	</select>
+	
 	<insert id="insertSign" parameterType="signDto">
 		
 INSERT INTO SIGN
@@ -13,4 +17,8 @@ INSERT INTO SIGN
 VALUES(#{emp_no}, sysdate, sysdate+365,#{sign_img}, #{sign_img_size}, sign_seq.nextval)
 
 	</insert>
+
+	<delete id="deleteSign">
+		DELETE FROM sign WHERE sign_no = #{sign_no}
+	</delete>
 </mapper>

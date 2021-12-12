@@ -33,5 +33,20 @@ public class SignDaoImpl implements ISignDao {
 		return sqlSession.insert(NS+"insertSign", sign);
 		
 	}
+	
+
+
+	@Override
+	public int deleteSign(int sign) {
+		logger.info("전자서명 삭제");
+		return sqlSession.delete(NS+"deleteSign", sign);
+	}
+
+
+	@Override
+	public Sign selectSignOne(int sign_no) {
+		logger.info("전자서명 조회");
+		return sqlSession.selectOne(NS+"selectSignOne", sign_no);
+	}
 
 }

@@ -46,7 +46,7 @@
 
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg
-			value="C:\\eclipse\\workspace_Spring\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\wtpwebapps\20211203_WGWG\img\sign">
+			value="C:\\eclipse\\workspace_Spring\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\wtpwebapps\20211203_WGWG\img\sign\">
 
 		</beans:constructor-arg>
 	</beans:bean>
