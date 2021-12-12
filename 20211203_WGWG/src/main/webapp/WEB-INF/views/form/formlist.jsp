@@ -1,67 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<title>전자 서명 관리</title>
-<style type="text/css">
-	td{
-		padding:35px;
+<title>Insert title here</title>
+</head>
+<style>
+	.container{
+		margin-top: 80px;
+		margin-left: 230px;
+		padding: 50px;
+	}
+	
+	.title {
+		margin-left: 70px;
+	}
+	
+	.formList {
+		margin: 0 auto;
+		width: 1000px;
+		margin-left: 70px;
+		padding-left: 100px;
+		border-collapse: collapse;
+	}
+	
+	.head {
+		background-color: #ddd;
+	}
+	
+	th, td {
+	  padding: 8px;
+	  text-align: center;
+	  border-bottom: 1px solid #ddd;
+	}
+	
+	#inputsearch {
+		width: 200px;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid #ddd;
+		margin-bottom: 20px;
+		margin-left: 795px;
+	}
+	
+	#searchbtn {
+		width: 70px;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid #ddd;
+		background-color: #073865;
+		color: white;
+	}
+	
+	#insertbtn {
+		width: 100px;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid #ddd;
+		background-color: #073865;
+		color: white;
+		margin-top: 10px;
+		margin-left: 970px;
 	}
 </style>
-</head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
-	<!-- Page Content -->
-	<div style="margin-left: 230px; padding: 50px;">
-		<div>
-			<h1>서명관리</h1>
-			<div>
-				<c:if test="${empty signList}">
-
-					<p style="margin-top: 50px;">등록된 전자서명이 없습니다.</p>
-					<button class="btn btn-primary"
-						onclick="location.href='./signinsert.do'">전자서명 등록</button>
-				</c:if>
-
-				<c:if test="${!empty signList}">
-					<c:set var="i" value="0" />
-					<c:set var="j" value="5" />
-
-					<table>
-					<tbody>
-						<c:forEach var="sign" items="${signList}" varStatus="status">
-					
-								<c:if test="${i%j == 0 }">
-									<tr>
-										</c:if>
-										<td style="padding: 35px;">
-											<P>서명${status.count}</P> <img
-											src="<%=request.getContextPath()%>/img/sign/${sign.sign_img}"
-											width="150px" height="150px">
-											<p>등록일:${sign.sign_reg_dt}</p>
-											<p style="color: red">만료일:${sign.sign_exp_dt}</p>
-											<button class="btn btn-primary"
-												onclick="location.href='./signdelete.do?sign_no=${sign.sign_no}'">삭제하기</button>
-										</td>
-										<c:if test="${i%j == j-1 }">
-									</tr>
-								</c:if>
-								<c:set var="i" value="${i+1 }" />
-					
-
-						</c:forEach>
-					</tbody>
-					</table>
-				</c:if>
-			</div>
-		</div>
+	<div class="container">
+		<h1 class="title">양식 목록</h1>
+		<input type="text" placeholder="제목으로 검색" name="formtitle" id="inputsearch">
+		<button id="searchbtn" onclick="location.href='./formsearch.do?formtitle=${formtitle}'">검색</button>
+		<table class="formList">
+			<tr class="head">
+				<th>양식번호</th>
+				<th>양식제목</th>
+				<th>양식분류</th>
+				<th>양식등록일</th>
+			</tr>
+			<c:forEach var="form" items="${formList}">
+				<tr>
+					<td>${form.form_no}</td>
+					<td><a href="./formdetail.do?form_no=${form.form_no}">${form.form_nm}</a></td>
+					<td>${form.fcdto.form_class_nm}</td>
+					<td>${form.form_reg_dt}</td>
+				</tr>
+			</c:forEach>
+		</table>
+		<button id="insertbtn" onclick="location.href='./forminsert.do'">양식등록</button>
+	</div>
 </body>
 </html>
