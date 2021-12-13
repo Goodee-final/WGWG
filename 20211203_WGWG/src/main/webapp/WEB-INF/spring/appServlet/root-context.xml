@@ -65,6 +65,6 @@
 	 </tx:advice>
 	 
 	 <aop:config>
-      <aop:advisor advice-ref="txManager" pointcut="execution(public * com.min.edu.model.*Service*.*(..))"/>
+      <aop:advisor advice-ref="txManager" pointcut="execution(public * com.min.edu.model.*.*Service*.*(..))"/>
    	 </aop:config>
 </beans>

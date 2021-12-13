@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.min.edu.vo.Form;
-import com.min.edu.vo.FormClassification;
+import com.min.edu.vo.form.Form;
+import com.min.edu.vo.form.FormClassification;
 
 @Service
 public class FormServiceImpl implements IFormService {
