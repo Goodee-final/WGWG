@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.min.edu.vo.NoticeFileVO;
-import com.min.edu.vo.NoticePageVO;
 import com.min.edu.vo.NoticeVO;
+import com.min.edu.vo.PageVO;
 
 @Repository
 public class NoticeDaoImpl implements INoticeDao {
@@ -19,18 +19,7 @@ public class NoticeDaoImpl implements INoticeDao {
 	private final String NS = "com.min.edu.model.NoticeDaoImpl.";
 		
 	@Autowired
-	private SqlSessionTemplate sqlSession;	
-	
-	private static NoticeDaoImpl single;
-	
-	private NoticeDaoImpl() {}
-	
-	public static NoticeDaoImpl getInstance() {
-		if(single==null) {
-			single = new NoticeDaoImpl();
-		}
-		return single;
-	}
+	private SqlSessionTemplate sqlSession;		
 	
 	@Override
 	public List<NoticeVO> getAllList() {
@@ -67,17 +56,60 @@ public class NoticeDaoImpl implements INoticeDao {
 		logger.info("공지사항 countBoard {}");
 		return sqlSession.selectOne(NS+"countNotice");
 	}
+	
+	@Override
+	public int countNoticechk(String notice_chk) {
+		logger.info("공지사항 countNoticechk {}",notice_chk);
+		return sqlSession.selectOne(NS+"countNoticechk",notice_chk);
+	}
+	
+	 @Override public List<NoticeVO> selectNotice(PageVO vo) {
+		logger.info("공지사항 selectNotice {}"); return
+		sqlSession.selectList(NS+"selectNotice",vo); 
+	 }
+	 
 
 	@Override
-	public List<NoticeVO> selectNotice(NoticePageVO vo) {
-		logger.info("공지사항 selectNotice {}");
-		return sqlSession.selectList(NS+"selectNotice",vo);
+	public int insertNotice(NoticeVO vo) {
+		logger.info("공지사항 insertNotice {}",vo);
+		return sqlSession.insert(NS+"insertNotice",vo);
+	}
+
+	@Override
+	public NoticeVO detailNotice(int notice_no) {
+		logger.info("공지사항 detailNotice {}",notice_no);
+		return sqlSession.selectOne(NS+"detailNotice",notice_no);
 	}
 
 	
+	 @Override public List<NoticeVO> selectNotchk(PageVO vo) {
+		logger.info("공지사항 selectNotchk {}",vo); return
+		sqlSession.selectList(NS+"selectNotchk",vo); 
+	 }	
+	 
+	
+	@Override
+	public int updateNotice(NoticeVO vo) {
+		logger.info("공지사항 updateBoard {}",vo);
+		return sqlSession.update(NS+"updateNotice",vo);
+	}
+
+	@Override
+	public int deleteNotice(int notice_no) {
+		logger.info("공지사항 deleteNotice {}",notice_no);
+		return sqlSession.delete(NS+"deleteNotice",notice_no);
+	}
 
 	
-	
-	
+	@Override
+	public List<NoticeVO> selectPaging(PageVO paging) {		
+		return sqlSession.selectList(NS+"selectPaging",paging);
+	}
+
+	@Override
+	public int selectTotalPaging() {		
+		return sqlSession.selectOne(NS+"selectTotalPaging");
+	}
+
 
 }
