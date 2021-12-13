@@ -37,8 +37,6 @@
 	<mapper resource="mapper/emp_seq_mapper.xml"/>
 	
 	<mapper resource="mapper/approval_mapper.xml"/>
-
-	<mapper resource="mapper/app_doc_mapper.xml"/>
 	
 	<mapper resource="mapper/worklog_mapper.xml"/>
 
