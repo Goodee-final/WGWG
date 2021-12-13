@@ -9,5 +9,9 @@ public interface ISignDao {
 	public List<Sign> selectSignList(int empno);
 
 	public int insertSign(Sign sign);
-	
+
+	public int deleteSign(int signNo);
+
+	public Sign selectSignOne(int sign_no);
+
 }
