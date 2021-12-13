@@ -1,0 +1,5 @@
+SELECT * FROM sign
+
+DELETE FROM sign;
+
+SELECT * FROM FORM f ;

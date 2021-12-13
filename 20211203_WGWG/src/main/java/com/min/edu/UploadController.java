@@ -74,7 +74,8 @@ public class UploadController {
 		signdao.insertSign(sign);
 		
 		model.addAttribute("savedFileName", saveName);
-		return "redirect:./signlist.do";
+		model.addAttribute("loc","./signlist.do");
+		return "forward:/";
 	}
 
 	private String uploadFile(MultipartFile file) throws Exception {

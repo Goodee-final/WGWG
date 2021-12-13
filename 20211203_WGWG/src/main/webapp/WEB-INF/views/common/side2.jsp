@@ -2,7 +2,19 @@
 	pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$("#result").load("data.php");
+
+	});
+</script>
+
 <style type="text/css">
+
+
+
 
 #container {
 	display: flex;
@@ -128,7 +140,7 @@ i {
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 진행함</a></li>
 					<li><a href="#" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 대기함</a></li>
-					<li><a href="#" 
+					<li><a href="./completedoc.do" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 완료함</a></li>
 					<li><a href="#" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;참조문서함</a></li>
