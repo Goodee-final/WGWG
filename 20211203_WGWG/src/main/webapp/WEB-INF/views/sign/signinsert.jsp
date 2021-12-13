@@ -8,22 +8,26 @@
 <title>서명 등록 화면</title>
 
 <!--  -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-	$(document).ready(function() {
-		$("#profileImg").click(function() {
-			$("#input_img").click();
-		})
-	})
-</script>
+
 
 
 <script>
 	var sel_file;
 
+	
+	var cloneObj = $("#input_img").clone();
+	
 	$(document).ready(function() {
+
 		$("#input_img").on("change", fileChange);
+		
+		
+		$("#profileImg").click(function() {
+			$("#input_img").click();
+		})
 	});
 
 	function fileChange(e) {
@@ -34,8 +38,9 @@
 
 		filesArr.forEach(function(f) {
 			if (!f.type.match("image.*")) {
+				$("#input_img").html(cloneObj.html());
 				alert("확장자는 이미지 확장자만 가능합니다.");
-				return;
+				return false;
 			}
 
 			sel_file = f;
@@ -54,52 +59,24 @@
 
 		formData.append("file", file);
 
-		// 		$.ajax({
-		// 			url : '/uploadAjax.do',
-		// 			data : formData,
-		// 			dataType : 'text',
-		// 			processData : false,
-		// 			contentType : false,
-		// 			type : 'POST',
-		// 			success : function(data) {
-
-		// 				alert("프로필 이미지가 변경 되었습니다.")
-
-		// 			}
-		// 		})
-
-		// 		function checkImageType(fileName) {
-		// 			var pattern = /jpg$|gif$|png$|jpeg$/i;
-		// 			return fileName.match(pattern);
-		// 		}
-
-		// 		function getOriginalName(fileName) {
-		// 			if (checkImageType(fileName)) {
-		// 				return;
-		// 			}
-
-		// 			var idx = fileName.indexOf("_") + 1;
-		// 			return fileName.substr(idx);
-
-		// 		}
-
-		// 		function getImageLink(fileName) {
-
-		// 			if (!checkImageType(fileName)) {
-		// 				return;
-		// 			}
-		// 			var front = fileName.substr(0, 12);
-		// 			var end = fileName.substr(14);
-
-		// 			return front + end;
-
-		// 		}
+		$("#uploadBtn").on("click",function(e){
+			
+			
+				$("#input_img").html(cloneObj.html());
+		
+		});	
 
 	}
 </script>
 <!--  -->
 
 <style type="text/css">
+	.container{
+		margin-top: 80px;
+		margin-left: 230px;
+		padding: 50px;
+	}
+
 .flex-box {
 	display: flex;
 	justify-content: center;
@@ -111,7 +88,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
 	<!-- Page Content -->
-	<div style="margin-left: 230px; padding: 50px;">
+	<div class="container">
 		<h1>전자서명 등록</h1>
 
 		<form action="./uploadForm.do" id="form1" method="POST"
@@ -119,7 +96,9 @@
 			<table border="1px solid black">
 				<tr>
 					<td>
-						<p><b>유의 사항</b></p>
+						<p>
+							<b>유의 사항</b>
+						</p>
 					</td>
 					<td>
 						<p>전자서명은 최대 3개까지 등록 가능 합니다.</p>
@@ -129,28 +108,34 @@
 				</tr>
 				<tr>
 					<td>
-						<p><b>기본 이미지</b></p>
+						<p>
+							<b>기본 이미지</b>
+						</p>
 					</td>
 					<td><img src="img/sign/approve.PNG" width="75px" height="75px">
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<p><b>등록된 결재 이미지</b></p>
+						<p>
+							<b>등록된 결재 이미지</b>
+						</p>
 					</td>
 					<td class="flex-box">
 
 						<div>
-							<img id="profileImg" src="" style="border-radius: 10%; padding-top: 10px; height: 125px; width: 125px;">
-						</div> <input type="file" id="input_img" name="file">
+							<img id="profileImg" src=""
+								style="border-radius: 10%; padding-top: 10px; height: 125px; width: 125px;">
+						</div> <input type="file" id="input_img" name="file" accept="image/jpeg,image/png"/>
 
 					</td>
 
 
 				</tr>
 			</table>
-			<input type="submit" class="btn btn-primary" value="저장하기"> 
-			<input type="button" class="btn btn-primary" value="취소하기" onclick="href.location='sign'"> savedFileName =
+			<input type="submit" id="uploadBtn" class="btn btn-primary"
+				value="저장하기"> <input type="button" class="btn btn-primary"
+				value="취소하기" onclick="href.location='sign'">
 			${savedFileName}
 
 		</form>

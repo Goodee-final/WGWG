@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.http.HttpHeaders;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -45,7 +47,7 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/uploadForm.do", method = RequestMethod.POST)
-	public String uploadForm(MultipartFile file, Model model, HttpServletRequest request)
+	public String uploadForm(MultipartFile file, Model model, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, Exception {
 
 	
@@ -53,18 +55,22 @@ public class UploadController {
 		logger.info("size: " + file.getSize());
 		logger.info("contentType: " + file.getContentType());
 
-		if(file == null) {
-			
+		if(file == null || file.isEmpty()) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out =  response.getWriter();
+			out.println("<script>alert('이미지 파일을 선택해 주세요'); location.href='./signinsert.do'</script>");
+			out.flush();
+			return null;
 		}
 		
 		String saveName = uploadFile(file);
 		
 		System.out.println("파일 이름은 : " + saveName);
 		
-		String db_saveName = "/img/sign/" + saveName; 
-		
+
+		//로그인한 회원 번호 select하기
 		int empno = 1;
-		Sign sign = new Sign(empno, db_saveName, Long.toString(file.getSize()));
+		Sign sign = new Sign(empno, saveName, Long.toString(file.getSize()));
 		signdao.insertSign(sign);
 		
 		model.addAttribute("savedFileName", saveName);
@@ -99,48 +105,10 @@ public class UploadController {
 		return user_imgPath;
 	}
 
-//	@ResponseBody
-//	@RequestMapping("/displayFile")
-//	public ResponseEntity<byte[]> displayFile(String fileName) throws Exception {
-//
-//		InputStream in = null;
-//		ResponseEntity<byte[]> entity = null;
-//
-//		logger.info("FILE NAME: " + fileName);
-//
-//		try {
-//
-//			String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
-//
-//			MediaType mType = MediaUtils.getMediaType(formatName);
-//
-//			HttpHeaders headers = new HttpHeaders();
-//
-//			in = new FileInputStream(uploadPath + fileName);
-//
-//			if (mType != null) {
-//				headers.setContentType(mType);
-//			} else {
-//
-//				fileName = fileName.substring(fileName.indexOf("_") + 1);
-//				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-//				headers.add("Content-Disposition",
-//						"attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
-//			}
-//
-//			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
-//		} finally {
-//			in.close();
-//		}
-//		return entity;
-//	}
 
 	@ResponseBody
-	@RequestMapping(value = "/deleteFile.do", method = RequestMethod.POST)
-	public ResponseEntity<String> deleteFile(String fileName) {
+	@RequestMapping(value = "/deleteFile.do", method = RequestMethod.GET)
+	public ResponseEntity<String> deleteFile(String fileName, HttpServletResponse response) throws IOException {
 
 		logger.info("delete file: " + fileName);
 
@@ -156,8 +124,12 @@ public class UploadController {
 		}
 
 		new File(uploadPath + fileName.replace('/', File.separatorChar)).delete();
-
-		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out =  response.getWriter();
+		out.println("<script>alert('이미지 파일을 선택해 주세요'); location.href='./signinsert.do'</script>");
+		out.flush();
+		return null;
 	}
 
 }

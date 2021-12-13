@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="/WEB-INF/views/common/indexinclude.jsp"></jsp:include>
 </head>
 <style>
 	.container{
@@ -66,8 +67,8 @@
 	}
 </style>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/side2.jsp" %>
 	<div class="container">
 		<h1 class="title">양식 목록</h1>
 		<input type="text" placeholder="제목으로 검색" name="formtitle" id="inputsearch">
