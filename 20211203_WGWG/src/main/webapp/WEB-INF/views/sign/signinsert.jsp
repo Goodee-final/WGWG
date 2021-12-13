@@ -71,11 +71,7 @@
 <!--  -->
 
 <style type="text/css">
-	.container{
-		margin-top: 80px;
-		margin-left: 230px;
-		padding: 50px;
-	}
+
 
 .flex-box {
 	display: flex;
@@ -85,10 +81,9 @@
 </style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
+
 	<!-- Page Content -->
-	<div class="container">
+	<div>
 		<h1>전자서명 등록</h1>
 
 		<form action="./uploadForm.do" id="form1" method="POST"

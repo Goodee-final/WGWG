@@ -1,4 +1,4 @@
-package com.min.edu.vo;
+package com.min.edu.vo.emp;
 
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ public class Emp {
 	private String address;
 	private String tel;
 	private String hiredate;
-	private int work_st;
+	private String work_st;
 	private int position_no;
 	private int dept_no;
 	
@@ -21,7 +21,7 @@ public class Emp {
 	public Emp() {}
 	
 	public Emp(int emp_no, String emp_nm, String pw, String email, String photo, String address, String tel,
-			String hiredate, int work_st, int position_no, int dept_no) {
+			String hiredate, String work_st, int position_no, int dept_no) {
 		this.emp_no = emp_no;
 		this.emp_nm = emp_nm;
 		this.pw = pw;
@@ -35,6 +35,22 @@ public class Emp {
 		this.dept_no = dept_no;
 	}
 	
+	
+	
+	public Emp(String emp_nm, String email, String photo, String address, String tel, String hiredate, String work_st,
+			int position_no, int dept_no) {
+		super();
+		this.emp_nm = emp_nm;
+		this.email = email;
+		this.photo = photo;
+		this.address = address;
+		this.tel = tel;
+		this.hiredate = hiredate;
+		this.work_st = work_st;
+		this.position_no = position_no;
+		this.dept_no = dept_no;
+	}
+
 	@Override
 	public String toString() {
 		return "Emp [emp_no=" + emp_no + ", emp_nm=" + emp_nm + ", pw=" + pw + ", email=" + email + ", photo=" + photo
@@ -90,10 +106,10 @@ public class Emp {
 	public void setHiredate(String hiredate) {
 		this.hiredate = hiredate;
 	}
-	public int getWork_st() {
+	public String getWork_st() {
 		return work_st;
 	}
-	public void setWork_st(int work_st) {
+	public void setWork_st(String work_st) {
 		this.work_st = work_st;
 	}
 	public int getPosition_no() {

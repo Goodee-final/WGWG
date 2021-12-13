@@ -1,6 +1,126 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
 
+	$(document).ready(function(){
+		$("#result").load("data.php");
+
+	});
+</script>
+
+<style type="text/css">
+
+
+
+
+#container {
+	display: flex;
+	flex-direction: row;
+}
+
+.sidebar {
+	background-color: #19222a;
+}
+
+.nav-flyout {
+	display: none;
+}
+
+.nav1:hover>.nav-flyout {
+	display: block;
+}
+
+.nav1 {
+	padding: 5px;
+}
+
+ul {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+.w3-sidebar>ul>li {
+	padding: 5px;
+	list-style: none;
+	margin-top: 5px;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+.nav-flyout a {
+	text-decoration: none;
+	color: #073865;
+	font-size: 16px;
+}
+
+.nav-flyout li {
+	background-color: whitesmoke;
+}
+
+.nav-flyout li:hover>a {
+	color: #107EE6;
+}
+
+.w3-sidebar>ul li:hover>a {
+	color: #107EE6;
+}
+
+.w3-sidebar>ul li:hover>i {
+	color: #107EE6;
+}
+
+.w3-sidebar>ul>li>a {
+	text-decoration: none;
+	color: #073865;
+	font-size: 20px;
+}
+
+.w3-bar-block .w3-bar-item {
+	padding: 8px 0px;
+}
+
+i {
+	color: #073865;
+	padding: 2px;
+	padding-right: 4px;
+}
+
+.far {
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.fas {
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.fas:hover {
+	color: black;
+	cursor: pointer;
+}
+
+.li-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn {
+	width: 150px;
+	height: 35px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+</style>
+
+</head>
+
+<body>
 	<!-- Sidebar -->
 	<!--  w3-light-grey -->
 	<div class="w3-sidebar w3-bar-block"
@@ -19,7 +139,7 @@
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 진행함</a></li>
 					<li><a href="#" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 대기함</a></li>
-					<li><a href="#" 
+					<li><a href="./completedoc.do" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 완료함</a></li>
 					<li><a href="#" 
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;참조문서함</a></li>
@@ -63,11 +183,17 @@
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i><a href="#">업무일지</a>
 				<ul class="nav-flyout">
-					<li><a href="#" 
-						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</a></li>
-					<li><a href="./signdraw.do"
-						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</a></li>
-				</ul></li>
+					<li>
+						<a href="./worklogInsert.do" class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지 작성</a>
+					</li>
+					<li>
+						<a href="./worklogListMy.do" class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;개인별 업무일지 조회</a>
+					</li>
+					<li>
+						<a href="./worklogListDept.do" class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;부서별 업무일지 조회</a>
+					</li>
+				</ul>
+			</li>
 				
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i><a href="#">채팅</a>
 				<ul class="nav-flyout">
@@ -85,5 +211,13 @@
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식등록</a></li>
 				</ul>
 			</li>
+			<li class="w3-bar-item nav1"><i class="fas fa-users"></i><a href="#">사원관리</a>
+            <ul class="nav-flyout">
+               <li><a href="./insert_emp_form.do" 
+                  class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원등록</a></li>
+               <li><a href="./signdraw.do"
+                  class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원조회</a></li>
+            </ul>
+         </li>
 		</ul>
 	</div>
