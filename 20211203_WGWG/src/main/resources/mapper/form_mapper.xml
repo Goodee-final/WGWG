@@ -18,7 +18,7 @@
 </resultMap>
 
 <!-- 양식 분류 리스트 -->
-<select id="selectFormcList" resultType="java.util.Map">
+<select id="selectFormcList" resultType="formcDto">
 	SELECT FORM_CLASS_NO, FORM_CLASS_NM
 		FROM FORM_CLASSIFICATION
 </select>

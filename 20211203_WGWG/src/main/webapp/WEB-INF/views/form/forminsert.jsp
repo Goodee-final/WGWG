@@ -83,17 +83,14 @@ $(function(){
 		<form id="frm" action="./insertform.do" method="post" >
 		<table class="editor">
 			<tr>
+				<td>문서분류</td>
 				<td>
-				<%-- ${fclist} --%>
-					<%-- <select name="formclassification">
-					<c:forEach items="${fclist}" var="list">
-						<c:forEach items="${list}" var="map">
-							${map.FORM_CLASS_NO}
-							<option value="${map.form_class_no}">${map.form_class_nm}</option>
+					
+					<select name="formclassification">
+						<c:forEach items="${fclist}" var="list">
+							<option value="${list.form_class_no}">${list.form_class_nm}</option>
 						</c:forEach>
-
-					</c:forEach>
-					</select> --%>
+					</select>
 				</td>
 			<tr>
 	        <tr>
