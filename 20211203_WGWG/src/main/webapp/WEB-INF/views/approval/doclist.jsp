@@ -81,7 +81,6 @@
 					</table>
 			</div>
 			<div id="menu2" class="tab-pane">
-				<c:if test="">
 					<table class="table table-hover">
 						<thead>
 							<tr>
@@ -106,7 +105,6 @@
 							</c:forEach>
 						</tbody>
 					</table>
-				</c:if>
 			</div>
 			<div id="menu3" class="tab-pane">
 				<table class="table table-hover">
