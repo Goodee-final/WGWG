@@ -23,15 +23,9 @@
 			<input type="text" placeholder="기안서 제목"/>
 			<table class="table table-bordered">
 				<thead>
-					<tr>
-						<th>Firstname</th>
-					</tr>
-					<tr>
-						<th>Firstname</th>
-					</tr>
-					<tr>
-						<th>Firstname</th>
-					</tr>
+					<tr><th>Firstname</th></tr>
+					<tr><th>Firstname</th></tr>
+					<tr><th>Firstname</th></tr>
 				</thead>
 				<tbody>
 					<tr>
