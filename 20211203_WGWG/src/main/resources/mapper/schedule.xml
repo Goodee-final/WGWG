@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.min.edu.model.ScheduleDaoImpl">
+<mapper namespace="com.min.edu.model.schedule.ScheduleDaoImpl">
 
-<resultMap type="com.min.edu.vo.ScheduleVO" id="joinSchedule">
+<resultMap type="com.min.edu.vo.schedule.ScheduleVO" id="joinSchedule">
 	<result property="schedule_no" column="SCHEDULE_NO"/>
 	<result property="schedule_title" column="SCHEDULE_TITLE"/>
 	<result property="schedule_content" column="SCHEDULE_CONTENT"/>
@@ -13,7 +13,7 @@
 	<collection property="sharedschedule" resultMap="shavo"></collection>	
 </resultMap>
 
-<resultMap type="com.min.edu.vo.SharedScheduleVO" id="shavo">
+<resultMap type="com.min.edu.vo.schedule.SharedScheduleVO" id="shavo">
      <result property="emp_no" column="EMP_NO"/>     
 </resultMap>
 <!-- TEST는 공유일정받은사람들이 y일경우 상세보기 눌렀을때 화면목록에 떠야될 내용들? 

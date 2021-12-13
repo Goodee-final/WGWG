@@ -76,8 +76,6 @@ $(function(){
 	}
 </style>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
 	<div class="container">
 		<h1 class="title">양식 등록</h1>
 		<form id="frm" action="./insertform.do" method="post" >

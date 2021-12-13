@@ -1,6 +1,6 @@
 package com.min.edu.vo.approval;
 
-import com.min.edu.vo.Form;
+import com.min.edu.vo.form.Form;
 
 public class Approval_Doc {
 	
