@@ -53,7 +53,7 @@
 			</div>
 			<div id="btns">
 				<input type="submit" id="login_btn" class="btn" value="로그인">
-				<input type="button" id="findpw_btn" class="btn" value="비밀번호를 잊으셨나요?" onclick="location.href='#'">
+				<input type="button" id="findpw_btn" class="btn" value="비밀번호를 잊으셨나요?" onclick="location.href='./find_pw_form.do'">
 			</div>
 		</form>
 	</div>

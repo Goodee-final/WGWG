@@ -35,12 +35,17 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("MemberController 비밀번호 : "+ map.get("pw"));
 		Emp vo = service.getLogin(map);
 		session.setAttribute("loginvo", vo);
-		return "";
+		return "redirect:/";
 	}
 	
 	@GetMapping(value="/logout.do")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/emp/loginForm.do";
+		return "redirect:/loginForm.do";
+	}
+	
+	@GetMapping(value="/find_pw_form.do")
+	public String find_pw_form() {
+		return "emp/find_pw_form";
 	}
 }
