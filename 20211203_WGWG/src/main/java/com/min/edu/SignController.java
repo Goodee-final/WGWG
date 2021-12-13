@@ -90,4 +90,10 @@ public class SignController {
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 		
 	}
+	
+	@RequestMapping(value ="/completedoc.do", method = RequestMethod.GET)
+	public String completedoc() {
+		
+		return "approval/compldoclist";
+	}
 }

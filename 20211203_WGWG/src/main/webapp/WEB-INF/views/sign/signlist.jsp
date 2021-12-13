@@ -15,18 +15,13 @@ td {
 	padding: 35px;
 }
 
-.container {
-	margin-top: 80px;
-	margin-left: 230px;
-	padding: 50px;
-}
+
 </style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
+
 	<!-- Page Content -->
-	<div class="container">
+	<div>
 		<div>
 			<h1>서명관리</h1>
 			<div>
@@ -49,8 +44,8 @@ td {
 									<tr>
 								</c:if>
 								<td style="padding: 35px;">
-									<P>서명${status.count}</P> <img src="img/sign/${sign.sign_img}"
-									width="150px" height="150px">
+									<P>서명${status.count}</P> 
+									<img src="img/sign/${sign.sign_img}" width="150px" height="150px">
 									<p>등록일:${sign.sign_reg_dt}</p>
 									<p style="color: red">만료일:${sign.sign_exp_dt}</p>
 									<button class="btn btn-primary"

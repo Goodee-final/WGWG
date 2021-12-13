@@ -12,11 +12,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <style>
-	.container{
-		margin-top: 80px;
-		margin-left: 230px;
-		padding: 50px;
-	}
+
 	
 
 .signature-pad {
@@ -98,10 +94,9 @@ canvas {
 </head>
 <body>
 
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
+
 	<!-- Page Content -->
-	<div class="container">
+	<div>
 	
 		<h1 id="title">전자서명 만들기</h1>
 		<div id="container-box">
