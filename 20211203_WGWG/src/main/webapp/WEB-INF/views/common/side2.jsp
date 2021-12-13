@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<<<<<<< HEAD
-=======
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -123,8 +121,6 @@ i {
 </head>
 
 <body>
->>>>>>> f944cc4f1c951457d03d76a952ee85589dd68177
-
 	<!-- Sidebar -->
 	<!--  w3-light-grey -->
 	<div class="w3-sidebar w3-bar-block"
