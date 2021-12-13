@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.min.edu.vo.NoticeFileVO;
-import com.min.edu.vo.NoticePageVO;
+import com.min.edu.vo.PageVO;
 import com.min.edu.vo.NoticeVO;
 
 @Service
@@ -47,11 +47,53 @@ public class NoticeServiceImpl implements INoticeService{
 	public int countNotice() {
 		return dao.countNotice();
 	}
-
+	
 	@Override
-	public List<NoticeVO> selectNotice(NoticePageVO vo) {
+	public int countNoticechk(String notice_chk) {
+		return dao.countNoticechk(notice_chk);
+	}
+	
+	@Override
+	public List<NoticeVO> selectNotice(PageVO vo) {
 		return dao.selectNotice(vo);
 	}
+
+	@Override
+	public int insertNotice(NoticeVO vo) {		
+		return dao.insertNotice(vo);
+	}
+
+	@Override
+	public NoticeVO detailNotice(int notice_no) {
+		return dao.detailNotice(notice_no);
+	}
+
+	@Override
+	public List<NoticeVO> selectNotchk(PageVO vo) {
+		return dao.selectNotchk(vo);
+	}
+
+	@Override
+	public int updateNotice(NoticeVO vo) {
+		return dao.updateNotice(vo);
+	}
+	
+	@Override
+	public int deleteNotice(int notice_no) {
+		return dao.deleteNotice(notice_no);
+	}
+
+	@Override
+	public List<NoticeVO> selectPaging(PageVO paging) {		
+		return dao.selectPaging(paging);
+	}
+
+	@Override
+	public int selectTotalPaging() { 
+		return dao.selectTotalPaging();
+	}
+
+	
 
 	
 
