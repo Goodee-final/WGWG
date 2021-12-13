@@ -1,12 +1,18 @@
 package com.min.edu.vo.emp;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class Emp {
 
+	@NotNull(message = "사원번호를 입력해주세요.")
 	private int emp_no;
+	
 	private String emp_nm;
+	
+	@NotNull(message = "비밀번호를 입력해주세요.")
 	private String pw;
 	private String email;
 	private String photo;

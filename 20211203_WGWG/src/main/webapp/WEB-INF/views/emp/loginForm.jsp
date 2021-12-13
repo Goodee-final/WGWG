@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,20 +43,23 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<div id="container">
 		<div id="title">로그인</div>
-		<form action="./login.do" method="post">
+		<form:form action="./login.do" method="post">
 			<div id="emp_no" class="form-group">
 				<label for="emp_no">사원번호</label>
-				<input type="text" class="form-control" name="emp_no" placeholder="사원번호를 입력해주세요" required>
+				<input type="text" class="form-control" id="emp_no" name="emp_no" placeholder="사원번호를 입력해주세요">
+				<form:errors path="emp_no"/>
 			</div>
 			<div id="pw" class="form-group">
 				<label for="pw">비밀번호</label>
-				<input type="password" class="form-control" name="pw" placeholder="비밀번호를 입력해주세요" required>
+				<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호를 입력해주세요">
+				<form:errors path="pw"/>
 			</div>
+			<div><p>${message}</p></div>
 			<div id="btns">
 				<input type="submit" id="login_btn" class="btn" value="로그인">
 				<input type="button" id="findpw_btn" class="btn" value="비밀번호를 잊으셨나요?" onclick="location.href='./find_pw_form.do'">
 			</div>
-		</form>
+		</form:form>
 	</div>
 </body>
 </html>

@@ -1,7 +1,5 @@
 package com.min.edu.model.emp;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +18,8 @@ public class EmpServiceImpl implements IEmpService {
 	}
 
 	@Override
-	public Emp getLogin(Map<String, Object> map) {
-		return dao.getLogin(map);
+	public Emp getLogin(Emp emp) {
+		return dao.getLogin(emp);
 	}
 
 }
