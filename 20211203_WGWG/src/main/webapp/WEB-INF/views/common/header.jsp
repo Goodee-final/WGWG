@@ -16,7 +16,10 @@
 					<div class="nav-icon" id="alert-img"></div>
 				</li>
 				<li>
-					<div class="nav-icon" id="logout-img"></div>
+					<div class="nav-icon" id="logout-img" onclick="location.href='./logout.do'"></div>
+				</li>
+				<li>
+					<div class="nav-icon"><a href="./loginForm.do">로그인</a></div>
 				</li>
 			</ul>
 		</div>

@@ -10,11 +10,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.min.edu.model.EmpDaoImpl;
-import com.min.edu.model.IEmpDao;
+import com.min.edu.model.emp.EmpDaoImpl;
+import com.min.edu.model.emp.IEmpDao;
 import com.min.edu.model.form.FormDaoImpl;
 import com.min.edu.model.form.IFormDao;
-import com.min.edu.vo.Emp;
+import com.min.edu.vo.emp.Emp;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -64,7 +64,7 @@ public class SpringJunit_Test {
 		emp.setAddress("서울시 암사동");
 		emp.setTel("010-1234-5678");
 		emp.setHiredate("2021-12-08");
-		emp.setWork_st(1);
+		emp.setWork_st("재직");
 		emp.setPosition_no(1);
 		emp.setDept_no(20);
 		
