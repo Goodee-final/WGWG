@@ -183,11 +183,17 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i><a href="#">업무일지</a>
 				<ul class="nav-flyout">
-					<li><a href="#" 
-						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</a></li>
-					<li><a href="./signdraw.do"
-						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</a></li>
-				</ul></li>
+					<li>
+						<a href="./worklogInsert.do" class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지 작성</a>
+					</li>
+					<li>
+						<a href="./worklogListMy.do" class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;개인별 업무일지 조회</a>
+					</li>
+					<li>
+						<a href="./worklogListDept.do" class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;부서별 업무일지 조회</a>
+					</li>
+				</ul>
+			</li>
 				
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i><a href="#">채팅</a>
 				<ul class="nav-flyout">
