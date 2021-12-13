@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.min.edu.model.form.IFormDao;
-import com.min.edu.vo.Form;
-import com.min.edu.vo.FormClassification;
+import com.min.edu.vo.form.Form;
+import com.min.edu.vo.form.FormClassification;
 
 
 @Controller
