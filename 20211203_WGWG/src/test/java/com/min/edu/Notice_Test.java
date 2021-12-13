@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.min.edu.model.INoticeDao;
 import com.min.edu.model.NoticeServiceImpl;
 import com.min.edu.vo.NoticeFileVO;
-import com.min.edu.vo.NoticePageVO;
+import com.min.edu.vo.PageVO;
 import com.min.edu.vo.NoticeVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
