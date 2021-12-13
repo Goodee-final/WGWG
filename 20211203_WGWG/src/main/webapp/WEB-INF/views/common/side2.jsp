@@ -205,5 +205,13 @@ i {
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식등록</a></li>
 				</ul>
 			</li>
+			<li class="w3-bar-item nav1"><i class="fas fa-users"></i><a href="#">사원관리</a>
+            <ul class="nav-flyout">
+               <li><a href="./insert_emp_form.do" 
+                  class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원등록</a></li>
+               <li><a href="./signdraw.do"
+                  class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원조회</a></li>
+            </ul>
+         </li>
 		</ul>
 	</div>
