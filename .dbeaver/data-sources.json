@@ -1,21 +1,20 @@
 {
 	"folders": {},
 	"connections": {
-		"oracle_thin-17d94f57a05-5c656318bb6e608": {
+		"oracle_thin-17da9fee4ae-35e53c6dae4aa232": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
 			"name": "XE",
 			"save-password": true,
 			"read-only": false,
 			"configuration": {
-				"host": "61.75.28.215:1521",
+				"host": "61.75.28.215",
 				"port": "1521",
 				"database": "XE",
-				"url": "jdbc:oracle:thin:@//61.75.28.215:1521:1521/XE",
+				"url": "jdbc:oracle:thin:@//61.75.28.215:1521/XE",
 				"home": "C:\\oraclexe\\app\\oracle\\product\\11.2.0\\server",
 				"type": "dev",
 				"provider-properties": {
-					"show-only-one-schema@": "false",
 					"@dbeaver-check-schema-content@": "false",
 					"@dbeaver-always-show-dba@": "false",
 					"@dbeaver-always-use-dba-views@": "false",

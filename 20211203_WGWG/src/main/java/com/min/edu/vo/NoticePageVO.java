@@ -1,166 +1,100 @@
 package com.min.edu.vo;
 
 public class NoticePageVO {
-	private int pageSize;
-	private int firstPageNo;
-	private int prevPageNo;
-	private int startPageNo;
-	private int pageNo;
-	private int endPageNo;
-	private int nextPageNo;
-	private int finalPageNo;
-	private int totalCount;
-	private int startList;
-	private int endList;
+	
+	// 현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start, end
+	private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
+	private int cntPage = 5;
 	
 	public NoticePageVO() {
 	}
-
-	public NoticePageVO(int pageSize, int pageNo, int totalCount) {
-		super();
-		this.pageSize = pageSize;
-		this.pageNo = pageNo;
-		this.totalCount = totalCount;
+	public NoticePageVO(int total, int nowPage, int cntPerPage) {
+		setNowPage(nowPage);
+		setCntPerPage(cntPerPage);
+		setTotal(total);
+		calcLastPage(getTotal(), getCntPerPage());
+		calcStartEndPage(getNowPage(), cntPage);
+		calcStartEnd(getNowPage(), getCntPerPage());
 	}
-
+	// 제일 마지막 페이지 계산
+	public void calcLastPage(int total, int cntPerPage) {
+		setLastPage((int) Math.ceil((double)total / (double)cntPerPage));
+	}
+	// 시작, 끝 페이지 계산
+	public void calcStartEndPage(int nowPage, int cntPage) {
+		setEndPage(((int)Math.ceil((double)nowPage / (double)cntPage)) * cntPage);
+		if (getLastPage() < getEndPage()) {
+			setEndPage(getLastPage());
+		}
+		setStartPage(getEndPage() - cntPage + 1);
+		if (getStartPage() < 1) {
+			setStartPage(1);
+		}
+	}
+	// DB 쿼리에서 사용할 start, end값 계산
+	public void calcStartEnd(int nowPage, int cntPerPage) {
+		setEnd(nowPage * cntPerPage);
+		setStart(getEnd() - cntPerPage + 1);
+	}
+	
+	public int getNowPage() {
+		return nowPage;
+	}
+	public void setNowPage(int nowPage) {
+		this.nowPage = nowPage;
+	}
+	public int getStartPage() {
+		return startPage;
+	}
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+	public int getEndPage() {
+		return endPage;
+	}
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
+	public int getCntPerPage() {
+		return cntPerPage;
+	}
+	public void setCntPerPage(int cntPerPage) {
+		this.cntPerPage = cntPerPage;
+	}
+	public int getLastPage() {
+		return lastPage;
+	}
+	public void setLastPage(int lastPage) {
+		this.lastPage = lastPage;
+	}
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
+	public int getEnd() {
+		return end;
+	}
+	public void setEnd(int end) {
+		this.end = end;
+	}	
+	public int setCntPage() {
+		return cntPage;
+	}
+	public void getCntPage(int cntPage) {
+		this.cntPage = cntPage;
+	}
 	@Override
 	public String toString() {
-		return "NoticePageVO [pageSize=" + pageSize + ", firstPageNo=" + firstPageNo + ", prevPageNo=" + prevPageNo
-				+ ", startPageNo=" + startPageNo + ", pageNo=" + pageNo + ", endPageNo=" + endPageNo + ", nextPageNo="
-				+ nextPageNo + ", finalPageNo=" + finalPageNo + ", totalCount=" + totalCount + ", startList="
-				+ startList + ", endList=" + endList + "]";
+		return "NoticePageVO [nowPage=" + nowPage + ", startPage=" + startPage + ", endPage=" + endPage + ", total=" + total
+				+ ", cntPerPage=" + cntPerPage + ", lastPage=" + lastPage + ", start=" + start + ", end=" + end
+				+ ", cntPage=" + cntPage + "]";
 	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public int getFirstPageNo() {
-		return firstPageNo;
-	}
-
-	public void setFirstPageNo(int firstPageNo) {
-		this.firstPageNo = firstPageNo;
-	}
-
-	public int getPrevPageNo() {
-		return prevPageNo;
-	}
-
-	public void setPrevPageNo(int prevPageNo) {
-		this.prevPageNo = prevPageNo;
-	}
-
-	public int getStartPageNo() {
-		return startPageNo;
-	}
-
-	public void setStartPageNo(int startPageNo) {
-		this.startPageNo = startPageNo;
-	}
-
-	public int getPageNo() {
-		return pageNo;
-	}
-
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
-	}
-
-	public int getEndPageNo() {
-		return endPageNo;
-	}
-
-	public void setEndPageNo(int endPageNo) {
-		this.endPageNo = endPageNo;
-	}
-
-	public int getNextPageNo() {
-		return nextPageNo;
-	}
-
-	public void setNextPageNo(int nextPageNo) {
-		this.nextPageNo = nextPageNo;
-	}
-
-	public int getFinalPageNo() {
-		return finalPageNo;
-	}
-
-	public void setFinalPageNo(int finalPageNo) {
-		this.finalPageNo = finalPageNo;
-	}
-
-	public int getTotalCount() {
-		return totalCount;
-	}
-
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
-		this.makgePage();
-	}
-	private void makgePage() {		
-		if(this.totalCount == 0) { return; }
-		if(this.pageNo==0) {this.setPageNo(1);}
-		if(this.pageSize==0) {this.setPageSize(10);}
-		
-		int finalPage = (totalCount+(pageSize-1))/pageSize; // 110+10 / 10   11페이지
-		if(this.pageNo > finalPage) {this.setPageNo(finalPage);}
-		if(this.endPageNo<0 || this.pageNo>finalPage) {this.setPageNo(1);}
-		
-		boolean isNowFirst = pageNo == 1?true:false;
-		boolean isNowFinal = pageNo == finalPage?true:false;
-		
-		int startPage = ((pageNo-1)/10)*10+1;
-		int endPage = startPage+9;
-		
-		int startListNo = pageNo*10-9; // 1
-		int endListNo = pageNo+10; //10
-		
-		if(endPage > finalPage) {
-			endPage = finalPage;
-		}
-		
-		this.setFinalPageNo(1);
-		if(isNowFirst) {
-			this.setPrevPageNo(1);
-		}else {
-			this.setPrevPageNo((pageNo-1)<1?1:(pageNo-1));
-		}
-		
-		this.setStartList(startListNo);
-		this.setEndList(endListNo);
-		this.setStartPageNo(startPage);
-		this.setEndPageNo(endPage);
-		
-		if(isNowFinal) {
-			this.setNextPageNo(finalPage);
-		}else {
-			this.setNextPageNo((pageNo+1)>finalPage?finalPage:(pageNo+1));
-		}
-		this.setFinalPageNo(finalPage);
-	}
-
-	public int getStartList() {
-		return startList;
-	}
-
-	public void setStartList(int startList) {
-		this.startList = startList;
-	}
-
-	public int getEndList() {
-		return endList;
-	}
-
-	public void setEndList(int endList) {
-		this.endList = endList;
-	}
-	
-	
-	
 }
