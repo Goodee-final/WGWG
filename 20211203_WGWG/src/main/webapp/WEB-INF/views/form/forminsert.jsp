@@ -84,16 +84,16 @@ $(function(){
 		<table class="editor">
 			<tr>
 				<td>
-				${fclist}
-					<select name="formclassification">
+				<%-- ${fclist} --%>
+					<%-- <select name="formclassification">
 					<c:forEach items="${fclist}" var="list">
 						<c:forEach items="${list}" var="map">
-							${map.form_class_no}
-							<%-- <option value="${map.form_class_no}">${map.form_class_nm}</option> --%>
+							${map.FORM_CLASS_NO}
+							<option value="${map.form_class_no}">${map.form_class_nm}</option>
 						</c:forEach>
 
 					</c:forEach>
-					</select>
+					</select> --%>
 				</td>
 			<tr>
 	        <tr>
