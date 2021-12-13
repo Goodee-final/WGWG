@@ -3,14 +3,14 @@
 <configuration>
 <!-- mapper(query) xml에서 공통으로 사용하는 type 객체를 Alias로 선언 -->
 <typeAliases>
-	<typeAlias type="com.min.edu.vo.FormClassification" alias="formcDto"/>
+	<typeAlias type="com.min.edu.vo.form.FormClassification" alias="formcDto"/>
   
-	<typeAlias type="com.min.edu.vo.ScheduleVO" alias="ScheduleVo"/>
-	<typeAlias type="com.min.edu.vo.SharedScheduleVO" alias="SharedVo"/>
-	<typeAlias type="com.min.edu.vo.NoticeVO" alias="NoticeVo"/>
-	<typeAlias type="com.min.edu.vo.NoticeFileVO" alias="NoticeFileVo"/>
+	<typeAlias type="com.min.edu.vo.schedule.ScheduleVO" alias="ScheduleVo"/>
+	<typeAlias type="com.min.edu.vo.schedule.SharedScheduleVO" alias="SharedVo"/>
+	<typeAlias type="com.min.edu.vo.notice.NoticeVO" alias="NoticeVo"/>
+	<typeAlias type="com.min.edu.vo.notice.NoticeFileVO" alias="NoticeFileVo"/>
   
-	<typeAlias type="com.min.edu.vo.Sign" alias="signDto"/>
+	<typeAlias type="com.min.edu.vo.sign.Sign" alias="signDto"/>
 
 	<typeAlias type="com.min.edu.vo.emp.Emp" alias="empvo"/>
 	

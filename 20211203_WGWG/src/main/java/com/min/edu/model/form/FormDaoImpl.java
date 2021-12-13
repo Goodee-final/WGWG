@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.min.edu.vo.Form;
-import com.min.edu.vo.FormClassification;
+import com.min.edu.vo.form.Form;
+import com.min.edu.vo.form.FormClassification;
 @Repository
 public class FormDaoImpl implements IFormDao {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	private final String NS = "com.min.edu.model.Form.FormDaoImpl.";
+	private final String NS = "com.min.edu.model.form.FormDaoImpl.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;

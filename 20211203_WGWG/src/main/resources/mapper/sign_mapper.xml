@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.min.edu.model.SignDaoImpl">
+<mapper namespace="com.min.edu.model.sign.SignDaoImpl">
 
 	<select id="selectSignList" resultType="signDto">
 		SELECT sign_no, emp_no, TO_CHAR(sign_reg_dt,'yyyy-mm-dd') sign_reg_dt, TO_CHAR(sign_exp_dt, 'yyyy-mm-dd') sign_exp_dt , sign_img, sign_img_size FROM SIGN s WHERE emp_no = #{emp_no} order by sign_no

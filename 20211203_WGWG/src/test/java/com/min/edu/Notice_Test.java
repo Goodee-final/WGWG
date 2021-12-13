@@ -12,11 +12,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.min.edu.model.INoticeDao;
-import com.min.edu.model.NoticeServiceImpl;
-import com.min.edu.vo.NoticeFileVO;
-import com.min.edu.vo.PageVO;
-import com.min.edu.vo.NoticeVO;
+import com.min.edu.model.notice.INoticeDao;
+import com.min.edu.model.notice.NoticeServiceImpl;
+import com.min.edu.vo.notice.NoticeFileVO;
+import com.min.edu.vo.notice.NoticeVO;
+import com.min.edu.vo.paging.PageVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
