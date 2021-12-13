@@ -13,6 +13,8 @@
 	<typeAlias type="com.min.edu.vo.sign.Sign" alias="signDto"/>
 
 	<typeAlias type="com.min.edu.vo.emp.Emp" alias="empvo"/>
+	<typeAlias type="com.min.edu.vo.emp.Department" alias="deptVo"/>
+	<typeAlias type="com.min.edu.vo.emp.Position" alias="pVo"/>
 	
 	<typeAlias type="com.min.edu.vo.approval.Approval_Doc" alias="DocVo"/>
 	

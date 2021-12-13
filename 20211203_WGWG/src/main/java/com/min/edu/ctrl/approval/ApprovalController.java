@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.min.edu.model.approval.IApprovalService;
 import com.min.edu.vo.approval.Approval_Doc;
+import com.min.edu.vo.emp.Department;
+import com.min.edu.vo.emp.Emp;
 
 @Controller
 public class ApprovalController {
@@ -52,15 +54,14 @@ public class ApprovalController {
 //	      return "/approval/docinsert";
 //	   }
 	   
-	   @RequestMapping(value="/appline.do", method = {RequestMethod.GET, RequestMethod.POST})
+	   @GetMapping(value="/appline.do")
 	   public String appline(Model model) {
-		  //session.setAttribute("userid", "USER25");
-		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
-		  //session을 삭제하는 방법 두가지
-		  //1. session 객체 자체를 삭제
-		  //2. session 객체 하나의 값은 삭제 remove("userid")
 		  
 	      logger.info("ApprovalController 결재라인 등록");
+	      List<Department> deptlists = approvalServiceImpl.selectAllDept();
+	      List<Emp> emplists = approvalServiceImpl.selectAllEmp();
+	      model.addAttribute("deptlists", deptlists);
+	      model.addAttribute("emplists", emplists);
 	      return "/approval/appline";
 	   }
 	   

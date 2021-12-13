@@ -9,16 +9,20 @@
 <title>결재라인지정</title>
 </head>
 <body>
+	<h3>구디 컴퍼니</h3>
 	<div id="jstree">
 		<!-- in this example the tree is populated from inline HTML -->
 		<ul>
-		<c:forEach var="" items="">
-			<li>Root node 1
+		<c:forEach var="deptline" items="${deptlists}">
+			<li>${deptline.dept_nm}
 				<ul>
-					<li id="child_node_1">Child node 1</li>
+				<c:forEach var="empline" items="${emplists}">
+					<c:if test="${deptline.dept_no eq empline.dept_no}">
+						<li>${empline.pVo.position_nm} ${empline.emp_nm}</li>
+					</c:if>
+				</c:forEach>
 				</ul>
 			</li>
-			<li>Root node 2</li>
 		</c:forEach>
 		</ul>
 	</div>

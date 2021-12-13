@@ -17,6 +17,8 @@ public class Emp {
 	private int position_no;
 	private int dept_no;
 	
+	private Position pVo;
+	
 	
 	public Emp() {}
 	
@@ -123,6 +125,14 @@ public class Emp {
 	}
 	public void setDept_no(int dept_no) {
 		this.dept_no = dept_no;
+	}
+
+	public Position getpVo() {
+		return pVo;
+	}
+
+	public void setpVo(Position pVo) {
+		this.pVo = pVo;
 	}
 	
 	
