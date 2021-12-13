@@ -36,12 +36,11 @@
 	<mapper resource="mapper/emp_mapper.xml"/>
 	<mapper resource="mapper/emp_seq_mapper.xml"/>
 	
-<<<<<<< HEAD
 	<mapper resource="mapper/approval_mapper.xml"/>
-=======
+
 	<mapper resource="mapper/app_doc_mapper.xml"/>
 	
 	<mapper resource="mapper/worklog_mapper.xml"/>
->>>>>>> bba45ed6f97d0e594e4837f5621ae9e907e327f6
+
 </mappers>
 </configuration>
