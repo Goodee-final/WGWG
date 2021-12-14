@@ -42,17 +42,12 @@ public class ApprovalController {
 	      return "/approval/doclist";
 	   }
 	   
-//	   @RequestMapping(value="/docinsert.do", method = {RequestMethod.GET, RequestMethod.POST})
-//	   public String docinsert(Model model) {
-//		  //session.setAttribute("userid", "USER25");
-//		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
-//		  //session을 삭제하는 방법 두가지
-//		  //1. session 객체 자체를 삭제
-//		  //2. session 객체 하나의 값은 삭제 remove("userid")
-//		  
-//	      logger.info("ApprovalController 기안하기 문서 작성");
-//	      return "/approval/docinsert";
-//	   }
+	   @GetMapping(value="/docinsert.do")
+	   public String docinsert(Model model) {
+		   
+	      logger.info("ApprovalController 기안하기 문서 작성");
+	      return "/approval/docinsert";
+	   }
 	   
 	   @GetMapping(value="/appline.do")
 	   public String appline(Model model) {
