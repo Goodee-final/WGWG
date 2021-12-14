@@ -43,17 +43,13 @@ $(function(){
       //저장버튼 클릭시 form 전송
       $("#save").click(function(){
           oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+          var formclassification = $("select[name=formclassification]").val();
           $("#frm").submit();
       });    
 });
 </script>
 </head>
 <style>
-	.container{
-		margin-top: 80px;
-		margin-left: 230px;
-		padding: 50px;
-	}
 	#backbtn {
 		width: 150px;
 		height: 35px;
@@ -81,17 +77,13 @@ $(function(){
 		<form id="frm" action="./insertform.do" method="post" >
 		<table class="editor">
 			<tr>
+				<td>문서분류</td>
 				<td>
-				<%-- ${fclist} --%>
-					<%-- <select name="formclassification">
-					<c:forEach items="${fclist}" var="list">
-						<c:forEach items="${list}" var="map">
-							${map.FORM_CLASS_NO}
-							<option value="${map.form_class_no}">${map.form_class_nm}</option>
+					<select name="formclassification">
+						<c:forEach items="${fclist}" var="list">
+							<option value="${list.form_class_no}">${list.form_class_nm}</option>
 						</c:forEach>
-
-					</c:forEach>
-					</select> --%>
+					</select>
 				</td>
 			<tr>
 	        <tr>
@@ -101,11 +93,11 @@ $(function(){
 	        <tr>
 	            <td>내용</td>
 	            <td>
-	                <textarea rows="10" cols="30" id="ir1" name="content" style="width:650px; height:350px; "></textarea>
+	                <textarea rows="20" cols="40" id="ir1" name="content" style="width:650px; height:350px; "></textarea>
 	            </td>
 	        </tr>
 		</table>
-		<input id="savebtn" type="submit" value="저장">
+		<input id="save" type="submit" value="저장">
 		<input type="button" id="backbtn" onclick="location.href='./formlist.do'" value="목록으로 돌아가기">
 		</form>
 	</div>

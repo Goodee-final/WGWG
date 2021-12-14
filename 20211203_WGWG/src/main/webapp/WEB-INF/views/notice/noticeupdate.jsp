@@ -30,9 +30,7 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
-<div style="margin-left: 230px; padding:50px; margin-top: 80px;">
+
 <h2 style="text-align: center;">글수정</h2>
 
 <div>
@@ -49,7 +47,6 @@ $(document).ready(function() {
 		</td>
 		
 	</form>
-</div>
 </div>
 </body>
 <script>

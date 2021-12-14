@@ -63,7 +63,8 @@ public class NoticeDaoImpl implements INoticeDao {
 		return sqlSession.selectOne(NS+"countNoticechk",notice_chk);
 	}
 	
-	 @Override public List<NoticeVO> selectNotice(PageVO vo) {
+	 @Override 
+	 public List<NoticeVO> selectNotice(PageVO vo) {
 		logger.info("공지사항 selectNotice {}"); return
 		sqlSession.selectList(NS+"selectNotice",vo); 
 	 }

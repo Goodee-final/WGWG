@@ -4,6 +4,7 @@
 <!-- mapper(query) xml에서 공통으로 사용하는 type 객체를 Alias로 선언 -->
 <typeAliases>
 	<typeAlias type="com.min.edu.vo.form.FormClassification" alias="formcDto"/>
+	<typeAlias type="com.min.edu.vo.form.Form" alias="formDto"/>
   
 	<typeAlias type="com.min.edu.vo.schedule.ScheduleVO" alias="ScheduleVo"/>
 	<typeAlias type="com.min.edu.vo.schedule.SharedScheduleVO" alias="SharedVo"/>
@@ -13,10 +14,14 @@
 	<typeAlias type="com.min.edu.vo.sign.Sign" alias="signDto"/>
 
 	<typeAlias type="com.min.edu.vo.emp.Emp" alias="empvo"/>
+	<typeAlias type="com.min.edu.vo.emp.Department" alias="deptVo"/>
+	<typeAlias type="com.min.edu.vo.emp.Position" alias="pVo"/>
 	
 	<typeAlias type="com.min.edu.vo.approval.Approval_Doc" alias="DocVo"/>
 	
 	<typeAlias type="com.min.edu.vo.worklog.WorkLog" alias="worklogVo"/>
+	
+	<typeAlias type="com/min/edu/vo/approval/Approver" alias="ApproverVo"/>
 </typeAliases>
 	
 <!-- 
