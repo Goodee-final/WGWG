@@ -3,6 +3,8 @@ package com.min.edu.model.approval;
 import java.util.List;
 
 import com.min.edu.vo.approval.Approval_Doc;
+import com.min.edu.vo.emp.Department;
+import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.approval.Approver;
 
 public interface IApprovalDocDao {
@@ -10,6 +12,8 @@ public interface IApprovalDocDao {
 	public List<Approval_Doc> selectAllDoc();
 	public String selectOneDoc(int empno);
 	public String selectEmpInfo(int empno);
+	public List<Emp> selectAllEmp();
+	public List<Department> selectAllDept();
 	public String selectAllEmp();
 	
 	//결재자
@@ -19,4 +23,5 @@ public interface IApprovalDocDao {
 	//결재대기함
 	public List<Approval_Doc> selectListWait(Approver approver);
 	
+
 }
