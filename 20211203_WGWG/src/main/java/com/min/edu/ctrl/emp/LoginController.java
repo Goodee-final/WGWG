@@ -1,14 +1,12 @@
 package com.min.edu.ctrl.emp;
 
+import java.io.IOException;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +22,9 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IEmpService service;
 	
+	@Autowired
+	private LoginValidator loginvalidator;
+	
 	@GetMapping(value="/loginForm.do")
 	public String loginForm() {
 		logger.info("MemberController 로그인 화면");
@@ -31,24 +32,22 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	
 	@RequestMapping(value="/login.do",method = RequestMethod.POST)
-	public String login(@Valid Emp emp,BindingResult bindingResult,Model model) {
+	public String login(Emp emp,Model model) throws IOException {
 		logger.info("LoginController @SessionAttribute 사용 {}",emp);
 		
-		if(bindingResult.hasErrors()) {
-			model.addAttribute("message","사원번호 또는 비밀번호가 올바르지 않습니다.");
-			return "/loginForm.do";
-		}else {
+//		if(bindingResult.hasErrors()) {
+//			model.addAttribute("message","정보가 일치하지 않습니다.");
+//			return "emp/loginForm";
+//		}
 			Emp loginEmp = service.getLogin(emp);
+			logger.info("로그인 값{}",loginEmp);
 			if(loginEmp == null) {
-				return "redirect:/loginForm.do";
-			}else {
-				logger.info("로그인 값{}",loginEmp);
-				model.addAttribute("loginEmp",loginEmp);
-				return "redirect:/";
+				model.addAttribute("message","정보가 일치하지 않습니다.");
+				return "emp/loginForm";
 			}
-		}
-		
-		
+			model.addAttribute("loginEmp",loginEmp);
+			return "redirect:/";
+			
 	}
 	
 	@GetMapping(value="/logout.do")
