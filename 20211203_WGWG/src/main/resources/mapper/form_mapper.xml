@@ -44,4 +44,12 @@
 		(FORM_NO, FORM_NM, FORM_REG_DT, TEMPLATE, FORM_CLASS_NO)
 			VALUES(FORM_SEQ.NEXTVAL, #{form_nm}, sysdate, #{template}, #{form_class_no})
 </insert>
+
+<select id="searchForm" parameterType="java.lang.String" resultMap="FormJoinVo">
+	SELECT F.FORM_NO, F.FORM_NM, F.FORM_REG_DT, FC.FORM_CLASS_NM 
+		FROM FORM f JOIN FORM_CLASSIFICATION fc 
+		ON F.FORM_CLASS_NO = FC.FORM_CLASS_NO
+		WHERE LOWER(F.FORM_NM) LIKE LOWER('%'||#{formtitle}||'%')
+		ORDER BY FORM_NO DESC
+</select>
 </mapper>

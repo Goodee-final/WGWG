@@ -93,7 +93,7 @@ $(function(){
 	        <tr>
 	            <td>내용</td>
 	            <td>
-	                <textarea rows="10" cols="30" id="ir1" name="content" style="width:650px; height:350px; "></textarea>
+	                <textarea rows="20" cols="40" id="ir1" name="content" style="width:650px; height:350px; "></textarea>
 	            </td>
 	        </tr>
 		</table>

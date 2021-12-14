@@ -64,4 +64,12 @@ public class FormController {
 //		}
 		return "redirect:/formlist.do";
 	}
+	
+	@RequestMapping(value="/formsearch.do", method=RequestMethod.POST)
+	public String formSearch(String formtitle, Model model) {
+		System.out.println(formtitle);
+		List<Form> formList = service.searchFormList(formtitle);
+		model.addAttribute("formList",formList);
+		return "./form/formlist";
+	}
 }
