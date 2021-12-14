@@ -38,4 +38,10 @@
 		ON F.FORM_CLASS_NO = FC.FORM_CLASS_NO
 		WHERE FORM_NO = ${form_no}
 </select>
+
+<insert id="insertForm" parameterType="formDto">
+	INSERT INTO FORM
+		(FORM_NO, FORM_NM, FORM_REG_DT, TEMPLATE, FORM_CLASS_NO)
+			VALUES(FORM_SEQ.NEXTVAL, #{form_nm}, sysdate, #{template}, #{form_class_no})
+</insert>
 </mapper>

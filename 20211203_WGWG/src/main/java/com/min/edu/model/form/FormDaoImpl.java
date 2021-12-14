@@ -37,4 +37,10 @@ public class FormDaoImpl implements IFormDao {
 		return sqlSession.selectOne(NS+"selectFormDetail", form_no);
 	}
 
+	@Override
+	public int insertForm(Form form) {
+		logger.info("양식 등록 {}", form);
+		return sqlSession.insert(NS+"insertForm", form);
+	}
+
 }
