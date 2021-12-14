@@ -14,7 +14,6 @@ public interface IApprovalDocDao {
 	public String selectEmpInfo(int empno);
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();
-	public String selectAllEmp();
 	
 	//결재자
 	public List<Approval_Doc> selectAllDocApp(int empno);

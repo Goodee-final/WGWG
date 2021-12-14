@@ -21,7 +21,7 @@
 	
 	<typeAlias type="com.min.edu.vo.worklog.WorkLog" alias="worklogVo"/>
 	
-	<typeAlias type="com/min/edu/vo/approval/Approver" alias="ApproverVo"/>
+	<typeAlias type="com.min.edu.vo.approval.Approver" alias="ApproverVo"/>
 </typeAliases>
 	
 <!-- 
