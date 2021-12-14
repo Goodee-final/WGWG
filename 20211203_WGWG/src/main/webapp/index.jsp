@@ -27,17 +27,37 @@
 		if (loc != "") {
 			$("#content").load(loc);
 
+		}else{
+			
 		}
 
 		$('.nav-flyout li').on('click', function(e) {
 
 			console.log($(this).attr('value'));
-
+		
 			$("#content").load($(this).attr('value'));
 
 		});
+		
+		
 	});
 </script>
+<script language='javascript'>
+
+function noEvent() {
+    if (event.keyCode == 116) {
+        event.keyCode= 2;
+        return false;
+    }
+    else if(event.ctrlKey && (event.keyCode==78 || event.keyCode == 82))
+    {
+        return false;
+    }
+}
+document.onkeydown = noEvent;
+
+</script>
+
 
 <style>
 
@@ -231,7 +251,7 @@ i {
 
 </head>
 
-<body>
+<body oncontextmenu="return false">
 	<div class="header">
 		<div class="left">
 			<ul class="nav">
@@ -320,10 +340,8 @@ i {
 				</ul></li>
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>양식함
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./formlist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식목록</li>
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./forminsert.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식등록</li>
+					<li class="w3-bar-item w3-button w3-hover-blue" value="./formlist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식목록</li>
+					<li class="w3-bar-item w3-button w3-hover-blue" value="./forminsert.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식등록</li>
 				</ul></li>
 		</ul>
 	</div>
