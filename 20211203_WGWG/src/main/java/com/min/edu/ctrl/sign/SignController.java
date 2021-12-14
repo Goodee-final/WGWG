@@ -96,4 +96,11 @@ public class SignController {
 		
 		return "approval/compldoclist";
 	}
+	
+	@RequestMapping(value = "/main.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String index(Model model, String loc) {
+		System.out.println(loc);
+		model.addAttribute("loc",loc);
+		return "common/home";
+	}
 }

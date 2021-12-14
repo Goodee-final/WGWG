@@ -17,6 +17,8 @@
 	<typeAlias type="com.min.edu.vo.approval.Approval_Doc" alias="DocVo"/>
 	
 	<typeAlias type="com.min.edu.vo.worklog.WorkLog" alias="worklogVo"/>
+	
+	<typeAlias type="com/min/edu/vo/approval/Approver" alias="ApproverVo"/>
 </typeAliases>
 	
 <!-- 
