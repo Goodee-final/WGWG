@@ -10,7 +10,10 @@
 	crossorigin="anonymous"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 
 <script type="text/javascript">
 	
@@ -124,33 +127,36 @@ ul {
 	background-position: center;
 	background-size: cover;
 }
+
+
 /*side  */
-#container {
-	display: flex;
-	flex-direction: row;
-}
 
 .sidebar {
 	background-color: #19222a;
 }
 
+
 .nav-flyout {
 	display: none;
 }
+
 
 .nav1:hover>.nav-flyout {
 	display: block;
 }
 
+
 .nav1 {
 	padding: 5px;
 }
+
 
 ul {
 	list-style: none;
 	margin-left: 0;
 	padding-left: 0;
 }
+
 
 .w3-sidebar>ul>li {
 	list-style: none;
@@ -254,8 +260,7 @@ i {
 
 	<!-- Sidebar -->
 	<!--  w3-light-grey -->
-	<div class="w3-sidebar w3-bar-block"
-		style="width: 230px; margin-top: 50px; background-color: white; border-right: 2px solid #073865;">
+	<div class="w3-sidebar w3-bar-block" style="width: 230px; margin-top: 50px; background-color: white; border-right: 2px solid #073865;">
 		<ul>
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
 				<ul class="nav-flyout">
@@ -298,7 +303,8 @@ i {
 					<li class="w3-bar-item w3-button w3-hover-blue"
 						value="./loadForm.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</li>
 					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</li>
-				</ul></li>
+				</ul>
+			</li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약관리
 				<ul class="nav-flyout">
@@ -326,8 +332,7 @@ i {
 				</ul></li>
 		</ul>
 	</div>
-	<div id="content"
-		style="margin-left: 230px; margin-top: 50px; padding: 50px;">
-		인덱스화면
-		</div>
+	<div id="content" style="margin-left: 230px; margin-top: 50px; padding: 50px;">
+		인덱스 화면
+	</div>
 </body>
