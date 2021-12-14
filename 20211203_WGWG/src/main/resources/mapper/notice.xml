@@ -6,9 +6,8 @@
 		<result column="NOTICE_TITLE" property="notice_title"/>
 		<result column="NOTICE_CONTENT" property="notice_content"/>
 		<result column="NOTICE_REG_DT" property="notice_reg_dt"/>
-		<result column="NOTICE_CHK" property="notice_chk"/>
 		<result column="EMP_NO" property="emp_no"/>
-		<collection property="fileVo" resultMap="FileDtoMap"/>
+		<collection property="noticefile" resultMap="FileDtoMap"/>
 	</resultMap>
 	
 	<resultMap type="NoticeFileVO" id="FileDtoMap">
@@ -37,14 +36,14 @@
 	
 	<!-- 파일입력 -->
 	<insert id="insertFile" parameterType="NoticeFileVo">
-		INSERT INTO NOTICEFILE
+		INSERT INTO NOTICE_FILE
 			(NOTICE_FILE_NO, NOTICE_FILE_NM, NOTICE_FILE_SAVE_NM, 
 			NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT, NOTICE_NO)
 			VALUES(NOTICE_FILE_NO_SEQ.NEXTVAL, #{notice_file_nm}, #{notice_file_save_nm},
-						 #{notice_file_size}, SYSDATE,NOTICE_SEQ.CURRVAL)		
+						 #{notice_file_size}, SYSDATE,NOTICE_NO_SEQ.CURRVAL)		
 	</insert>
 	<!--  글 + 파일이름 -->
-	<select id="getBoard" parameterType="Integer" resultMap="FileDtoMap">
+	<select id="getBoard" parameterType="Integer" resultMap="BoardDtoMap">
 		SELECT N.NOTICE_NO,N.EMP_NO, N.NOTICE_TITLE,N.NOTICE_CONTENT,TO_CHAR(N.NOTICE_REG_DT,'YYYY-MM-DD') NOTICE_REG_DT,F.NOTICE_FILE_NM
 			FROM NOTICE N JOIN NOTICE_FILE F
 			ON N.NOTICE_NO = F.NOTICE_NO
@@ -56,7 +55,7 @@
 		SELECT NOTICE_FILE_NO, NOTICE_FILE_NM, NOTICE_FILE_SAVE_NM, 
 						NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT, NOTICE_NO
 			FROM NOTICE_FILE
-			WHERE NOTICE_FILE_NO = #{notice_file_no}
+			WHERE NOTICE_NO = #{notice_no}
 	</select>
 	
 	<!--  여기부터  -->
@@ -85,9 +84,9 @@
 	<!-- 글입력 -->
 	<insert id="insertNotice" parameterType="NoticeVo">		
 	INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
-							 NOTICE_REG_DT, NOTICE_CHK, EMP_NO)
+							 NOTICE_REG_DT, NOTICE_CHK, EMP_NO,FILE_NAME)
 				VALUES (NOTICE_NO_SEQ.NEXTVAL, #{notice_title}, #{notice_content},SYSDATE,
-				#{notice_chk},#{emp_no})
+				#{notice_chk},#{emp_no},#{file_name})
 	</insert>
 	<!-- 상세보기 -->
 	<select id="detailNotice" parameterType="Integer" resultType="NoticeVo" >

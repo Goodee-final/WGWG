@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,34 +28,36 @@ $(document).ready(function() {
 	  });
 });
 </script>
+<style type="text/css">
+	button{
+		float: rigth;
+	}
+</style>
+
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
-<div style="margin-left: 230px; padding:50px; margin-top: 80px;">
 <h2 style="text-align: center;">글 작성</h2>
 
 <div>
-	<form action="./noticeInsert.do" method="post">
-		<input type="text" name="emp_no" style="width: 20%;" placeholder="작성자"/><br>
-		<input type="text" name="notice_title" style="width: 40%;" placeholder="제목"/>
-		<input type="text" name="notice_chk" style="width: 20%;" placeholder="부서"/>
-		<br><br> 
+	<form:form action="./noticeInsert.do" method="post" enctype="multipart/form-data">
+		<input type="text" name="emp_no" placeholder="작성자"/><br><br>
+		<input type="text" name="notice_title"  placeholder="제목"/> <span id="title" style="color:red; font-weight: bold;"></span><br><br>
+		<input type="text" name="notice_chk" placeholder="부서"/><br><br>
+		<input type="file" name="file"><form:errors path="file"/><br><br>
 		<textarea id="summernote" name="notice_content"></textarea>
 		<td>
-			<input id="subBtn" type="button" value="글 작성" style="float: right;" onclick="goWrite(this.form)"/>		
-			<input type="button" value="목록으로" style="float: right;" onclick="location.href='./noticeList.do';"/> 
+			<input type="button" class="btn btn-primary" value="글작성"  onclick="goWrite(this.form)"/>		
+			<input type="button" class="btn btn-primary" value="목록으로" onclick="location.href='./noticeList.do';"/> 
 		</td>
 		
-	</form>
-</div>
+	</form:form>
 </div>
 </body>
 <script>
 function goWrite(frm) {
 	var notice_title = frm.notice_title.value;	
 	if (notice_title.trim() == ''){
-		alert("제목을 입력해주세요");
+		$("#title").text("제목을 입력해주세요"); 
 		return false;
 	}
 	frm.submit();

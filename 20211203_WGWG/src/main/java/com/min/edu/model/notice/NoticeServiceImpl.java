@@ -22,14 +22,17 @@ public class NoticeServiceImpl implements INoticeService{
 	public List<NoticeVO> getAllList() {		
 		return dao.getAllList();
 	}
-
+	
+	@Override
+	public int insertFile(NoticeFileVO vo) {		
+		return dao.insertFile(vo);
+	}
+	
 	@Override
 	public int insertBoardF(NoticeVO nvo,NoticeFileVO fvo) {		
 		int count = 0;
-		count += dao.insertBoard(nvo);
-		if(fvo !=null) {
-			count+=  dao.insertFile(fvo);
-		}
+		count += dao.insertBoard(nvo);		
+		count+=  dao.insertFile(fvo);		
 		return count;
 	}
 
@@ -92,6 +95,8 @@ public class NoticeServiceImpl implements INoticeService{
 	public int selectTotalPaging() { 
 		return dao.selectTotalPaging();
 	}
+
+	
 
 	
 
