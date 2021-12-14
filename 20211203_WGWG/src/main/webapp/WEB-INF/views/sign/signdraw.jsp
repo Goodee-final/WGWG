@@ -6,6 +6,7 @@
 <meta charset="utf-8">
 <title>Signature Pad demo</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 <script
 	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
