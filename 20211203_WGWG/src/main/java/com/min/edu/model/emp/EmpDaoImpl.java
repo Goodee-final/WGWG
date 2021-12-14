@@ -1,7 +1,5 @@
 package com.min.edu.model.emp;
 
-import java.util.Map;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +25,9 @@ public class EmpDaoImpl implements IEmpDao {
 	}
 
 	@Override
-	public Emp getLogin(Map<String, Object> map) {
-		logger.info("LoginDaoImpl 로그인 : " + map);
-		return sqlSession.selectOne(NS+"getLogin", map);
+	public Emp getLogin(Emp emp) {
+		logger.info("LoginDaoImpl 로그인 : " + emp);
+		return sqlSession.selectOne(NS+"getLogin", emp);
 	}
 
 	
