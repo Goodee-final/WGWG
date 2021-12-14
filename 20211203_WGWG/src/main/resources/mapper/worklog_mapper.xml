@@ -11,29 +11,22 @@
 		<result property="worklog_delflag" column="WORKLOG_DELFLAG"/>
 		<result property="emp_no" column="EMP_NO"/>
 		<collection property="emp" resultMap="EmpVo"/>
-		<collection property="dept" resultMap="DepartmentVo"/>
+		<collection property="department" resultMap="DepartmentVo"/>
 	</resultMap>
 	
 	<resultMap type="com.min.edu.vo.emp.Emp" id="EmpVo">
-		<result property="" column="EMP_NO"/>
-		<result property="" column="EMP_NM"/>
-		<result property="" column="DEPT_NO"/>
-		<!-- <result property="" column="PW"/>
-		<result property="" column="EMAIL"/>
-		<result property="" column="PHOTO"/>
-		<result property="" column="ADDRESS"/>
-		<result property="" column=""/>
-		<result property="" column=""/>
-		<result property="" column=""/> -->
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="emp_nm" column="EMP_NM"/>
+		<result property="dept_no" column="DEPT_NO"/>
 	</resultMap>
 	
 	<resultMap type="com.min.edu.vo.emp.Department" id="DepartmentVo">
-		<result property="" column="DEPT_NO"/>
-		<result property="" column="DEPT_NM"/>
+		<result property="dept_no" column="DEPT_NO"/>
+		<result property="dept_nm" column="DEPT_NM"/>
 	</resultMap>
 
 	<!-- 부서별 조회 -->
-	<select id="selectAllWorkLog" parameterType="java.lang.String" resultType="WorkLogJoinVo">
+	<select id="selectAllWorkLog" parameterType="java.lang.String" resultMap="WorkLogJoinVo">
 		SELECT w.*, e.EMP_NM, d.DEPT_NM
 			FROM WORKLOG w
 			LEFT JOIN EMP e ON w.EMP_NO = e.EMP_NO
@@ -44,7 +37,7 @@
 	<!-- 세션에서 로그인한 정보 받아와서 DEPT_NO 비교히는 거 추가해야 함 -->
 	
 	<!-- 개인별 조회 -->
-	<select id="selectOneWorklog" parameterType="java.lang.Integer" resultType="WorkLogJoinVo">
+	<select id="selectOneWorklog" parameterType="java.lang.Integer" resultMap="WorkLogJoinVo">
 		SELECT w.*, e.EMP_NM, d.DEPT_NM 
 			FROM WORKLOG w 
 			LEFT JOIN EMP e 
@@ -56,7 +49,7 @@
 	</select>
 	
 	<!-- 작성자이름 or 제목에 해당하는 글자로 검색 -->
-	<select id="searchWorkLog" parameterType="java.lang.String" resultType="WorkLogJoinVo">
+	<select id="searchWorkLog" parameterType="java.lang.String" resultMap="WorkLogJoinVo">
 		SELECT w.*, e.EMP_NM, d.DEPT_NM 
 			FROM WORKLOG w 
 			LEFT JOIN EMP e 
