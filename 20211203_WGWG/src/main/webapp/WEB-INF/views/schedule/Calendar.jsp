@@ -14,9 +14,6 @@
 </head>
 
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
-<div style="margin-left: 230px; padding:50px;">
 <div class="col-xs-2" style="margin-top: 63px;">
 	<div>
         <!-- <div class="lnb-new-schedule">
@@ -57,7 +54,6 @@
 		    <span id="renderRange" class="render-range"></span>
 		</div>
 		<div id="calendar" style="height: 600px;"></div>
-	</div>
 	</div>
 </body>
 

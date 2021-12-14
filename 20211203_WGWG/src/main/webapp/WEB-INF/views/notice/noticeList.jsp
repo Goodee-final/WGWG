@@ -14,14 +14,38 @@
 <!-- 사용자 Css -->
 <script type="text/javascript" src="./js/paging.js"></script>
 <!-- 사용자 js -->
+<style type="text/css">
+	.test{
+		margin: 0 auto;
+		width: 50%;
+	}
+</style>
 </head>
-<body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
-<div style="margin-left: 230px; padding:50px; margin-top: 80px;">
-	<hr>
-	<div class="container">
-		<!-- 몇개씩 보여줄 것인지  -->
+<body>	
+		<div class="test">
+		<!-- paging 처리 관련 값 -->
+			<input type="hidden" name="index" id="index" value="${paging.index}">
+			<input type="hidden" name="pageStartNum" id="pageStartNum"	value="${paging.pageStartNum}"> 
+			<input type="hidden" name="listCnt" id="listCnt" value="${paging.listCnt}">
+
+			<div class="center">
+				<ul class="pagination">
+
+					<li><a href="#" onclick="pageFirst()">&laquo;</a></li>
+					<li><a href="#" onclick="pagePre(${paging.pageStartNum},${paging.pageCnt})">&lsaquo;</a></li>
+
+					<!-- 페이지 번호 -->
+					<c:forEach var="i" begin="${paging.pageStartNum}" end="${paging.pageLastNum}" step="1">
+						<li><a onclick="pageIndex(${i})">${i}</a></li>
+					</c:forEach>
+
+					<li><a href="#" onclick="pageNext(${paging.pageStartNum},${paging.total},${paging.listCnt},${paging.pageCnt})">&rsaquo;</a></li>
+					<li><a href="#" onclick="pageLast(${paging.pageStartNum},${paging.total},${paging.listCnt},${paging.pageCnt})">&raquo;</a></li>
+
+				</ul>
+			</div>
+		</div>
+			<!-- 몇개씩 보여줄 것인지  -->
 		<div id="select">
 			<span>
 				<select class="btn btn-primary" id="listCount" name="listCount"
@@ -32,6 +56,7 @@
 					<option value="15">15</option>
 				</select>
 			</span>
+			<input type="button" class="btn btn-primary" value="글쓰기" style="float: right;" onclick="location.href='./noticeInsertForm.do'">
 		</div>
 		
 		<form action="./noticeList.do" method="post" id="frmPaging">
@@ -56,30 +81,8 @@
 				</tbody>
 			</table>
 
-			<!-- paging 처리 관련 값 -->
-			<input type="hidden" name="index" id="index" value="${paging.index}">
-			<input type="hidden" name="pageStartNum" id="pageStartNum"
-				value="${paging.pageStartNum}"> <input type="hidden"
-				name="listCnt" id="listCnt" value="${paging.listCnt}">
-
-			<div class="center">
-				<ul class="pagination">
-
-					<li><a href="#" onclick="pageFirst()">&laquo;</a></li>
-					<li><a href="#" onclick="pagePre(${paging.pageStartNum},${paging.pageCnt})">&lsaquo;</a></li>
-
-					<!-- 페이지 번호 -->
-					<c:forEach var="i" begin="${paging.pageStartNum}" end="${paging.pageLastNum}" step="1">
-						<li><a onclick="pageIndex(${i})">${i}</a></li>
-					</c:forEach>
-
-					<li><a href="#" onclick="pageNext(${paging.pageStartNum},${paging.total},${paging.listCnt},${paging.pageCnt})">&rsaquo;</a></li>
-					<li><a href="#" onclick="pageLast(${paging.pageStartNum},${paging.total},${paging.listCnt},${paging.pageCnt})">&raquo;</a></li>
-
-				</ul>
-			</div>
+			
 		</form>
-	</div>
-	</div>
+
 </body>
 </html>
