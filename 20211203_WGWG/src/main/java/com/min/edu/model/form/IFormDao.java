@@ -10,4 +10,6 @@ public interface IFormDao {
 	public List<FormClassification> selectFormcList();
 	public List<Form> selectFormList();
 	public Form selectFormDetail(int form_no);
+	public int insertForm(Form form);
+	public List<Form> searchFormList(String formtitle);
 }
