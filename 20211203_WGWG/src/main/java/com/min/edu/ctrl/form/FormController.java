@@ -59,8 +59,6 @@ public class FormController {
 		int cnt = service.insertForm(form);
 //		if(cnt > 0) {
 //			return "/formlist.do";
-//		}else {
-//			return "/formlist.do";
 //		}
 		return "redirect:/formlist.do";
 	}
