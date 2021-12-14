@@ -5,8 +5,8 @@
 	<resultMap type="com.min.edu.vo.emp.Emp" id="AllEmpVo">
 		<result property="emp_no" column="EMP_NO"/>
 		<result property="emp_nm" column="EMP_NM"/>
-		<result property="pvo.position_nm" column="POSITION_NM"/>
-		<result property="dvo.dept_nm" column="DEPT_NM"/>
+		<result property="dept_no" column="DEPT_NO"/>
+		<result property="pVo.position_nm" column="POSITION_NM"/>
 	</resultMap>
 	
 	<resultMap type="com.min.edu.vo.approval.Approval_Doc" id="DocDetailVo">
@@ -26,24 +26,76 @@
 		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO
 			FROM "C##WG".APPROVAL_DOCUMENT
 	</select>
-	
+
 	<select id="selectOneDoc" parameterType="java.lang.Integer" resultType="java.lang.String">
-		SELECT a.APP_DOC_NO, a.APP_DOC_ST, TO_CHAR(a.APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, a.APP_DOC_TITLE, a.EMP_NO, f.FORM_NM, a.REF_EMP_NO, a.APP_DOC_CONTENT, al.APPROVAL
+		SELECT a.APP_DOC_NO, a.APP_DOC_ST, TO_CHAR(a.APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, 
+				a.APP_DOC_TITLE, a.EMP_NO, f.FORM_NM, a.REF_EMP_NO, a.APP_DOC_CONTENT, al.APPROVAL
 			FROM APPROVAL_DOCUMENT a INNER JOIN FORM f ON a.FORM_NO = f.FORM_NO
 									 LEFT OUTER JOIN APPROVAL_LINE al ON a.APP_LINE_NO = al.APP_LINE_NO
 	</select>
 	
-	<select id="selectEmpInfo" parameterType="java.lang.Integer" resultType="java.lang.String">
+	<select id="selectEmpInfo" parameterType="java.lang.Integer" resultMap="AllEmpVo">
 		SELECT e.EMP_NO, e.EMP_NM, p.POSITION_NM, d.DEPT_NM
 			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
 							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = 7
 	</select>
 	
-	<select id="selectAllEmp" resultType="java.lang.String">
-		SELECT e.EMP_NO, e.EMP_NM, p.POSITION_NM, d.DEPT_NM
-			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
-							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO ORDER BY d.DEPT_NM, p.POSITION_NO DESC
+	<select id="selectAllEmp" resultMap="AllEmpVo">
+		SELECT e.EMP_NO, e.EMP_NM, e.DEPT_NO, p.POSITION_NM
+			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO ORDER BY p.POSITION_NO DESC
+	</select>
+	
+	<select id="selectAllDept" resultType="deptVo">
+		SELECT DEPT_NM, DEPT_NO
+			FROM "C##WG".DEPARTMENT d ORDER BY DEPT_NO ASC
 	</select>
 	
 	
+	<!--결재자 문서 selectALL    -->
+	<select id="selectAllDocApproval" resultType="DocVo">
+	SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO 
+		FROM APPROVAL_DOCUMENT ad 
+			WHERE APP_LINE_NO IN (
+				SELECT APP_LINE_NO 
+		  			FROM APPROVAL_LINE al, 
+			    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+			               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.empno',
+			                        APPROVAL_ST  VARCHAR(20) PATH '$.check',
+			                        REASON  VARCHAR(200) PATH '$.reason',
+			                        APPROVAL_DT VARCHAR(200) PATH '$.regdate',
+			                        waiting INTEGER PATH '$.waiting')) AS U
+			                        WHERE U.EMP_NO = #{emp_no})  
+	</select>
+	
+	<!-- 결재자 문서 상태에 따른 검색 -->
+	<select id="selectListDocStApp" parameterType="DocVo" resultType="DocVo">
+	SELECT * FROM APPROVAL_DOCUMENT ad 
+		WHERE APP_LINE_NO IN (
+			SELECT APP_LINE_NO 
+	  			FROM APPROVAL_LINE al, 
+		    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+		               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.empno',
+		                        APPROVAL_ST  VARCHAR(20) PATH '$.check',
+		                        REASON  VARCHAR(200) PATH '$.reason',
+		                        APPROVAL_DT VARCHAR(200) PATH '$.regdate',
+		                        waiting INTEGER PATH '$.waiting')) AS U
+		                        WHERE U.EMP_NO = #{emp_no}) 
+		       and APP_DOC_ST = #{app_doc_st}
+	</select>
+	
+	<!-- 결재 대기함 -->
+	<select id="selectListWait" parameterType="ApproverVo" resultType="DocVo">
+	SELECT * 
+	FROM APPROVAL_DOCUMENT ad 
+		WHERE APP_LINE_NO IN (
+			SELECT APP_LINE_NO 
+	  			FROM APPROVAL_LINE al, 
+		    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+		               COLUMNS (empno VARCHAR2(100) PATH '$.empno',
+		                        approval_st  VARCHAR(20) PATH '$.check',
+		                        reason  VARCHAR(200) PATH '$.reason',
+		                        regdate VARCHAR(200) PATH '$.regdate',
+		                        waiting INTEGER PATH '$.waiting')) AS U
+		                        WHERE U.empno = #{emp_no} AND U.waiting = #{waiting});
+	</select>
 </mapper>

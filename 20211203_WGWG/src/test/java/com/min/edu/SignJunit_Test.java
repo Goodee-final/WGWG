@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.min.edu.model.approval.IApprovalDocDao;
 import com.min.edu.model.sign.ISignDao;
 
 
@@ -29,13 +30,16 @@ public class SignJunit_Test {
 	@Autowired
 	private ISignDao dao;
 	
+	@Autowired
+	private IApprovalDocDao dao2;
 	
 	
 	@Test
 	public void test() {
 		
 		assertNotNull(dao.selectSignList(1));
-
+		//assertNotNull(dao2.selectAllDocApp(1));
+		
 	}
 
 }
