@@ -26,6 +26,19 @@ public class WorkLog {
 		super();
 	}
 
+	public WorkLog(int worklog_no, String worklog_modify_dt, String worklog_content) {
+		super();
+		this.worklog_no = worklog_no;
+		this.worklog_modify_dt = worklog_modify_dt;
+		this.worklog_content = worklog_content;
+	}
+
+	public WorkLog(int worklog_no, String worklog_delflag) {
+		super();
+		this.worklog_no = worklog_no;
+		this.worklog_delflag = worklog_delflag;
+	}
+
 	public WorkLog(int worklog_no, String worklog_reg_dt, String worklog_modify_dt, String worklog_content,
 			String worklog_delflag, int emp_no, Emp emp, Department department) {
 		super();

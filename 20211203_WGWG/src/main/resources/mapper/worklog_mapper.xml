@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.min.edu.model.worklog.WorkLogDaoImpl">
 
-
-	<resultMap type="com.min.edu.vo.worklog.WorkLog" id="WorkLogJoinVo">
+	<resultMap type="com.min.edu.vo.worklog.WorkLog" id="worklogVo">
 		<result property="worklog_no" column="WORKLOG_NO"/>
 		<result property="worklog_reg_dt" column="WORKLOG_REG_DT"/>
 		<result property="worklog_modify_dt" column="WORKLOG_MODIFY_DT"/>
@@ -26,18 +25,18 @@
 	</resultMap>
 
 	<!-- 부서별 조회 -->
-	<select id="selectAllWorkLog" parameterType="java.lang.String" resultMap="WorkLogJoinVo">
+	<select id="selectAllDeptWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM, d.DEPT_NM
 			FROM WORKLOG w
 			LEFT JOIN EMP e ON w.EMP_NO = e.EMP_NO
 			LEFT JOIN DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
-			WHERE d.DEPT_NM = #{dept_nm}
+			WHERE d.DEPT_NO = #{dept_no}
 			ORDER BY w.WORKLOG_NO DESC
 	</select>
 	<!-- 세션에서 로그인한 정보 받아와서 DEPT_NO 비교히는 거 추가해야 함 -->
 	
 	<!-- 개인별 조회 -->
-	<select id="selectOneWorklog" parameterType="java.lang.Integer" resultMap="WorkLogJoinVo">
+	<select id="selectAllMyWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM, d.DEPT_NM 
 			FROM WORKLOG w 
 			LEFT JOIN EMP e 
@@ -48,8 +47,14 @@
 			ORDER BY w.WORKLOG_NO DESC
 	</select>
 	
+	<!-- 상세보기 -->
+	<select id="selectDetailWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
+		SELECT * FROM WORKLOG w 
+			WHERE WORKLOG_NO = #{worklog_no}
+	</select>
+	
 	<!-- 작성자이름 or 제목에 해당하는 글자로 검색 -->
-	<select id="searchWorkLog" parameterType="java.lang.String" resultMap="WorkLogJoinVo">
+	<select id="searchWorkLog" parameterType="java.util.Map" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM, d.DEPT_NM 
 			FROM WORKLOG w 
 			LEFT JOIN EMP e 
@@ -61,7 +66,7 @@
 	</select>
 	
 	<!-- 업무일지 작성 -->
-	<insert id="insertWorkLog" parameterType="java.lang.String">
+	<insert id="insertWorkLog" parameterType="worklogVo">
 		INSERT INTO WORKLOG
 			(WORKLOG_NO, WORKLOG_CONTENT, WORKLOG_DELFLAG, EMP_NO)
 			VALUES(WORKLOG_SEQ.NEXTVAL, #{worklog_content}, #{emp_no})
@@ -75,11 +80,23 @@
 	</update>
 	
 	<!-- 업무일지 DELFLAG 수정 -->
-	<update id="updateWorkLogDelflag" parameterType="java.lang.Integer">
+	<update id="updateWorkLogDelflag" parameterType="java.util.Map">
 		UPDATE WORKLOG
 			SET WORKLOG_DELFLAG='Y'
-			WHERE WORKLOG_NO=#{worklog_no}
+			WHERE WORKLOG_NO IN
+			<foreach collection="worklog_nos" item="worklog_no" open="(" separator="," close=")">
+				#{worklog_no}
+			</foreach>
 	</update>
+	
+	<!-- 업무일지 완전 삭제 -->
+	<delete id="deleteWorkLog" parameterType="java.util.Map">
+		DELETE FROM WORKLOG w 
+			WHERE WORKLOG_NO IN
+			<foreach collection="worklog_nos" item="worklog_no" open="(" separator="," close=")">
+				#{worklog_no}
+			</foreach>
+	</delete>
 
 </mapper>
 
