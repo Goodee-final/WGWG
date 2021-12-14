@@ -28,9 +28,9 @@ public class ApprovalServiceImpl implements IApprovalService {
 	}
 
 	@Override
-	public String selectEmpInfo(int empno) {
+	public Emp selectEmpInfo(int empno) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.selectEmpInfo(empno);
 	}
 
 	@Override
