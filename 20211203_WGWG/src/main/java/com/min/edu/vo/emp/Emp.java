@@ -1,5 +1,6 @@
 package com.min.edu.vo.emp;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ public class Emp {
 	
 	private String emp_nm;
 	
-	@NotNull(message = "비밀번호를 입력해주세요.")
+	@NotEmpty(message = "비밀번호를 입력해주세요.")
 	private String pw;
 	private String email;
 	private String photo;

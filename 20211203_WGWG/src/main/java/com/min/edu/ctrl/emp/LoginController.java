@@ -1,7 +1,5 @@
 package com.min.edu.ctrl.emp;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -12,10 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.min.edu.model.emp.IEmpService;
 import com.min.edu.vo.emp.Emp;
@@ -40,7 +36,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("message","사원번호 또는 비밀번호가 올바르지 않습니다.");
-			return "redirect:/loginForm.do";
+			return "/loginForm.do";
 		}else {
 			Emp loginEmp = service.getLogin(emp);
 			if(loginEmp == null) {
