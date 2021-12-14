@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.min.edu.model.NoticeDaoImpl">
+<mapper namespace="com.min.edu.model.notice.NoticeDaoImpl">
   <resultMap type="NoticeVo" id="BoardDtoMap">
 		<result column="NOTICE_NO" property="notice_no"/>
 		<result column="NOTICE_TITLE" property="notice_title"/>
@@ -33,33 +33,21 @@
 			FROM NOTICE n JOIN EMP e	
 			ON e.DEPT_NO = #{dept_no}
 			ORDER BY n.NOTICE_NO			
-	</select> -->
-	<!-- 전체공지사항 -->
-	<select id="getAllList" resultType="NoticeVo">
-		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
-			FROM NOTICE
-			ORDER BY NOTICE_NO
-	</select>	
-	<!-- 글입력 -->
-	<insert id="insertBoard" parameterType="NoticeVo">
-		INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
-							 NOTICE_REG_DT, NOTICE_CHK, EMP_NO)
-			VALUES(NOTICE_SEQ.NEXTVAL,#{notice_title},#{notice_content},#{notice_reg_dt},SYSDATE,#{emp_no})
-	</insert>
+	</select> -->	
 	
 	<!-- 파일입력 -->
 	<insert id="insertFile" parameterType="NoticeFileVo">
 		INSERT INTO NOTICEFILE
 			(NOTICE_FILE_NO, NOTICE_FILE_NM, NOTICE_FILE_SAVE_NM, 
 			NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT, NOTICE_NO)
-			VALUES(NOTICEFILE_SEQ.NEXTVAL, #{notice_file_nm}, #{notice_file_save_nm},
+			VALUES(NOTICE_FILE_NO_SEQ.NEXTVAL, #{notice_file_nm}, #{notice_file_save_nm},
 						 #{notice_file_size}, SYSDATE,NOTICE_SEQ.CURRVAL)		
 	</insert>
 	<!--  글 + 파일이름 -->
 	<select id="getBoard" parameterType="Integer" resultMap="FileDtoMap">
-		SELECT N.NOTICE_NO,N.EMP_NO, N.NOTICE_TITLE,N.NOTICE_CONTENT,N.NOTICE_REG_DT,F.NOTICE_FILE_NM
+		SELECT N.NOTICE_NO,N.EMP_NO, N.NOTICE_TITLE,N.NOTICE_CONTENT,TO_CHAR(N.NOTICE_REG_DT,'YYYY-MM-DD') NOTICE_REG_DT,F.NOTICE_FILE_NM
 			FROM NOTICE N JOIN NOTICE_FILE F
-			ON N.NOTICE_NO = F.NOTICE_FILE_NO
+			ON N.NOTICE_NO = F.NOTICE_NO
 			WHERE N.NOTICE_NO = #{notice_no}
 	</select>
 	
@@ -71,9 +59,14 @@
 			WHERE NOTICE_FILE_NO = #{notice_file_no}
 	</select>
 	
+	<!--  여기부터  -->
 	<!-- 총 게시글 갯수 출력 -->
 	<select id="countNotice" resultType="Integer">
 		SELECT COUNT(*) FROM NOTICE
+	</select>
+	<!-- 부서벌 게시글 갯수 출력 -->
+	<select id="countNoticechk" resultType="Integer">
+		SELECT COUNT(*) FROM NOTICE WHERE NOTICE_CHK = #{notice_chk}
 	</select>
 	
 	<!-- 페이징 처리 후 게시글 조회 -->
@@ -89,4 +82,63 @@
 					)
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
+	<!-- 글입력 -->
+	<insert id="insertNotice" parameterType="NoticeVo">		
+	INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
+							 NOTICE_REG_DT, NOTICE_CHK, EMP_NO)
+				VALUES (NOTICE_NO_SEQ.NEXTVAL, #{notice_title}, #{notice_content},SYSDATE,
+				#{notice_chk},#{emp_no})
+	</insert>
+	<!-- 상세보기 -->
+	<select id="detailNotice" parameterType="Integer" resultType="NoticeVo" >
+ 		 SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
+				TO_CHAR(NOTICE_REG_DT,'YYYY-MM-DD') NOTICE_REG_DT, NOTICE_CHK, EMP_NO
+ 		 	FROM NOTICE
+ 		 	WHERE NOTICE_NO = #{notice_no}
+	</select>
+	<!-- notchk리스트 -->
+	<select id="selectNotchk" resultType="NoticeVo">
+		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO,NOTICE_CHK
+							FROM NOTICE 
+							ORDER BY NOTICE_NO DESC 
+							) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end} AND NOTICE_CHK = #{notice_chk}
+	</select>
+	<!-- 글수정 -->
+	<update id="updateNotice" parameterType="NoticeVo">
+		UPDATE NOTICE 
+			SET NOTICE_TITLE = #{notice_title}, NOTICE_CONTENT = #{notice_content}
+			WHERE NOTICE_NO = #{notice_no}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteNotice" parameterType="Integer">
+	DELETE FROM NOTICE WHERE NOTICE_NO = #{notice_no}
+	</delete>
+	
+	<select id="selectPaging" parameterType="com.min.edu.vo.paging.PageVO" resultType="NoticeVo">
+      SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
+							FROM NOTICE 
+							ORDER BY NOTICE_NO DESC 
+							) A
+					)
+		WHERE RN BETWEEN #{start} AND #{last}
+   			
+   			
+   </select>
+   
+   <select id="selectTotalPaging" resultType="java.lang.Integer">
+       SELECT NVL(COUNT(*),0)
+            FROM NOTICE
+      
+   </select>
 </mapper>

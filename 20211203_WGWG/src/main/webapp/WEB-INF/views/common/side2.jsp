@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -121,11 +121,10 @@ i {
 </head>
 
 <body>
-
 	<!-- Sidebar -->
 	<!--  w3-light-grey -->
 	<div class="w3-sidebar w3-bar-block"
-		style="width: 230px; background-color: white; border-right: 2px solid #073865;">
+		style="width: 180px; background-color: white; border-right: 2px solid #073865; border-left: 2px solid #073865; margin-left: 150px;">
 		<ul>
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i><a href="#">전자결재</a>
 				<ul class="nav-flyout">
@@ -184,11 +183,17 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i><a href="#">업무일지</a>
 				<ul class="nav-flyout">
-					<li><a href="#" 
-						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</a></li>
-					<li><a href="./signdraw.do"
-						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</a></li>
-				</ul></li>
+					<li>
+						<a href="./worklogInsert.do" class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지 작성</a>
+					</li>
+					<li>
+						<a href="./worklogListMy.do" class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;개인별 업무일지 조회</a>
+					</li>
+					<li>
+						<a href="./worklogListDept.do" class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;부서별 업무일지 조회</a>
+					</li>
+				</ul>
+			</li>
 				
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i><a href="#">채팅</a>
 				<ul class="nav-flyout">
@@ -206,6 +211,13 @@ i {
 						class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식등록</a></li>
 				</ul>
 			</li>
+			<li class="w3-bar-item nav1"><i class="fas fa-users"></i><a href="#">사원관리</a>
+            <ul class="nav-flyout">
+               <li><a href="./insert_emp_form.do" 
+                  class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원등록</a></li>
+               <li><a href="./signdraw.do"
+                  class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원조회</a></li>
+            </ul>
+         </li>
 		</ul>
 	</div>
-</body>

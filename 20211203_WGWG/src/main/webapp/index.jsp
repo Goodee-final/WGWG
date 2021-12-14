@@ -10,26 +10,35 @@
 	crossorigin="anonymous"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<<<<<<< HEAD
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+=======
+<script
+	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+>>>>>>> branch 'main' of https://github.com/tkdgns1127/WGWG.git
 
 
 <script type="text/javascript">
-	
 	var loc = "${loc}";
-	
+
 	$(document).ready(function() {
 		console.log(loc);
-		
-			if(loc != ""){
-				$("#content").load(loc);
-				
-			}
-		
+
+		if (loc != "") {
+			$("#content").load(loc);
+
+		}
+
 		$('.nav-flyout li').on('click', function(e) {
 
 			console.log($(this).attr('value'));
+
 			$("#content").load($(this).attr('value'));
 
 		});
@@ -38,7 +47,7 @@
 
 <style>
 
-/*  */
+/*header  */
 html, body {
 	margin: 0;
 	padding: 0;
@@ -127,10 +136,14 @@ ul {
 	background-position: center;
 	background-size: cover;
 }
+<<<<<<< HEAD
 
 
 /*side  */
+=======
+>>>>>>> branch 'main' of https://github.com/tkdgns1127/WGWG.git
 
+/*side  */
 .sidebar {
 	background-color: #19222a;
 }
@@ -297,8 +310,7 @@ i {
 					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공지사항</li>
 				</ul></li>
 
-			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>
-				일정관리
+			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>일정관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button w3-hover-blue"
 						value="./loadForm.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</li>
@@ -332,7 +344,9 @@ i {
 				</ul></li>
 		</ul>
 	</div>
+
 	<div id="content" style="margin-left: 230px; margin-top: 50px; padding: 50px;">
 		인덱스 화면
 	</div>
+
 </body>
