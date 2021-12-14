@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import com.min.edu.vo.approval.Approval_Doc;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.approval.Approver;
+
 
 @Repository
 public class ApprovalDocDaoImpl implements IApprovalDocDao {
@@ -54,6 +56,28 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	public List<Department> selectAllDept() {
 		logger.info("ApprovalDocDaoImpl selectAllDept");
 		return sqlSession.selectList(NS + "selectAllDept");
+	}
+
+
+	@Override
+	public List<Approval_Doc> selectAllDocApp(int empno) {
+		logger.info("ApprovalDocDaoImpl selectAllDocApp");
+		return sqlSession.selectList(NS+"selectAllDocApproval",empno);
+	}
+
+
+	@Override
+	public List<Approval_Doc> selectListDocStApp(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl selectAllDocApp");
+		return sqlSession.selectList(NS+"selectListDocStApp",doc);
+	}
+
+
+	@Override
+	public List<Approval_Doc> selectListWait(Approver approver) {
+		logger.info("ApprovalDocDaoImpl selectListWait");
+		
+		return sqlSession.selectList(NS+"selectListWait", approver);
 	}
 
 }
