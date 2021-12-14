@@ -33,9 +33,7 @@
 </head>
 
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
-<div style="margin-left: 230px; padding:50px; margin-top: 80px;">
+
 <div id="outter">	
 	
 	<div style="float: right;">
@@ -101,6 +99,6 @@
 		</c:if>
 	</div>
 </div>
-</div>
+
 </body>
 </html>
