@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+{"resources":{"Scripts/Script-1.sql":{"sql-editor-data-source-id":"oracle_thin-17db4ae6ab2-53447b9d4a775b45","default-datasource":"oracle_thin-17db4ae6ab2-53447b9d4a775b45","default-schema":"C##WG"}}}
+=======
 {"resources":{"Scripts/Script-MYR.sql":{"sql-editor-data-source-id":"oracle_thin-17da9fee4ae-35e53c6dae4aa232","default-datasource":"oracle_thin-17da9fee4ae-35e53c6dae4aa232","default-schema":"C##WG"}}}
+>>>>>>> 4bbd2e22c5bcdaea31008c6c16e9bbeb65dda72c

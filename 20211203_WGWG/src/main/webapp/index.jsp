@@ -295,7 +295,7 @@ i {
 		<ul>
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
 				<ul class="nav-flyout">
-					<li class="li-btn" value=""><button
+					<li class="li-btn" value="./docinsert.do"><button
 							class="w3-btn w3-blue w3-round btn">기안하기</button></li>
 					<li class="w3-bar-item w3-button w3-hover-blue"
 						value="./signlist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전자서명 관리</li>
@@ -303,14 +303,16 @@ i {
 						value="./signinsert.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전자서명 등록</li>
 					<li class="w3-bar-item w3-button w3-hover-blue"
 						value="./signdraw.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전자서명만들기</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재
-						진행함</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재
-						대기함</li>
+					<li class="w3-bar-item w3-button w3-hover-blue"
+						value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 진행함</li>
+					<li class="w3-bar-item w3-button w3-hover-blue" 
+						value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 대기함</li>
 					<li class="w3-bar-item w3-button w3-hover-blue"
 						value="./completedoc.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 완료함</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;참조문서함</li>
-					<li class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;개인문서함</li>
+					<li class="w3-bar-item w3-button w3-hover-blue" 
+						value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;참조문서함</li>
+					<li class="w3-bar-item w3-button w3-hover-blue"
+						value="./mydoclist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;개인문서함</li>
 					<li class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;임시문서함</li>
 				</ul></li>
 
@@ -320,8 +322,7 @@ i {
 					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;근태관리</li>
 				</ul></li>
 
-			<li class="w3-bar-item nav1"><i class="fas fa-thumbtack"></i>
-				공지사항
+			<li class="w3-bar-item nav1"><i class="fas fa-thumbtack"></i> 공지사항
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button w3-hover-blue"
 						value="./noticeList.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공지사항</li>
