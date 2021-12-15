@@ -28,24 +28,23 @@ public class ApprovalController {
 	   private IApprovalService approvalServiceImpl;
 	   
 	   
-	   @GetMapping(value="/docList.do")
+	   @GetMapping(value="/mydoclist.do")
 	   public String doclist(Model model) {
 		  //session.setAttribute("userid", "USER25");
 		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
-		  //session을 삭제하는 방법 두가지
-		  //1. session 객체 자체를 삭제
-		  //2. session 객체 하나의 값은 삭제 remove("userid")
 		  
 	      logger.info("ApprovalController 전체글 조회 List");
 	      List<Approval_Doc> doclists = approvalServiceImpl.selectAllDoc();
 	      model.addAttribute("doclists", doclists);
-	      return "/approval/doclist";
+	      return "/approval/mydoclist";
 	   }
 	   
 	   @GetMapping(value="/docinsert.do")
 	   public String docinsert(Model model) {
 		   
 	      logger.info("ApprovalController 기안하기 문서 작성");
+	      Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
+	      model.addAttribute("empinfo", empinfo);
 	      return "/approval/docinsert";
 	   }
 	   
@@ -59,6 +58,7 @@ public class ApprovalController {
 	      model.addAttribute("emplists", emplists);
 	      return "/approval/appline";
 	   }
+	  
 	   
 	   
 	   

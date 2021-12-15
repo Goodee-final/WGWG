@@ -11,7 +11,7 @@ public interface IApprovalService {
 
 	public List<Approval_Doc> selectAllDoc();
 	public String selectOneDoc(int empno);
-	public String selectEmpInfo(int empno);
+	public Emp selectEmpInfo(int empno);
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();
   
