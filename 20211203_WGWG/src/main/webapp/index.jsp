@@ -10,29 +10,24 @@
 	crossorigin="anonymous"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<<<<<<< HEAD
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-=======
 <script
 	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
->>>>>>> branch 'main' of https://github.com/tkdgns1127/WGWG.git
+
 
 
 <script type="text/javascript">
-	var loc = "${loc}";
+	
+	var loc =  "<%=session.getAttribute("loc") %>"
 
 	$(document).ready(function() {
 		console.log(loc);
 
 		if (loc != "") {
 			$("#content").load(loc);
-
 		}else{
 			
 		}

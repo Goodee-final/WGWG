@@ -56,7 +56,13 @@ public class ApprovalServiceImpl implements IApprovalService {
 	}
 
 	@Override
+	public List<Approval_Doc> selectListDocSt(Approval_Doc doc) {
+		return dao.selectListDocSt(doc);
+	}
+
+	@Override
 	public List<Approval_Doc> selectListWait(Approver approver) {
 		return dao.selectListWait(approver);
 	}
+
 }

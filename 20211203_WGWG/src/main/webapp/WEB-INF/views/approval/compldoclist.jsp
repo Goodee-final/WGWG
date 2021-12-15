@@ -13,6 +13,20 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		 $('table tbody tr').on('click', function () {
+		    	console.log($(this).find('td').eq(0).text());
+		    	
+		    	var docno = $(this).find('td').eq(0).text();
+		    	
+		    	location.href='./docdetail.do?docno=' + docno;
+		 });
+	});
+</script>
+
 <style>
 body {
 	font-family: Arial;
@@ -80,7 +94,7 @@ body {
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="doc" items="${doclists}" varStatus="status">
+					<c:forEach var="doc" items="${doclist1}" varStatus="status">
 						<tr>
 							<td>${doc.app_doc_no}</td>
 							<td>${doc.app_doc_title}</td>
@@ -109,7 +123,7 @@ body {
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="doc" items="${doclists}" varStatus="status">
+					<c:forEach var="doc" items="${doclist2}" varStatus="status">
 						<tr>
 							<td>${doc.app_doc_no}</td>
 							<td>${doc.app_doc_title}</td>
