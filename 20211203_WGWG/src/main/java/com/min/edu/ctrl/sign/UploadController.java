@@ -46,7 +46,7 @@ public class UploadController {
 
 	}
 
-	@RequestMapping(value = "/uploadForm.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/uploadForm.do", method = {RequestMethod.POST, RequestMethod.GET} )
 	public String uploadForm(MultipartFile file, Model model, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, Exception {
 

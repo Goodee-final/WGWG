@@ -3,6 +3,8 @@ package com.min.edu.vo.notice;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class NoticeVO implements Serializable{	
 	
 	private static final long serialVersionUID = 8452466079810478174L;
@@ -13,13 +15,16 @@ public class NoticeVO implements Serializable{
 	private String notice_reg_dt;
 	private String notice_chk;
 	private int emp_no;
-	private List<NoticeFileVO> noticefile;
+	private String file_name;
+	private MultipartFile file;
+	
 	
 	public NoticeVO() {		
 	}
 
+	
 	public NoticeVO(int notice_no, String notice_title, String notice_content, String notice_reg_dt, String notice_chk,
-			int emp_no, List<NoticeFileVO> noticefile) {
+			int emp_no, MultipartFile file, String file_name) {
 		super();
 		this.notice_no = notice_no;
 		this.notice_title = notice_title;
@@ -27,15 +32,24 @@ public class NoticeVO implements Serializable{
 		this.notice_reg_dt = notice_reg_dt;
 		this.notice_chk = notice_chk;
 		this.emp_no = emp_no;
-		this.noticefile = noticefile;
+		this.file = file;
+		this.file_name = file_name;
 	}
+
+
+
+
 
 	@Override
 	public String toString() {
 		return "NoticeVO [notice_no=" + notice_no + ", notice_title=" + notice_title + ", notice_content="
 				+ notice_content + ", notice_reg_dt=" + notice_reg_dt + ", notice_chk=" + notice_chk + ", emp_no="
-				+ emp_no + ", noticefile=" + noticefile + "]";
+				+ emp_no + ", file=" + file + ", filename=" + file_name + "]";
 	}
+
+
+
+
 
 	public int getNotice_no() {
 		return notice_no;
@@ -85,13 +99,24 @@ public class NoticeVO implements Serializable{
 		this.emp_no = emp_no;
 	}
 
-	public List<NoticeFileVO> getNoticefile() {
-		return noticefile;
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 
-	public void setNoticefile(List<NoticeFileVO> noticefile) {
-		this.noticefile = noticefile;
+
+	public String getFile_name() {
+		return file_name;
 	}
+
+
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
+	}
+	
+	
 	
 	
 }

@@ -17,9 +17,7 @@
 	}
 </style>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
-<div style="margin-left: 230px; padding:50px; margin-top: 80px;">
+
 <h2>상세정보</h2>
 <br><br><br>
 <div id="outter">
@@ -34,7 +32,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td><div style="height: 300px; margin: 10px; display: inline-block">${vo.notice_content }</div></td>
+			<td><div class="content">${vo.notice_content }</div></td>
+		</tr>
+		<tr>
+			<td>
+				${vo.filename }
+			</td>
 		</tr>
 	</table>
 	
@@ -43,7 +46,6 @@
 		<input type="button" value="삭제" onclick="noticedelete(${vo.notice_no})">
 		<input type="button" value="글 목록" onclick="location.href='./noticeList.do';">
 	</div>	 
-</div>
 </div>
 </body>
 <script>

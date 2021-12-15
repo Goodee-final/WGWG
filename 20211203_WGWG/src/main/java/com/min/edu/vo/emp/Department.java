@@ -13,6 +13,12 @@ public class Department {
 	public Department() {
 		super();
 	}
+	
+	public Department(int dept_no, String dept_nm) {
+		super();
+		this.dept_no = dept_no;
+		this.dept_nm = dept_nm;
+	}
 
 	public int getDept_no() {
 		return dept_no;

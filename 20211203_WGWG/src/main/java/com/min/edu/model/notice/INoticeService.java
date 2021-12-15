@@ -11,6 +11,8 @@ public interface INoticeService {
 
 	public int insertBoardF(NoticeVO nvo,NoticeFileVO fvo);
 	
+	public int insertFile(NoticeFileVO vo);
+	
 	public NoticeVO getBoard(int notice_no);	
 
 	public NoticeFileVO getFile(int notice_file_no);	

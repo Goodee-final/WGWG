@@ -1,12 +1,19 @@
 package com.min.edu.vo.emp;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class Emp {
 
+	@NotNull(message = "사원번호를 입력해주세요.")
 	private int emp_no;
+	
 	private String emp_nm;
+	
+	@NotEmpty(message = "비밀번호를 입력해주세요.")
 	private String pw;
 	private String email;
 	private String photo;
@@ -16,6 +23,8 @@ public class Emp {
 	private String work_st;
 	private int position_no;
 	private int dept_no;
+	
+	private Position pVo;
 	
 	
 	public Emp() {}
@@ -123,6 +132,14 @@ public class Emp {
 	}
 	public void setDept_no(int dept_no) {
 		this.dept_no = dept_no;
+	}
+
+	public Position getpVo() {
+		return pVo;
+	}
+
+	public void setpVo(Position pVo) {
+		this.pVo = pVo;
 	}
 	
 	
