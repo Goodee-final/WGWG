@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,12 +10,8 @@
 <style>
 	h2 { text-align: center;}
   table { width: 100%;}
-  textarea { width: 100%;}
- 	#outter {
-		display: block;
-		width: 30%;
-		margin: auto;
-	}
+ 
+ 	
 </style>
 <body>
 
@@ -23,11 +20,11 @@
 <div id="outter">
 	<table border="1">
 		<tr>
-			<td>제목: ${vo.notice_title }</td>
+			<td>제목: ${vo.notice_title}</td>
 		</tr>
 		<tr>
 			<td>
-				작성자: ${vo.emp_no }
+				작성자: ${vo.emp_no}
 				<span style="float: right;">${vo.notice_reg_dt }</span>
 			</td>
 		</tr>
@@ -36,7 +33,19 @@
 		</tr>
 		<tr>
 			<td>
-				${vo.filename }
+				<c:if test="${empty vo.noticefile}">
+					첨부파일 없음					
+				</c:if>
+				<c:if test="${!empty vo.noticefile}">
+					
+					<form action="./noticeFiledownload.do" method="post">
+						${vo.noticefile.notice_file_nm }
+						<input type="hidden" name="notice_file_nm" value="${vo.noticefile.notice_file_nm}">
+						<input type="hidden" name="notice_file_save_nm" value="${vo.noticefile.notice_file_save_nm}">
+						<input type="submit" style="float: right" value="다운로드">
+					</form>
+				</c:if>
+				
 			</td>
 		</tr>
 	</table>

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.min.edu.model.notice.NoticeDaoImpl">
-  <resultMap type="NoticeVo" id="BoardDtoMap">
-		<result column="NOTICE_NO" property="notice_no"/>
-		<result column="NOTICE_TITLE" property="notice_title"/>
-		<result column="NOTICE_CONTENT" property="notice_content"/>
-		<result column="NOTICE_REG_DT" property="notice_reg_dt"/>
-		<result column="EMP_NO" property="emp_no"/>
-		<collection property="noticefile" resultMap="FileDtoMap"/>
+	<resultMap type="NoticeVO" id="NoticeDtoMap">
+			<result column="NOTICE_NO" property="notice_no"/>
+			<result column="NOTICE_TITLE" property="notice_title"/>
+			<result column="NOTICE_CONTENT" property="notice_content"/>
+			<result column="NOTICE_REG_DT" property="notice_reg_dt"/>
+			<result column="NOTICE_CHK" property="notice_chk"/>
+			<result column="EMP_NO" property="emp_no"/>
+			<collection property="noticefile" resultMap="FileDtoMap"/>
 	</resultMap>
 	
 	<resultMap type="NoticeFileVO" id="FileDtoMap">
-		<result column="NOTICE_FILE_NO" property="notice_file_no"/>
-		<result column="NOTICE_FILE_NM" property="notice_file_nm"/>
-		<result column="NOTICE_FILE_SAVE_NM" property="notice_file_save_nm"/>
-		<result column="NOTICE_FILE_SIZE" property="notice_file_size"/>
-		<result column="NOTICE_FILE_REG_DT" property="notice_file_reg_dt"/>
-		<result column="NOTICE_NO" property="notice_no"/>
+			<result column="NOTICE_FILE_NO" property="notice_file_no"/>
+			<result column="NOTICE_FILE_NM" property="notice_file_nm"/>
+			<result column="NOTICE_FILE_SAVE_NM" property="notice_file_save_nm"/>
+			<result column="NOTICE_FILE_SIZE" property="notice_file_size"/>
+			<result column="NOTICE_FILE_REG_DT" property="notice_file_reg_dt"/>
+			<result column="NOTICE_NO" property="notice_no"/>
 	</resultMap>
 	
 	<!-- 회사의 공지사항 -->
@@ -34,17 +35,19 @@
 			ORDER BY n.NOTICE_NO			
 	</select> -->	
 	
+	  
 	<!-- 파일입력 -->
 	<insert id="insertFile" parameterType="NoticeFileVo">
 		INSERT INTO NOTICE_FILE
 			(NOTICE_FILE_NO, NOTICE_FILE_NM, NOTICE_FILE_SAVE_NM, 
 			NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT, NOTICE_NO)
 			VALUES(NOTICE_FILE_NO_SEQ.NEXTVAL, #{notice_file_nm}, #{notice_file_save_nm},
-						 #{notice_file_size}, SYSDATE,NOTICE_NO_SEQ.CURRVAL)		
-	</insert>
+						 #{notice_file_size}, SYSDATE,NOTICE_NO_SEQ.CURRVAL)	
+	</insert>	
 	<!--  글 + 파일이름 -->
-	<select id="getBoard" parameterType="Integer" resultMap="BoardDtoMap">
-		SELECT N.NOTICE_NO,N.EMP_NO, N.NOTICE_TITLE,N.NOTICE_CONTENT,TO_CHAR(N.NOTICE_REG_DT,'YYYY-MM-DD') NOTICE_REG_DT,F.NOTICE_FILE_NM
+	<select id="getBoard" parameterType="Integer" resultMap="NoticeDtoMap">
+		SELECT N.NOTICE_NO,N.EMP_NO, N.NOTICE_TITLE,N.NOTICE_CONTENT,TO_CHAR(N.NOTICE_REG_DT,'YYYY-MM-DD') NOTICE_REG_DT,
+		F.NOTICE_FILE_NM,F.NOTICE_FILE_SAVE_NM
 			FROM NOTICE N JOIN NOTICE_FILE F
 			ON N.NOTICE_NO = F.NOTICE_NO
 			WHERE N.NOTICE_NO = #{notice_no}
@@ -84,9 +87,9 @@
 	<!-- 글입력 -->
 	<insert id="insertNotice" parameterType="NoticeVo">		
 	INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
-							 NOTICE_REG_DT, NOTICE_CHK, EMP_NO,FILE_NAME)
+							 NOTICE_REG_DT, NOTICE_CHK, EMP_NO)
 				VALUES (NOTICE_NO_SEQ.NEXTVAL, #{notice_title}, #{notice_content},SYSDATE,
-				#{notice_chk},#{emp_no},#{file_name})
+				#{notice_chk},#{emp_no})
 	</insert>
 	<!-- 상세보기 -->
 	<select id="detailNotice" parameterType="Integer" resultType="NoticeVo" >
@@ -96,7 +99,7 @@
  		 	WHERE NOTICE_NO = #{notice_no}
 	</select>
 	<!-- notchk리스트 -->
-	<select id="selectNotchk" resultType="NoticeVo">
+	<select id="selectNotchk" parameterType="com.min.edu.vo.paging.PageVO" resultType="NoticeVo">
 		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
 			FROM (
 				SELECT ROWNUM RN, A.* 
@@ -130,10 +133,8 @@
 							ORDER BY NOTICE_NO DESC 
 							) A
 					)
-		WHERE RN BETWEEN #{start} AND #{last}
-   			
-   			
-   </select>
+		WHERE RN BETWEEN #{start} AND #{last}  
+   </select> 
    
    <select id="selectTotalPaging" resultType="java.lang.Integer">
        SELECT NVL(COUNT(*),0)

@@ -22,6 +22,8 @@
 </style>
 </head>
 <body>	
+${paging }
+${list }
 		<div class="test">
 		<!-- paging 처리 관련 값 -->
 			<input type="hidden" name="index" id="index" value="${paging.index}">
