@@ -39,7 +39,7 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 
 
 	@Override
-	public String selectEmpInfo(int empno) {
+	public Emp selectEmpInfo(int empno) {
 		logger.info("ApprovalDocDaoImpl selectEmpInfo");
 		return sqlSession.selectOne(NS+"selectEmpInfo", empno);
 	}

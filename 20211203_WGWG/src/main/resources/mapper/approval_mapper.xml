@@ -21,10 +21,17 @@
 		<result property="alvo.APPROVAL" column="APPROVAL"/>
 	</resultMap>
 	
+	<resultMap type="com.min.edu.vo.emp.Emp" id="wEmpVo">
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="emp_nm" column="EMP_NM"/>
+		<result property="dVo.dept_nm" column="DEPT_NM"/>
+		<result property="pVo.position_nm" column="POSITION_NM"/>
+	</resultMap>
+	
 	
 	<select id="selectAllDoc" resultType="DocVo">
 		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO
-			FROM "C##WG".APPROVAL_DOCUMENT
+			FROM "C##WG".APPROVAL_DOCUMENT ORDER BY APP_DOC_NO DESC
 	</select>
 
 	<select id="selectOneDoc" parameterType="java.lang.Integer" resultType="java.lang.String">
@@ -34,11 +41,12 @@
 									 LEFT OUTER JOIN APPROVAL_LINE al ON a.APP_LINE_NO = al.APP_LINE_NO
 	</select>
 	
-	<select id="selectEmpInfo" parameterType="java.lang.Integer" resultMap="AllEmpVo">
+	<select id="selectEmpInfo" parameterType="java.lang.Integer" resultMap="wEmpVo">
 		SELECT e.EMP_NO, e.EMP_NM, p.POSITION_NM, d.DEPT_NM
 			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
 							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = 7
 	</select>
+	
 	
 	<select id="selectAllEmp" resultMap="AllEmpVo">
 		SELECT e.EMP_NO, e.EMP_NM, e.DEPT_NO, p.POSITION_NM
@@ -49,6 +57,8 @@
 		SELECT DEPT_NM, DEPT_NO
 			FROM "C##WG".DEPARTMENT d ORDER BY DEPT_NO ASC
 	</select>
+	
+	
 	
 	
 	<!--결재자 문서 selectALL    -->
