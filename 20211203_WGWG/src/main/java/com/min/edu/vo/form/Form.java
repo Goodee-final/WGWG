@@ -6,9 +6,21 @@ public class Form {
 	private String form_nm;
 	private String form_reg_dt;
 	private String template;
+	private int form_class_no;
 	
+	public Form(String form_nm, String template, int form_class_no) {
+		super();
+		this.form_nm = form_nm;
+		this.template = template;
+		this.form_class_no = form_class_no;
+	}
 	private FormClassification fcdto;
 	
+	public Form() {
+		super();
+	}
+
+
 	public int getForm_no() {
 		return form_no;
 	}

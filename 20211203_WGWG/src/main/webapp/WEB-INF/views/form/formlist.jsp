@@ -67,12 +67,12 @@
 	}
 </style>
 <body>
-	<%@ include file="/WEB-INF/views/common/header.jsp" %>
-	<%@ include file="/WEB-INF/views/common/side2.jsp" %>
 	<div class="container">
 		<h1 class="title">양식 목록</h1>
-		<input type="text" placeholder="제목으로 검색" name="formtitle" id="inputsearch">
-		<button id="searchbtn" onclick="location.href='./formsearch.do?formtitle=${formtitle}'">검색</button>
+		<form action="./formsearch.do" method="post">
+			<input type="text" placeholder="제목으로 검색" name="formtitle" id="inputsearch">
+			<input type="submit" value="검색">
+		</form>
 		<table class="formList">
 			<tr class="head">
 				<th>양식번호</th>

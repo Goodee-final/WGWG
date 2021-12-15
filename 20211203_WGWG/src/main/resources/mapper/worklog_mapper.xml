@@ -2,4 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.min.edu.model.worklog.WorkLogDaoImpl">
 
+
+	<resultMap type="com.min.edu.vo.worklog.WorkLog" id="WorkLogJoinVo">
+		<result property="worklog_no" column="WORKLOG_NO"/>
+		<result property="worklog_reg_dt" column="WORKLOG_REG_DT"/>
+		<result property="worklog_modify_dt" column="WORKLOG_MODIFY_DT"/>
+		<result property="worklog_content" column="WORKLOG_CONTENT"/>
+		<result property="worklog_delflag" column="WORKLOG_DELFLAG"/>
+		<result property="emp_no" column="EMP_NO"/>
+		<collection property="emp" resultMap="EmpVo"/>
+		<collection property="dept" resultMap="DepartmentVo"/>
+	</resultMap>
+	
+	<resultMap type="com.min.edu.vo.emp.Emp" id="EmpVo">
+      <result property="emp_no" column="EMP_NO"/>
+      <result property="emp_nm" column="EMP_NM"/>
+      <result property="dept_no" column="DEPT_NO"/>
+   </resultMap>
+   
+   <resultMap type="com.min.edu.vo.emp.Department" id="DepartmentVo">
+      <result property="dept_no" column="DEPT_NO"/>
+      <result property="dept_nm" column="DEPT_NM"/>
+   </resultMap>
+
+	<!-- 부서별 조회 -->
+	<select id="selectAllWorkLog" parameterType="java.lang.String" resultMap="WorkLogJoinVo">
+		SELECT w.*, e.EMP_NM, d.DEPT_NM
+			FROM WORKLOG w
+			LEFT JOIN EMP e ON w.EMP_NO = e.EMP_NO
+			LEFT JOIN DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
+			WHERE d.DEPT_NM = #{dept_nm}
+			ORDER BY w.WORKLOG_NO DESC
+	</select>
+	<!-- 세션에서 로그인한 정보 받아와서 DEPT_NO 비교히는 거 추가해야 함 -->
+	
+	<!-- 개인별 조회 -->
+	<select id="selectOneWorklog" parameterType="java.lang.Integer" resultMap="WorkLogJoinVo">
+		SELECT w.*, e.EMP_NM, d.DEPT_NM 
+			FROM WORKLOG w 
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO
+			LEFT JOIN DEPARTMENT d 
+			ON e.DEPT_NO = d.DEPT_NO
+			WHERE w.EMP_NO = #{emp_no}
+			ORDER BY w.WORKLOG_NO DESC
+	</select>
+	
+	<!-- 작성자이름 or 제목에 해당하는 글자로 검색 -->
+	<select id="searchWorkLog" parameterType="java.lang.String" resultMap="WorkLogJoinVo">
+		SELECT w.*, e.EMP_NM, d.DEPT_NM 
+			FROM WORKLOG w 
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO
+			LEFT JOIN DEPARTMENT d 
+			ON e.DEPT_NO = d.DEPT_NO
+			WHERE UPPER(e.EMP_NM) LIKE UPPER('%'||#{emp_nm}||'%')
+			OR UPPER(w.WORKLOG_CONTENT) LIKE UPPER('%'||#{worklog_content}||'%')
+	</select>
+	
+	<!-- 업무일지 작성 -->
+	<insert id="insertWorkLog" parameterType="java.lang.String">
+		INSERT INTO WORKLOG
+			(WORKLOG_NO, WORKLOG_CONTENT, WORKLOG_DELFLAG, EMP_NO)
+			VALUES(WORKLOG_SEQ.NEXTVAL, #{worklog_content}, #{emp_no})
+	</insert>
+	
+	<!-- 업무일지 내용 수정 -->
+	<update id="updateWorkLogContent" parameterType="worklogVo">
+		UPDATE WORKLOG
+			SET WORKLOG_MODIFY_DT=SYSDATE, WORKLOG_CONTENT=#{new_worklog_content}
+			WHERE WORKLOG_NO=#{worklog_no}
+	</update>
+	
+	<!-- 업무일지 DELFLAG 수정 -->
+	<update id="updateWorkLogDelflag" parameterType="java.lang.Integer">
+		UPDATE WORKLOG
+			SET WORKLOG_DELFLAG='Y'
+			WHERE WORKLOG_NO=#{worklog_no}
+	</update>
+
 </mapper>
+
