@@ -15,15 +15,38 @@
 <script type="text/javascript" src="./js/paging.js"></script>
 <!-- 사용자 js -->
 <style type="text/css">
+
+	.content{
+ 		width: 1100px;
+		padding: 100px 30px;
+		
+		margin: 0 auto;
+ 	}
 	.test{
 		margin: 0 auto;
 		width: 50%;
 	}
+	
+	
 </style>
 </head>
 <body>	
-${paging }
-${list }
+<div class="content">
+	<div id="select">
+			<span>
+				<select class="btn btn-primary" id="listCount" name="listCount"	onchange="listCnt()">
+					<option value="5"
+						<c:if test="${paging.listCnt == 5}">selected</c:if>>5줄 보기</option>
+					<option value="10"
+						<c:if test="${paging.listCnt == 10}">selected</c:if>>10줄 보기</option>
+					<option value="15"
+						<c:if test="${paging.listCnt == 15}">selected</c:if>>15줄 보기</option>
+				</select>
+			</span>		
+			<input type="button" class="btn btn-primary" value="글쓰기" style="float: right;" onclick="location.href='./noticeInsertForm.do'">
+			
+		</div>	
+	<form action="./noticeList.do" method="post" id="frmPaging">
 		<div class="test">
 		<!-- paging 처리 관련 값 -->
 			<input type="hidden" name="index" id="index" value="${paging.index}">
@@ -47,21 +70,10 @@ ${list }
 				</ul>
 			</div>
 		</div>
-			<!-- 몇개씩 보여줄 것인지  -->
-		<div id="select">
-			<span>
-				<select class="btn btn-primary" id="listCount" name="listCount"
-				onchange="listCnt()">
-					<option>-선택-</option>
-					<option value="5">5</option>
-					<option value="10">10</option>
-					<option value="15">15</option>
-				</select>
-			</span>
-			<input type="button" class="btn btn-primary" value="글쓰기" style="float: right;" onclick="location.href='./noticeInsertForm.do'">
-		</div>
+		<!-- 몇개씩 보여줄 것인지  -->
 		
-		<form action="./noticeList.do" method="post" id="frmPaging">
+		
+		
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -85,6 +97,6 @@ ${list }
 
 			
 		</form>
-
+</div>
 </body>
 </html>

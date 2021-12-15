@@ -25,7 +25,7 @@ public interface INoticeDao {
 	
 	public int insertNotice(NoticeVO vo);
 	
-	public NoticeVO detailNotice(int notice_no);
+	public NoticeVO detailNotice(int notice_no);	
 	
 	public List<NoticeVO> selectNotchk(PageVO vo);
 	
@@ -33,6 +33,7 @@ public interface INoticeDao {
 	
 	public int deleteNotice(int notice_no);
 	
+	public int deleteNoticeFile(int notice_no);
 	//페이징처리
 	public List<NoticeVO> selectPaging(PageVO paging);
 	public int selectTotalPaging();

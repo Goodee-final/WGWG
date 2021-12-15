@@ -33,6 +33,9 @@ public interface INoticeService {
 	
 	public int deleteNotice(int notice_no);
 	
+	public int deleteNoticeFile(int notice_no);
+	
+	public int deleteNF(int notice_no);
 	//페이징처리
 	public List<NoticeVO> selectPaging(PageVO paging);
 	public int selectTotalPaging();

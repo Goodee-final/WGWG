@@ -101,8 +101,7 @@ public class NoticeController {
 		
 		if(vo.getFile().getSize() <= 0) {
 			logger.info("파일없을때 실행");			
-			service.insertNotice(vo);
-			
+			service.insertNotice(vo);			
 			
 		}else {
 			
@@ -189,9 +188,10 @@ public class NoticeController {
 	  if(vo == null) {
 		  vo = service.detailNotice(notice_no);
 		  model.addAttribute("vo",vo);
-		  
+		  logger.info("************NULL?상세정보"+vo);
 	  }else {
 		  model.addAttribute("vo",vo);
+		  logger.info("************상세정보"+vo);
 	  }
 	 
 	  return "notice/detailnotice";
@@ -224,9 +224,21 @@ public class NoticeController {
 	}
 	
 	@GetMapping("/noticeupdate.do")
-	public String modify(@RequestParam("notice_no")int notice_no, Model model) {
-		model.addAttribute("vo", service.detailNotice(notice_no));
-		return "notice/noticeupdate";
+	public String modify(@RequestParam("notice_no")int notice_no, Model model) {		
+		
+		NoticeVO vo =  service.getBoard(notice_no);
+		  System.out.println("*****************"+vo);
+		  
+		  if(vo == null) {
+			  vo = service.detailNotice(notice_no);
+			  model.addAttribute("vo",vo);
+			  logger.info("************NULL업데이트쪽상세정보"+vo);
+		  }else {
+			  model.addAttribute("vo",vo);
+			  logger.info("************업데이트쪽상세정보"+vo);
+		  }
+		 
+		  return "notice/noticeupdate";
 	}
 
 	@PostMapping("/noticeupdate.do")
@@ -237,7 +249,9 @@ public class NoticeController {
 	
 	@GetMapping("/noticedelete.do")
 	public String delete(@RequestParam("notice_no")int notice_no) {
-		service.deleteNotice(notice_no);
+		service.deleteNF(notice_no);		
+		//service.deleteNoticeFile(notice_no);
+		
 		return "redirect:/noticeList.do";
 	}
 }

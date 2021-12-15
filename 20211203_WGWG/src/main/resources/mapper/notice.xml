@@ -47,7 +47,7 @@
 	<!--  글 + 파일이름 -->
 	<select id="getBoard" parameterType="Integer" resultMap="NoticeDtoMap">
 		SELECT N.NOTICE_NO,N.EMP_NO, N.NOTICE_TITLE,N.NOTICE_CONTENT,TO_CHAR(N.NOTICE_REG_DT,'YYYY-MM-DD') NOTICE_REG_DT,
-		F.NOTICE_FILE_NM,F.NOTICE_FILE_SAVE_NM
+		NOTICE_CHK,F.NOTICE_FILE_NM,F.NOTICE_FILE_SAVE_NM
 			FROM NOTICE N JOIN NOTICE_FILE F
 			ON N.NOTICE_NO = F.NOTICE_NO
 			WHERE N.NOTICE_NO = #{notice_no}
@@ -118,11 +118,17 @@
 			WHERE NOTICE_NO = #{notice_no}
 	</update>
 	
-	<!-- 삭제 -->
+	<!-- 글삭제 -->
 	<delete id="deleteNotice" parameterType="Integer">
-	DELETE FROM NOTICE WHERE NOTICE_NO = #{notice_no}
+		DELETE FROM NOTICE 
+			WHERE NOTICE_NO = #{notice_no}
 	</delete>
-	
+	<!-- 파일삭제 -->
+	<delete id="deleteNoticeFile" parameterType="Integer">	
+		DELETE FROM NOTICE_FILE
+			WHERE NOTICE_NO = #{notice_no}
+	</delete>
+	<!-- 페이지 리스트 -->
 	<select id="selectPaging" parameterType="com.min.edu.vo.paging.PageVO" resultType="NoticeVo">
       SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
 			FROM (
@@ -136,6 +142,7 @@
 		WHERE RN BETWEEN #{start} AND #{last}  
    </select> 
    
+   <!-- 총괄페이지 갯수 -->
    <select id="selectTotalPaging" resultType="java.lang.Integer">
        SELECT NVL(COUNT(*),0)
             FROM NOTICE
