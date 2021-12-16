@@ -140,14 +140,14 @@ th, td {
                      </tr>
                   </thead>
                   <tbody>
-                     <c:forEach var="dept" items="${worklogDeptList}" varStatus="status">
+                     <c:forEach var="dept" items="${worklogdeptlist}" varStatus="status">
                         <tr>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
+                           <td>${dept.worklog_no}</td>
+                           <td>${dept.worklog_content}</td>
+                           <td>${dept.emp.emp_nm}</td>
+                           <td>${dept.position.position_nm}</td>
+                           <td>${dept.worklog_reg_dt}</td>
+                           <td>${dept.worklog_modify_dt}</td>
             </tr>
                      </c:forEach>
                   </tbody>

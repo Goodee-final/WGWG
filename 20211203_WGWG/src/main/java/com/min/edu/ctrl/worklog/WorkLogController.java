@@ -31,11 +31,14 @@ public class WorkLogController {
 	@Autowired
 	private IWorkLogService workLogService;
 	
+	public int emp_no = 2;
+	public int dept_no = 20;
+	
 	@RequestMapping(value = "/worklogList.do", method = RequestMethod.GET)
-	public String worklogList(Model model,@RequestParam int emp_no,@RequestParam int dept_no) {
+//	public String worklogList(Model model,@RequestParam int emp_no,@RequestParam int dept_no) {
+	public String worklogList(Model model) {
 		logger.info("WorkLogController worklogList 리스트 화면");
 		logger.info("업무일지 조회 페이지로 이동");
-		
 		model.addAttribute("emp_no", emp_no);
 		logger.info("전달받은 개인 번호 {}", emp_no);
 
