@@ -1,6 +1,7 @@
 package com.min.edu.model.approval;
 
 import java.util.List;
+import java.util.Map;
 
 import com.min.edu.vo.approval.Approval_Doc;
 import com.min.edu.vo.emp.Department;
@@ -10,7 +11,7 @@ import com.min.edu.vo.approval.Approver;
 public interface IApprovalService {
 
 	public List<Approval_Doc> selectAllDoc();
-	public String selectOneDoc(int empno);
+	public Approval_Doc selectOneDoc(int docno);
 	public Emp selectEmpInfo(int empno);
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();

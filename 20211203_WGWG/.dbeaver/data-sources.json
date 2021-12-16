@@ -27,6 +27,35 @@
 					"@dbeaver-connection-type@": "BASIC",
 					"@dbeaver-sid-service@": "SERVICE"
 				},
+				"auth-model": "oracle_native"
+			}
+		},
+		"oracle_thin-17dc331a3bc-25a266a4e2d1066": {
+			"provider": "oracle",
+			"driver": "oracle_thin",
+			"name": "XE 2",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "gdportal.iptime.org",
+				"port": "1521",
+				"database": "XE",
+				"url": "jdbc:oracle:thin:@//gdportal.iptime.org:1521/XE",
+				"home": "C:\\oraclexe\\app\\oracle\\product\\11.2.0\\server",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-check-schema-content@": "false",
+					"@dbeaver-always-show-dba@": "false",
+					"@dbeaver-always-use-dba-views@": "false",
+					"@dbeaver-meta-use-sys-schema@": "false",
+					"@dbeaver-meta-use-simple-constraints@": "false",
+					"@dbeaver-use-rule-hint@": "false",
+					"@dbeaver-use-meta-optimizer@": "false",
+					"@dbeaver-meta-use-alternative-table-query@": "false",
+					"oracle.meta-search-in-synonyms": "false",
+					"@dbeaver-connection-type@": "BASIC",
+					"@dbeaver-sid-service@": "SERVICE"
+				},
 				"auth-model": "oracle_native",
 				"handlers": {}
 			}

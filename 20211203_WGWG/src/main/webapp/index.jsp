@@ -151,12 +151,7 @@ ul {
 	background-position: center;
 	background-size: cover;
 }
-<<<<<<< HEAD
 
-
-/*side  */
-=======
->>>>>>> branch 'main' of https://github.com/tkdgns1127/WGWG.git
 
 /*side  */
 .sidebar {
@@ -253,7 +248,7 @@ i {
 	align-items: center;
 }
 
-.btn {
+#btn-app {
 	width: 150px;
 	height: 35px;
 	margin-top: 5px;
@@ -296,7 +291,7 @@ i {
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
 				<ul class="nav-flyout">
 					<li class="li-btn" value="./docinsert.do"><button
-							class="w3-btn w3-blue w3-round btn">기안하기</button></li>
+							class="w3-btn w3-blue w3-round btn" id="btn-app">기안하기</button></li>
 					<li class="w3-bar-item w3-button w3-hover-blue"
 						value="./signlist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전자서명 관리</li>
 					<li class="w3-bar-item w3-button w3-hover-blue"
