@@ -134,7 +134,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.10</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -235,7 +235,11 @@
 	    <artifactId>hibernate-validator</artifactId>
 	    <version>6.1.0.Final</version>
 	</dependency>
-
+	<dependency> 
+		<groupId>com.fasterxml.jackson.core</groupId> 
+		<artifactId>jackson-databind</artifactId> 
+		<version>2.12.3</version> 
+	</dependency>
 	</dependencies>
 	<build>
 		<finalName>20211203_WGWG</finalName>
