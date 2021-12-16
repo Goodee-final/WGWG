@@ -1,14 +1,11 @@
 package com.min.edu.ctrl.emp;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
-
 import com.min.edu.model.emp.IEmpService;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.UploadFile;
-
 @Controller
 public class EmpController {
-
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
@@ -34,7 +28,6 @@ public class EmpController {
 	
 	@Autowired
 	private IEmpService service;
-
 	
 	@GetMapping(value="/insert_emp_form.do")
 	public String insert_emp_form() {
@@ -113,8 +106,9 @@ public class EmpController {
 			 emp.setTel(tel); 
 			 emp.setEmail(email);
 			 emp.setWork_st(work_st);
-			 
+
 			 int newEmpno = service.insert_emp(emp);
+
 			 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -126,36 +120,6 @@ public class EmpController {
 				e.printStackTrace();
 			}
 		}
-		
-		logger.info("\\(￣︶￣*\\)파일업로드 끝\\(￣︶￣*\\)");
-		
-		
-		 
-		 String name = (String) model.getAttribute("name"); 
-		 int dept = (int)model.getAttribute("dept"); 
-		 String hiredate = (String)model.getAttribute("hiredate"); 
-		 String address = (String)model.getAttribute("address"); 
-		 int position = (int)model.getAttribute("position"); 
-		 String tel = (String)model.getAttribute("tel"); 
-		 String email = (String)model.getAttribute("email");
-		 String work_st = (String)model.getAttribute("work_st");
-		 
-		 emp.setEmp_nm(name); 
-		 emp.setPhoto(saveFileRoot); 
-		 emp.setDept_no(dept);
-		 emp.setHiredate(hiredate); 
-		 emp.setAddress(address);
-		 emp.setPosition_no(position); 
-		 emp.setTel(tel); 
-		 emp.setEmail(email);
-		 emp.setWork_st(work_st);
-		 
-		service.insert_emp(emp);
-		 
-		
 		return "emp/insertResult";
 	}
 }
-	
-	
-
