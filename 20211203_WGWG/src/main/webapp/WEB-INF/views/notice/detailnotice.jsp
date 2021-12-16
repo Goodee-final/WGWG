@@ -72,8 +72,17 @@
 		
 	
 	<div style="float: right;">
+		<!-- <c:if test="${}">회사글 수정하기 -->
+			<input type="button" class="btn btn-primary" value="회사글 수정" onclick="location.href='./noticeupdate.do?notice_no=${vo.notice_no}'">
+			<input type="button" class="btn btn-primary" value="회사글 삭제" onclick="noticedelete(${vo.notice_no})">
+		<!--</c:if>-->
+		
+		
 		<input type="button" class="btn btn-primary" value="수정" onclick="location.href='./noticeupdate.do?notice_no=${vo.notice_no}'">
-		<input type="button" class="btn btn-primary" value="삭제" onclick="noticedelete(${vo.notice_no})">
+			<input type="button" class="btn btn-primary" value="삭제" onclick="noticedelete(${vo.notice_no})">
+		<!-- <c:if test="">  나중에 수정 삭제는 로그인 한 사람이 작성했으면 버튼이 보이도록 -->			
+			
+		<!--</c:if>-->
 		<input type="button" class="btn btn-primary"  value="글 목록" onclick="location.href='./noticeList.do';">
 	</div>	 
 </div>

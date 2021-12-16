@@ -18,16 +18,33 @@ public class EmpDaoImpl implements IEmpDao {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public boolean insert_emp(Emp emp) {
+	public int insert_emp(Emp emp) {
 		logger.info("EmpDaoImpl insert_emp : "+emp);
-		int cnt = sqlSession.insert(NS+"insert_emp",emp);
-		return (cnt>0)?true:false;
+		sqlSession.insert(NS+"insert_emp",emp);
+		return emp.getEmp_no();
 	}
 
 	@Override
 	public Emp getLogin(Emp emp) {
 		logger.info("LoginDaoImpl 로그인 : " + emp);
 		return sqlSession.selectOne(NS+"getLogin", emp);
+	}
+
+	@Override
+	public String getRandomPw() {
+		return sqlSession.selectOne(NS+"getRandomPw");
+	}
+
+	@Override
+	public String getEmailByEmpno(int emp_no) {
+		logger.info("EmpDaoImpl getEmailByEmpno : ",emp_no);
+		return sqlSession.selectOne(NS+"getEmailByEmpno",emp_no);
+	}
+	
+	@Override
+	public int updatePW(Emp emp) {
+		logger.info("EmpDaoImpl 임시 비밀번호 업데이트 : {}",emp);
+		return sqlSession.update(NS+"updatePW",emp);
 	}
 
 	

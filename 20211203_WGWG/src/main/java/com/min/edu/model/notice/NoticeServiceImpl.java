@@ -9,34 +9,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.min.edu.vo.notice.NoticeFileVO;
+import com.min.edu.vo.notice.NoticePageVO;
 import com.min.edu.vo.notice.NoticeVO;
-import com.min.edu.vo.paging.PageVO;
 
 @Service
 public class NoticeServiceImpl implements INoticeService{
 	
-
 	@Autowired
-	private INoticeDao dao;
-
-	@Override
-	public List<NoticeVO> getAllList() {		
-		return dao.getAllList();
-	}
+	private INoticeDao dao;	
 	
 	@Override
 	public int insertFile(NoticeFileVO vo) {		
 		return dao.insertFile(vo);
 	}
 	
-	@Override
-	public int insertBoardF(NoticeVO nvo,NoticeFileVO fvo) {		
-		int count = 0;
-		count += dao.insertBoard(nvo);		
-		count+=  dao.insertFile(fvo);		
-		return count;
-	}
-
 	@Override
 	public NoticeVO getBoard(int notice_no) {		
 		return dao.getBoard(notice_no);
@@ -46,22 +32,12 @@ public class NoticeServiceImpl implements INoticeService{
 	public NoticeFileVO getFile(int notice_file_no) {		
 		return dao.getFile(notice_file_no);
 	}
-
-	@Override
-	public int countNotice() {
-		return dao.countNotice();
-	}
 	
 	@Override
 	public int countNoticechk(String notice_chk) {
 		return dao.countNoticechk(notice_chk);
 	}
 	
-	@Override
-	public List<NoticeVO> selectNotice(PageVO vo) {
-		return dao.selectNotice(vo);
-	}
-
 	@Override
 	public int insertNotice(NoticeVO vo) {		
 		return dao.insertNotice(vo);
@@ -71,9 +47,14 @@ public class NoticeServiceImpl implements INoticeService{
 	public NoticeVO detailNotice(int notice_no) {
 		return dao.detailNotice(notice_no);
 	}
-
+	
 	@Override
-	public List<NoticeVO> selectNotchk(PageVO vo) {
+	public int updatecnt(int notice_no) {
+		return dao.updatecnt(notice_no);
+	}
+	
+	@Override
+	public List<NoticeVO> selectNotchk(NoticePageVO vo) {
 		return dao.selectNotchk(vo);
 	}
 
@@ -81,6 +62,12 @@ public class NoticeServiceImpl implements INoticeService{
 	public int updateNotice(NoticeVO vo) {
 		return dao.updateNotice(vo);
 	}
+	
+	@Override
+	public int updateFile(NoticeFileVO vo) {
+		return dao.updateFile(vo);
+	}
+
 	
 	@Override
 	public int deleteNotice(int notice_no) {
@@ -92,14 +79,14 @@ public class NoticeServiceImpl implements INoticeService{
 		return dao.deleteNoticeFile(notice_no);
 	}
 	
-	@Transactional
+	@Override
 	public int deleteNF(int notice_no) {
-		int n = dao.deleteNotice(notice_no);
 		int m = dao.deleteNoticeFile(notice_no);
+		int n = dao.deleteNotice(notice_no);		
 		return n+m;
 	}
 	@Override
-	public List<NoticeVO> selectPaging(PageVO paging) {		
+	public List<NoticeVO> selectPaging(NoticePageVO paging) {		
 		return dao.selectPaging(paging);
 	}
 
@@ -107,14 +94,6 @@ public class NoticeServiceImpl implements INoticeService{
 	public int selectTotalPaging() { 
 		return dao.selectTotalPaging();
 	}
-
-	
-
-	
-
-	
-
-	
 
 	
 }

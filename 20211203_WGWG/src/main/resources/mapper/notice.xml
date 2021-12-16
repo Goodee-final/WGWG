@@ -19,28 +19,27 @@
 			<result column="NOTICE_FILE_REG_DT" property="notice_file_reg_dt"/>
 			<result column="NOTICE_NO" property="notice_no"/>
 	</resultMap>
+	<!-- 글입력 -->
+	<insert id="insertNotice" parameterType="NoticeVo">		
+	INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
+							 NOTICE_REG_DT, NOTICE_CHK,NOTICE_CNT ,EMP_NO)
+				VALUES (NOTICE_NO_SEQ.NEXTVAL, #{notice_title}, #{notice_content},SYSDATE,
+				#{notice_chk},'0',#{emp_no})
+	</insert>
 	
-	<!-- 회사의 공지사항 -->
-	<!-- <select id="getAllListC" resultType="NoticeVo">
-		SELECT n.NOTICE_NO, n.NOTICE_TITLE, n.NOTICE_REG_DT, e.EMP_NM 
-			FROM NOTICE n JOIN EMP e				
-			ORDER BY n.NOTICE_NO			
-	</select> -->
+	<!-- 회사 글입력 -->
+	<insert id="insertNoticeCompany" parameterType="NoticeVo">		
+	INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
+							 NOTICE_REG_DT, NOTICE_CHK,NOTICE_CNT ,EMP_NO)
+				VALUES (NOTICE_NO_SEQ.NEXTVAL, #{notice_title}, #{notice_content},SYSDATE,
+				'회사','0',#{emp_no})
+	</insert>
 	
-	<!-- 본인이 속한 부서의 공지사항 -->
-	<!-- <select id="getdeptlist" parameterType="Integer" resultType="NoticeVo">
-		SELECT n.NOTICE_NO, n.NOTICE_TITLE, n.NOTICE_REG_DT, e.EMP_NM 
-			FROM NOTICE n JOIN EMP e	
-			ON e.DEPT_NO = #{dept_no}
-			ORDER BY n.NOTICE_NO			
-	</select> -->	
-	
-	  
 	<!-- 파일입력 -->
 	<insert id="insertFile" parameterType="NoticeFileVo">
 		INSERT INTO NOTICE_FILE
 			(NOTICE_FILE_NO, NOTICE_FILE_NM, NOTICE_FILE_SAVE_NM, 
-			NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT, NOTICE_NO)
+			NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT ,NOTICE_NO)
 			VALUES(NOTICE_FILE_NO_SEQ.NEXTVAL, #{notice_file_nm}, #{notice_file_save_nm},
 						 #{notice_file_size}, SYSDATE,NOTICE_NO_SEQ.CURRVAL)	
 	</insert>	
@@ -53,7 +52,7 @@
 			WHERE N.NOTICE_NO = #{notice_no}
 	</select>
 	
-	<!-- 파일만 -->
+	<!-- 파일만 검색 -->
 	<select id="getFile" parameterType="Integer" resultType="NoticeFileVo">
 		SELECT NOTICE_FILE_NO, NOTICE_FILE_NM, NOTICE_FILE_SAVE_NM, 
 						NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT, NOTICE_NO
@@ -62,35 +61,7 @@
 	</select>
 	
 	<!--  여기부터  -->
-	<!-- 총 게시글 갯수 출력 -->
-	<select id="countNotice" resultType="Integer">
-		SELECT COUNT(*) FROM NOTICE
-	</select>
-	<!-- 부서벌 게시글 갯수 출력 -->
-	<select id="countNoticechk" resultType="Integer">
-		SELECT COUNT(*) FROM NOTICE WHERE NOTICE_CHK = #{notice_chk}
-	</select>
 	
-	<!-- 페이징 처리 후 게시글 조회 -->
-	<select id="selectNotice" resultType="NoticeVo">
-		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
-			FROM (
-				SELECT ROWNUM RN, A.* 
-					FROM (
-							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
-							FROM NOTICE 
-							ORDER BY NOTICE_NO DESC 
-							) A
-					)
-		WHERE RN BETWEEN #{start} AND #{end}
-	</select>
-	<!-- 글입력 -->
-	<insert id="insertNotice" parameterType="NoticeVo">		
-	INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
-							 NOTICE_REG_DT, NOTICE_CHK, EMP_NO)
-				VALUES (NOTICE_NO_SEQ.NEXTVAL, #{notice_title}, #{notice_content},SYSDATE,
-				#{notice_chk},#{emp_no})
-	</insert>
 	<!-- 상세보기 -->
 	<select id="detailNotice" parameterType="Integer" resultType="NoticeVo" >
  		 SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
@@ -98,25 +69,27 @@
  		 	FROM NOTICE
  		 	WHERE NOTICE_NO = #{notice_no}
 	</select>
-	<!-- notchk리스트 -->
-	<select id="selectNotchk" parameterType="com.min.edu.vo.paging.PageVO" resultType="NoticeVo">
-		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
-			FROM (
-				SELECT ROWNUM RN, A.* 
-					FROM (
-							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO,NOTICE_CHK
-							FROM NOTICE 
-							ORDER BY NOTICE_NO DESC 
-							) A
-					)
-		WHERE RN BETWEEN #{start} AND #{end} AND NOTICE_CHK = #{notice_chk}
-	</select>
+	
+	<!-- 조회수 +1 -->
+		<update id="updatecnt" parameterType="Integer">
+		  UPDATE NOTICE SET NOTICE_CNT = NOTICE_CNT + 1 WHERE NOTICE_NO = #{notice_no}
+		</update>
+	
+	
 	<!-- 글수정 -->
 	<update id="updateNotice" parameterType="NoticeVo">
 		UPDATE NOTICE 
 			SET NOTICE_TITLE = #{notice_title}, NOTICE_CONTENT = #{notice_content}
 			WHERE NOTICE_NO = #{notice_no}
 	</update>
+	<!-- 파일수정 -->
+	<insert id="updateFile" parameterType="NoticeFileVo">
+		INSERT INTO NOTICE_FILE
+			(NOTICE_FILE_NO, NOTICE_FILE_NM, NOTICE_FILE_SAVE_NM, 
+			NOTICE_FILE_SIZE, NOTICE_FILE_REG_DT ,NOTICE_NO)
+			VALUES(NOTICE_FILE_NO_SEQ.NEXTVAL, #{notice_file_nm}, #{notice_file_save_nm},
+						 #{notice_file_size}, SYSDATE,#{notice_no})	
+	</insert>	
 	
 	<!-- 글삭제 -->
 	<delete id="deleteNotice" parameterType="Integer">
@@ -128,24 +101,61 @@
 		DELETE FROM NOTICE_FILE
 			WHERE NOTICE_NO = #{notice_no}
 	</delete>
-	<!-- 페이지 리스트 -->
-	<select id="selectPaging" parameterType="com.min.edu.vo.paging.PageVO" resultType="NoticeVo">
-      SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
-			FROM (
-				SELECT ROWNUM RN, A.* 
-					FROM (
-							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO
-							FROM NOTICE 
-							ORDER BY NOTICE_NO DESC 
-							) A
-					)
-		WHERE RN BETWEEN #{start} AND #{last}  
-   </select> 
+	
    
    <!-- 총괄페이지 갯수 -->
    <select id="selectTotalPaging" resultType="java.lang.Integer">
        SELECT NVL(COUNT(*),0)
-            FROM NOTICE
-      
+            FROM NOTICE 
+            <if test="searchKeyword != null and searchKeyword != ''">
+			WHERE LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
+		</if>     
    </select>
+   
+   <!-- 페이지 리스트 -->
+	<select id="selectPaging" parameterType="com.min.edu.vo.notice.NoticePageVO" resultType="NoticeVo">
+      SELECT NOTICE_NO, NOTICE_TITLE, TO_CHAR(NOTICE_REG_DT,'YYYY-MM-DD') AS NOTICE_REG_DT,EMP_NO,NOTICE_CNT
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO,NOTICE_CNT
+							FROM NOTICE 
+							ORDER BY NOTICE_NO DESC 
+							) A
+					)
+		WHERE RN BETWEEN #{start} AND #{last} 
+		<if test="searchKeyword != null and searchKeyword != ''">
+			 AND LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
+		</if>
+   </select> 
+   
+   <!-- 부서벌 게시글 갯수 출력 -->
+	<select id="countNoticechk" resultType="Integer">
+		SELECT NVL(COUNT(*),0)
+		 FROM NOTICE 
+		 WHERE
+		  <if test="notice_chk != null and notice_chk != ''">
+		  	NOTICE_CHK = #{notice_chk}
+		  </if>
+		  <if test="searchKeyword != null and searchKeyword != ''">
+			AND LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
+		</if>
+	</select>
+	<!-- notchk리스트 -->
+	<select id="selectNotchk" parameterType="com.min.edu.vo.notice.NoticePageVO" resultType="NoticeVo">
+		SELECT NOTICE_NO, NOTICE_TITLE, TO_CHAR(NOTICE_REG_DT,'YYYY-MM-DD') AS NOTICE_REG_DT,EMP_NO,NOTICE_CNT
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,NOTICE_CHK,EMP_NO,NOTICE_CNT
+							FROM NOTICE 
+							) A
+					)
+		WHERE RN BETWEEN #{start} AND #{last} AND NOTICE_CHK =#{notice_chk}
+		<if test="searchKeyword != null and searchKeyword != ''">
+			 AND LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
+		</if>
+	</select>
+	
+	
 </mapper>
