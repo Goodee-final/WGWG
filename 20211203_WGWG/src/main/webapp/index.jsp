@@ -79,27 +79,33 @@ ul {
 }
 
 .header {
+	display: block;
 	max-width: 1600px;
 	height: 80px;
-	background-color: #073865 !important;
-	margin: 0;
+	margin: 0 auto;
 	padding: 0;
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
+<<<<<<< HEAD
 	z-index: 10;
+=======
+	border-bottom: 2px solid #EEEEEE;
+	background-color: white;
+>>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
 }
 
 #logo-image {
-	width: 200px;
-	height: 45px;
-	background-image: url("./img/logo.png");
+	width: 190px;
+	height: 50px;
+	background-image: url("./img/logo1.png");
 	background-color: white;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
-	margin: 0 auto;
+	margin-top: 15px;
+	margin-left: 30px;
 }
 
 .nav li {
@@ -111,9 +117,14 @@ ul {
 }
 
 .right {
-	float: right;
-	margin-right: 30px;
 	color: white;
+	float: right;
+}
+
+.right .nav{
+	position: fixed;
+	top: 0;
+	right: 60px;
 }
 
 .right .nav li {
@@ -125,7 +136,7 @@ ul {
 	height: 35px;
 	margin: 0 auto;
 	margin-right: 5px;
-	margin-top: 5px;
+	margin-top: 15px;
 }
 
 .nav-icon:hover {
@@ -133,21 +144,21 @@ ul {
 }
 
 #mypage-img {
-	background-image: url("./img/user.svg");
+	background-image: url("./img/user1.svg");
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
 }
 
 #alert-img {
-	background-image: url("./img/bell.svg");
+	background-image: url("./img/bell1.svg");
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
 }
 
 #logout-img {
-	background-image: url("./img/logoutt.svg");
+	background-image: url("./img/logout.svg");
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
@@ -160,13 +171,20 @@ ul {
 >>>>>>> branch 'main' of https://github.com/tkdgns1127/WGWG.git
 
 /*side  */
-.sidebar {
-	background-color: #19222a;
+.w3-sidebar {
+	background-color: #073865 !important;
+}
+.nav1 {
+	padding-left: 20px !important;
+	padding-top: 20px !important;
 }
 
 
 .nav-flyout {
 	display: none;
+	margin: 0;
+	width: 150px;
+	font-size: 15px !important;
 }
 
 
@@ -174,53 +192,62 @@ ul {
 	display: block;
 }
 
+<<<<<<< HEAD
 
 .nav1 {
 	padding: 5px;
 }
+=======
+>>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
 
 
 ul {
 	list-style: none;
-	margin-left: 0;
-	padding-left: 0;
+	margin: 0 !important;
+	padding: 0 !important;
 }
 
+<<<<<<< HEAD
 
 .w3-sidebar>ul>li {
 	list-style: none;
 	margin-top: 5px;
 	margin-left: 0;
 	font-size: 16px;
-}
-
-.nav-flyout a {
-	text-decoration: none;
-	color: #073865;
-	font-size: 16px;
-}
-
-.nav-flyout li {
-	background-color: whitesmoke;
-}
-
-.w3-sidebar>ul>li:hover {
-	color: #107EE6;
-}
-
-.w3-sidebar>ul>li:hover>ul>li {
-	color: #073865;
-	font-size: 16px;
-}
-
-.w3-sidebar>ul li:hover>i {
-	color: #107EE6;
+=======
+.nav-flyout li:hover {
+	background-color: #073865;
+	color: white;
+>>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
 }
 
 .w3-sidebar>ul>li {
 	text-decoration: none;
+	color: white;
+	list-style: none;
+	margin-left: 0;
+	font-size: 18px !important;
+}
+
+.w3-sidebar>ul>li:hover {
+	background-color: white;
 	color: #073865;
-	font-size: 20px;
+}
+
+.w3-sidebar>ul>li:hover>ul>li {
+	background-color: white;
+	color: #073865;
+	font-size: 16px !important;
+}
+
+.w3-sidebar>ul li:hover>i {
+	color: #073865;
+}
+
+.w3-button:hover {
+	background-color: #073865 !important;
+	color: white !important;
+	width: 130px;
 }
 
 .w3-bar-block .w3-bar-item {
@@ -228,8 +255,8 @@ ul {
 }
 
 i {
-	color: #073865;
-	padding: 2px;
+	color: white;
+	padding-left: 2px;
 	padding-right: 4px;
 }
 
@@ -243,7 +270,7 @@ i {
 	margin-left: 5px;
 }
 
-.fas:hover {
+.far:hover .fas:hover {
 	color: black;
 	cursor: pointer;
 }
@@ -255,17 +282,35 @@ i {
 }
 
 .btn {
-	width: 150px;
+	width: 100px;
 	height: 35px;
 	margin-top: 5px;
 	margin-bottom: 5px;
+	background-color: #073865;
+	color: white;
+}
+
+.btn:hover {
+	color: white;
+}
+
+.footer {
+    width: 1420px;
+    height: 200px;
+    margin-left: 180px;
+    background-color: #f1f1f1;
+    display: block;    
+}
+.footer-content {
+	width: 800px;
+	height: 150px;
 }
 </style>
 
 </head>
 
 <body oncontextmenu="return false">
-	<div class="header">
+	<header class="header">
 		<div class="left">
 			<ul class="nav">
 				<li><div id="logo-image"></div></li>
@@ -287,11 +332,12 @@ i {
 				</li>
 			</ul>
 		</div>
-	</div>
+	</header>
 
 
 	<!-- Sidebar -->
 	<!--  w3-light-grey -->
+<<<<<<< HEAD
 	<div class="w3-sidebar w3-bar-block" style="width: 230px; margin-top: 50px; background-color: white; border-right: 2px solid #073865;">
 		<ul>
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
@@ -316,62 +362,105 @@ i {
 						value="./mydoclist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;개인문서함</li>
 					<li class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;임시문서함</li>
 				</ul></li>
+=======
+	<article class="w3-sidebar w3-bar-block"
+		style="width: 180px; margin-top: 30px; background-color: white; border-right: 2px solid #EEEEEE;">
+		<ul>
+			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
+				<ul class="nav-flyout">
+					<li class="w3-bar-item w3-button" value="">기안하기</li>
+					<li class="w3-bar-item w3-button"
+						value="./signlist.do">전자서명 관리</li>
+					<li class="w3-bar-item w3-button"
+						value="./signinsert.do">전자서명 등록</li>
+					<li class="w3-bar-item w3-button"
+						value="./signdraw.do">전자서명만들기</li>
+					<li class="w3-bar-item w3-button" value="">결재
+						진행함</li>
+					<li class="w3-bar-item w3-button" value="">결재
+						대기함</li>
+					<li class="w3-bar-item w3-button"
+						value="./completedoc.do">결재 완료함</li>
+					<li class="w3-bar-item w3-button" value="">참조문서함</li>
+					<li class="w3-bar-item w3-button">개인문서함</li>
+					<li class="w3-bar-item w3-button">임시문서함</li>
+				</ul>
+			</li>
+>>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
 
 			<li class="w3-bar-item nav1"><i class="fas fa-business-time"></i>근태관리
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;근태관리</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;근태관리</li>
+					<li class="w3-bar-item w3-button" value="">근태관리</li>
+					<li class="w3-bar-item w3-button" value="">근태관리</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="fas fa-thumbtack"></i> 공지사항
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./noticeList.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공지사항</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공지사항</li>
+					<li class="w3-bar-item w3-button"
+						value="./noticeList.do">공지사항</li>
+					<li class="w3-bar-item w3-button" value="">공지사항</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>일정관리
 				<ul class="nav-flyout">
+<<<<<<< HEAD
 					<li class="w3-bar-item w3-button w3-hover-blue"
 						value="./loadForm.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</li>
 					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</li>
 				</ul>
 			</li>
+=======
+					<li class="w3-bar-item w3-button"
+						value="./loadForm.do">일정관리</li>
+					<li class="w3-bar-item w3-button" value="">일정관리</li>
+				</ul></li>
+>>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약관리
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;예약관리</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;예약관리</li>
+					<li class="w3-bar-item w3-button" value="">예약관리</li>
+					<li class="w3-bar-item w3-button" value="">예약관리</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i>업무일지
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</li>
+					<li class="w3-bar-item w3-button" value="">업무일지</li>
+					<li class="w3-bar-item w3-button" value="">업무일지</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>채팅
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;채팅</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;채팅</li>
+					<li class="w3-bar-item w3-button" value="">채팅</li>
+					<li class="w3-bar-item w3-button" value="">채팅</li>
 				</ul></li>
-			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>양식함
+			<li class="w3-bar-item nav1"><i class="fas fa-file"></i>양식함
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button w3-hover-blue" value="./formlist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식목록</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="./forminsert.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식등록</li>
+					<li class="w3-bar-item w3-button" value="./formlist.do">양식목록</li>
+					<li class="w3-bar-item w3-button" value="./forminsert.do">양식등록</li>
 				</ul></li>
 			<li class="w3-bar-item nav1"><i class="fas fa-users"></i>사원관리
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./insert_emp_form.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원등록</li>
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원조회</li>
+					<li class="w3-bar-item w3-button "
+						value="./insert_emp_form.do">사원등록</li>
+					<li class="w3-bar-item w3-button "
+						value="">사원조회</li>
 				</ul></li>
 		</ul>
+	</article>
+	<div id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px; width: 900px; height: 700px;">
+		인덱스 화면
 	</div>
+<<<<<<< HEAD
 
 	<div id="content" style="margin-left: 230px; margin-top: 50px; padding: 50px;">
 		인덱스 화면
 	</div>
 
+=======
+	<footer class="footer">
+		<div class="footer-content">
+			<p>주소: 서울특별시 금천구 가산디지털2로 00 </p>
+		</div>
+    </footer>
+>>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
 </body>
