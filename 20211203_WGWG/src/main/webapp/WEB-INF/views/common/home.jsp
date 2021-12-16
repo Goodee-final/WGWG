@@ -19,7 +19,7 @@
 
 
 <script type="text/javascript">
-	var loc = "${loc}";
+	var loc = "<%=session.getAttribute("loc") %>"
 
 	$(document).ready(function() {
 		console.log(loc);

@@ -8,12 +8,14 @@ import java.io.OutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,8 @@ import org.springframework.web.util.WebUtils;
 import com.min.edu.vo.notice.NoticeFileVO;
 import com.min.edu.vo.notice.NoticeVO;
 import com.min.edu.vo.paging.PageVO;
+
+
 import com.min.edu.model.notice.INoticeService;
 
 @Controller
@@ -93,13 +97,20 @@ public class NoticeController {
 	@PostMapping(value="/noticeInsert.do")
 	public String insertNotice(NoticeVO vo,HttpServletRequest requset ,	Model model) {
 		//int cnt = service.insertNotice(vo);
+		System.out.println();
 		
-		if(vo.getFile()!=null) {
-		MultipartFile file = vo.getFile();
+		if(vo.getFile().getSize() <= 0) {
+			logger.info("파일없을때 실행");			
+			service.insertNotice(vo);			
+			
+		}else {
+			
+			logger.info("파일있을때 실행");
+			MultipartFile file = vo.getFile();
 		
 		//경로를 따로 db에 저장해주는게 좋음.
 		String fileName= file.getOriginalFilename();
-		vo.setFile_name(fileName);
+		
 		NoticeUtil.createUUID();
 		NoticeFileVO fvo = new NoticeFileVO();
 		String notice_file_save_nm = NoticeUtil.createUUID()+
@@ -124,11 +135,11 @@ public class NoticeController {
 				inputStream = file.getInputStream();  //파일을 읽어와서 10101001식으로 읽어온다. (while을 사용하면 다중파일 가능)
 				
 				//저장 위치를 만듬
-				
+				//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
 				String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
 				System.out.println("*******"+requset.getSession().getServletContext());
 				
-				//String path = "C:\\eclipse\\Spring\\20211214_Spring_File\\src\\main\\webapp\\storage"; //절대경로
+				
 				System.out.println("*******"+path);
 				
 				//만약 저장위치가 없다면 저장위치만들기
@@ -137,7 +148,7 @@ public class NoticeController {
 					storage.mkdirs();
 				}
 				//저장할 파일이 없다면 만들어주고 override 함
-				File newfile = new File(path+"/"+fileName);
+				File newfile = new File(path+"/"+notice_file_save_nm);
 				if(!newfile.exists()) {
 					newfile.createNewFile();
 				}
@@ -161,11 +172,6 @@ public class NoticeController {
 					e.printStackTrace();
 				}
 			}		
-			
-			
-		}else {
-			vo.setFile_name("파일없음");
-			service.insertNotice(vo);			
 		}
 		
 		
@@ -173,20 +179,66 @@ public class NoticeController {
 		return "redirect:/noticeList.do";
 		
 	}
-	@RequestMapping(value ="/detailnotice.do" , method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value ="/detailnotice.do" , method = RequestMethod.GET)
 	public String viewDetail(Model model, 
 	                        @RequestParam("notice_no")int notice_no) {
 	  NoticeVO vo =  service.getBoard(notice_no);
 	  System.out.println("*****************"+vo);
-	  model.addAttribute("vo",vo);
-
+	  
+	  if(vo == null) {
+		  vo = service.detailNotice(notice_no);
+		  model.addAttribute("vo",vo);
+		  logger.info("************NULL?상세정보"+vo);
+	  }else {
+		  model.addAttribute("vo",vo);
+		  logger.info("************상세정보"+vo);
+	  }
+	 
 	  return "notice/detailnotice";
 	}
 	
+	@RequestMapping(value ="/noticeFiledownload.do" , method = RequestMethod.POST)
+	@ResponseBody
+	public byte[] noticeFiledownload(HttpServletRequest request,  //상대 경로를 나타냄
+							HttpServletResponse responce  // 헤더정보를 입력
+							) throws IOException {  //파일명
+		
+		//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
+		String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
+		
+		String notice_file_save_nm =request.getParameter("notice_file_save_nm");
+		String notice_file_nm =request.getParameter("notice_file_nm");
+		File file = new File(path+"/"+notice_file_save_nm);
+		//값을 복제해서 넘겨줌
+		byte[] bytes = FileCopyUtils.copyToByteArray(file);
+		
+		//파일명을 인코딩
+		String outFileName = new String(notice_file_nm.getBytes(),"8859_1");
+		
+		//브라우저에서 해당 파일을 페이지가 아닌 파일로 전송 받기 위한 Header 정보 전송타입을 선언(ContentType)
+		
+		responce.setHeader("Content-Disposition", "attachment; filename=\""+outFileName+"\"");
+		responce.setContentLength(bytes.length);
+		responce.setContentType("application/octet-stream");
+		return bytes;
+	}
+	
 	@GetMapping("/noticeupdate.do")
-	public String modify(@RequestParam("notice_no")int notice_no, Model model) {
-		model.addAttribute("vo", service.detailNotice(notice_no));
-		return "notice/noticeupdate";
+	public String modify(@RequestParam("notice_no")int notice_no, Model model) {		
+		
+		NoticeVO vo =  service.getBoard(notice_no);
+		  System.out.println("*****************"+vo);
+		  
+		  if(vo == null) {
+			  vo = service.detailNotice(notice_no);
+			  model.addAttribute("vo",vo);
+			  logger.info("************NULL업데이트쪽상세정보"+vo);
+		  }else {
+			  model.addAttribute("vo",vo);
+			  logger.info("************업데이트쪽상세정보"+vo);
+		  }
+		 
+		  return "notice/noticeupdate";
 	}
 
 	@PostMapping("/noticeupdate.do")
@@ -197,7 +249,9 @@ public class NoticeController {
 	
 	@GetMapping("/noticedelete.do")
 	public String delete(@RequestParam("notice_no")int notice_no) {
-		service.deleteNotice(notice_no);
+		service.deleteNF(notice_no);		
+		//service.deleteNoticeFile(notice_no);
+		
 		return "redirect:/noticeList.do";
 	}
 }
