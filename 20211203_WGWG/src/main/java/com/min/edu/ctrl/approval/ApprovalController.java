@@ -19,6 +19,7 @@ import com.min.edu.model.approval.IApprovalService;
 import com.min.edu.vo.approval.Approval_Doc;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.form.Form;
 
 @Controller
 public class ApprovalController {
@@ -40,10 +41,21 @@ public class ApprovalController {
 		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
 		  
 	      logger.info("ApprovalController 전체글 조회 List");
-	      List<Approval_Doc> doclists = approvalServiceImpl.selectAllDoc();
+	      List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(1);
+	      
 	      model.addAttribute("doclists", doclists);
 	      return "/approval/mydoclist";
 	   }
+	   
+		@PostMapping(value = "/mydoclist.do")
+		public String searchdoclist(String title, Model model) {
+			int empno = 1;
+			logger.info("ApprovalController 문서 제목 검색 List");
+			System.out.println(title);
+			List<Approval_Doc> doclists = approvalServiceImpl.searchdoclist(title, empno);
+			model.addAttribute("doclists", doclists);
+			return "/approval/mydoclist";
+		}
 	   
 	   @GetMapping(value="/docinsert.do")
 	   public String docinsert(Model model) {

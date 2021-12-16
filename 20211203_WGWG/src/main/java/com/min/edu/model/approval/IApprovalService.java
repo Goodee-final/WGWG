@@ -9,7 +9,8 @@ import com.min.edu.vo.approval.Approver;
 
 public interface IApprovalService {
 
-	public List<Approval_Doc> selectAllDoc();
+	public List<Approval_Doc> selectmyAllDoc(int empno);
+	public List<Approval_Doc> searchdoclist(String title, int empno);
 	public String selectOneDoc(int empno);
 	public Emp selectEmpInfo(int empno);
 	public List<Emp> selectAllEmp();
