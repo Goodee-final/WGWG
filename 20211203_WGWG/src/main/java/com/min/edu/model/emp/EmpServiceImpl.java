@@ -12,14 +12,29 @@ public class EmpServiceImpl implements IEmpService {
 	IEmpDao dao;
 	
 	@Override
-	public boolean insert_emp(Emp emp) {
-		Boolean result = dao.insert_emp(emp);
-		return result;
+	public int insert_emp(Emp emp) {
+		dao.insert_emp(emp);
+		return emp.getEmp_no();
 	}
 
 	@Override
 	public Emp getLogin(Emp emp) {
 		return dao.getLogin(emp);
+	}
+
+	@Override
+	public String getRandomPw() {
+		return dao.getRandomPw();
+	}
+
+	@Override
+	public String getEmailByEmpno(int emp_no) {
+		return dao.getEmailByEmpno(emp_no);
+	}
+	
+	@Override
+	public int updatePW(Emp emp) {
+		return dao.updatePW(emp);
 	}
 
 }
