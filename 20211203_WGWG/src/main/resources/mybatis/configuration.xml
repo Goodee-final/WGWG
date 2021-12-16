@@ -5,6 +5,7 @@
 <typeAliases>
 	<typeAlias type="com.min.edu.vo.form.FormClassification" alias="formcDto"/>
 	<typeAlias type="com.min.edu.vo.form.Form" alias="formDto"/>
+	<typeAlias type="com.min.edu.vo.attendence.WorkRecord" alias="workRecordDto"/>
   
 	<typeAlias type="com.min.edu.vo.schedule.ScheduleVO" alias="ScheduleVo"/>
 	<typeAlias type="com.min.edu.vo.schedule.SharedScheduleVO" alias="SharedVo"/>

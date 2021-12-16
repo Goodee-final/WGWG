@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.attendence.WorkRecordDaoImpl">
+
+<resultMap type="com.min.edu.vo.attendence.WorkRecord" id="WorkRecordJoinVo">
+	<result property="emp_no" column="EMP_NO"/>
+	<result property="work_log" column="WORK_LOG"/>
+	<result property="edto.emp_nm" column="EMP_NM"/>
+</resultMap>
+
+<select id="selectworkrecord" parameterType="java.lang.Integer" resultMap="WorkRecordJoinVo">
+	SELECT wr.EMP_NO, e.EMP_NM. wr.WORK_LOG
+	FROM WORk_RECORD wr JOIN EMP e
+	ON wr.EMP_NO = e.EMP_NO
+	WHERE wr.EMP_NO = #{empno}
+</select>
+</mapper>

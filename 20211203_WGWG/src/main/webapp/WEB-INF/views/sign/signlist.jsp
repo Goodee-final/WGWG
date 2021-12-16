@@ -9,6 +9,14 @@
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#move-btn1').click(function(){
+				<%session.setAttribute("loc","./signinsert.do");%>
+			});
+		});
+	</script>
+
 <title>전자 서명 관리</title>
 <style type="text/css">
 td {
@@ -28,8 +36,8 @@ td {
 				<c:if test="${empty signList}">
 
 					<p style="margin-top: 50px;">등록된 전자서명이 없습니다.</p>
-					<button class="btn btn-primary"
-						onclick="location.href='./signinsert.do'">전자서명 등록</button>
+					<button class="btn btn-primary" id="move-btn1"
+						onclick="location.href='./'">전자서명 등록</button>
 				</c:if>
 
 				<c:if test="${!empty signList}">

@@ -3,6 +3,8 @@ package com.min.edu.vo.notice;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class NoticeVO implements Serializable{	
 	
 	private static final long serialVersionUID = 8452466079810478174L;
@@ -13,13 +15,21 @@ public class NoticeVO implements Serializable{
 	private String notice_reg_dt;
 	private String notice_chk;
 	private int emp_no;
-	private List<NoticeFileVO> noticefile;
+	private int notice_cnt;
+	private NoticeFileVO noticefile;
+	private MultipartFile file;
+	
 	
 	public NoticeVO() {		
 	}
 
+	
+
+	
+
+
 	public NoticeVO(int notice_no, String notice_title, String notice_content, String notice_reg_dt, String notice_chk,
-			int emp_no, List<NoticeFileVO> noticefile) {
+			int emp_no, int notice_cnt, NoticeFileVO noticefile, MultipartFile file) {
 		super();
 		this.notice_no = notice_no;
 		this.notice_title = notice_title;
@@ -27,15 +37,27 @@ public class NoticeVO implements Serializable{
 		this.notice_reg_dt = notice_reg_dt;
 		this.notice_chk = notice_chk;
 		this.emp_no = emp_no;
+		this.notice_cnt = notice_cnt;
 		this.noticefile = noticefile;
+		this.file = file;
 	}
+
+
+
+
+
 
 	@Override
 	public String toString() {
 		return "NoticeVO [notice_no=" + notice_no + ", notice_title=" + notice_title + ", notice_content="
 				+ notice_content + ", notice_reg_dt=" + notice_reg_dt + ", notice_chk=" + notice_chk + ", emp_no="
-				+ emp_no + ", noticefile=" + noticefile + "]";
+				+ emp_no + ", notice_cnt=" + notice_cnt + ", noticefile=" + noticefile + ", file=" + file + "]";
 	}
+
+
+
+
+
 
 	public int getNotice_no() {
 		return notice_no;
@@ -84,14 +106,29 @@ public class NoticeVO implements Serializable{
 	public void setEmp_no(int emp_no) {
 		this.emp_no = emp_no;
 	}
-
-	public List<NoticeFileVO> getNoticefile() {
-		return noticefile;
+	
+	public int getNotice_cnt() {
+		return notice_cnt;
 	}
 
-	public void setNoticefile(List<NoticeFileVO> noticefile) {
-		this.noticefile = noticefile;
+	public void setNotice_cnt(int notice_cnt) {
+		this.notice_cnt = notice_cnt;
 	}
 	
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	
+	public NoticeFileVO getNoticefile() {
+		return noticefile;
+	}
+	public void setNoticefile(NoticeFileVO noticefile) {
+		this.noticefile = noticefile;
+	}
+
+
 	
 }
