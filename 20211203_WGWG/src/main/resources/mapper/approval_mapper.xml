@@ -10,15 +10,15 @@
 	</resultMap>
 	
 	<resultMap type="com.min.edu.vo.approval.Approval_Doc" id="DocDetailVo">
-		<result property="APP_DOC_NO" column="APP_DOC_NO"/>
-		<result property="APP_DOC_ST" column="APP_DOC_ST"/>
-		<result property="APP_DOC_REG_DT" column="APP_DOC_REG_DT"/>
-		<result property="APP_DOC_TITLE" column="APP_DOC_TITLE"/>
-		<result property="EMP_NO" column="EMP_NO"/>
-		<result property="fvo.FORM_NM" column="FORM_NM"/>
-		<result property="REF_EMP_NO" column="REF_EMP_NO"/>
-		<result property="APP_DOC_CONTENT" column="APP_DOC_CONTENT"/>
-		<result property="alvo.APPROVAL" column="APPROVAL"/>
+		<result property="app_doc_no" column="APP_DOC_NO"/>
+		<result property="app_doc_st" column="APP_DOC_ST"/>
+		<result property="app_doc_reg_dt" column="APP_DOC_REG_DT"/>
+		<result property="app_doc_title" column="APP_DOC_TITLE"/>
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="fvo.form_nm" column="FORM_NM"/>
+		<result property="ref_emp_no" column="REF_EMP_NO"/>
+		<result property="app_doc_content" column="APP_DOC_CONTENT"/>
+		<result property="alvo.approval" column="APPROVAL"/>
 	</resultMap>
 	
 	<resultMap type="com.min.edu.vo.emp.Emp" id="wEmpVo">
@@ -29,23 +29,29 @@
 	</resultMap>
 	
 	
-	<select id="selectAllDoc" resultType="DocVo">
-		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO
-			FROM "C##WG".APPROVAL_DOCUMENT ORDER BY APP_DOC_NO DESC
+	<select id="selectmyAllDoc" parameterType="java.lang.Integer" resultType="DocVo">
+		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
+			FROM "C##WG".APPROVAL_DOCUMENT WHERE EMP_NO=1 ORDER BY APP_DOC_NO DESC
 	</select>
 
-	<select id="selectOneDoc" parameterType="java.lang.Integer" resultType="java.lang.String">
+	<select id="selectOneDoc" resultMap="DocDetailVo">
 		SELECT a.APP_DOC_NO, a.APP_DOC_ST, TO_CHAR(a.APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, 
 				a.APP_DOC_TITLE, a.EMP_NO, f.FORM_NM, a.REF_EMP_NO, a.APP_DOC_CONTENT, al.APPROVAL
 			FROM APPROVAL_DOCUMENT a INNER JOIN FORM f ON a.FORM_NO = f.FORM_NO
-									 LEFT OUTER JOIN APPROVAL_LINE al ON a.APP_LINE_NO = al.APP_LINE_NO
+									 LEFT OUTER JOIN APPROVAL_LINE al ON a.APP_LINE_NO = al.APP_LINE_NO where a.APP_DOC_NO = #{APP_DOC_NO}
 	</select>
 	
 	<select id="selectEmpInfo" parameterType="java.lang.Integer" resultMap="wEmpVo">
 		SELECT e.EMP_NO, e.EMP_NM, p.POSITION_NM, d.DEPT_NM
 			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
-							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = 7
+							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = #{EMP_NO}
 	</select>
+	
+	<select id="searchdoclist" parameterType="java.lang.String" resultType="DocVo">
+	SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
+			FROM "C##WG".APPROVAL_DOCUMENT WHERE EMP_NO=1 AND LOWER(APP_DOC_TITLE) LIKE LOWER('%'||#{title}||'%') ORDER BY APP_DOC_NO DESC
+	</select>
+	
 	
 	
 	<select id="selectAllEmp" resultMap="AllEmpVo">

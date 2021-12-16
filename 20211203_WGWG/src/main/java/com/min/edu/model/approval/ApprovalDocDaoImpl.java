@@ -1,6 +1,7 @@
 package com.min.edu.model.approval;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -25,16 +26,21 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	
 	
 	@Override
-	public List<Approval_Doc> selectAllDoc() {
-		logger.info("ApprovalDocDaoImpl selectAll");
-		return sqlSession.selectList(NS+"selectAllDoc");
+	public List<Approval_Doc> selectmyAllDoc(int empno) {
+		logger.info("ApprovalDocDaoImpl selectmyAllDoc(개인문서함)");
+		return sqlSession.selectList(NS+"selectmyAllDoc", empno);
+	}
+	
+	@Override
+	public List<Approval_Doc> searchdoclist(String title, int empno) {
+		logger.info("ApprovalDocDaoImpl searchdoclist(개인문서함)", title);
+		return sqlSession.selectList(NS+"searchdoclist", title);
 	}
 
-
 	@Override
-	public String selectOneDoc(int empno) {
-		logger.info("ApprovalDocDaoImpl selectOneDoc");
-		return sqlSession.selectOne(NS+"selectOneDoc", empno);
+	public Approval_Doc selectOneDoc(int docno) {
+		logger.info("ApprovalDocDaoImpl 문서 상세 조회");
+		return sqlSession.selectOne(NS+"selectOneDoc", docno);
 	}
 
 
@@ -84,6 +90,7 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		
 		return sqlSession.selectList(NS+"selectListWait", approver);
 	}
+
 
 
 

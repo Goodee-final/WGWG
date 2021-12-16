@@ -10,18 +10,31 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$('table tbody tr').click(function(){
+			
+			var no = $(this).find('td').eq(0).text();
+			console.log(no);
+			location.href="./detailmove.do?docno="+no;
+// 			location.href="/";
 
+<%-- 			<%session.setAttribute("loc","./docdetail.do?docno="+no);%> --%>
+		});
+	});
+</script>
 </head>
 <body>
 	
 	<div class="container">
-		<h1>개인 문서함</h1>
+		<h1>완료 문서함</h1>
 		<br>
 		<form action="./mydoclist.do" method="post" >
 		<ul class="nav nav-pills" style="height:18px;">
 <!-- 			<li class="active" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li> -->
-			<li><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>
-			<li><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>
+			<li><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">상신</a></li>
+			<li><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">송신</a></li>
 <!-- 			<li><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li> -->
 		</ul>
 		<hr>
@@ -43,6 +56,7 @@
 							<c:forEach var="doc" items="${doclist1}" varStatus="status">
 								<tr>
 									<td>${doc.app_doc_no}</td>
+									<c:set var="docno" value="${doc.app_doc_no}" />
 									<td>${doc.app_doc_title}</td>
 									<td>${doc.form_no}</td>
 									<td>${doc.emp_no}</td>
