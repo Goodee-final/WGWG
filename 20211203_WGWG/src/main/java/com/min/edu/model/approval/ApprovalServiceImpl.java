@@ -1,6 +1,7 @@
 package com.min.edu.model.approval;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +18,19 @@ public class ApprovalServiceImpl implements IApprovalService {
 	private IApprovalDocDao dao;
 	
 	@Override
-	public List<Approval_Doc> selectAllDoc() {
-		return dao.selectAllDoc();
+	public List<Approval_Doc> selectmyAllDoc(int empno) {
+		return dao.selectmyAllDoc(empno);
+	}
+	
+	@Override
+	public List<Approval_Doc> searchdoclist(String title, int empno) {
+		return dao.searchdoclist(title, empno);
 	}
 
 	@Override
-	public String selectOneDoc(int empno) {
+	public Approval_Doc selectOneDoc(int docno) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.selectOneDoc(docno);
 	}
 
 	@Override
@@ -56,7 +62,15 @@ public class ApprovalServiceImpl implements IApprovalService {
 	}
 
 	@Override
+	public List<Approval_Doc> selectListDocSt(Approval_Doc doc) {
+		return dao.selectListDocSt(doc);
+	}
+
+	@Override
 	public List<Approval_Doc> selectListWait(Approver approver) {
 		return dao.selectListWait(approver);
 	}
+
+
+
 }

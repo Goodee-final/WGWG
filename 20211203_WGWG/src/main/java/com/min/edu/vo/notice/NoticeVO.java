@@ -15,7 +15,8 @@ public class NoticeVO implements Serializable{
 	private String notice_reg_dt;
 	private String notice_chk;
 	private int emp_no;
-	private String file_name;
+	private int notice_cnt;
+	private NoticeFileVO noticefile;
 	private MultipartFile file;
 	
 	
@@ -23,8 +24,12 @@ public class NoticeVO implements Serializable{
 	}
 
 	
+
+	
+
+
 	public NoticeVO(int notice_no, String notice_title, String notice_content, String notice_reg_dt, String notice_chk,
-			int emp_no, MultipartFile file, String file_name) {
+			int emp_no, int notice_cnt, NoticeFileVO noticefile, MultipartFile file) {
 		super();
 		this.notice_no = notice_no;
 		this.notice_title = notice_title;
@@ -32,9 +37,11 @@ public class NoticeVO implements Serializable{
 		this.notice_reg_dt = notice_reg_dt;
 		this.notice_chk = notice_chk;
 		this.emp_no = emp_no;
+		this.notice_cnt = notice_cnt;
+		this.noticefile = noticefile;
 		this.file = file;
-		this.file_name = file_name;
 	}
+
 
 
 
@@ -44,8 +51,9 @@ public class NoticeVO implements Serializable{
 	public String toString() {
 		return "NoticeVO [notice_no=" + notice_no + ", notice_title=" + notice_title + ", notice_content="
 				+ notice_content + ", notice_reg_dt=" + notice_reg_dt + ", notice_chk=" + notice_chk + ", emp_no="
-				+ emp_no + ", file=" + file + ", filename=" + file_name + "]";
+				+ emp_no + ", notice_cnt=" + notice_cnt + ", noticefile=" + noticefile + ", file=" + file + "]";
 	}
+
 
 
 
@@ -98,25 +106,29 @@ public class NoticeVO implements Serializable{
 	public void setEmp_no(int emp_no) {
 		this.emp_no = emp_no;
 	}
+	
+	public int getNotice_cnt() {
+		return notice_cnt;
+	}
 
+	public void setNotice_cnt(int notice_cnt) {
+		this.notice_cnt = notice_cnt;
+	}
+	
 	public MultipartFile getFile() {
 		return file;
 	}
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
-
-
-	public String getFile_name() {
-		return file_name;
+	
+	public NoticeFileVO getNoticefile() {
+		return noticefile;
+	}
+	public void setNoticefile(NoticeFileVO noticefile) {
+		this.noticefile = noticefile;
 	}
 
 
-	public void setFile_name(String file_name) {
-		this.file_name = file_name;
-	}
-	
-	
-	
 	
 }

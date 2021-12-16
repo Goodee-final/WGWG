@@ -48,7 +48,6 @@ $(function(){
       });    
 });
 </script>
-</head>
 <style>
 	#backbtn {
 		width: 150px;
@@ -71,6 +70,7 @@ $(function(){
 		color: white;
 	}
 </style>
+</head>
 <body>
 	<div class="container">
 		<h1 class="title">양식 등록</h1>

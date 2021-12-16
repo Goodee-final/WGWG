@@ -2,6 +2,8 @@ package com.min.edu.ctrl.form;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,15 @@ public class FormController {
 	@Autowired
 	private IFormService service;
 	
+	@Autowired
+	private HttpSession session;
+	
 	@RequestMapping(value="/formlist.do", method=RequestMethod.GET)
 	public String formList(Model model){
 		logger.info("양식 리스트 화면 이동");
 		List<Form> formList = service.selectFormList();
 		model.addAttribute("formList",formList);
-		return "./form/formlist";
+		return "/form/formlist";
 	}
 	
 	@RequestMapping(value="/formdetail.do", method=RequestMethod.GET)
@@ -38,7 +43,7 @@ public class FormController {
 		logger.info("전달받은 양식번호 {}", form_no);
 		Form selectForm = service.selectFormDetail(form_no);
 		model.addAttribute("selectForm",selectForm);
-		return "./form/formdetail";
+		return "/form/formdetail";
 	}
 	
 	@RequestMapping(value="/forminsert.do", method=RequestMethod.GET)
@@ -47,7 +52,7 @@ public class FormController {
 		List<FormClassification> fclist = service.selectFormcList();
 		model.addAttribute("fclist", fclist);
 		logger.info("크기 {}", fclist.size());
-		return "./form/forminsert";
+		return "/form/forminsert";
 	}
 	
 	@RequestMapping(value="/insertform.do", method=RequestMethod.POST)
@@ -60,7 +65,7 @@ public class FormController {
 //		if(cnt > 0) {
 //			return "/formlist.do";
 //		}
-		return "redirect:/formlist.do";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/formsearch.do", method=RequestMethod.POST)
@@ -68,6 +73,6 @@ public class FormController {
 		System.out.println(formtitle);
 		List<Form> formList = service.searchFormList(formtitle);
 		model.addAttribute("formList",formList);
-		return "./form/formlist";
+		return "/form/formlist";
 	}
 }

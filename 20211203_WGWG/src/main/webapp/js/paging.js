@@ -3,10 +3,9 @@
  */
 
 //paging submit 공통
-function frmPaging() {
-	document.getElementById('frmPaging').submit();
+function frmPaging() {  
+   document.getElementById('frmPaging').submit();
 }
-
 //몇개씩 보여줄 것인지 
 function listCnt(){
 	document.getElementById("index").value=0;
@@ -14,7 +13,15 @@ function listCnt(){
 	document.getElementById("listCnt").value=document.getElementById("listCount").value
 	frmPaging();
 }
-
+function nchk(){
+	document.getElementById("index").value=0;
+	document.getElementById("pageStartNum").value=1;
+	document.getElementById("listCnt").value=document.getElementById("listCount").value	
+	
+	document.getElementById("notice_chk").value=document.getElementById("notice_chk").value		
+	document.getElementById("searchKeyword").value=document.getElementById("searchKeyword").value
+	frmPaging();
+}
 function pageFirst() {
 	var index = document.getElementById('index');
 	var pageStartNum = document.getElementById('pageStartNum');
