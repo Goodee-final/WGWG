@@ -9,7 +9,7 @@ import com.min.edu.vo.emp.Emp;
 public class EmpServiceImpl implements IEmpService {
 
 	@Autowired
-	IEmpDao dao;
+	private IEmpDao dao;
 	
 	@Override
 	public int insert_emp(Emp emp) {

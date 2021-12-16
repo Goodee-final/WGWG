@@ -34,6 +34,7 @@ public class EmpController {
 	
 	@Autowired
 	private IEmpService service;
+
 	
 	@GetMapping(value="/insert_emp_form.do")
 	public String insert_emp_form() {
@@ -125,6 +126,33 @@ public class EmpController {
 				e.printStackTrace();
 			}
 		}
+		
+		logger.info("\\(￣︶￣*\\)파일업로드 끝\\(￣︶￣*\\)");
+		
+		
+		 
+		 String name = (String) model.getAttribute("name"); 
+		 int dept = (int)model.getAttribute("dept"); 
+		 String hiredate = (String)model.getAttribute("hiredate"); 
+		 String address = (String)model.getAttribute("address"); 
+		 int position = (int)model.getAttribute("position"); 
+		 String tel = (String)model.getAttribute("tel"); 
+		 String email = (String)model.getAttribute("email");
+		 String work_st = (String)model.getAttribute("work_st");
+		 
+		 emp.setEmp_nm(name); 
+		 emp.setPhoto(saveFileRoot); 
+		 emp.setDept_no(dept);
+		 emp.setHiredate(hiredate); 
+		 emp.setAddress(address);
+		 emp.setPosition_no(position); 
+		 emp.setTel(tel); 
+		 emp.setEmail(email);
+		 emp.setWork_st(work_st);
+		 
+		service.insert_emp(emp);
+		 
+		
 		return "emp/insertResult";
 	}
 }
