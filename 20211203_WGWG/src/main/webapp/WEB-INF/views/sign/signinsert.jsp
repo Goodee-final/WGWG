@@ -29,6 +29,8 @@
 			$("#input_img").click();
 		})
 	});
+	
+	
 
 	function fileChange(e) {
 		e.preventDefault();
@@ -63,8 +65,10 @@
 			
 			
 				$("#input_img").html(cloneObj.html());
-		
+			
 		});	
+		
+		
 
 	}
 </script>

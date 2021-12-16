@@ -29,27 +29,31 @@ $(document).ready(function() {
 });
 </script>
 <style type="text/css">
-	button{
-		float: rigth;
+	.content{
+ 		width: 1100px;
+		padding: 100px 30px;		
+		margin: 0 auto;
+ 	}	
+	h2{
+		text-align: center;
 	}
 </style>
-
 </head>
 <body>
-<h2 style="text-align: center;">글 작성</h2>
 
-<div>
+
+<div class="content">
+	<h2>글 작성</h2>
 	<form:form action="./noticeInsert.do" method="post" enctype="multipart/form-data">
 		<input type="text" name="emp_no" placeholder="작성자"/><br><br>
 		<input type="text" name="notice_title"  placeholder="제목"/> <span id="title" style="color:red; font-weight: bold;"></span><br><br>
 		<input type="text" name="notice_chk" placeholder="부서"/><br><br>
-		<input type="file" name="file"><form:errors path="file"/><br><br>
+		<input type="file" name="file"><br><br>
 		<textarea id="summernote" name="notice_content"></textarea>
-		<td>
-			<input type="button" class="btn btn-primary" value="글작성"  onclick="goWrite(this.form)"/>		
-			<input type="button" class="btn btn-primary" value="목록으로" onclick="location.href='./noticeList.do';"/> 
-		</td>
-		
+		<div class="right">
+			<input type="button" class="btn btn-primary" value="글작성" style="float: right" onclick="goWrite(this.form)"/>		
+			<input type="button" class="btn btn-primary" value="목록으로" style="float: right" onclick="location.href='./noticeList.do';"/> 
+		</div>		
 	</form:form>
 </div>
 </body>

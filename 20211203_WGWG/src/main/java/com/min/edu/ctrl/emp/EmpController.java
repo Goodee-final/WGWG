@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.min.edu.model.emp.EmpServiceImpl;
+import com.min.edu.model.emp.IEmpService;
 import com.min.edu.vo.emp.Emp;
 
 @Controller
@@ -25,7 +26,7 @@ public class EmpController {
 	private Emp emp;
 	
 	@Autowired
-	private EmpServiceImpl edao;
+	private IEmpService edao;
 	
 	@GetMapping(value="/insert_emp_form.do")
 	public String insert_emp_form() {

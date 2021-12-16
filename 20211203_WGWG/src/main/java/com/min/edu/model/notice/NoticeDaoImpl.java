@@ -97,20 +97,29 @@ public class NoticeDaoImpl implements INoticeDao {
 
 	@Override
 	public int deleteNotice(int notice_no) {
-		logger.info("공지사항 deleteNotice {}",notice_no);
+		logger.info("공지사항 글삭제 deleteNotice {}",notice_no);
 		return sqlSession.delete(NS+"deleteNotice",notice_no);
 	}
 
+	@Override
+	public int deleteNoticeFile(int notice_no) {
+		logger.info("공지사항 파일삭제deleteNotice {}",notice_no);
+		return sqlSession.delete(NS+"deleteNoticeFile",notice_no);
+	}
 	
 	@Override
 	public List<NoticeVO> selectPaging(PageVO paging) {		
+		logger.info("공지사항 페이징 selectPaging {}",paging);
 		return sqlSession.selectList(NS+"selectPaging",paging);
 	}
 
 	@Override
-	public int selectTotalPaging() {		
+	public int selectTotalPaging() {
+		logger.info("공지사항 총 갯수 selectTotalPaging");
 		return sqlSession.selectOne(NS+"selectTotalPaging");
 	}
+
+	
 
 
 }
