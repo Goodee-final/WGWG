@@ -332,8 +332,8 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i>업무일지
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지</li>
+					<li class="w3-bar-item w3-button w3-hover-blue" value="./worklogInsert.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지 작성</li>
+					<li class="w3-bar-item w3-button w3-hover-blue" value="./worklogList.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;업무일지 조회</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>채팅

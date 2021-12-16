@@ -39,9 +39,9 @@ public class WorkLogDaoImpl implements IWorkLogDao {
 	}
 
 	@Override
-	public List<WorkLog> searchWorkLog(Map<String, String> map) {
+	public List<WorkLog> searchWorkLog(String searchWord) {
 		logger.info("WorkLogDaoImpl searchWorkLog 업무일지 검색");
-		return sqlSession.selectList(NS + "searchWorkLog", map);
+		return sqlSession.selectList(NS + "searchWorkLog", searchWord);
 	}
 
 	@Override

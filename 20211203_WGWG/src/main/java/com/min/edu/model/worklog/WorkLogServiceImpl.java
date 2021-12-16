@@ -30,8 +30,8 @@ public class WorkLogServiceImpl implements IWorkLogService {
 	}
 
 	@Override
-	public List<WorkLog> searchWorkLog(Map<String, String> map) {
-		return dao.searchWorkLog(map);
+	public List<WorkLog> searchWorkLog(String searchWord) {
+		return dao.searchWorkLog(searchWord);
 	}
 
 	@Override

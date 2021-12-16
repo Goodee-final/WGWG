@@ -1,17 +1,17 @@
 {
 	"folders": {},
 	"connections": {
-		"oracle_thin-17db4ec2bbb-76a68f719481eade": {
+		"oracle_thin-17dc0d63d90-2bcc0d0df6023875": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
 			"name": "XE",
 			"save-password": true,
 			"read-only": false,
 			"configuration": {
-				"host": "61.75.28.215",
+				"host": "gdportal.iptime.org",
 				"port": "1521",
 				"database": "XE",
-				"url": "jdbc:oracle:thin:@//61.75.28.215:1521/XE",
+				"url": "jdbc:oracle:thin:@//gdportal.iptime.org:1521/XE",
 				"home": "C:\\oraclexe\\app\\oracle\\product\\11.2.0\\server",
 				"type": "dev",
 				"provider-properties": {

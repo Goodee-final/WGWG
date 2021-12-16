@@ -11,7 +11,9 @@ public interface IWorkLogDao {
 	public List<WorkLog> selectAllMyWorkLog(int emp_no);
 	public WorkLog selectDetailWorkLog(int worklog_no);
 	
-	public List<WorkLog> searchWorkLog(Map<String, String> map);
+//	public List<WorkLog> searchWorkLog(Map<String, String> map);
+	public List<WorkLog> searchWorkLog(String searchWord);
+	
 	public int insertWorkLog(WorkLog workLog);
 
 	public int updateWorkLogContent(WorkLog workLog);
