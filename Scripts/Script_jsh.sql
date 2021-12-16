@@ -104,9 +104,10 @@ UPDATE FORM SET TEMPLATE =
 WHERE FORM_NO = 21;
 
 
-SELECT JSON_VALUE(f.doc, '$.id')  AS Name, 
-       JSON_VALUE(f.doc, '$.address.city') AS City,
-       JSON_VALUE(f.doc, '$.address.county') AS County
-FROM Families f 
-WHERE JSON_VALUE(f.doc, '$.id') = N'AndersenFamily'
-ORDER BY JSON_VALUE(f.doc, '$.address.city') DESC, JSON_VALUE(f.doc, '$.address.state') ASC
+SELECT wr.EMP_NO, e.EMP_NM, 
+	JSON_VALUE(WORK_LOG,'$.WORK_LOG.DATE') AS DT,
+	JSON_VALUE(WORK_LOG,'$.WORK_LOG.ST') AS ST,
+	JSON_VALUE(WORK_LOG,'$.WORK_LOG.ED') AS ED
+FROM WORK_RECORD wr JOIN EMP e
+ON wr.EMP_NO = e.EMP_NO 
+WHERE wr.EMP_NO = 1;
