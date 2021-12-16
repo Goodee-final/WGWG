@@ -1,6 +1,7 @@
 package com.min.edu.model.approval;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -32,9 +33,9 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 
 
 	@Override
-	public String selectOneDoc(int empno) {
-		logger.info("ApprovalDocDaoImpl selectOneDoc");
-		return sqlSession.selectOne(NS+"selectOneDoc", empno);
+	public Approval_Doc selectOneDoc(int docno) {
+		logger.info("ApprovalDocDaoImpl 문서 상세 조회");
+		return sqlSession.selectOne(NS+"selectOneDoc", docno);
 	}
 
 
