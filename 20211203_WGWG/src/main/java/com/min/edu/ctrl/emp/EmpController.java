@@ -115,7 +115,7 @@ public class EmpController {
 			 emp.setWork_st(work_st);
 			 
 			 int newEmpno = service.insert_emp(emp);
-			
+			 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {
