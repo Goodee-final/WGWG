@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.min.edu.vo.notice.NoticeFileVO;
 import com.min.edu.vo.notice.NoticeVO;
@@ -87,6 +88,17 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 
 	@Override
+	public int deleteNoticeFile(int notice_no) {		
+		return dao.deleteNoticeFile(notice_no);
+	}
+	
+	@Transactional
+	public int deleteNF(int notice_no) {
+		int n = dao.deleteNotice(notice_no);
+		int m = dao.deleteNoticeFile(notice_no);
+		return n+m;
+	}
+	@Override
 	public List<NoticeVO> selectPaging(PageVO paging) {		
 		return dao.selectPaging(paging);
 	}
@@ -95,6 +107,8 @@ public class NoticeServiceImpl implements INoticeService{
 	public int selectTotalPaging() { 
 		return dao.selectTotalPaging();
 	}
+
+	
 
 	
 

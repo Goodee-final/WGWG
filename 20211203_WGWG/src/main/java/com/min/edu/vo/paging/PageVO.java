@@ -121,6 +121,12 @@ public class PageVO {
 	public void setTotal(int total) {
 		this.total = total;
 	}
+
+	@Override
+	public String toString() {
+		return "PageVO [logger=" + logger + ", pageCnt=" + pageCnt + ", index=" + index + ", pageStartNum="
+				+ pageStartNum + ", listCnt=" + listCnt + ", total=" + total + "]";
+	}
 	
 	
 	
