@@ -41,6 +41,9 @@ public class UploadController {
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 
+	@Autowired
+	private HttpSession session;
+	
 	@RequestMapping(value = "/uploadForm.do", method = RequestMethod.GET)
 	public void uploadForm() throws Exception {
 
@@ -64,7 +67,6 @@ public class UploadController {
 		}
 		
 		String saveName = uploadFile(file);
-		
 		System.out.println("파일 이름은 : " + saveName);
 		
 
@@ -73,9 +75,8 @@ public class UploadController {
 		Sign sign = new Sign(empno, saveName, Long.toString(file.getSize()));
 		signdao.insertSign(sign);
 		
-		model.addAttribute("savedFileName", saveName);
-		model.addAttribute("loc","./signlist.do");
-		return "forward:/";
+		session.setAttribute("loc", "./signlist.do");
+		return "redirect:/";
 	}
 
 	private String uploadFile(MultipartFile file) throws Exception {
@@ -90,7 +91,7 @@ public class UploadController {
 
 	@ResponseBody
 	@RequestMapping(value = "/uploadAjax.do", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public String uploadAjax(MultipartFile file, String str, HttpSession session, HttpServletRequest request,
+	public String uploadAjax(MultipartFile file, String str, HttpServletRequest request,
 			Model model) throws Exception {
 
 		logger.info("originalName: " + file.getOriginalFilename());

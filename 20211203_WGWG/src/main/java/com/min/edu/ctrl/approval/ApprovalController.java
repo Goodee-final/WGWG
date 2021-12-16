@@ -2,6 +2,7 @@ package com.min.edu.ctrl.approval;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -26,6 +27,11 @@ public class ApprovalController {
 	   
 	   @Autowired
 	   private IApprovalService approvalServiceImpl;
+	   
+	   @Autowired
+	   private HttpSession session;
+	  
+	   
 	   
 	   
 	   @GetMapping(value="/mydoclist.do")
@@ -60,6 +66,40 @@ public class ApprovalController {
 	   }
 	  
 	   
+//	   //완료 문서함
+//	   @GetMapping(value="completedoc.do")
+//	   public String docListComplete(Model model) {
+//		   
+//		   logger.info("완료 문서함");
+//		   Approval_Doc doc = new Approval_Doc();
+//		   int empno = 1;
+//		   doc.setEmp_no(empno);
+//		   doc.setApp_doc_st("완료");
+//		   //송신
+//		   List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+//		   
+//		   //수신경우
+//
+//		   List<Approval_Doc> doclist2 = approvalServiceImpl.selectListDocStApp(doc);
+//		   
+//		   model.addAttribute("doclist1",doclist1);
+//		   model.addAttribute("doclist1",doclist2);
+//		   
+//		   return "/approval/compldoclist";
+//	   }
+	   
+	   //문서 상세 화면
+	   @GetMapping(value="/docdetail.do")
+	   public String docdetail(Model model,HttpServletRequest req) {
+		   int docno = Integer.parseInt(req.getParameter("docno"));
+		   System.out.println(docno);
+		   //수정하기
+		   //Approval_Doc doc = approvalServiceImpl.selectOneDoc(docno);
+		   
+		   //model.addAttribute("doc",doc);
+		   session.setAttribute("loc", "./docdetail.do");
+		   return "/approval/docdetail";
+	   }
 	   
 	   
 //	   @PostMapping("/replyBoard.do")
