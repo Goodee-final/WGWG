@@ -26,11 +26,16 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	
 	
 	@Override
-	public List<Approval_Doc> selectAllDoc() {
-		logger.info("ApprovalDocDaoImpl selectAll");
-		return sqlSession.selectList(NS+"selectAllDoc");
+	public List<Approval_Doc> selectmyAllDoc(int empno) {
+		logger.info("ApprovalDocDaoImpl selectmyAllDoc(개인문서함)");
+		return sqlSession.selectList(NS+"selectmyAllDoc", empno);
 	}
-
+	
+	@Override
+	public List<Approval_Doc> searchdoclist(String title, int empno) {
+		logger.info("ApprovalDocDaoImpl searchdoclist(개인문서함)", title);
+		return sqlSession.selectList(NS+"searchdoclist", title);
+	}
 
 	@Override
 	public Approval_Doc selectOneDoc(int docno) {
@@ -85,6 +90,7 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		
 		return sqlSession.selectList(NS+"selectListWait", approver);
 	}
+
 
 
 

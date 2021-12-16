@@ -5,16 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-</head>
 <style>
-	.container{
-		margin-top: 80px;
-		margin-left: 230px;
-		padding: 50px;
-	}
-	.title {
-		margin-left: 70px;
-	}
 	.formDetail {
 		margin: 0 auto;
 		width: 1000px;
@@ -43,9 +34,8 @@
 		margin-left: 920px;
 	}
 </style>
+</head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/views/common/side2.jsp"></jsp:include>
 	<div class="container">
 		<h1 class="title">양식 상세보기</h1>
 		<table class="formDetail">

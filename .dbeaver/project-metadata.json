@@ -1,1 +1,7 @@
+
+{"resources":{"Scripts/Script-3.sql":{"default-schema":"C##WG","sql-editor-data-source-id":"oracle_thin-17da9fee4ae-35e53c6dae4aa232","default-datasource":"oracle_thin-17da9fee4ae-35e53c6dae4aa232"},"Scripts/Script-myr.sql":{"sql-editor-data-source-id":"oracle_thin-17dc0c76439-61bb39acd65748b9","default-datasource":"oracle_thin-17dc0c76439-61bb39acd65748b9","default-schema":"C##WG"}}}
+
+{"resources":{"Scripts/Script-3.sql":{"default-schema":"C##WG","sql-editor-data-source-id":"oracle_thin-17db4ec2bbb-76a68f719481eade","default-datasource":"oracle_thin-17da9fee4ae-35e53c6dae4aa232"},"Scripts/Script-4.sql":{"sql-editor-data-source-id":"oracle_thin-17dc0c717e9-f53cd67a239e592","default-datasource":"oracle_thin-17dc0c717e9-f53cd67a239e592","default-schema":"C##WG"},"Scripts/Script_jsh.sql":{"default-schema":"C##WG","sql-editor-data-source-id":"oracle_thin-17dc0c717e9-f53cd67a239e592","default-datasource":"oracle_thin-17dc0c717e9-f53cd67a239e592"}}}
+
 {"resources":{"Scripts/Script-3.sql":{"default-schema":"C##WG","sql-editor-data-source-id":"oracle_thin-17da9fee4ae-35e53c6dae4aa232","default-datasource":"oracle_thin-17da9fee4ae-35e53c6dae4aa232"},"Scripts/Script_odw.sql":{"sql-editor-data-source-id":"oracle_thin-17dc13f6630-290ef6974bb67907","default-datasource":"oracle_thin-17dc13f6630-290ef6974bb67907","default-schema":"C##WG"}}}
+
