@@ -26,8 +26,6 @@ public class FormController {
 	@Autowired
 	private IFormService service;
 	
-	@Autowired
-	private HttpSession session;
 	
 	@RequestMapping(value="/formlist.do", method=RequestMethod.GET)
 	public String formList(Model model){

@@ -333,7 +333,7 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="fas fa-business-time"></i>근태관리
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="">근태관리</li>
+					<li class="w3-bar-item w3-button" value="./workrecord.do">근태관리</li>
 					<li class="w3-bar-item w3-button" value="">근태관리</li>
 				</ul></li>
 

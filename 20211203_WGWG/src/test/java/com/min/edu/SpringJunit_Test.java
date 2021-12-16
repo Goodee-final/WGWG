@@ -72,7 +72,7 @@ public class SpringJunit_Test {
 		 */
 		
 		//assertEquals(true, edao.insert_emp(emp));
-		
+		assertNotNull(wrdao.selectwr(6));
 		
 		//assertNotNull(wrdao.selectworkrecord(6));
 	}

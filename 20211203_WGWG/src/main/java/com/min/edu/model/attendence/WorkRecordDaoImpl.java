@@ -17,9 +17,9 @@ public class WorkRecordDaoImpl implements IWorkRecordDao {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public WorkRecord selectworkrecord(int empno) {
-		logger.info("근무기록 조회 {}", empno);
-		return sqlSession.selectOne(NS+"selectworkrecord", empno);
+	public WorkRecord selectwr(int emp_no) {
+		logger.info("근무기록 조회 {}", emp_no);
+		return sqlSession.selectOne(NS+"selectwr", emp_no);
 	}
 
 }
