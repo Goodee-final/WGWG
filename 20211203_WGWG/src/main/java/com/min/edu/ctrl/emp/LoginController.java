@@ -80,7 +80,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		String user = "odwtest123@gmail.com"; 
 		// gmail 계정 
 		
-		String password = "odw1234!"; 
+		String password = "비밀번호"; 
 		// gmail 패스워드 
 		
 		String RandomPw = service.getRandomPw();
