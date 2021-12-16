@@ -88,12 +88,9 @@ ul {
 	top: 0;
 	left: 0;
 	right: 0;
-<<<<<<< HEAD
 	z-index: 10;
-=======
 	border-bottom: 2px solid #EEEEEE;
 	background-color: white;
->>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
 }
 
 #logo-image {
@@ -163,12 +160,7 @@ ul {
 	background-position: center;
 	background-size: cover;
 }
-<<<<<<< HEAD
 
-
-/*side  */
-=======
->>>>>>> branch 'main' of https://github.com/tkdgns1127/WGWG.git
 
 /*side  */
 .w3-sidebar {
@@ -187,19 +179,9 @@ ul {
 	font-size: 15px !important;
 }
 
-
 .nav1:hover>.nav-flyout {
 	display: block;
 }
-
-<<<<<<< HEAD
-
-.nav1 {
-	padding: 5px;
-}
-=======
->>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
-
 
 ul {
 	list-style: none;
@@ -207,18 +189,10 @@ ul {
 	padding: 0 !important;
 }
 
-<<<<<<< HEAD
-
-.w3-sidebar>ul>li {
-	list-style: none;
-	margin-top: 5px;
-	margin-left: 0;
-	font-size: 16px;
-=======
 .nav-flyout li:hover {
 	background-color: #073865;
 	color: white;
->>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
+
 }
 
 .w3-sidebar>ul>li {
@@ -337,32 +311,6 @@ i {
 
 	<!-- Sidebar -->
 	<!--  w3-light-grey -->
-<<<<<<< HEAD
-	<div class="w3-sidebar w3-bar-block" style="width: 230px; margin-top: 50px; background-color: white; border-right: 2px solid #073865;">
-		<ul>
-			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
-				<ul class="nav-flyout">
-					<li class="li-btn" value="./docinsert.do"><button
-							class="w3-btn w3-blue w3-round btn">기안하기</button></li>
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./signlist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전자서명 관리</li>
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./signinsert.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전자서명 등록</li>
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./signdraw.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전자서명만들기</li>
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 진행함</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" 
-						value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 대기함</li>
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./completedoc.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;결재 완료함</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" 
-						value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;참조문서함</li>
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./mydoclist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;개인문서함</li>
-					<li class="w3-bar-item w3-button w3-hover-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;임시문서함</li>
-				</ul></li>
-=======
 	<article class="w3-sidebar w3-bar-block"
 		style="width: 180px; margin-top: 30px; background-color: white; border-right: 2px solid #EEEEEE;">
 		<ul>
@@ -386,8 +334,7 @@ i {
 					<li class="w3-bar-item w3-button">임시문서함</li>
 				</ul>
 			</li>
->>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
-
+      
 			<li class="w3-bar-item nav1"><i class="fas fa-business-time"></i>근태관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button" value="">근태관리</li>
@@ -403,18 +350,10 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>일정관리
 				<ul class="nav-flyout">
-<<<<<<< HEAD
-					<li class="w3-bar-item w3-button w3-hover-blue"
-						value="./loadForm.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</li>
-					<li class="w3-bar-item w3-button w3-hover-blue" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일정관리</li>
-				</ul>
-			</li>
-=======
 					<li class="w3-bar-item w3-button"
 						value="./loadForm.do">일정관리</li>
 					<li class="w3-bar-item w3-button" value="">일정관리</li>
 				</ul></li>
->>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약관리
 				<ul class="nav-flyout">
@@ -450,17 +389,10 @@ i {
 	<div id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px; width: 900px; height: 700px;">
 		인덱스 화면
 	</div>
-<<<<<<< HEAD
 
-	<div id="content" style="margin-left: 230px; margin-top: 50px; padding: 50px;">
-		인덱스 화면
-	</div>
-
-=======
 	<footer class="footer">
 		<div class="footer-content">
 			<p>주소: 서울특별시 금천구 가산디지털2로 00 </p>
 		</div>
     </footer>
->>>>>>> 3c76b403dd1e2816a795bdf9487cd95463e30a6a
 </body>

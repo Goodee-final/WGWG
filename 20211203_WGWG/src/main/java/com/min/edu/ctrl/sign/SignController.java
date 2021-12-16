@@ -49,10 +49,6 @@ public class SignController {
 	@Autowired
 	private HttpSession session;
 	
-	
-	
-
-
 	@RequestMapping(value = "/signlist.do", method = RequestMethod.GET)
 	public String signList(Model model) {
 		session.setAttribute("loc", "./signlist.do");
@@ -77,7 +73,6 @@ public class SignController {
 	public String signDownload(HttpServletRequest request) throws IOException {
 		
 		session.setAttribute("loc","./signinsert.do");
-	
 		return "sign/signinsert";
 	}
 	
@@ -126,6 +121,7 @@ public class SignController {
 		   
 		   model.addAttribute("doclist1",doclist1);
 		   model.addAttribute("doclist2",doclist2);
+		   session.setAttribute("loc", "./completedoc.do");
 		   
 		   return "/approval/compldoclist";
 	   }

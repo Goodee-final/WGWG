@@ -1,6 +1,7 @@
 package com.min.edu.model.approval;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,9 @@ public class ApprovalServiceImpl implements IApprovalService {
 	}
 
 	@Override
-	public String selectOneDoc(int empno) {
+	public Approval_Doc selectOneDoc(int docno) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.selectOneDoc(docno);
 	}
 
 	@Override

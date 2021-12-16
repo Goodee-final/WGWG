@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,19 +50,18 @@ $(document).ready(function() {
 
 <div class="content">
 	<h2>글수정</h2>
-	<form action="./noticeupdate.do" method="post" enctype="multipart/form-data">
+	<form:form action="./noticeupdate.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="notice_no" value="${vo.notice_no}">
 		작성자:<input type="text" class="box" name="emp_no" style="width: 20%;" value="${vo.emp_no}" readonly/><br>		
 		부서:<input type="text" class="box" name="notice_chk" style="width: 20%;" value="${vo.notice_chk}" readonly/><br>
 		제목:<input type="text" name="notice_title" style="width: 40%;" value="${vo.notice_title}"/><br>
-		${vo.noticefile.notice_file_nm } <button type="button" class="btn btn-primary" onclick="filechk()" >첨부파일</button>
-		<br><br> 
+		${vo.noticefile.notice_file_nm } <input type="file" name="file"><br><br>
 		<textarea id="summernote" name="notice_content"></textarea>
 		<td>
 			<input id="subBtn" class="btn btn-primary" type="button" value="글 수정" style="float: right;" onclick="update(this.form)"/>		
 			<input type="button" class="btn btn-primary" value="목록으로" style="float: right;" onclick="location.href='./noticeList.do';"/> 
 		</td>		
-	</form>
+	</form:form>
 </div>
 </body>
 <script>

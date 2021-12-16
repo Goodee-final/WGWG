@@ -236,6 +236,13 @@
 	    <version>6.1.0.Final</version>
 	</dependency>
 
+	<!-- javax.mail -->
+	<dependency>
+	    <groupId>com.sun.mail</groupId>
+	    <artifactId>javax.mail</artifactId>
+	    <version>1.6.2</version>
+	</dependency>
+	
 	</dependencies>
 	<build>
 		<finalName>20211203_WGWG</finalName>
