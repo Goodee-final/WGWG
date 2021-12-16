@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>업무일지 상세조회</title>
 </head>
 <body>
 	<!-- 상세정보 및 본인 글일 경우 수정, 삭제버튼 -->

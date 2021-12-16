@@ -1,14 +1,11 @@
 package com.min.edu.ctrl.emp;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
-
 import com.min.edu.model.emp.IEmpService;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.UploadFile;
-
 @Controller
 public class EmpController {
-
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
@@ -112,9 +106,10 @@ public class EmpController {
 			 emp.setTel(tel); 
 			 emp.setEmail(email);
 			 emp.setWork_st(work_st);
-			 
+
 			 int newEmpno = service.insert_emp(emp);
-			
+
+			 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {
@@ -128,6 +123,3 @@ public class EmpController {
 		return "emp/insertResult";
 	}
 }
-	
-	
-

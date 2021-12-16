@@ -316,22 +316,26 @@ i {
 		<ul>
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="">기안하기</li>
+					<li class="w3-bar-item w3-button" 
+              value="./docinsert.do">기안하기</li>
 					<li class="w3-bar-item w3-button"
-						value="./signlist.do">전자서명 관리</li>
+						  value="./signlist.do">전자서명 관리</li>
 					<li class="w3-bar-item w3-button"
-						value="./signinsert.do">전자서명 등록</li>
+						  value="./signinsert.do">전자서명 등록</li>
 					<li class="w3-bar-item w3-button"
-						value="./signdraw.do">전자서명만들기</li>
-					<li class="w3-bar-item w3-button" value="">결재
-						진행함</li>
-					<li class="w3-bar-item w3-button" value="">결재
-						대기함</li>
+						  value="./signdraw.do">전자서명만들기</li>
+					<li class="w3-bar-item w3-button" 
+              value="">결재 진행함</li>
+					<li class="w3-bar-item w3-button" 
+              value="">결재 대기함</li>
 					<li class="w3-bar-item w3-button"
-						value="./completedoc.do">결재 완료함</li>
-					<li class="w3-bar-item w3-button" value="">참조문서함</li>
-					<li class="w3-bar-item w3-button">개인문서함</li>
-					<li class="w3-bar-item w3-button">임시문서함</li>
+						  value="./completedoc.do">결재 완료함</li>
+					<li class="w3-bar-item w3-button" 
+              value="">참조문서함</li>
+					<li class="w3-bar-item w3-button"
+              value="./mydoclist.do">개인문서함</li>
+					<li class="w3-bar-item w3-button"
+               value="">임시문서함</li>
 				</ul>
 			</li>
       
@@ -363,8 +367,8 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i>업무일지
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="">업무일지</li>
-					<li class="w3-bar-item w3-button" value="">업무일지</li>
+					<li class="w3-bar-item w3-button" value="./worklogInsert.do">업무일지 작성</li>
+					<li class="w3-bar-item w3-button" value="./worklogList.do">업무일지 조회</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>채팅
