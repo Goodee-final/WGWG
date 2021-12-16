@@ -29,6 +29,7 @@
 	#btns{
 		text-align: center;
 		padding-top: 20px;
+		justify-content: center;
 	}
 	
 	#login_btn, #findpw_btn{
@@ -62,7 +63,15 @@
     			return false;
     		}
     	});
+    	
     });
+    
+    function findPwForm(){
+		var url = "./findPwForm.do";
+		var title = "임시 비밀번호 전송";
+		var attr = "width=400px, height=450px";
+		window.open(url,title,attr);
+	}
 </script>
 <title>로그인 화면</title>
 </head>
@@ -84,7 +93,7 @@
 			<span id="message">${message}</span>
 			<div id="btns">
 				<input type="submit" id="login_btn" class="btn" value="로그인">
-				<input type="button" id="findpw_btn" class="btn" value="비밀번호를 잊으셨나요?" onclick="location.href='./find_pw_form.do'">
+				<input type="button" id="findpw_btn" class="btn" value="비밀번호를 잊으셨나요?" onclick="findPwForm()">
 			</div>
 		</form>
 	</div>

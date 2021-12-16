@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -26,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.min.edu.model.approval.IApprovalService;
 import com.min.edu.model.sign.ISignDao;
+import com.min.edu.vo.approval.Approval_Doc;
 import com.min.edu.vo.sign.Sign;
 
 @Controller
@@ -39,9 +42,16 @@ public class SignController {
 	
 	@Autowired
 	private ISignDao dao;
-
+	
+	@Autowired
+	private IApprovalService approvalServiceImpl;
+	
+	@Autowired
+	private HttpSession session;
+	
 	@RequestMapping(value = "/signlist.do", method = RequestMethod.GET)
 	public String signList(Model model) {
+		session.setAttribute("loc", "./signlist.do");
 		logger.info("signlist로 이동");
 
 		// 로그인된 회원의 전자서명 리스트 조회
@@ -54,20 +64,21 @@ public class SignController {
 	@RequestMapping(value = "/signdraw.do", method = RequestMethod.GET)
 	public String signDraw() {
 		logger.info("signdraw로 이동");
+		session.setAttribute("loc", "./signdraw.do");
 		
 		return "sign/signdraw";
 	}
 
 	@RequestMapping(value = "/signinsert.do", method = RequestMethod.GET)
 	public String signDownload(HttpServletRequest request) throws IOException {
-
-	
+		
+		session.setAttribute("loc","./signinsert.do");
 		return "sign/signinsert";
 	}
 	
-	@ResponseBody
+	
 	@RequestMapping(value = "/signdelete.do", method = RequestMethod.GET)
-	public ResponseEntity<String> signDelete(HttpServletRequest req) {
+	public String signDelete(HttpServletRequest req) {
 		
 		Sign sign = dao.selectSignOne(Integer.parseInt(req.getParameter("sign_no")));
 		String fileName = sign.getSign_img();
@@ -87,20 +98,39 @@ public class SignController {
 		new File(uploadPath + fileName.replace('/', File.separatorChar)).delete();
 		dao.deleteSign(sign.getSign_no());
 
-		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+		session.setAttribute("loc", "./signlist.do");
+		return "redirect:/";
 		
 	}
 	
-	@RequestMapping(value ="/completedoc.do", method = RequestMethod.GET)
-	public String completedoc() {
-		
-		return "approval/compldoclist";
-	}
+	   //완료 문서함
+	   @GetMapping(value="/completedoc.do")
+	   public String docListComplete(Model model) {
+		   
+		   logger.info("완료 문서함");
+		   Approval_Doc doc = new Approval_Doc();
+		   int empno = 1;
+		   doc.setEmp_no(empno);
+		   doc.setApp_doc_st("완료");
+		   //송신
+		   List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+		   
+		   //수신경우
+
+		   List<Approval_Doc> doclist2 = approvalServiceImpl.selectListDocStApp(doc);
+		   
+		   model.addAttribute("doclist1",doclist1);
+		   model.addAttribute("doclist2",doclist2);
+		   session.setAttribute("loc", "./completedoc.do");
+		   
+		   return "/approval/compldoclist";
+	   }
+	   
 	
 	@RequestMapping(value = "/main.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String index(Model model, String loc) {
-		System.out.println(loc);
-		model.addAttribute("loc",loc);
+	public String index(Model model) {
+		//System.out.println(loc);
+		//session.setAttribute("loc",loc);
 		return "common/home";
 	}
 }

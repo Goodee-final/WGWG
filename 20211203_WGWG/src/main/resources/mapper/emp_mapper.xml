@@ -3,19 +3,39 @@
 <mapper namespace="com.min.edu.model.emp.EmpDaoImpl">
 
 	<insert id="insert_emp" parameterType="empvo">
-		INSERT INTO C##WG.EMP(EMP_NO, EMP_NM, PW, 
-							EMAIL, PHOTO, ADDRESS, 
-							TEL, HIREDATE, WORK_ST, 
-							POSITION_NO, DEPT_NO)
- 					VALUES(TO_CHAR(SYSDATE,'YYYYMM') || LPAD(EMP_SEQ.NEXTVAL,2,0), #{emp_nm}, DBMS_RANDOM.STRING('P', 8), 
-  							#{email}, #{photo}, #{address}, 
-  							#{tel}, TO_DATE(#{hiredate},'YYYY-MM-DD'), #{work_st}, 
-  							#{position_no}, #{dept_no})
+		INSERT INTO EMP
+				(EMP_NO, EMP_NM, PW, 
+				EMAIL, PHOTO, ADDRESS, 
+				TEL, HIREDATE, WORK_ST, 
+				BIRTH, POSITION_NO, DEPT_NO)
+			VALUES(TO_CHAR(SYSDATE,'YYYYMM') || LPAD(EMP_SEQ.NEXTVAL,2,0), #{emp_nm}, DBMS_RANDOM.STRING('P', 8), 
+				#{email}, #{photo}, #{address}, 
+				#{tel}, #{hiredate}, #{work_st}, 
+				#{birth}, #{position_no}, #{dept_no})
+		<selectKey keyProperty="EMP_NO" resultType="java.lang.Integer" order="AFTER">
+			SELECT EMP_SEQ.CURRVAL FROM DUAL
+		</selectKey>
 	</insert>
+	
+	
 
 	<select id="getLogin" parameterType="java.util.Map"  resultType="empvo">
 		SELECT EMP_NO,EMP_NM ,EMAIL ,PHOTO ,POSITION_NO ,DEPT_NO 
  			FROM EMP e 
  			WHERE EMP_NO=#{emp_no} AND PW=#{pw}
 	</select>
+	
+	<select id="getRandomPw" resultType="java.lang.String">
+		SELECT DBMS_RANDOM.STRING('P', 8) FROM DUAL
+	</select>
+	
+	<select id="getEmailByEmpno" parameterType="java.lang.Integer" resultType="java.lang.String">
+		SELECT EMAIL FROM EMP WHERE EMP_NO=#{emp_no}
+	</select>
+	
+	<update id="updatePW" parameterType="empvo">
+		UPDATE EMP
+			SET PW=#{pw}
+			WHERE EMP_NO=#{emp_no}
+	</update>
 </mapper>

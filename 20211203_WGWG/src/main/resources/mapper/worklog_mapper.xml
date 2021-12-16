@@ -27,6 +27,7 @@
 	<!-- 부서별 조회 -->
 	<select id="selectAllDeptWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM , e.DEPT_NO , p.POSITION_NM 
+
 			FROM WORKLOG w
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO 
@@ -38,9 +39,11 @@
 	<!-- 세션에서 로그인한 정보 받아와서 DEPT_NO 비교히는 거 추가해야 함 -->
 	
 	<!-- 개인별 조회 -->
+
 	<select id="selectAllMyWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM , p.POSITION_NM 
 			FROM WORKLOG w
+
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO 
 			LEFT JOIN "POSITION" p 
@@ -56,9 +59,11 @@
 	</select>
 	
 	<!-- 작성자이름 or 제목에 해당하는 글자로 검색 -->
+
 <!-- 	<select id="searchWorkLog" parameterType="java.util.Map" resultMap="worklogVo"> -->
 	<select id="searchWorkLog" parameterType="java.lang.String" resultMap="worklogVo">
 		<!-- SELECT w.*, e.EMP_NM, d.DEPT_NM 
+
 			FROM WORKLOG w 
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO
