@@ -234,9 +234,9 @@ th {
 		<%-- 			</c:if> --%>
 
 		<div id="nextbtn">
-			<button id="btn" onclick="location.href='./appline.do'">임시저장</button>
-			<button id="btn" onclick="location.href='./appline.do'">상신</button>
+			<button id="btn" onclick="location.href='./appline.do'">재상신</button>
 			<button id="btn" onclick="location.href='./appline.do'">기안취소</button>
+			<button id="btn" onclick="location.href='./appline.do'">문서삭제</button>
 		</div>
 	</div>
 

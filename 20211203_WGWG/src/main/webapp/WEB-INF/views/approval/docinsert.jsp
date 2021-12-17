@@ -176,9 +176,9 @@ $(function(){
 			<textarea rows="20" cols="135" id="ir1"></textarea>
 			</div>
 			<div id="nextbtn">
-				<button id="btn" onclick="location.href='./appline.do'">임시저장</button>
-				<button id="btn" onclick="location.href='./appline.do'">상신</button>
-				<button id="btn" onclick="location.href='./appline.do'">기안취소</button>
+				<button id="btn" onclick="location.href=''">임시저장</button>
+				<button id="btn" onclick="location.href=''">상신</button>
+				<button id="btn" onclick="location.href=''">기안취소</button>
 			</div>
 		</div>
 	</form>
