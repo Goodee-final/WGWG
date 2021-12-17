@@ -19,7 +19,7 @@
 
 
 <script type="text/javascript">
-	var loc = "${loc}";
+	var loc = "<%=session.getAttribute("loc") %>"
 
 	$(document).ready(function() {
 		console.log(loc);
@@ -348,6 +348,11 @@ i {
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button w3-hover-blue" value="./formlist.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식목록</li>
 					<li class="w3-bar-item w3-button w3-hover-blue" value="./forminsert.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;양식등록</li>
+				</ul></li>
+			<li class="w3-bar-item nav1"><i class="fas fa-users"></i>사원관리
+				<ul class="nav-flyout">
+					<li class="w3-bar-item w3-button w3-hover-blue" value="./insert_emp_form.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원등록</li>
+					<li class="w3-bar-item w3-button w3-hover-blue" value="./forminsert.do">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사원조회</li>
 				</ul></li>
 		</ul>
 	</div>

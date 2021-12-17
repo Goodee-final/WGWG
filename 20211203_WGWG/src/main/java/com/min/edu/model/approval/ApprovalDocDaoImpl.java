@@ -1,6 +1,7 @@
 package com.min.edu.model.approval;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -25,21 +26,26 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	
 	
 	@Override
-	public List<Approval_Doc> selectAllDoc() {
-		logger.info("ApprovalDocDaoImpl selectAll");
-		return sqlSession.selectList(NS+"selectAllDoc");
+	public List<Approval_Doc> selectmyAllDoc(int empno) {
+		logger.info("ApprovalDocDaoImpl selectmyAllDoc(개인문서함)");
+		return sqlSession.selectList(NS+"selectmyAllDoc", empno);
+	}
+	
+	@Override
+	public List<Approval_Doc> searchdoclist(String title, int empno) {
+		logger.info("ApprovalDocDaoImpl searchdoclist(개인문서함)", title);
+		return sqlSession.selectList(NS+"searchdoclist", title);
+	}
+
+	@Override
+	public Approval_Doc selectOneDoc(int docno) {
+		logger.info("ApprovalDocDaoImpl 문서 상세 조회");
+		return sqlSession.selectOne(NS+"selectOneDoc", docno);
 	}
 
 
 	@Override
-	public String selectOneDoc(int empno) {
-		logger.info("ApprovalDocDaoImpl selectOneDoc");
-		return sqlSession.selectOne(NS+"selectOneDoc", empno);
-	}
-
-
-	@Override
-	public String selectEmpInfo(int empno) {
+	public Emp selectEmpInfo(int empno) {
 		logger.info("ApprovalDocDaoImpl selectEmpInfo");
 		return sqlSession.selectOne(NS+"selectEmpInfo", empno);
 	}
@@ -61,23 +67,31 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 
 	@Override
 	public List<Approval_Doc> selectAllDocApp(int empno) {
-		logger.info("ApprovalDocDaoImpl selectAllDocApp");
+		logger.info("ApprovalDocDaoImpl 모든 문서 조회(결재자)");
 		return sqlSession.selectList(NS+"selectAllDocApproval",empno);
 	}
 
 
 	@Override
 	public List<Approval_Doc> selectListDocStApp(Approval_Doc doc) {
-		logger.info("ApprovalDocDaoImpl selectAllDocApp");
+		logger.info("ApprovalDocDaoImpl 문서 상태에 따른 결재 문서 조회(결재자)");
 		return sqlSession.selectList(NS+"selectListDocStApp",doc);
 	}
 
+	@Override
+	public List<Approval_Doc> selectListDocSt(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 문서 상태에 따른 결재 문서 조회(상신자)");
+		return sqlSession.selectList(NS+"selectListDocSt",doc);
+	}
 
 	@Override
 	public List<Approval_Doc> selectListWait(Approver approver) {
-		logger.info("ApprovalDocDaoImpl selectListWait");
+		logger.info("ApprovalDocDaoImpl 결재대기 문서 조회 selectListWait");
 		
 		return sqlSession.selectList(NS+"selectListWait", approver);
 	}
+
+
+
 
 }

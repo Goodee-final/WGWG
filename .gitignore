@@ -8,6 +8,7 @@
 .data-sources.json.bak
 .project-metadata.json.bak
 .credentials-config.json.bak
+.credentials-config.json
 
 ### Eclipse ###
 .metadata

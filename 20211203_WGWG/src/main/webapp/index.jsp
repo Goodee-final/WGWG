@@ -18,15 +18,16 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
+
 <script type="text/javascript">
-	var loc = "${loc}";
+	
+	var loc =  "<%=session.getAttribute("loc") %>"
 
 	$(document).ready(function() {
 		console.log(loc);
 
 		if (loc != "") {
 			$("#content").load(loc);
-
 		}else{
 			
 		}
@@ -87,6 +88,7 @@ ul {
 	top: 0;
 	left: 0;
 	right: 0;
+	z-index: 10;
 	border-bottom: 2px solid #EEEEEE;
 	background-color: white;
 }
@@ -159,6 +161,7 @@ ul {
 	background-size: cover;
 }
 
+
 /*side  */
 .w3-sidebar {
 	background-color: #073865 !important;
@@ -167,6 +170,7 @@ ul {
 	padding-left: 20px !important;
 	padding-top: 20px !important;
 }
+
 
 .nav-flyout {
 	display: none;
@@ -179,7 +183,6 @@ ul {
 	display: block;
 }
 
-
 ul {
 	list-style: none;
 	margin: 0 !important;
@@ -189,6 +192,7 @@ ul {
 .nav-flyout li:hover {
 	background-color: #073865;
 	color: white;
+
 }
 
 .w3-sidebar>ul>li {
@@ -275,6 +279,9 @@ i {
 	width: 800px;
 	height: 150px;
 }
+#content{
+	height: 100%;
+}
 </style>
 
 </head>
@@ -312,33 +319,36 @@ i {
 		<ul>
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="">기안하기</li>
+					<li class="w3-bar-item w3-button" 
+              value="./docinsert.do">기안하기</li>
 					<li class="w3-bar-item w3-button"
-						value="./signlist.do">전자서명 관리</li>
+						  value="./signlist.do">전자서명 관리</li>
 					<li class="w3-bar-item w3-button"
-						value="./signinsert.do">전자서명 등록</li>
+						  value="./signinsert.do">전자서명 등록</li>
 					<li class="w3-bar-item w3-button"
-						value="./signdraw.do">전자서명만들기</li>
-					<li class="w3-bar-item w3-button" value="">결재
-						진행함</li>
-					<li class="w3-bar-item w3-button" value="">결재
-						대기함</li>
+						  value="./signdraw.do">전자서명만들기</li>
+					<li class="w3-bar-item w3-button" 
+              value="">결재 진행함</li>
+					<li class="w3-bar-item w3-button" 
+              value="">결재 대기함</li>
 					<li class="w3-bar-item w3-button"
-						value="./completedoc.do">결재 완료함</li>
-					<li class="w3-bar-item w3-button" value="">참조문서함</li>
-					<li class="w3-bar-item w3-button">개인문서함</li>
-					<li class="w3-bar-item w3-button">임시문서함</li>
+						  value="./completedoc.do">결재 완료함</li>
+					<li class="w3-bar-item w3-button" 
+              value="">참조문서함</li>
+					<li class="w3-bar-item w3-button"
+              value="./mydoclist.do">개인문서함</li>
+					<li class="w3-bar-item w3-button"
+               value="">임시문서함</li>
 				</ul>
 			</li>
-
+      
 			<li class="w3-bar-item nav1"><i class="fas fa-business-time"></i>근태관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button" value="./workrecord.do">근태관리</li>
 					<li class="w3-bar-item w3-button" value="">근태관리</li>
 				</ul></li>
 
-			<li class="w3-bar-item nav1"><i class="fas fa-thumbtack"></i>
-				공지사항
+			<li class="w3-bar-item nav1"><i class="fas fa-thumbtack"></i> 공지사항
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button"
 						value="./noticeList.do">공지사항</li>
@@ -360,8 +370,8 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i>업무일지
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="">업무일지</li>
-					<li class="w3-bar-item w3-button" value="">업무일지</li>
+					<li class="w3-bar-item w3-button" value="./worklogInsert.do">업무일지 작성</li>
+					<li class="w3-bar-item w3-button" value="./worklogList.do">업무일지 조회</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>채팅
@@ -383,9 +393,10 @@ i {
 				</ul></li>
 		</ul>
 	</article>
-	<div id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px; width: 900px; height: 700px;">
+	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
 		인덱스 화면
-	</div>
+	</section>
+
 	<footer class="footer">
 		<div class="footer-content">
 			<p>주소: 서울특별시 금천구 가산디지털2로 00 </p>

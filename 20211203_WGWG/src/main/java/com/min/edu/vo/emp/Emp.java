@@ -1,19 +1,12 @@
 package com.min.edu.vo.emp;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.stereotype.Component;
 
 @Component
 public class Emp {
 
-	@NotNull(message = "사원번호를 입력해주세요.")
 	private int emp_no;
-	
 	private String emp_nm;
-	
-	@NotEmpty(message = "비밀번호를 입력해주세요.")
 	private String pw;
 	private String email;
 	private String photo;
@@ -21,10 +14,12 @@ public class Emp {
 	private String tel;
 	private String hiredate;
 	private String work_st;
+	private String birth;
 	private int position_no;
 	private int dept_no;
 	
 	private Position pVo;
+	private Department dVo;
 	
 	
 	public Emp() {}
@@ -45,7 +40,25 @@ public class Emp {
 	}
 	
 	
-	
+	public Emp(int emp_no, String emp_nm, String pw, String email, String photo, String address, String tel,
+			String hiredate, String work_st, String birth, int position_no, int dept_no, Position pVo, Department dVo) {
+		super();
+		this.emp_no = emp_no;
+		this.emp_nm = emp_nm;
+		this.pw = pw;
+		this.email = email;
+		this.photo = photo;
+		this.address = address;
+		this.tel = tel;
+		this.hiredate = hiredate;
+		this.work_st = work_st;
+		this.birth = birth;
+		this.position_no = position_no;
+		this.dept_no = dept_no;
+		this.pVo = pVo;
+		this.dVo = dVo;
+	}
+
 	public Emp(String emp_nm, String email, String photo, String address, String tel, String hiredate, String work_st,
 			int position_no, int dept_no) {
 		super();
@@ -58,6 +71,14 @@ public class Emp {
 		this.work_st = work_st;
 		this.position_no = position_no;
 		this.dept_no = dept_no;
+	}
+	
+	
+
+	public Emp(int emp_no,String pw) {
+		super();
+		this.emp_no = emp_no;
+		this.pw = pw;
 	}
 
 	@Override
@@ -141,7 +162,22 @@ public class Emp {
 	public void setpVo(Position pVo) {
 		this.pVo = pVo;
 	}
-	
+
+	public Department getdVo() {
+		return dVo;
+	}
+
+	public void setdVo(Department dVo) {
+		this.dVo = dVo;
+	}
+
+	public String getBirth() {
+		return birth;
+	}
+
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
 	
 
 }

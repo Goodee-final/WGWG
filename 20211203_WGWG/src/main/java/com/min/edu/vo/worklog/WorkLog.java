@@ -1,7 +1,7 @@
 package com.min.edu.vo.worklog;
 
-import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 
 public class WorkLog {
 
@@ -13,13 +13,13 @@ public class WorkLog {
 	private int emp_no;
 
 	private Emp emp;
-	private Department department;
+	private Position position;
 
 	@Override
 	public String toString() {
 		return "WorkLog [worklog_no=" + worklog_no + ", worklog_reg_dt=" + worklog_reg_dt + ", worklog_modify_dt="
 				+ worklog_modify_dt + ", worklog_content=" + worklog_content + ", worklog_delflag=" + worklog_delflag
-				+ ", emp_no=" + emp_no + ", emp=" + emp + ", department=" + department + "]";
+				+ ", emp_no=" + emp_no + ", emp=" + emp + ", position=" + position + "]";
 	}
 
 	public WorkLog() {
@@ -27,7 +27,7 @@ public class WorkLog {
 	}
 
 	public WorkLog(int worklog_no, String worklog_reg_dt, String worklog_modify_dt, String worklog_content,
-			String worklog_delflag, int emp_no, Emp emp, Department department) {
+			String worklog_delflag, int emp_no, Emp emp, Position position) {
 		super();
 		this.worklog_no = worklog_no;
 		this.worklog_reg_dt = worklog_reg_dt;
@@ -36,7 +36,7 @@ public class WorkLog {
 		this.worklog_delflag = worklog_delflag;
 		this.emp_no = emp_no;
 		this.emp = emp;
-		this.department = department;
+		this.position = position;
 	}
 
 	public int getWorklog_no() {
@@ -95,12 +95,12 @@ public class WorkLog {
 		this.emp = emp;
 	}
 
-	public Department getDepartment() {
-		return department;
+	public Position getPosition() {
+		return position;
 	}
 
-	public void setDepartment(Department department) {
-		this.department = department;
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
 }

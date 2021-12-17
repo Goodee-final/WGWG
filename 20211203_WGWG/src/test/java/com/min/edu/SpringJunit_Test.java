@@ -16,7 +16,6 @@ import com.min.edu.model.emp.EmpDaoImpl;
 import com.min.edu.model.emp.IEmpDao;
 import com.min.edu.model.form.FormDaoImpl;
 import com.min.edu.model.form.IFormDao;
-import com.min.edu.vo.emp.Emp;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -71,10 +70,6 @@ public class SpringJunit_Test {
 		 * emp.setWork_st("재직"); emp.setPosition_no(1); emp.setDept_no(20);
 		 */
 		
-		//assertEquals(true, edao.insert_emp(emp));
-		assertNotNull(wrdao.selectwr(6));
-		
-		//assertNotNull(wrdao.selectworkrecord(6));
 	}
 
 }
