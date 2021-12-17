@@ -16,6 +16,8 @@ public interface INoticeService {
 		public NoticeFileVO getFile(int notice_file_no);
 		//공지사항 등록
 		public int insertNotice(NoticeVO vo);
+		//공지사항 등록 사업지원팀이 회사글 등록
+		public int insertNoticeCompany(NoticeVO vo);	
 		//공지사항 상세조회
 		public NoticeVO detailNotice(int notice_no);	
 		//공지사항 조회수 +1

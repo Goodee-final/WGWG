@@ -106,6 +106,12 @@ public class NoticeDaoImpl implements INoticeDao {
 		return sqlSession.selectOne(NS+"selectTotalPaging");
 	}
 
+	@Override
+	public int insertNoticeCompany(NoticeVO vo) {
+		logger.info("공지사항 회사글 등록 insertNoticeCompany {}",vo);
+		return sqlSession.insert(NS+"insertNoticeCompany",vo);
+	}
+
 	
 
 	

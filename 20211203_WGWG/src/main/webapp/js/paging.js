@@ -16,8 +16,7 @@ function listCnt(){
 function nchk(){
 	document.getElementById("index").value=0;
 	document.getElementById("pageStartNum").value=1;
-	document.getElementById("listCnt").value=document.getElementById("listCount").value	
-	
+	document.getElementById("listCnt").value=document.getElementById("listCount").value		
 	document.getElementById("notice_chk").value=document.getElementById("notice_chk").value		
 	document.getElementById("searchKeyword").value=document.getElementById("searchKeyword").value
 	frmPaging();

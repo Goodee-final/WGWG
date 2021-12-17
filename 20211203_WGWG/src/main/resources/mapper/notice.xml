@@ -119,14 +119,15 @@
 				SELECT ROWNUM RN, A.* 
 					FROM (
 							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO,NOTICE_CNT
-							FROM NOTICE 
+							FROM NOTICE 							
+							<if test="searchKeyword != null and searchKeyword != ''">
+								 WHERE LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
+							</if>
 							ORDER BY NOTICE_NO DESC 
 							) A
 					)
 		WHERE RN BETWEEN #{start} AND #{last} 
-		<if test="searchKeyword != null and searchKeyword != ''">
-			 AND LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
-		</if>
+		
    </select> 
    
    <!-- 부서벌 게시글 갯수 출력 -->
@@ -149,12 +150,14 @@
 					FROM (
 							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,NOTICE_CHK,EMP_NO,NOTICE_CNT
 							FROM NOTICE 
+							WHERE NOTICE_CHK =#{notice_chk}
+							<if test="searchKeyword != null and searchKeyword != ''">
+								 AND LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
+							</if>
+							ORDER BY NOTICE_NO DESC 
 							) A
 					)
-		WHERE RN BETWEEN #{start} AND #{last} AND NOTICE_CHK =#{notice_chk}
-		<if test="searchKeyword != null and searchKeyword != ''">
-			 AND LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
-		</if>
+		WHERE RN BETWEEN #{start} AND #{last} 		
 	</select>
 	
 	

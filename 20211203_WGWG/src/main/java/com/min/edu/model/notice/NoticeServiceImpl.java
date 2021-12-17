@@ -95,5 +95,10 @@ public class NoticeServiceImpl implements INoticeService{
 		return dao.selectTotalPaging();
 	}
 
+	@Override
+	public int insertNoticeCompany(NoticeVO vo) {
+		return dao.insertNoticeCompany(vo);
+	}
+
 	
 }
