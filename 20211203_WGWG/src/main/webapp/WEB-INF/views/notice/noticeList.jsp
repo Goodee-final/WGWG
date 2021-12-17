@@ -14,11 +14,11 @@
 <script type="text/javascript" src="./js/paging.js"></script>
 <!-- 사용자 js -->
 <style type="text/css">
-
+	
 	.content{
  		width: 1200px;
 		padding: 150px 30px;
-		
+		margin: 0 auto;
  	}
 	.test{
 		margin: 0 auto;

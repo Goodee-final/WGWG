@@ -104,21 +104,22 @@
 	
    
    <!-- 총괄페이지 갯수 -->
-   <select id="selectTotalPaging" resultType="java.lang.Integer">
+   <select id="selectTotalPaging" parameterType="com.min.edu.vo.notice.NoticePageVO" resultType="java.lang.Integer">
        SELECT NVL(COUNT(*),0)
             FROM NOTICE 
+            WHERE 1=1
             <if test="searchKeyword != null and searchKeyword != ''">
-			WHERE LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
+			 AND LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
 		</if>     
    </select>
    
    <!-- 페이지 리스트 -->
 	<select id="selectPaging" parameterType="com.min.edu.vo.notice.NoticePageVO" resultType="NoticeVo">
-      SELECT NOTICE_NO, NOTICE_TITLE, TO_CHAR(NOTICE_REG_DT,'YYYY-MM-DD') AS NOTICE_REG_DT,EMP_NO,NOTICE_CNT
+      SELECT NOTICE_NO, NOTICE_TITLE, TO_CHAR(NOTICE_REG_DT,'YYYY-MM-DD') AS NOTICE_REG_DT,NOTICE_CHK,EMP_NO,NOTICE_CNT
 			FROM (
 				SELECT ROWNUM RN, A.* 
 					FROM (
-							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,EMP_NO,NOTICE_CNT
+							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,NOTICE_CHK,EMP_NO,NOTICE_CNT
 							FROM NOTICE 							
 							<if test="searchKeyword != null and searchKeyword != ''">
 								 WHERE LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
@@ -131,26 +132,29 @@
    </select> 
    
    <!-- 부서벌 게시글 갯수 출력 -->
-	<select id="countNoticechk" resultType="Integer">
+	<select id="countNoticechk" parameterType="com.min.edu.vo.notice.NoticePageVO" resultType="Integer">
 		SELECT NVL(COUNT(*),0)
 		 FROM NOTICE 
-		 WHERE
-		  <if test="notice_chk != null and notice_chk != ''">
-		  	NOTICE_CHK = #{notice_chk}
-		  </if>
+		 WHERE 1=1
+							<if test="notice_chk != null and notice_chk != ''">
+								 AND  NOTICE_CHK =#{notice_chk}
+							</if>
 		  <if test="searchKeyword != null and searchKeyword != ''">
 			AND LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
 		</if>
 	</select>
 	<!-- notchk리스트 -->
 	<select id="selectNotchk" parameterType="com.min.edu.vo.notice.NoticePageVO" resultType="NoticeVo">
-		SELECT NOTICE_NO, NOTICE_TITLE, TO_CHAR(NOTICE_REG_DT,'YYYY-MM-DD') AS NOTICE_REG_DT,EMP_NO,NOTICE_CNT
+		SELECT NOTICE_NO, NOTICE_TITLE, TO_CHAR(NOTICE_REG_DT,'YYYY-MM-DD') AS NOTICE_REG_DT,NOTICE_CHK,EMP_NO,NOTICE_CNT
 			FROM (
 				SELECT ROWNUM RN, A.* 
 					FROM (
 							SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT,NOTICE_CHK,EMP_NO,NOTICE_CNT
 							FROM NOTICE 
-							WHERE NOTICE_CHK =#{notice_chk}
+							WHERE 1=1
+							<if test="notice_chk != null and notice_chk != ''">
+								 AND  NOTICE_CHK =#{notice_chk}
+							</if>							
 							<if test="searchKeyword != null and searchKeyword != ''">
 								 AND LOWER(NOTICE_TITLE) LIKE LOWER('%'||#{searchKeyword}||'%')
 							</if>

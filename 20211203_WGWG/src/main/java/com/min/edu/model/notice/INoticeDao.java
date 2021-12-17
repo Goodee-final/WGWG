@@ -31,8 +31,8 @@ public interface INoticeDao {
 	public int deleteNoticeFile(int notice_no);
 	//페이징처리 모두검색
 	public List<NoticeVO> selectPaging(NoticePageVO paging);
-	public int selectTotalPaging();
+	public int selectTotalPaging(NoticePageVO paging);
 	//부서별 페이징 처리
 	public List<NoticeVO> selectNotchk(NoticePageVO vo);
-	public int countNoticechk(String notice_chk);	
+	public int countNoticechk(NoticePageVO paging);	
 }
