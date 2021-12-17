@@ -279,6 +279,9 @@ i {
 	width: 800px;
 	height: 150px;
 }
+#content{
+	height: 100%;
+}
 </style>
 
 </head>
@@ -390,9 +393,9 @@ i {
 				</ul></li>
 		</ul>
 	</article>
-	<div id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px; width: 900px; height: 700px;">
+	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
 		인덱스 화면
-	</div>
+	</section>
 
 	<footer class="footer">
 		<div class="footer-content">
