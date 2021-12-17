@@ -1,11 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String ctx = request.getContextPath();    //콘텍스트명 얻어오기.
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>기안하기</title>
+<script type="text/javascript" src="<%=ctx %>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+<script type="text/javascript">
+var oEditors = [];
+$(function(){
+      nhn.husky.EZCreator.createInIFrame({
+          oAppRef: oEditors,
+          elPlaceHolder: "ir1",
+          sSkinURI: "./SE/SmartEditor2Skin.html",  
+          htParams : {
+              bUseToolbar : true,             
+              bUseVerticalResizer : true,     
+              bUseModeChanger : true,         
+              fOnBeforeUnload : function(){
+                   
+              }
+          }, 
+          fOnAppLoad : function(){
+              oEditors.getById["ir1"].exec("PASTE_HTML", ["기존 DB에 저장된 내용을 에디터에 적용할 문구"]);
+          },
+          fCreator: "createSEditor2"
+      });
+      
+      $("#save").click(function(){
+          oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+          var formclassification = $("select[name=formclassification]").val();
+          $("#frm").submit();
+      });    
+});
+</script>
 </head>
 <style type="text/css">
 
@@ -85,7 +118,10 @@
 		margin: 10px;
 		margin-left: 5px;
 	}
-	
+	.editor{
+		margin-left: 73px;
+		margin-top: 30px;
+	}
 </style>
 <body>
 	<form action="./docinsert.do" method="post">
@@ -136,8 +172,9 @@
 					</tr>
 				</table>
 			</div>
-			
-			<textarea rows="10" cols="80"></textarea>
+			<div class="editor">
+			<textarea rows="20" cols="135" id="ir1"></textarea>
+			</div>
 			<div id="nextbtn">
 				<button id="btn" onclick="location.href='./appline.do'">임시저장</button>
 				<button id="btn" onclick="location.href='./appline.do'">상신</button>
