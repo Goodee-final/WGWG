@@ -116,7 +116,7 @@ th, td {
                      <c:forEach var="my" items="${worklogmylist}" varStatus="status">
                      	<tr style="text-align:center">	
 	                        <td>${my.worklog_no}</td>
-	                        <td>${my.worklog_content}</td>
+	                        <td><a href='./worklogDetail.do?no=${my.worklog_no}'>${my.worklog_content}</a></td>
 	                        <td>${my.emp.emp_nm}</td>
 	                        <td>${my.position.position_nm}</td>
 	                        <td>${my.worklog_reg_dt}</td>
@@ -143,7 +143,7 @@ th, td {
                      <c:forEach var="dept" items="${worklogdeptlist}" varStatus="status">
                         <tr>
                            <td>${dept.worklog_no}</td>
-                           <td>${dept.worklog_content}</td>
+                           <td><a href='./worklogDetail.do?no=${dept.worklog_no}'>${dept.worklog_content}</a></td>
                            <td>${dept.emp.emp_nm}</td>
                            <td>${dept.position.position_nm}</td>
                            <td>${dept.worklog_reg_dt}</td>

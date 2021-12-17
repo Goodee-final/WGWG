@@ -27,7 +27,6 @@
 	<!-- 부서별 조회 -->
 	<select id="selectAllDeptWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM , e.DEPT_NO , p.POSITION_NM 
-
 			FROM WORKLOG w
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO 
@@ -43,7 +42,6 @@
 	<select id="selectAllMyWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM , p.POSITION_NM 
 			FROM WORKLOG w
-
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO 
 			LEFT JOIN "POSITION" p 
@@ -54,7 +52,12 @@
 	
 	<!-- 상세보기 -->
 	<select id="selectDetailWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
-		SELECT * FROM WORKLOG w 
+		SELECT w.*, e.EMP_NM , e.DEPT_NO , p.POSITION_NM 
+			FROM WORKLOG w
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO 
+			LEFT JOIN "POSITION" p 
+			ON e.POSITION_NO = p.POSITION_NO
 			WHERE WORKLOG_NO = #{worklog_no}
 	</select>
 	

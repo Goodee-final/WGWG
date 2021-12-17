@@ -80,14 +80,15 @@ public class WorkLogController {
 	 * 
 	 * return "./worklog/worklogList"; }
 	 */
-
+	
 	@RequestMapping(value = "/worklogDetail.do", method = RequestMethod.GET)
-	public String worklogDetail(Model model, int worklog_no) {
+	public String worklogDetail(Model model, @RequestParam("no") int worklog_no) {
+		
 		logger.info("WorkLogController worklogDetail 상세 조회 화면");
 		logger.info("전달받은 업무일지 번호 {}", worklog_no);
-		WorkLog selectWorkLog = workLogService.selectDetailWorkLog(worklog_no);
-		model.addAttribute("selectWorkLog", selectWorkLog);
-		return "./worklog/worklogList";
+		WorkLog selectWorklog = workLogService.selectDetailWorkLog(worklog_no);
+		model.addAttribute("selectWorklog", selectWorklog);
+		return "./worklog/worklogDetail";
 	}
 
 	@RequestMapping(value = "/searchWorkLog.do", method = RequestMethod.POST)
