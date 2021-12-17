@@ -6,19 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="/WEB-INF/views/common/indexinclude.jsp"></jsp:include>
-</head>
 <style>
-	.container{
-		margin-top: 80px;
-		margin-left: 230px;
-		padding: 50px;
-	}
-	
-	.title {
-		margin-left: 70px;
-	}
-	
 	.formList {
 		margin: 0 auto;
 		width: 1000px;
@@ -66,6 +54,7 @@
 		margin-left: 970px;
 	}
 </style>
+</head>
 <body>
 	<div class="container">
 		<h1 class="title">양식 목록</h1>

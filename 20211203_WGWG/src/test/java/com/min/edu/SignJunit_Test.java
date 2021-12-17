@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.min.edu.model.approval.IApprovalDocDao;
 import com.min.edu.model.sign.ISignDao;
+import com.min.edu.vo.approval.Approval_Doc;
+import com.min.edu.vo.approval.Approver;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,8 +39,22 @@ public class SignJunit_Test {
 	@Test
 	public void test() {
 		
-		assertNotNull(dao.selectSignList(1));
-		//assertNotNull(dao2.selectAllDocApp(1));
+//		assertNotNull(dao.selectSignList(1));
+//		assertNotNull(dao2.selectAllDocApp(1));
+		Approval_Doc doc = new Approval_Doc();
+		
+		//문서 상태에 따른 결재자 문서 조회
+		doc.setEmp_no(1);
+		doc.setApp_doc_st("완료");
+//		assertNotNull(dao2.selectListDocStApp(doc));
+		assertNotNull(dao2.selectListDocSt(doc));
+		
+		//결재 대기함 조회(결재자 번호, waiting:0)
+//		Approver app = new Approver();
+//		app.setEmp_no(2);
+//		app.setWaiting(0);
+//		assertNotNull(dao2.selectListWait(app));
+		
 		
 	}
 
