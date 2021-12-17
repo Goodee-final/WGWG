@@ -176,9 +176,9 @@ $(function(){
 			<textarea rows="20" cols="135" id="ir1"></textarea>
 			</div>
 			<div id="nextbtn">
-				<button type="button" id="btn" onclick="stopdoc()">임시저장</button>
-				<input type="submit" id="btn" onclick="location.href='./appline.do'" value="상신"/>
-				<button type="button" id="btn" onclick="stopdoc()">기안취소</button>
+				<button id="btn" onclick="location.href='./appline.do'">임시저장</button>
+				<button id="btn" onclick="location.href='./appline.do'">상신</button>
+				<button id="btn" onclick="location.href='./appline.do'">기안취소</button>
 			</div>
 		</div>
 	</form>
@@ -197,10 +197,12 @@ $(function(){
         <form action="" method="post" id="frmReply" class="form-margin">
         <div class="modal-body">
           	<div class="form-group">
-				
+          		<label>작성자</label>
+          		<p></p>
           	</div>
           	<div class="form-group">
           		<label>제목</label>
+          		<input type="text" class="form-control" id="title" name="title"/>
           	</div>
           	<div class="form-group">
           		<label>내용</label>
@@ -218,6 +220,19 @@ $(function(){
       
     </div>
   </div>
+   
+   <script type="text/javascript">
+   
+   function replyValue(){
+	   console.log('답글 submit');
+	   var frm = document.getElementById('frmReply');
+	   frm.action = './replyBoard.do';
+	   frm.submit();
+   }
+   </script>
+
+
+
 
 </body>
 </html>
