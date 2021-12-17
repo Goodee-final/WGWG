@@ -20,7 +20,10 @@
 	
 
 	<select id="getLogin" parameterType="java.util.Map"  resultType="empvo">
-		SELECT EMP_NO,EMP_NM ,EMAIL ,PHOTO ,POSITION_NO ,DEPT_NO 
+		SELECT EMP_NO, EMP_NM, PW, 
+				EMAIL, PHOTO, ADDRESS, 
+				TEL, HIREDATE, WORK_ST, 
+				BIRTH, POSITION_NO, DEPT_NO
  			FROM EMP e 
  			WHERE EMP_NO=#{emp_no} AND PW=#{pw}
 	</select>
