@@ -68,6 +68,15 @@ public class ApprovalController {
 	      return "/approval/docinsert";
 	   }
 	   
+	   @PostMapping(value="/docinsert.do")
+	   public String docapproval(Model model) {
+		   
+	      logger.info("ApprovalController 기안하기 문서 작성");
+	      Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
+	      model.addAttribute("empinfo", empinfo);
+	      return "/approval/mydoclist";
+	   }
+	   
 	   @GetMapping(value="/appline.do")
 	   public String appline(Model model) {
 		  
