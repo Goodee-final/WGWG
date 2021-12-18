@@ -9,8 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>기안하기</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script type="text/javascript" src="<%=ctx %>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
 </head>
 <style type="text/css">
 
@@ -151,7 +151,7 @@
 						<option value="${form.form_no}">${form.form_nm}</option>
 					</c:forEach>
 				</select>
-				<button id="lineselect" class="btn btn-primary" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
+				<button type="button" id="lineselect" class="btn btn-primary" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
 				<label id="formname">지출결의서</label>
 			</div>
 			

@@ -42,7 +42,9 @@ public class FormController {
 		logger.info("양식 상세화면 이동");
 		logger.info("전달받은 양식번호 {}", form_no);
 		Form selectForm = service.selectFormDetail(form_no);
+		String loc = "/formdetail.do";
 		model.addAttribute("selectForm",selectForm);
+		model.addAttribute("loc", loc);
 		return "/form/formdetail";
 	}
 	
