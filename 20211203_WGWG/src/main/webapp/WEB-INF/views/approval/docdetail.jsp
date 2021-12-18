@@ -293,6 +293,7 @@ th {
 				<button class="btn" onclick="location.href='./appline.do'">기안취소</button>
 			</div>
 		</c:if>
+
 	</div>
 
 
