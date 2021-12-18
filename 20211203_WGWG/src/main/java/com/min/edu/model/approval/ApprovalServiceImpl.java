@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.min.edu.vo.approval.Approval_Doc;
+import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.approval.Approver;
@@ -69,6 +70,16 @@ public class ApprovalServiceImpl implements IApprovalService {
 	@Override
 	public List<Approval_Doc> selectListWait(Approver approver) {
 		return dao.selectListWait(approver);
+	}
+
+	@Override
+	public int updateDocSt(Approval_Doc doc) {
+		return dao.updateDocSt(doc);
+	}
+
+	@Override
+	public int updateApproval(Approval_line line) {
+		return dao.updateApproval(line);
 	}
 
 

@@ -75,13 +75,20 @@
 <!--  -->
 
 <style type="text/css">
-
+#table1{
+	border: 1px solid #ddd;
+}
 
 .flex-box {
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
 }
+
+#table1 tbody td{
+	border: 1px solid #eee;
+}
+
 </style>
 </head>
 <body>
@@ -92,45 +99,48 @@
 
 		<form action="./uploadForm.do" id="form1" method="POST"
 			enctype="multipart/form-data">
-			<table border="1px solid black">
-				<tr>
-					<td>
-						<p>
-							<b>유의 사항</b>
-						</p>
-					</td>
-					<td>
-						<p>전자서명은 최대 3개까지 등록 가능 합니다.</p>
-						<p>확장자는 이미지 파일(.png)만 업로드 가능합니다.</p>
-						<p>용량은 10MB를 초과 할 수 없습니다.</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>
-							<b>기본 이미지</b>
-						</p>
-					</td>
-					<td><img src="img/sign/approve.PNG" width="75px" height="75px">
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>
-							<b>등록된 결재 이미지</b>
-						</p>
-					</td>
-					<td class="flex-box">
+			<table class="table" id="table1">
+				<tbody>
+					<tr>
+						<td>
+							<p>
+								<b>유의 사항</b>
+							</p>
+						</td>
+						<td>
+							<p>전자서명은 최대 3개까지 등록 가능 합니다.</p>
+							<p>확장자는 이미지 파일(.png)만 업로드 가능합니다.</p>
+							<p>용량은 10MB를 초과 할 수 없습니다.</p>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p>
+								<b>기본 이미지</b>
+							</p>
+						</td>
+						<td><img src="img/sign/approve.PNG" width="75px"
+							height="75px"></td>
+					</tr>
+					<tr>
+						<td>
+							<p>
+								<b>등록된 결재 이미지</b>
+							</p>
+						</td>
+						<td class="flex-box">
 
-						<div>
-							<img id="profileImg" src=""
-								style="border-radius: 10%; padding-top: 10px; height: 125px; width: 125px;">
-						</div> <input type="file" id="input_img" name="file" accept="image/jpeg,image/png"/>
+							<div>
+								<img id="profileImg" src=""
+									style="border-radius: 10%; padding-top: 10px; height: 100px; width: 100px;">
+							</div> <input type="file" id="input_img" name="file"
+							accept="image/jpeg,image/png" />
 
-					</td>
+						</td>
 
 
-				</tr>
+					</tr>
+				</tbody>
 			</table>
 			<input type="submit" id="uploadBtn" class="btn btn-primary"
 				value="저장하기"> <input type="button" class="btn btn-primary"

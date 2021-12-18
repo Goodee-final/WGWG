@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.min.edu.vo.approval.Approval_Doc;
+import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.approval.Approver;
@@ -31,4 +32,9 @@ public interface IApprovalService {
 	//결재대기함
 	public List<Approval_Doc> selectListWait(Approver approver);
 
+	//문서 상태 업데이트
+	public int updateDocSt(Approval_Doc doc);
+	
+	//결재자 정보 없데이트
+	public int updateApproval(Approval_line line);
 }
