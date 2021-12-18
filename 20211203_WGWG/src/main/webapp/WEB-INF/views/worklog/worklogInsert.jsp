@@ -15,6 +15,7 @@
 
 <script type="text/javascript">
 var oEditors = [];
+var template = '${template}';
 $(function(){
       nhn.husky.EZCreator.createInIFrame({
           oAppRef: oEditors,
@@ -29,7 +30,7 @@ $(function(){
               }
           }, 
           fOnAppLoad : function(){
-              oEditors.getById["ir1"].exec("PASTE_HTML", ["기존 DB에 저장된 내용을 에디터에 적용할 문구"]);
+              oEditors.getById["ir1"].exec("PASTE_HTML", [template]);
           },
           fCreator: "createSEditor2"
       });

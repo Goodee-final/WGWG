@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.min.edu.model.form.IFormService;
 import com.min.edu.model.worklog.IWorkLogService;
 import com.min.edu.vo.worklog.WorkLog;
 
@@ -29,6 +30,9 @@ public class WorkLogController {
 
 	@Autowired
 	private IWorkLogService workLogService;
+	
+	@Autowired
+	private IFormService formService;
 	
 	@RequestMapping(value = "/worklogList.do", method = RequestMethod.GET)
 	public String worklogList(Model model,@RequestParam int emp_no,@RequestParam int dept_no) {
@@ -97,9 +101,11 @@ public class WorkLogController {
 	}
 
 	@RequestMapping(value = "/worklogInsert.do", method = RequestMethod.GET)
-	public String insertWorkLogForm() {
+	public String insertWorkLogForm(HttpServletResponse response, Model model) {
 		logger.info("WorkLogController worklogInsert");
-
+		response.setCharacterEncoding("UTF-8");
+		String template = formService.selectTemplate(9);
+		model.addAttribute("template",template);
 		return "./worklog/worklogInsert";
 	}
 
