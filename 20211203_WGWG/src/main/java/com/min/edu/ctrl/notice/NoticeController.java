@@ -61,15 +61,19 @@ public class NoticeController {
 		if(notice_chk == null || notice_chk.equals("모두보기")) {
 			logger.info("****chk가 null일때*****");
 			notice_chk = "모두보기";
-    	  	paging.setTotal(service.selectTotalPaging());
-	      	lists = service.selectPaging(paging);   
+			lists = service.selectPaging(paging);
+			
+			System.out.println("************************"+service.selectTotalPaging(paging));
+    	  	paging.setTotal(service.selectTotalPaging(paging));
+	      	  
 	      	
 	     
 		}else {
 			logger.info("****chk가 있을때*****");
-			paging.setTotal(service.countNoticechk(notice_chk));
-			logger.info("total총갯수는?@@@@@@@@@@@@22{}",paging.getTotal());
 			lists = service.selectNotchk(paging);	
+			paging.setTotal(service.countNoticechk(paging));
+			logger.info("total총갯수는?@@@@@@@@@@@@22{}",paging.getTotal());
+			System.out.println("************************"+service.selectTotalPaging(paging));
 			logger.info("******************LIST의 값은?{}",lists);
 			logger.info("****chk가 있을때*****"+lists);
 			
@@ -90,16 +94,22 @@ public class NoticeController {
 	@GetMapping(value="/noticeInsertFormCompany.do")
 	public String noticeInsertFormCompany() {		
 		logger.info("NoticeController에 noticeInsertForm");
-		return "notice/noticeInsertCompany";
+		return "notice/noticeInsertFormCompany";
 	}
 	
 	@PostMapping(value="/noticeInsert.do")
 	public String insertNotice(NoticeVO vo,HttpServletRequest requset ,	Model model) {
-		logger.info("공지사항 컨트롤러 : insertNotice {}:",vo);		
+		logger.info("공지사항 컨트롤러 : insertNotice {}:",vo);	
+		String check = requset.getParameter("check");
+		
 		if(vo.getFile().getSize() <= 0) {
-			logger.info("파일없을때 실행");			
-			service.insertNotice(vo);			
-			
+			logger.info("파일없을때 실행");
+			if(check ==null) {
+				service.insertNotice(vo);
+			}else {
+				service.insertNoticeCompany(vo);
+			}
+				
 		}else {			
 			logger.info("파일있을때 실행");
 			MultipartFile file = vo.getFile();
@@ -116,7 +126,11 @@ public class NoticeController {
 		fvo.setNotice_file_save_nm(notice_file_save_nm);
 		fvo.setNotice_file_size(filesize);
 		System.out.println("****************"+vo);
-		service.insertNotice(vo);
+		if(check ==null) {
+			service.insertNotice(vo);
+		}else {
+			service.insertNoticeCompany(vo);
+		}					
 		service.insertFile(fvo);
 		
 			//물리적인 파일을 저장
@@ -131,8 +145,8 @@ public class NoticeController {
 				inputStream = file.getInputStream();  //파일을 읽어와서 10101001식으로 읽어온다. (while을 사용하면 다중파일 가능)
 				
 				//저장 위치를 만듬
-				//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
-				String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
+				String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
+				//String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
 				System.out.println("*******"+requset.getSession().getServletContext());
 				
 				
@@ -201,11 +215,12 @@ public class NoticeController {
 							) throws IOException {  //파일명
 		logger.info("noticeFiledownload다운로드 컨트롤러");
 		//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
-		String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
-		
+		//String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");  //상대경로
+		String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //
 		String notice_file_save_nm =request.getParameter("notice_file_save_nm");
 		String notice_file_nm =request.getParameter("notice_file_nm");
-		File file = new File(path+"/"+notice_file_save_nm);
+		File file = new File(path+"\\"+notice_file_save_nm);
+		System.out.println(file);
 		//값을 복제해서 넘겨줌
 		byte[] bytes = FileCopyUtils.copyToByteArray(file);
 		
@@ -242,7 +257,7 @@ public class NoticeController {
 	@PostMapping("/noticeupdate.do")
 	public String modify(NoticeVO vo,HttpServletRequest requset ,Model model) {
 				
-		logger.info("공지사항 컨트롤러 : insertNotice {}:",vo);		
+		logger.info("공지사항 컨트롤러 : modify {}:",vo);		
 		if(vo.getFile().getSize() <= 0) {
 			logger.info("파일없을때 실행");			
 			service.updateNotice(vo);		

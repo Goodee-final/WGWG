@@ -16,6 +16,8 @@ public interface INoticeService {
 		public NoticeFileVO getFile(int notice_file_no);
 		//공지사항 등록
 		public int insertNotice(NoticeVO vo);
+		//공지사항 등록 사업지원팀이 회사글 등록
+		public int insertNoticeCompany(NoticeVO vo);	
 		//공지사항 상세조회
 		public NoticeVO detailNotice(int notice_no);	
 		//공지사항 조회수 +1
@@ -31,10 +33,10 @@ public interface INoticeService {
 		public int deleteNoticeFile(int notice_no);
 		//페이징처리 모두검색
 		public List<NoticeVO> selectPaging(NoticePageVO paging);
-		public int selectTotalPaging();
+		public int selectTotalPaging(NoticePageVO paging);
 		//부서별 페이징 처리
 		public List<NoticeVO> selectNotchk(NoticePageVO vo);
-		public int countNoticechk(String notice_chk);	
+		public int countNoticechk(NoticePageVO paging);	
 		
 		//공지사항,파일 둘다삭제
 		public int deleteNF(int notice_no);

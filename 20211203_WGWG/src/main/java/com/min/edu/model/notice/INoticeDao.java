@@ -13,13 +13,14 @@ public interface INoticeDao {
 	public NoticeVO getBoard(int notice_no);	
 	//공지사항 파일 검색
 	public NoticeFileVO getFile(int notice_file_no);
-	//공지사항 등록
+	//공지사항 등록 팀장
 	public int insertNotice(NoticeVO vo);
+	//공지사항 등록 사업지원팀이 회사글 등록
+	public int insertNoticeCompany(NoticeVO vo);	
 	//공지사항 상세조회
 	public NoticeVO detailNotice(int notice_no);	
 	//공지사항 조회수 +1
-	public int updatecnt(int notice_no);
-	
+	public int updatecnt(int notice_no);	
 	//공지사항 업데이트
 	public int updateNotice(NoticeVO vo);
 	//파일 업데이트
@@ -30,8 +31,8 @@ public interface INoticeDao {
 	public int deleteNoticeFile(int notice_no);
 	//페이징처리 모두검색
 	public List<NoticeVO> selectPaging(NoticePageVO paging);
-	public int selectTotalPaging();
+	public int selectTotalPaging(NoticePageVO paging);
 	//부서별 페이징 처리
 	public List<NoticeVO> selectNotchk(NoticePageVO vo);
-	public int countNoticechk(String notice_chk);	
+	public int countNoticechk(NoticePageVO paging);	
 }
