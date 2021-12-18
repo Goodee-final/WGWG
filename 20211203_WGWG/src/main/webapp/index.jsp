@@ -43,7 +43,7 @@
 		
 	});
 </script>
-<script language='javascript'>
+<script type="text/javascript">
 
 function noEvent() {
     if (event.keyCode == 116) {

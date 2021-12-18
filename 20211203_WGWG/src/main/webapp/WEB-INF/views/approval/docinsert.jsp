@@ -11,34 +11,6 @@
 <title>기안하기</title>
 <script type="text/javascript" src="<%=ctx %>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
-<script type="text/javascript">
-var oEditors = [];
-$(function(){
-      nhn.husky.EZCreator.createInIFrame({
-          oAppRef: oEditors,
-          elPlaceHolder: "ir1",
-          sSkinURI: "./SE/SmartEditor2Skin.html",  
-          htParams : {
-              bUseToolbar : true,             
-              bUseVerticalResizer : true,     
-              bUseModeChanger : true,         
-              fOnBeforeUnload : function(){
-                   
-              }
-          }, 
-          fOnAppLoad : function(){
-              oEditors.getById["ir1"].exec("PASTE_HTML", ["기존 DB에 저장된 내용을 에디터에 적용할 문구"]);
-          },
-          fCreator: "createSEditor2"
-      });
-      
-      $("#save").click(function(){
-          oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-          var formclassification = $("select[name=formclassification]").val();
-          $("#frm").submit();
-      });    
-});
-</script>
 </head>
 <style type="text/css">
 
@@ -122,6 +94,49 @@ $(function(){
 		margin-left: 73px;
 		margin-top: 30px;
 	}
+	.modal_wrap{
+        display: none;
+        width: 500px;
+        height: 500px;
+        position: absolute;
+        top:50%;
+        left: 50%;
+        margin: -250px 0 0 -250px;
+        background:#eee;
+        z-index: 2;
+    }
+    .black_bg{
+        display: none;
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color:rgba(0, 0,0, 0.5);
+        top:0;
+        left: 0;
+        z-index: 1;
+    }
+    .modal_close{
+        width: 26px;
+        height: 26px;
+        position: absolute;
+        top: -30px;
+        right: 0;
+    }
+    .modal_close> a{
+        display: block;
+        width: 100%;
+        height: 100%;
+        background:url(https://img.icons8.com/metro/26/000000/close-window.png);
+        text-indent: -9999px;
+    }
+    .selectbox {
+    	margin: 20px;
+    }
+    #formList {
+    	width: 200px;
+    	height: 30px;
+    }
 </style>
 <body>
 	<form action="./docinsert.do" method="post">
@@ -130,7 +145,12 @@ $(function(){
 			<p>결재문서 작성하기</p>
 			<hr>
 			<div>
-				<button id="formselect" onclick="location.href='./formlist.do'">양식 선택하기</button>
+				<select id="formList" name="formList">
+					<option value="">양식 선택하기</option>
+					<c:forEach var="form" items="${formList}">
+						<option value="${form.form_no}">${form.form_nm}</option>
+					</c:forEach>
+				</select>
 				<button id="lineselect" class="btn btn-primary" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
 				<label id="formname">지출결의서</label>
 			</div>
@@ -173,17 +193,16 @@ $(function(){
 				</table>
 			</div>
 			<div class="editor">
-			<textarea rows="20" cols="135" id="ir1"></textarea>
+			<textarea rows="20" cols="135" id="ir1" name="content"></textarea>
 			</div>
 			<div id="nextbtn">
 				<button id="btn" onclick="location.href=''">임시저장</button>
-				<button id="btn" onclick="location.href=''">상신</button>
+				<button type="submit" id="save">상신</button>
 				<button id="btn" onclick="location.href=''">기안취소</button>
 			</div>
 		</div>
 	</form>
-
-	
+    		
 	   <!-- Modal -->
   <div class="modal bs-example-modal-lg" tabindex="-1" id="approverline" role="dialog" >
     <div class="modal-dialog modal-lg">
@@ -206,7 +225,7 @@ $(function(){
           	</div>
           	<div class="form-group">
           		<label>내용</label>
-          		<textarea rows="5" class="form-control" id="content" name="content"></textarea>
+          		<textarea rows="5" class="form-control" id="content"></textarea>
           	</div>
           
         </div>
@@ -222,6 +241,29 @@ $(function(){
   </div>
    
    <script type="text/javascript">
+	  $(function(){
+		  $('#formList').change(function(){
+			  let form_no = this.value;
+			  $.ajax({
+	                type : "GET",            // HTTP method type(GET, POST) 형식이다.
+	                url : "formselect.do",// 컨트롤러에서 대기중인 URL 주소이다.
+	                data : {
+	                	"form_no":form_no
+	                },
+	                contentType : "charset:UTF-8",
+	                /* dataType : "string",// Json 형식의 데이터이다. */
+	                success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+	                    // 응답코드 > 0000
+	                    console.log(res);
+	                   	var sHTML = res;
+	                   	oEditors.getById["ir1"].exec("SET_IR", [sHTML]);
+	                },
+	                error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+	                    alert("통신 실패.")
+	                }
+	            });
+		  });
+	  });
    
    function replyValue(){
 	   console.log('답글 submit');
@@ -229,10 +271,31 @@ $(function(){
 	   frm.action = './replyBoard.do';
 	   frm.submit();
    }
+   var oEditors = [];
+   $(function(){
+         nhn.husky.EZCreator.createInIFrame({
+             oAppRef: oEditors,
+             elPlaceHolder: "ir1",
+             sSkinURI: "./SE/SmartEditor2Skin.html",  
+             htParams : {
+                 bUseToolbar : true,             
+                 bUseVerticalResizer : true,     
+                 bUseModeChanger : true,         
+                 fOnBeforeUnload : function(){    
+                 }
+             }, 
+             fOnAppLoad : function(){
+            	 oEditors.getById["ir1"].exec("PASTE_HTML", [""]);
+             },
+             fCreator: "createSEditor2"
+         });
+         
+         $("#save").click(function(){
+             oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+             var content = document.getElementById("ir1").value;
+             $("#frm").submit();
+         });
+   });
    </script>
-
-
-
-
 </body>
 </html>
