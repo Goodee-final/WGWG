@@ -2,7 +2,9 @@ package com.min.edu.ctrl.approval;
 
 import java.lang.ProcessBuilder.Redirect;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -423,7 +426,6 @@ public class ApprovalController {
 	}
 	
 	
-	
 	@GetMapping(value="/docDelte.do")
 	public String docDelete(HttpServletRequest req) {
 		int docno = Integer.parseInt(req.getParameter("docno"));
@@ -460,7 +462,70 @@ public class ApprovalController {
 		session.setAttribute("loc", "./refdoclist.do");
 		return "/approval/refdoclist";
 	}
+	
+	// 문서 상세 화면으로 이동"docno":no, "docBox":docBox
+	@ResponseBody
+	@RequestMapping(value="/detailAjax.do", method=RequestMethod.POST)
+	public Map<String,Object>  detailAjax(Model model, String docno, String docBox) {
+		
+		System.out.println("문서함 위치: " + docBox);
 
+		System.out.println("ajax 요청 도착!" + docno + ", "  + docBox);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("docno", docno);
+		map.put("docBox", docBox);
+	
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/reqAjax.do", method=RequestMethod.POST)
+	public Map<String,String> reqAjax(String title, String toggle){
+		System.out.println("ajax 요청 도착!" + title + ", "  + toggle);
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("title", title);
+		map.put("toggle", toggle);
+	
+		return map;
+	}
+
+	@GetMapping(value = "/searchdoclist.do")
+	public String searchdoclist2(String title, String toggle, Model model) {
+		
+		logger.info("완료 문서함");
+		Approval_Doc doc = new Approval_Doc();
+		int empno = 1;
+		doc.setEmp_no(empno);
+		doc.setApp_doc_st("완료");
+		
+		List<Approval_Doc> searchlist1 = new ArrayList<Approval_Doc>();
+		List<Approval_Doc> searchlist2 = new ArrayList<Approval_Doc>();
+		
+		// 송신
+		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+		for (Approval_Doc doc1 : doclist1) {
+			if(doc1.getApp_doc_title().contains(title)) {
+				searchlist1.add(doc1);
+			}
+		}
+
+		// 수신경우
+
+		List<Approval_Doc> doclist2 = approvalServiceImpl.selectListDocStApp(doc);
+		
+		
+		for (Approval_Doc doc2 : doclist2) {
+			if(doc2.getApp_doc_title().contains(title)) {
+				searchlist2.add(doc2);
+			}
+		}
+		
+		model.addAttribute("doclist1", searchlist1);
+		model.addAttribute("doclist2", searchlist2);
+		
+		return "/approval/compldoclist";
+	}
+	
 //	   @PostMapping("/replyBoard.do")
 //	   public String replyBoard(Answerboard_VO vo, HttpSession session) {
 //		   String writer = (String) session.getAttribute("userid");

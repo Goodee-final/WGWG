@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="./js/approve.js" ></script> 
 <script type="text/javascript">
 	$(document).ready(function(){
 		
@@ -17,12 +17,60 @@
 			
 			var no = $(this).find('td').eq(0).text();
 			console.log(no);
-			location.href="./detailmove.do?docno="+no+"&docBox=완료";
-// 			location.href="/";
-
-<%-- 			<%session.setAttribute("loc","./docdetail.do?docno="+no);%> --%>
+			detailAjax(no,"완료");
+			
 		});
+		$('#searchbtn').click(function(){
+			
+			reqAjax();
+			
+		});
+
 	});
+	
+// 	function detailAjax(no, docBox){
+// 		var sendData = {"docno":no, "docBox":docBox}
+// 		$.ajax({
+// 			url:"./detailAjax.do"
+// 			,method : 'POST'
+// 			,data : sendData
+// 			,success : function(data){
+// 				var data2 = "문서번호 : " + data["docno"] + ", 문서함 : " + data["docBox"];
+// 				var no2 = data["docno"];
+// 				var docBox2 = data["docBox"];
+				
+// 				$("#content").load("./docdetail.do?docno=" + no2 +"&docBox=" + docBox2);
+// 			}
+// 		});
+// 	}
+	
+	function reqAjax(){
+		var title = $('#inputsearch').val();
+		var toggle = $('.active').find('a').text();		
+		var sendData = {"title":title, "toggle":toggle}
+		$.ajax({
+			url:"./reqAjax.do"
+			,method : 'POST'
+			,data : sendData
+			, success : function(resp){
+				var respData = "제목 : " + resp["title"] +  ", 토글 : " + resp["toggle"];
+				var title2 = resp["title"];
+				var toggle2 = resp["toggle"];
+				console.log(respData);
+				$('#active').eq(0).removeClass( 'active' );
+				$('#active').eq(1).addClass( 'active' );
+				$("#content").load("./searchdoclist.do?title=" + title2 +"&toggle=" + toggle2);
+				if("송신" == toggle2){
+					alert("이거 맞는데");
+					$('#active').eq(0).removeClass( 'active' );
+					$('#active').eq(1).addClass( 'active' );
+				}
+				 
+			}
+		});
+	}
+	
+<!-- 		<form action="./mydoclist.do" method="post"> -->
 </script>
 
 <style>
@@ -69,10 +117,10 @@ th, td {
 	<div class="container">
 		<h1>완료 문서함</h1>
 		<br>
-		<form action="./mydoclist.do" method="post">
-			<ul class="nav nav-pills" style="height: 18px;">
+<!-- 		<form action="./mydoclist.do" method="post"> -->
+			<ul class="nav nav-pills" id="active" style="height: 18px;">
 				<li class="active"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">상신</a></li>
-				<li><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">송신</a></li>
+				<li ><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">송신</a></li>
 				<div id="search">
 					<input type="text" placeholder="문서제목으로 검색" id="inputsearch" name="title"> 
 					<input type="submit" id="searchbtn"value="검색">
@@ -136,7 +184,7 @@ th, td {
 				</div>
 
 			</div>
-		</form>
+<!-- 		</form> -->
 	</div>
 
 </body>
