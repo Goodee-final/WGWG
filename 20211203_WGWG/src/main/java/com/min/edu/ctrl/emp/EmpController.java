@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +29,7 @@ public class EmpController {
 	private IEmpService service;
 	
 	@GetMapping(value="/insert_emp_form.do")
-	public String insert_emp_form() {
+	public String insert_emp_form(HttpServletRequest req) {
 		return "emp/insertEmp";
 	}
 	
@@ -86,7 +85,10 @@ public class EmpController {
 				outputStream.write(n,0,read);
 			}
 			
+			
+		
 			String name = req.getParameter("name"); 
+			String pw = req.getParameter("pw");
 			int dept = Integer.parseInt(req.getParameter("dept")); 
 			String birth = req.getParameter("birth");
 			String hiredate = req.getParameter("hiredate"); 
@@ -96,20 +98,25 @@ public class EmpController {
 			String email = req.getParameter("email");
 			String work_st = req.getParameter("work_st");
 			 
-			 emp.setEmp_nm(name); 
-			 emp.setPhoto(filePath); 
-			 emp.setBirth(birth);
-			 emp.setDept_no(dept);
-			 emp.setHiredate(hiredate); 
-			 emp.setAddress(address);
-			 emp.setPosition_no(position); 
-			 emp.setTel(tel); 
-			 emp.setEmail(email);
-			 emp.setWork_st(work_st);
+			emp.setEmp_nm(name); 
+			emp.setPw(pw);
+			emp.setPhoto(filePath); 
+			emp.setBirth(birth);
+			emp.setDept_no(dept);
+			emp.setHiredate(hiredate); 
+			emp.setAddress(address);
+			emp.setPosition_no(position); 
+			emp.setTel(tel); 
+			emp.setEmail(email);
+			emp.setWork_st(work_st);
 
-			 int newEmpno = service.insert_emp(emp);
-
-			 
+			service.insert_emp(emp);
+			req.setAttribute("newEmp_no", emp.getEmp_no());
+			Emp newEmp = service.selectInsertEmpInfo(emp.getEmp_no());
+			req.setAttribute("newEmp", newEmp);
+			
+			logger.info("사원정보 업로드 완료 : {}",newEmp);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {

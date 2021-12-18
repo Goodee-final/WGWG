@@ -1,5 +1,6 @@
 package com.min.edu.model.emp;
 
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,11 @@ public class EmpDaoImpl implements IEmpDao {
 	public int updatePW(Emp emp) {
 		logger.info("EmpDaoImpl 임시 비밀번호 업데이트 : {}",emp);
 		return sqlSession.update(NS+"updatePW",emp);
+	}
+
+	@Override
+	public Emp selectInsertEmpInfo(int emp_no) {
+		return sqlSession.selectOne(NS+"selectInsertEmpInfo",emp_no);
 	}
 
 	

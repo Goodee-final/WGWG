@@ -2,24 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.min.edu.model.emp.EmpDaoImpl">
 
+<resultMap type="empvo" id="empInsertMap">
+	<id column="emp_no" property="emp_no"/>
+	<result column="emp_nm" property="emp_nm"/>
+	<result column="pw" property="pw"/>
+	<result property="dVo.dept_nm" column="dept_nm"/>
+	<result property="pVo.position_nm" column="position_nm"/>
+</resultMap>
+
 	<insert id="insert_emp" parameterType="empvo">
 		INSERT INTO EMP
-				(EMP_NO, EMP_NM, PW, 
+				(EMP_NO, EMP_NM, PW,
 				EMAIL, PHOTO, ADDRESS, 
-				TEL, HIREDATE, WORK_ST, 
+				TEL, HIREDATE, WORK_ST,
 				BIRTH, POSITION_NO, DEPT_NO)
-			VALUES(TO_CHAR(SYSDATE,'YYYYMM') || LPAD(EMP_SEQ.NEXTVAL,2,0), #{emp_nm}, DBMS_RANDOM.STRING('P', 8), 
+			VALUES(#{emp_no}, #{emp_nm}, DBMS_RANDOM.STRING('P', 8), 
 				#{email}, #{photo}, #{address}, 
 				#{tel}, #{hiredate}, #{work_st}, 
 				#{birth}, #{position_no}, #{dept_no})
-		<selectKey keyProperty="EMP_NO" resultType="java.lang.Integer" order="AFTER">
-			SELECT EMP_SEQ.CURRVAL FROM DUAL
+		<selectKey keyProperty="emp_no" resultType="java.lang.Integer" order="BEFORE">
+			SELECT TO_CHAR(SYSDATE,'YYYYMM') || LPAD(EMP_SEQ.NEXTVAL,2,0) FROM DUAL
 		</selectKey>
 	</insert>
 	
+	<select id="selectInsertEmpInfo" parameterType="java.lang.Integer" resultMap="empInsertMap">
+		SELECT e.EMP_NO, e.EMP_NM , e.PW, p.POSITION_NM , d.DEPT_NM 
+   			FROM EMP e, DEPARTMENT d, "POSITION" p 
+   				WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND EMP_NO =#{emp_no}
+	</select>
 	
-
-	<select id="getLogin" parameterType="java.util.Map"  resultType="empvo">
+	<select id="getLogin" parameterType="java.util.Map" resultType="empvo">
 		SELECT EMP_NO, EMP_NM, PW, 
 				EMAIL, PHOTO, ADDRESS, 
 				TEL, HIREDATE, WORK_ST, 
