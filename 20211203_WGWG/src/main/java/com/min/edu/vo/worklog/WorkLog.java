@@ -26,17 +26,10 @@ public class WorkLog {
 		super();
 	}
 
-	public WorkLog(int worklog_no, String worklog_reg_dt, String worklog_modify_dt, String worklog_content,
-			String worklog_delflag, int emp_no, Emp emp, Position position) {
+	public WorkLog(String worklog_content, int emp_no) {
 		super();
-		this.worklog_no = worklog_no;
-		this.worklog_reg_dt = worklog_reg_dt;
-		this.worklog_modify_dt = worklog_modify_dt;
 		this.worklog_content = worklog_content;
-		this.worklog_delflag = worklog_delflag;
 		this.emp_no = emp_no;
-		this.emp = emp;
-		this.position = position;
 	}
 
 	public int getWorklog_no() {
