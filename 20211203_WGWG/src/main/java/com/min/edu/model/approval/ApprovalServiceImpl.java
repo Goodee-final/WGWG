@@ -11,6 +11,7 @@ import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
 
 @Service
@@ -51,6 +52,12 @@ public class ApprovalServiceImpl implements IApprovalService {
 	public List<Department> selectAllDept() {
 		// TODO Auto-generated method stub
 		return dao.selectAllDept();
+	}
+	
+	@Override
+	public List<Position> selectAllPosition() {
+		// TODO Auto-generated method stub
+		return dao.selectAllPosition();
 	}
 	
 	@Override

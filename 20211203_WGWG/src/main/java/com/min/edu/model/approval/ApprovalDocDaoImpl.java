@@ -14,6 +14,7 @@ import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
 
 
@@ -64,6 +65,12 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	public List<Department> selectAllDept() {
 		logger.info("ApprovalDocDaoImpl selectAllDept");
 		return sqlSession.selectList(NS + "selectAllDept");
+	}
+	
+	@Override
+	public List<Position> selectAllPosition() {
+		logger.info("ApprovalDocDaoImpl selectAllPosition");
+		return sqlSession.selectList(NS + "selectAllPosition");
 	}
 
 
@@ -118,8 +125,5 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPaging");
 		return sqlSession.selectOne(NS+"selectTotalPaging", doc);
 	}
-
-
-
 
 }

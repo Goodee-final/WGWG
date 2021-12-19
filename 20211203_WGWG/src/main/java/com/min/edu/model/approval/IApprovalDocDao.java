@@ -8,6 +8,7 @@ import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
 
 public interface IApprovalDocDao {
@@ -18,14 +19,15 @@ public interface IApprovalDocDao {
 	//문서 검색
 	public List<Approval_Doc> searchdoclist(String title, int empno);
 	//문서 상세
-	public Approval_Doc selectOneDoc(int empno);
+	public Approval_Doc selectOneDoc(int docno);
 	//기안할 때 작성자 정보 출력
-  public Emp selectEmpInfo(int empno);
+    public Emp selectEmpInfo(int empno);
 
 	
 	//결재라인
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();
+	public List<Position> selectAllPosition();
 	
 	//결재자
 	public List<Approval_Doc> selectAllDocApp(int empno);
