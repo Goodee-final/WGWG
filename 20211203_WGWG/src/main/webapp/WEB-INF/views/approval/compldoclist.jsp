@@ -14,48 +14,15 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$('table tbody tr').click(function(){
-			
-			var no = $(this).find('td').eq(0).text();
-			console.log(no);
-			detailAjax(no,"완료");
-			
-		});
-		$('#searchbtn').click(function(){
-			
-// 			reqAjax();
-			pagingAjax();
-		});
+		var state = '완료'
+		
+		detailMove(state);
+		
+		search();
 
 	});
 	
 
-	function reqAjax(){
-		var title = $('#searchKeyword').val();
-		var toggle = $('.active').find('a').text();		
-		var sendData = {"title":title, "toggle":toggle}
-		$.ajax({
-			url:"./reqAjax.do"
-			,method : 'POST'
-			,data : sendData
-			, success : function(resp){
-				var respData = "제목 : " + resp["title"] +  ", 토글 : " + resp["toggle"];
-				var title2 = resp["title"];
-				var toggle2 = resp["toggle"];
-				console.log(respData);
-				$('#active').eq(0).removeClass( 'active' );
-				$('#active').eq(1).addClass( 'active' );
-				$("#content").load("./searchdoclist.do?title=" + title2 +"&toggle=" + toggle2);
-				if("송신" == toggle2){
-					alert("이거 맞는데");
-					$('#active').eq(0).removeClass( 'active' );
-					$('#active').eq(1).addClass( 'active' );
-				}
-				 
-			}
-		});
-	}
-	
 
 </script>
 
@@ -108,7 +75,7 @@ th, td {
 				<li class="active"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">상신</a></li>
 				<li ><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">송신</a></li>
 				<div id="search">
-					<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title"> 
+					<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title" value="${paging.searchkeyword}"> 
 					<input type="submit" id="searchbtn"value="검색">
 				</div>
 			</ul>

@@ -46,3 +46,23 @@ function pagingAjax() {
 		}
 	});
 }
+
+function detailMove(state){
+	$('table tbody tr').click(function(){
+		
+		var no = $(this).find('td').eq(0).text();
+		console.log(no);
+		detailAjax(no,state);
+		
+	});
+}
+
+function search(){
+	
+	$('#searchbtn').click(function(){
+		
+		$('#index').attr('value',0);
+		$('#pageStartNum').attr('value',1);
+		pagingAjax();
+	});
+}
