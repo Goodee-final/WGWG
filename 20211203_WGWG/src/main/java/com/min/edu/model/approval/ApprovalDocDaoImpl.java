@@ -13,6 +13,7 @@ import com.min.edu.vo.approval.Approval_Doc;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
 
 
@@ -64,6 +65,12 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl selectAllDept");
 		return sqlSession.selectList(NS + "selectAllDept");
 	}
+	
+	@Override
+	public List<Position> selectAllPosition() {
+		logger.info("ApprovalDocDaoImpl selectAllPosition");
+		return sqlSession.selectList(NS + "selectAllPosition");
+	}
 
 
 	@Override
@@ -104,8 +111,5 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		return sqlSession.update(NS+"updateApproval", line);
 		
 	}
-
-
-
 
 }

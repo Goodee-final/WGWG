@@ -10,6 +10,7 @@ import com.min.edu.vo.approval.Approval_Doc;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
 
 @Service
@@ -53,6 +54,12 @@ public class ApprovalServiceImpl implements IApprovalService {
 	}
 	
 	@Override
+	public List<Position> selectAllPosition() {
+		// TODO Auto-generated method stub
+		return dao.selectAllPosition();
+	}
+	
+	@Override
 	public List<Approval_Doc> selectAllDocApp(int empno) {
 		return dao.selectAllDocApp(empno);
 	}
@@ -81,6 +88,8 @@ public class ApprovalServiceImpl implements IApprovalService {
 	public int updateApproval(Approval_line line) {
 		return dao.updateApproval(line);
 	}
+
+	
 
 
 

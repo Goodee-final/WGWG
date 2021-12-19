@@ -66,6 +66,10 @@
 			FROM "C##WG".DEPARTMENT d ORDER BY DEPT_NO ASC
 	</select>
 	
+	<select id="selectAllPosition" resultType="pVo">
+		SELECT POSITION_NM, POSITION_NO
+			FROM "C##WG".POSITION p ORDER BY POSITION_NO ASC
+	</select>
 	
 	
 	
