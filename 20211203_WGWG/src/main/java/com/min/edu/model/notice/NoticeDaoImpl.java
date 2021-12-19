@@ -42,9 +42,9 @@ public class NoticeDaoImpl implements INoticeDao {
 
 	
 	@Override
-	public int countNoticechk(String notice_chk) {
-		logger.info("공지사항 countNoticechk {}",notice_chk);
-		return sqlSession.selectOne(NS+"countNoticechk",notice_chk);
+	public int countNoticechk(NoticePageVO paging) {
+		logger.info("공지사항 countNoticechk {}",paging);
+		return sqlSession.selectOne(NS+"countNoticechk",paging);
 	}	
 	 	 
 	@Override
@@ -101,9 +101,15 @@ public class NoticeDaoImpl implements INoticeDao {
 	}
 
 	@Override
-	public int selectTotalPaging() {
+	public int selectTotalPaging(NoticePageVO paging) {
 		logger.info("공지사항 총 갯수 selectTotalPaging");
-		return sqlSession.selectOne(NS+"selectTotalPaging");
+		return sqlSession.selectOne(NS+"selectTotalPaging",paging);
+	}
+
+	@Override
+	public int insertNoticeCompany(NoticeVO vo) {
+		logger.info("공지사항 회사글 등록 insertNoticeCompany {}",vo);
+		return sqlSession.insert(NS+"insertNoticeCompany",vo);
 	}
 
 	

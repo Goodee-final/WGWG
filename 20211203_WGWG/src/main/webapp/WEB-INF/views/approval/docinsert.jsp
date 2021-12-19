@@ -9,136 +9,172 @@
 <head>
 <meta charset="UTF-8">
 <title>기안하기</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script type="text/javascript" src="<%=ctx %>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <style type="text/css">
+.docinfo {
+	margin: 0 auto;
+	width: 1000px;
+	border-collapse: collapse;
+}
 
-	.docinfo {
-		margin: 0 auto;
-		width: 1000px;
-		border-collapse: collapse;
-	}
-	th, td {
-		padding: 8px;
-		text-align: left;
-		border: 1px solid #ddd;
-	}
-	th {
-		background-color: #eee;
-		text-align: center !important;
-	}
-	#title{
-		border: 1px solid #ddd;
-		font-size: 1.3rem;
-		width: 850px;
-	}
-	#title:focus {
-		outline:1px solid #073865;
-	}
-	#sign{
-		text-align: center;
-	}
-	
-	#line{
-		font-size: 1.1rem;
-		width: 80px;
-	}
-	
-	#nextbtn{
-		margin-left: 200px;
-	}
-	
-	#btn {
-		width: 120px;
-		height: 35px;
-		border-radius: 5px;
-		border: 1px solid #ddd;
-		background-color: #073865;
-		margin-top: 20px;
-		margin-left: 100px;
-		color: white;
+th, td {
+	padding: 8px;
+	text-align: left;
+	border: 1px solid #ddd;
+}
 
-	}
-	
-	#formselect {
-		justify-content: space-between;
-		width: 120px;
-		height: 35px;
-		border-radius: 5px;
-		border: 1px solid #ddd;
-		background-color: #073865;
-		color: white;
-		margin: 10px;
-		margin-left: 70px;
-	}
-	
-	#formname{
-		justify-content: space-between;
-		font-size: 3rem;
-		margin-left: 150px;
-	}
-	
-	#lineselect {
-		justify-content: space-between;
-		width: 120px;
-		height: 35px;
-		border-radius: 5px;
-		border: 1px solid #ddd;
-		background-color: #073865;
-		color: white;
-		margin: 10px;
-		margin-left: 5px;
-	}
-	.editor{
-		margin-left: 73px;
-		margin-top: 30px;
-	}
-	.modal_wrap{
-        display: none;
-        width: 500px;
-        height: 500px;
-        position: absolute;
-        top:50%;
-        left: 50%;
-        margin: -250px 0 0 -250px;
-        background:#eee;
-        z-index: 2;
-    }
-    .black_bg{
-        display: none;
-        position: absolute;
-        content: "";
-        width: 100%;
-        height: 100%;
-        background-color:rgba(0, 0,0, 0.5);
-        top:0;
-        left: 0;
-        z-index: 1;
-    }
-    .modal_close{
-        width: 26px;
-        height: 26px;
-        position: absolute;
-        top: -30px;
-        right: 0;
-    }
-    .modal_close> a{
-        display: block;
-        width: 100%;
-        height: 100%;
-        background:url(https://img.icons8.com/metro/26/000000/close-window.png);
-        text-indent: -9999px;
-    }
-    .selectbox {
-    	margin: 20px;
-    }
-    #formList {
-    	width: 200px;
-    	height: 30px;
-    }
+th {
+	background-color: #eee;
+	text-align: center !important;
+}
+
+#title {
+	border: 1px solid #ddd;
+	font-size: 1.3rem;
+	width: 850px;
+}
+
+#title:focus {
+	outline: 1px solid #073865;
+}
+
+#sign {
+	text-align: center;
+}
+
+#line {
+	font-size: 1.1rem;
+	width: 80px;
+}
+
+#nextbtn {
+	margin-left: 200px;
+}
+
+#btn {
+	width: 120px;
+	height: 35px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	background-color: #073865;
+	margin-top: 20px;
+	margin-left: 100px;
+	color: white;
+}
+
+#formselect {
+	justify-content: space-between;
+	width: 120px;
+	height: 35px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	background-color: #073865;
+	color: white;
+	margin: 10px;
+	margin-left: 70px;
+}
+
+#formname {
+	justify-content: space-between;
+	font-size: 3rem;
+	margin-left: 150px;
+}
+
+#lineselect {
+	justify-content: space-between;
+	width: 120px;
+	height: 35px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	background-color: #073865;
+	color: white;
+	margin: 10px;
+	margin-left: 5px;
+}
+
+.editor {
+	margin-left: 73px;
+	margin-top: 30px;
+}
+
+#modalcontent {
+	border: 1px solid silver;
+	float: left;
+	width: 30%;
+	height: 95%;
+	overflow-y: auto;
+}
+
+#jstree {
+	float: left;
+	height: 300px;
+}
+
+.modal-dialog {
+	overflow-y: initial !important
+}
+
+#modalwrap {
+	height: 320px;
+}
+
+#line {
+	float: right;
+	width: 58%;
+	height: 47%;
+	overflow-y: auto;
+	border: 1px solid black;
+	margin-bottom: 5px;
+}
+
+#ref {
+	float: right;
+	width: 58%;
+	height: 46%;
+	overflow-y: auto;
+	border: 1px solid black;
+}
+
+#find {
+	width: 30%;
+	margin-bottom: 3px;
+}
+
+#plugins4_q {
+	border-radius: 3px;
+	border: 1px solid silver;
+	width: 60%;
+}
+
+#selected {
+	float: left;
+	border: 1px solid silver;
+	margin: 8px;
+	width: 10%;
+	height: 90%;
+}
+
+.editor {
+	margin-left: 73px;
+	margin-top: 30px;
+}
+
+.selectbox {
+	margin: 20px;
+}
+
+#formList {
+	width: 200px;
+	height: 30px;
+}
 </style>
 <body>
+   
 	<form action="./docinsert.do" method="post">
 		<div class="container" >
 			<h1>기안하기</h1>
@@ -201,44 +237,78 @@
 				<button id="btn" onclick="location.href=''">기안취소</button>
 			</div>
 		</div>
-	</form>
-    		
-	   <!-- Modal -->
-  <div class="modal bs-example-modal-lg" tabindex="-1" id="approverline" role="dialog" >
-    <div class="modal-dialog modal-lg">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">결재라인 지정</h4>
-        </div>
-        <form action="" method="post" id="frmReply" class="form-margin">
-        <div class="modal-body">
-          	<div class="form-group">
-          		<label>작성자</label>
-          		<p></p>
-          	</div>
-          	<div class="form-group">
-          		<label>제목</label>
-          		<input type="text" class="form-control" id="title" name="title"/>
-          	</div>
-          	<div class="form-group">
-          		<label>내용</label>
-          		<textarea rows="5" class="form-control" id="content"></textarea>
-          	</div>
-          
-        </div>
-        <div class="modal-footer">
-        	<input type="button" class="btn btn-success" value="등록" onclick="replyValue()"/>
-        	<input type="reset" class="btn btn-default" value="초기화"/>
-          	<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-        </div>
-        </form>
-      </div>
-      
+		
+		<div class="modal bs-example-modal-lg" tabindex="-1" id="approverline" role="dialog" data-backdrop="static">
+      		<div class="modal-dialog modal-lg">
+
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">결재라인 지정</h4>
+            </div>
+
+            <div class="modal-body">
+            <div id="modalwrap">
+            <div id="find">검색할 사원 : <input type="text" id="plugins4_q" value="" class="input"></div>
+               <div id="modalcontent">
+                  <div id="jstree">
+                     <!-- in this example the tree is populated from inline HTML -->
+                     <ul>
+                        <c:forEach var="deptline" items="${deptlists}">
+                           <li>${deptline.dept_nm}
+                              <ul>
+                                 <c:forEach var="plists" items="${plists}">
+                                       <li>${plists.position_nm}
+                                       	  <ul>
+                                       	  <c:forEach var="empline" items="${emplists}">
+                                       	  <c:if test="${plists.position_nm eq empline.pVo.position_nm && deptline.dept_no eq empline.dept_no}">
+                                       	  	<li>${empline.emp_nm}</li>
+                                       	  </c:if>
+                                       	  </c:forEach>
+                                       	  </ul>
+                                       </li>
+                                 </c:forEach>
+                              </ul>
+                           </li>
+                        </c:forEach>
+                     </ul>
+                  </div>
+               </div>
+               <div id="selected">으아아가</div>
+               <div id="line">
+                  dhkfkfkfkk
+               </div>
+               <div id="ref">
+                  dhkfkfkfkk
+               </div>
+            </div>
+           </div>
+            <div class="modal-footer">
+               <input type="button" class="btn btn-success" value="등록" onclick="replyValue()" />
+               <input type="reset" class="btn btn-default" value="초기화" />
+               <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+         </div>
     </div>
-  </div>
+ </div>
+	</form>
+    
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+	<script>
+	$(function () { 
+		$("#jstree").jstree({ "plugins": ["search"] }); 
+		var to = false; 
+		$('#plugins4_q').keyup(function () {
+			 if (to) { clearTimeout(to); 
+			} to = setTimeout(function () {
+				 var v = $('#plugins4_q').val();
+				  $('#jstree').jstree(true).search(v); 
+				}, 
+				250); 
+			}); 
+		});
+	</script>
    
    <script type="text/javascript">
 	  $(function(){
@@ -265,12 +335,7 @@
 		  });
 	  });
    
-   function replyValue(){
-	   console.log('답글 submit');
-	   var frm = document.getElementById('frmReply');
-	   frm.action = './replyBoard.do';
-	   frm.submit();
-   }
+
    var oEditors = [];
    $(function(){
          nhn.husky.EZCreator.createInIFrame({
@@ -297,5 +362,6 @@
          });
    });
    </script>
+
 </body>
 </html>

@@ -14,11 +14,11 @@
 <script type="text/javascript" src="./js/paging.js"></script>
 <!-- 사용자 js -->
 <style type="text/css">
-
+	
 	.content{
  		width: 1200px;
 		padding: 150px 30px;
-		
+		margin: 0 auto;
  	}
 	.test{
 		margin: 0 auto;
@@ -45,15 +45,11 @@
 						<c:if test="${paging.listCnt == 15}">selected</c:if>>15줄 보기</option>
 				</select>
 			</span>
-			<!--<c:if test="${}">  사업지원팀일 경우 회사글 등록이라고 버튼 하나 만들기 -->
+				<input type="button" class="btn btn-primary" value="글쓰기" style="float: right;" onclick="location.href='./noticeInsertForm.do'">	
 				<input type="button" class="btn btn-primary" value="회사글쓰기" style="float: right;" onclick="location.href='./noticeInsertFormCompany.do'">	
-			<!--</c:if>-->
-			<input type="button" class="btn btn-primary" value="글쓰기" style="float: right;" onclick="location.href='./noticeInsertForm.do'">	
-			
-				
 			
 		</div><br>
-	<form action="./noticeList.do" method="post" id="frmPaging">
+		<form action="./noticeList.do" method="post" id="frmPaging">
 			<select class="btn btn-primary" id="notice_chk" name="notice_chk" onchange=nchk()>
 					<option value="모두보기"
 						<c:if test="${paging.notice_chk eq '모두보기'}">selected</c:if>>모두보기</option>
@@ -77,8 +73,8 @@
 						<c:if test="${paging.notice_chk eq '보안팀'}">selected</c:if>>보안팀</option>					
 			</select>
 			
-			 <input type="text" id="searchKeyword" name="searchKeyword" style="width:200px; height:30px;" placeholder="제목으로 검색" />
-				<a href="#" onclick="nchk();" class="btn btn-primary">검색</a>
+			 <input type="text" id="searchKeyword" name="searchKeyword" value="${paging.searchKeyword }" style="width:200px; height:30px;" placeholder="제목으로 검색" />
+				<a href="#"  onclick="nchk();" class="btn btn-primary">검색</a>
 		
 		<div class="test">
 		<!-- paging 처리 관련 값 -->

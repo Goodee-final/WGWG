@@ -34,8 +34,8 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 	
 	@Override
-	public int countNoticechk(String notice_chk) {
-		return dao.countNoticechk(notice_chk);
+	public int countNoticechk(NoticePageVO paging) {
+		return dao.countNoticechk(paging);
 	}
 	
 	@Override
@@ -91,8 +91,13 @@ public class NoticeServiceImpl implements INoticeService{
 	}
 
 	@Override
-	public int selectTotalPaging() { 
-		return dao.selectTotalPaging();
+	public int selectTotalPaging(NoticePageVO paging) { 
+		return dao.selectTotalPaging(paging);
+	}
+
+	@Override
+	public int insertNoticeCompany(NoticeVO vo) {
+		return dao.insertNoticeCompany(vo);
 	}
 
 	

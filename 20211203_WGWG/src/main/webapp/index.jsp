@@ -6,32 +6,24 @@
 <meta charset="UTF-8">
 <title>인덱스</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<script src="https://kit.fontawesome.com/d42fd504d6.js"
-	crossorigin="anonymous"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/d42fd504d6.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
 
 <script type="text/javascript">
 	
-	var loc =  "<%=session.getAttribute("loc") %>"
+	var loc = "<%=session.getAttribute("loc") %>"
 
 	$(document).ready(function() {
 		console.log(loc);
 
 		if (loc != "") {
 			$("#content").load(loc);
-		}else{
-			$("#content").load("index.jsp");
 		}
-
 		$('.nav-flyout li').on('click', function(e) {
 
 			console.log($(this).attr('value'));
@@ -40,8 +32,9 @@
 
 		});
 		
-		
 	});
+</script>
+<script language='javascript'>
 
 function noEvent() {
     if (event.keyCode == 116) {
@@ -276,60 +269,9 @@ i {
 .footer-content {
 	width: 800px;
 	height: 150px;
-	padding: 30px;
-	margin: 30px !important;
 }
 #content{
 	height: 100%;
-}
-#main-content {
-	display: inline-flex;
-}
-#main-content1 {
-	width: 600px;
-}
-
-#main-content2 {
-	width: 600px;
-}
-.f1 {
-	font-weight: bold;
-	font-size: 1.5rem !important;
-	color: #5f5f5f;
-	display: inline;
-	margin-right: 10px;
-}
-.faddr {
-	margin-top: 30px;
-}
-.main-loginemp {
-	width: 550px;
-	height: 150px;
-	background-color: yellow;
-}
-#empnm{
-	
-}
-#emppo{
-
-}
-.main-calendar {
-	width:550px;
-	height: 350px;
-	background-color: pink;
-	margin-top: 30px;
-}
-
-.main-notice{
-	width: 550px;
-	height: 250px;
-	background-color: blue;
-}
-.main-approval {
-	width: 550px;
-	height: 250px;
-	background-color: green;
-	margin-top: 30px;
 }
 </style>
 
@@ -402,7 +344,7 @@ i {
       
 			<li class="w3-bar-item nav1"><i class="fas fa-business-time"></i>근태관리
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="./workrecord.do">근태관리</li>
+					<li class="w3-bar-item w3-button" value="">근태관리</li>
 					<li class="w3-bar-item w3-button" value="">근태관리</li>
 				</ul></li>
 
@@ -452,37 +394,12 @@ i {
 		</ul>
 	</article>
 	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
-		<div id="main-content">
-			<div id="main-content1">
-				<div class="main-loginemp">
-					<span id="empnm">이름${loginEmp.emp_nm}</span><span id="emppo">사원${loginEmp.position_nm}</span>
-				</div>
-				<div class="main-calendar">
-					달력
-				</div>
-			</div>
-			<div id="main-content2">
-				<div class="main-notice">
-					공지사항
-				</div>
-				<div class="main-approval">
-					결재
-				</div>
-			</div>
-		</div>
+		인덱스 화면
 	</section>
 
 	<footer class="footer">
 		<div class="footer-content">
-			<span class="f1">회사소개</span>
-			<span class="f1">약관</span>
-			<span class="f1">개인정보취급방침</span> 
-			<span class="f1">파트너</span> 
-			<span class="f1">뉴스레터</span> 
-			<span class="f1">리포트</span>
-			<p class="faddr">주소: 서울특별시 금천구 가산디지털2로 00 </p>
-			<p>사업자등록번호: 101-00-00000</p>
-			<p>상호명: GOODEE</p>
+			<p>주소: 서울특별시 금천구 가산디지털2로 00 </p>
 		</div>
     </footer>
 </body>

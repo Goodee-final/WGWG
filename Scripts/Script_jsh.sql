@@ -123,3 +123,10 @@ WHERE FORM_NO = 1;
 SELECT FORM_NO, FORM_NM FROM FORM ORDER BY FORM_NO ASC;
 
 SELECT * FROM APPROVAL_DOCUMENT ad;
+
+DELETE FROM FORM WHERE FORM_NO >= 30;
+
+UPDATE FORM SET TEMPLATE =
+	TO_CLOB('<table border="1px solid black" style="border-collapse: collapse; width: 800px;"><tr style="height: 30px;"> <th style="background-color: #bbf3fa; width: 100px;">요일</th><th colspan="3" style="background-color: #bbf3fa;width: 200px;">업무명</th><th colspan="4" style="background-color: #bbf3fa; width: 300px;">업무내용</th></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">월</th><td rowspan="3" colspan="3" style="width: 300px;"></td>')||
+	TO_CLOB('<td rowspan="3" colspan="4" style="width: 400px;"></td></tr> <tr></tr><tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">화</th><td rowspan="3" colspan="3" style="width: 300px;"></td><td rowspan="3" colspan="4" style="width: 400px;"></td></tr><tr></tr> <tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">수</th><td rowspan="3" colspan="3" style="width: 300px;"></td><td rowspan="3" colspan="4" style="width: 400px;"></td></tr><tr></tr><tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">목</th><td rowspan="3" colspan="3" style="width: 300px;"></td><td rowspan="3" colspan="4" style="width: 400px;"></td></tr><tr></tr> <tr></tr> <tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">금</th><td rowspan="3" colspan="3" style="width: 300px;"></td><td rowspan="3" colspan="4" style="width: 400px;"></td> </tr><tr></tr><tr></tr><tr style="height: 30px;"><th colspan="4" style="background-color: #bbf3fa; width: 400px;">비고</th><th colspan="4" style="background-color: #bbf3fa;width: 400px;">차주 업무 계획</th></tr><tr style="height: 120px;"><td rowspan="4" colspan="4" style="width: 400px;"></td><td rowspan="4" colspan="4" style="width: 400px;"></td></tr></table>')
+WHERE FORM_NO = 9;

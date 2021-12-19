@@ -37,6 +37,9 @@ $(document).ready(function() {
 	h2{
 		text-align: center;
 	}
+	.box{
+ 		border:none;
+ 	}
 </style>
 </head>
 <body>
@@ -45,9 +48,10 @@ $(document).ready(function() {
 <div class="content">
 	<h2>회사 공지사항 작성</h2>
 	<form:form action="./noticeInsert.do" method="post" enctype="multipart/form-data">
-		<input type="text" name="emp_no" placeholder="작성자"/><br><br>   <!--  여기에 세션으로 로그인한 사람의 EMP_NO가 들어가게 설정 /그리고 수정못하게 막기 -->
+		<input type="hidden" name="check" value="company">
+		<input type="text" class="box" name="emp_no" placeholder="작성자"/><br><br>   <!--  여기에 세션으로 로그인한 사람의 EMP_NO가 들어가게 설정 /그리고 수정못하게 막기 -->
 		<input type="text" name="notice_title"  placeholder="제목"/> <span id="title" style="color:red; font-weight: bold;"></span><br><br>
-		<input type="text" name="notice_chk" placeholder="부서"/><br><br> <!-- 여기에 세션으로 로그인한 사람의 부서가 들어가게 설정 /그리고 수정못하게 막기-->
+		<input type="text"  class="box" name="notice_chk" style="width: 20%;" value="회사" readonly/><br><br> <!-- 여기에 세션으로 로그인한 사람의 부서가 들어가게 설정 /그리고 수정못하게 막기-->
 		<input type="file" name="file"><br><br>
 		<textarea id="summernote" name="notice_content"></textarea>
 		<div class="right">
