@@ -8,10 +8,10 @@
 	<result property="edto.emp_nm" column="EMP_NM"/>
 </resultMap>
 
-<select id="selectworkrecord" parameterType="java.lang.Integer" resultMap="WorkRecordJoinVo">
-	SELECT wr.EMP_NO, e.EMP_NM. wr.WORK_LOG
+<select id="selectwr" parameterType="java.lang.Integer" resultMap="WorkRecordJoinVo">
+	SELECT wr.EMP_NO AS EMP_NO, e.EMP_NM AS EMP_NM, wr.WORK_LOG AS WORK_LOG
 	FROM WORk_RECORD wr JOIN EMP e
 	ON wr.EMP_NO = e.EMP_NO
-	WHERE wr.EMP_NO = #{empno}
+	WHERE wr.EMP_NO = #{emp_no}
 </select>
 </mapper>

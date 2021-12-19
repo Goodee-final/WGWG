@@ -35,7 +35,7 @@ $(function(){
           }, 
           fOnAppLoad : function(){
               //기존 저장된 내용의 text 내용을 에디터상에 뿌려주고자 할때 사용
-              oEditors.getById["ir1"].exec("PASTE_HTML", ["기존 DB에 저장된 내용을 에디터에 적용할 문구"]);
+              oEditors.getById["ir1"].exec("PASTE_HTML", [""]);
           },
           fCreator: "createSEditor2"
       });
