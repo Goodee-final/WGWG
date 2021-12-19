@@ -279,8 +279,8 @@ public class NoticeController {
 		fvo.setNotice_file_size(filesize);
 		fvo.setNotice_no(vo.getNotice_no());
 		System.out.println("****************"+vo);
-		service.updateNotice(vo);
 		service.deleteNoticeFile(vo.getNotice_no());
+		service.updateNotice(vo);		
 		service.updateFile(fvo);
 		
 			//물리적인 파일을 저장
@@ -295,8 +295,8 @@ public class NoticeController {
 				inputStream = file.getInputStream();  //파일을 읽어와서 10101001식으로 읽어온다. (while을 사용하면 다중파일 가능)
 				
 				//저장 위치를 만듬
-				//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
-				String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
+				String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
+				//String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
 				System.out.println("*******"+requset.getSession().getServletContext());
 				
 				

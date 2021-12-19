@@ -11,6 +11,13 @@
 <link rel="stylesheet" type="text/css" href="https://nhn.github.io/tui.calendar/latest/examples/css/icons.css">
 <link rel="stylesheet" type="text/css" href="./dist/tui-calendar.css">
 <link rel="stylesheet" href="./css/Calendar.css">
+<style type="text/css">
+	.content{
+ 		width: 1500px;
+ 		height: 800px;
+ 	}
+</style>
+
 </head>
 
 <body>
@@ -29,13 +36,17 @@
                     </label>
                 </div>
             </div>-->
-            <div id="calendarList" class="lnb-calendars-d1">
+            
+           <div id="calendarList" class="lnb-calendars-d1">
+				
 			</div>
         </div>
     </div>
 <!--  -->
+
        <div id="calendarList" class="lnb-calendars-d1 list-group"></div>
-       
+</div>
+
  	<div class="col-xs-9">
 		<div id="menu">
 		    <span id="menu-navi">
@@ -52,8 +63,18 @@
 		      </button>
 		    </span>
 		    <span id="renderRange" class="render-range"></span>
-		</div>
+		
 		<div id="calendar" style="height: 600px;"></div>
+</div>
+		<div calss=".tui-full-calendar-popup-section-item.tui-full-calendar-section-location">
+		.tui-full-calendar-popup-section-item.tui-full-calendar-section-location {
+  display: none;
+}
+.tui-full-calendar-popup-section-item.tui-full-calendar-section-location input {
+	display: none;
+/*   width: 400px; */
+}
+		</div>
 	</div>
 </body>
 
@@ -68,6 +89,9 @@
     </div>
     {{/users}}
 </script>
+<script type="text/javascript">
+class="tui-full-calendar-popup-container"
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
@@ -76,7 +100,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-<script src ="https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js "></script>
+<script src =" https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js "></script>
 <script src="./dist/tui-calendar.js"></script>
 <script src="./js/Calendar.js"></script>
 </html>

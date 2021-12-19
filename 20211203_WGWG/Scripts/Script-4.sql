@@ -1,1 +1,0 @@
-SELECT * FROM CHAT_MEMBER cm ;
