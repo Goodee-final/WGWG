@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.min.edu.vo.emp.Department;
+import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.worklog.WorkLog;
 
 @Repository
@@ -56,16 +58,28 @@ public class WorkLogDaoImpl implements IWorkLogDao {
 		return sqlSession.update(NS + "updateWorkLogContent", workLog);
 	}
 
+//	@Override
+//	public int updateWorkLogDelflag(Map<String, String[]> worklog_nos) {
+//		logger.info("WorkLogDaoImpl selectAllDeptWorkLog 델플래그 상태 변경");
+//		return sqlSession.update(NS + "updateWorkLogDelflag", worklog_nos);
+//	}
+//
+//	@Override
+//	public int deleteWorkLog(Map<String, String[]> worklog_nos) {
+//		logger.info("WorkLogDaoImpl selectAllDeptWorkLog 업무일지 완전 삭제");
+//		return sqlSession.delete(NS + "deleteWorkLog", worklog_nos);
+//	}
+
 	@Override
-	public int updateWorkLogDelflag(Map<String, String[]> worklog_nos) {
-		logger.info("WorkLogDaoImpl selectAllDeptWorkLog 델플래그 상태 변경");
-		return sqlSession.update(NS + "updateWorkLogDelflag", worklog_nos);
+	public List<Department> selectAllDept() {
+		logger.info("전제 부서 조회 List<Department>");
+		return sqlSession.selectList(NS+"selectAllDept");
 	}
 
 	@Override
-	public int deleteWorkLog(Map<String, String[]> worklog_nos) {
-		logger.info("WorkLogDaoImpl selectAllDeptWorkLog 업무일지 완전 삭제");
-		return sqlSession.delete(NS + "deleteWorkLog", worklog_nos);
+	public Emp selectEmpNo(int emp_no) {
+		logger.info("emp_no 고르기 {}", emp_no);
+		return sqlSession.selectOne(NS+"selectEmpNo", emp_no);
 	}
 
 }

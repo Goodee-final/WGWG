@@ -6,9 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>업무일지 조회</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ -->
+
+
 <style>
 .container {
 	margin: 0;
@@ -77,30 +83,94 @@ th, td {
 	height: 80%;
 }
 </style>
+<script type="text/javascript">
+	jQuery.browser = {};
+	(function() {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+
+	$(document).ready(function () {
+	/* $(function() { */
+		$.datepicker.setDefaults($.datepicker.regional['ko']);
+		$("#startDate").datepicker(
+				{
+					changeMonth : true,
+					changeYear : true,
+					nextText : '다음 달',
+					prevText : '이전 달',
+					dayNames : [ '일요일', '월요일', '화요일', '수요일', '목요일', '금요일',
+							'토요일' ],
+					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+					monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월',
+							'7월', '8월', '9월', '10월', '11월', '12월' ],
+					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
+							'8월', '9월', '10월', '11월', '12월' ],
+					dateFormat : "yy/mm/dd",
+					maxDate : 0, // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+					onClose : function(selectedDate) {
+						//시작일(startDate) datepicker가 닫힐때
+						//종료일(endDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
+						$("#endDate").datepicker("option", "minDate",
+								selectedDate);
+					}
+
+				});
+		$("#endDate").datepicker(
+				{
+					changeMonth : true,
+					changeYear : true,
+					nextText : '다음 달',
+					prevText : '이전 달',
+					dayNames : [ '일요일', '월요일', '화요일', '수요일', '목요일', '금요일',
+							'토요일' ],
+					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+					monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월',
+							'7월', '8월', '9월', '10월', '11월', '12월' ],
+					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
+							'8월', '9월', '10월', '11월', '12월' ],
+					dateFormat : "yy/mm/dd",
+					maxDate : 0, // 선택할수있는 최대날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+					// showMonthAfterYear: true,	// true : 년 월  false : 월 년 순으로 보여줌
+					onClose : function(selectedDate) {
+						// 종료일(endDate) datepicker가 닫힐때
+						// 시작일(startDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 시작일로 지정
+						$("#startDate").datepicker("option", "maxDate",
+								selectedDate);
+					}
+
+				});
+	});
+</script>
+
 </head>
 <body>
    <div class="container">
-      <h1>주간 업무일지 조회</h1>
+      <h1>업무일지 조회</h1>
       <br>
       <form action="./worklogInsert.do" method="post">
       <div id="searchBox">
 		<div id="search">
-			<input type="text" id="searchText" name="searchText" placeholder="작성자나 제목을 입력해주세요.">
-			시작일 : <input type="text" id="startDate">
+			<input type="text" id="searchText" name="searchText" placeholder="작성자나 내용을 입력해주세요.">
+			시작일 :  <input type="text" id="startDate">
 			종료일 : <input type="text" id="endDate">
-			<input type="button" value="검색" id="search_btn">
+			<input type="submit" value="검색" id="search_btn">
 		</div>
 		<br>
 		
 		<ul class="nav nav-pills" style="height:18px;">
-			<li class="active" ><a data-toggle="pill" href="#all" style="font-size: 1.2rem;">개인별 조회</a></li>
+			<li class="active" ><a data-toggle="pill" href="#my" style="font-size: 1.2rem;">개인별 조회</a></li>
 	        <li><a data-toggle="pill" href="#menu1" style="font-size: 1.2rem;">부서별 조회</a></li>
 	    </ul>
 	      
       </div>
       <hr>
       <div class="tab-content" style="margin-top: 20px;">
-         <div id="all" class="tab-pane in active">
+         <div id="my" class="tab-pane in active">
                <table class="table table-hover">
                   <thead style="text-align:center">
                      <tr style="text-align:center">
@@ -116,7 +186,7 @@ th, td {
                      <c:forEach var="my" items="${worklogmylist}" varStatus="status">
                      	<tr style="text-align:center">	
 	                        <td>${my.worklog_no}</td>
-	                        <td>${my.worklog_content}</td>
+	                        <td><a href='./worklogDetail.do?no=${my.worklog_no}'>${my.worklog_content}</a></td>
 	                        <td>${my.emp.emp_nm}</td>
 	                        <td>${my.position.position_nm}</td>
 	                        <td>${my.worklog_reg_dt}</td>
@@ -140,14 +210,14 @@ th, td {
                      </tr>
                   </thead>
                   <tbody>
-                     <c:forEach var="dept" items="${worklogDeptList}" varStatus="status">
+                     <c:forEach var="dept" items="${worklogdeptlist}" varStatus="status">
                         <tr>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
-                           <td>${dept.}</td>
+                           <td>${dept.worklog_no}</td>
+                           <td><a href='./worklogDetail.do?no=${dept.worklog_no}'>${dept.worklog_content}</a></td>
+                           <td>${dept.emp.emp_nm}</td>
+                           <td>${dept.position.position_nm}</td>
+                           <td>${dept.worklog_reg_dt}</td>
+                           <td>${dept.worklog_modify_dt}</td>
             </tr>
                      </c:forEach>
                   </tbody>
