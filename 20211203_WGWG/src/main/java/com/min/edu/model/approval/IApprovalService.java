@@ -8,6 +8,7 @@ import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
 
 public interface IApprovalService {
@@ -23,6 +24,7 @@ public interface IApprovalService {
   //결재라인
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();
+	public List<Position> selectAllPosition();
   
 	//결재자
 	public List<Approval_Doc> selectAllDocApp(int empno);
