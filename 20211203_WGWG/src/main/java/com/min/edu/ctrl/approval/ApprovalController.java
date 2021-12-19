@@ -31,11 +31,13 @@ import com.min.edu.model.emp.EmpServiceImpl;
 import com.min.edu.model.emp.IEmpService;
 import com.min.edu.model.sign.ISignDao;
 import com.min.edu.vo.approval.Approval_Doc;
+import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.approval.Approver;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.form.Form;
+import com.min.edu.vo.notice.NoticePageVO;
 import com.min.edu.vo.sign.Sign;
 
 @Controller
@@ -130,14 +132,14 @@ public class ApprovalController {
 		String[] str = ref.split(",");
 		List<String> reflist = null;
 
-		for (int i = 0; i < str.length; i++) {
-			System.out.println("i번째 문자: " + str[i]);
-
-			Emp emp = approvalServiceImpl.selectEmpInfo(Integer.parseInt(str[i]));
-			String name = emp.getEmp_nm();
-			System.out.println("회원번호: " + str[i] + ", 회원이름 : " + name);
-			str[i] = name;
-		}
+//		for (int i = 0; i < str.length; i++) {
+//			System.out.println("i번째 문자: " + str[i]);
+//
+//			Emp emp = approvalServiceImpl.selectEmpInfo(Integer.parseInt(str[i]));
+//			String name = emp.getEmp_nm();
+//			System.out.println("회원번호: " + str[i] + ", 회원이름 : " + name);
+//			str[i] = name;
+//		}
 
 		// 서명 정보
 		List<Sign> signlist = signdao.selectSignList(1);
@@ -405,22 +407,33 @@ public class ApprovalController {
 
 	// 완료 문서함
 	@GetMapping(value = "/completedoc.do")
-	public String docListComplete(Model model) {
+	@PostMapping(value = "/completedoc.do")
+	public String docListComplete(Model model, HttpServletRequest request) {
 
 		logger.info("완료 문서함");
 		Approval_Doc doc = new Approval_Doc();
 		int empno = 1;
 		doc.setEmp_no(empno);
 		doc.setApp_doc_st("완료");
+		
+		Approval_Page paging = new Approval_Page(
+	               request.getParameter("index"),
+	               request.getParameter("pageStartNum"),
+	               request.getParameter("listCnt"),
+	               request.getParameter("notice_chk"),
+	               request.getParameter("searchKeyword")
+	            );
+		doc.setPaging(paging);
 		// 송신
 		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
-
+		paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
 		// 수신경우
 
 		List<Approval_Doc> doclist2 = approvalServiceImpl.selectListDocStApp(doc);
 
 		model.addAttribute("doclist1", doclist1);
 		model.addAttribute("doclist2", doclist2);
+		model.addAttribute("paging", paging);
 		session.setAttribute("loc", "./completedoc.do");
 
 		return "/approval/compldoclist";
@@ -449,7 +462,8 @@ public class ApprovalController {
 		doc.setEmp_no(empno);
 		doc.setApp_doc_st("임시저장");
 
-		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+//		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+		List<Approval_Doc> doclist1 = new ArrayList<Approval_Doc>();
 		model.addAttribute("doclist1", doclist1);
 		session.setAttribute("loc", "./tempdoc.do");
 		return "/approval/tempdoc";
@@ -526,6 +540,31 @@ public class ApprovalController {
 		
 		return "/approval/compldoclist";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/pagingAjax.do", method = RequestMethod.POST)
+	public Map<String, Object> pagingAjax(HttpServletRequest request) {
+		String index = request.getParameter("index");
+		String pageStartNum = request.getParameter("pageStartNum");
+		String listCnt = request.getParameter("listCnt");
+		String app_chk = request.getParameter("app_chk");
+		String searchKeyword = request.getParameter("searchKeyword");
+	
+		System.out.println("ajax 전송 완료! ");
+		System.out.println(index +" " + pageStartNum  +" " +listCnt  +" " +app_chk  +" " +searchKeyword);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("index", index);
+		map.put("pageStartNum", pageStartNum);
+		map.put("listCnt", listCnt);
+		map.put("app_chk", app_chk);
+		map.put("searchKeyword", searchKeyword);
+		
+		return map;
+	}
+
+	
 	
 //	   @PostMapping("/replyBoard.do")
 //	   public String replyBoard(Answerboard_VO vo, HttpSession session) {
