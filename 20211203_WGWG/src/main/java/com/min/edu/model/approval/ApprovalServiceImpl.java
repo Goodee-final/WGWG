@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.min.edu.vo.approval.Approval_Doc;
+import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
@@ -80,6 +81,17 @@ public class ApprovalServiceImpl implements IApprovalService {
 	@Override
 	public int updateApproval(Approval_line line) {
 		return dao.updateApproval(line);
+	}
+
+	@Override
+	public List<Approval_Doc> selectDocPaging(Approval_Doc doc) {
+		
+		return dao.selectDocPaging(doc);
+	}
+
+	@Override
+	public int selectTotalPaging(Approval_Doc doc) {
+		return dao.selectTotalPaging(doc);
 	}
 
 

@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="./js/approve.js" ></script> 
 <script type="text/javascript">
 	$(document).ready(function(){
 		
@@ -17,10 +17,8 @@
 			
 			var no = $(this).find('td').eq(0).text();
 			console.log(no);
-			location.href="./detailmove.do?docno="+no+"&docBox=완료";
-// 			location.href="/";
-
-<%-- 			<%session.setAttribute("loc","./docdetail.do?docno="+no);%> --%>
+			detailAjax(no,"참조");
+		
 		});
 	});
 </script>
