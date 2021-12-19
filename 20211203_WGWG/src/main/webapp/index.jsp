@@ -18,31 +18,6 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
-
-<script type="text/javascript">
-	
-	var loc =  "<%=session.getAttribute("loc") %>"
-
-	$(document).ready(function() {
-		console.log(loc);
-
-		if (loc != "") {
-			$("#content").load(loc);
-		}else{
-			
-		}
-
-		$('.nav-flyout li').on('click', function(e) {
-
-			console.log($(this).attr('value'));
-		
-			$("#content").load($(this).attr('value'));
-
-		});
-		
-		
-	});
-</script>
 <script language='javascript'>
 
 function noEvent() {
@@ -403,3 +378,29 @@ i {
 		</div>
     </footer>
 </body>
+
+
+<script type="text/javascript">
+	
+	var loc =  "<%=session.getAttribute("loc") %>"
+
+	$(document).ready(function() {
+		console.log(loc);
+
+		if (loc != "") {
+			$("#content").load(loc);
+		}else{
+			
+		}
+
+		$('.nav-flyout li').on('click', function(e) {
+
+			console.log($(this).attr('value'));
+		
+			$("#content").load($(this).attr('value'));
+
+		});
+		
+		
+	});
+</script>
