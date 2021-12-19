@@ -122,28 +122,6 @@ public class WorkLogController {
 	}
 
 	@RequestMapping(value = "/worklogInsert.do", method = RequestMethod.GET)
-  
-	public String insertWorkLogForm(Model model) {
-		logger.info("WorkLogController worklogInsert 업무일지 작성 화면");
-
-		/*
-		 * Emp e = null; session.getAttribute("emp_no"); e.setEmp_no(emp_no);
-		 */
-		Emp e = workLogService.selectEmpNo(emp_no);
-		logger.info("selectedEmpNo : {}", emp_no);
-		logger.info("e : {}", e);
-
-		model.addAttribute("emp", e);
-		
-//		WorkLog w = null;
-//		w.setEmp_no(emp_no);
-//		logger.info("w.setEmp(e) : {}", w.toString());
-//		model.addAttribute("w", w);
-//		logger.info("model.addAttribute w : ", w);
-
-//		WorkLog wl = null;
-//		wl = workLogService.insertWorkLog(worklog);
-
 	public String insertWorkLogForm(HttpServletResponse response, Model model) {
 		logger.info("WorkLogController worklogInsert");
 		response.setCharacterEncoding("UTF-8");
