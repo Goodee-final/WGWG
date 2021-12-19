@@ -19,32 +19,35 @@
 	src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
 
 <script type="text/javascript">
-	var oEditors = [];
-	$(function() {
-		nhn.husky.EZCreator.createInIFrame({
-			oAppRef : oEditors,
-			elPlaceHolder : "ir1",
-			sSkinURI : "./SE/SmartEditor2Skin.html",
-			htParams : {
-				bUseToolbar : true,
-				bUseVerticalResizer : true,
-				bUseModeChanger : true,
-				fOnBeforeUnload : function() {
-				}
-			},
-			fOnAppLoad : function() {
-				oEditors.getById["ir1"].exec("PASTE_HTML",
-						[ "기존 DB에 저장된 내용을 에디터에 적용할 문구" ]);
-			},
-			fCreator : "createSEditor2"
-		});
 
-		//저장버튼 클릭시 form 전송
-		$("#save").click(function() {
-			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-			$("#frm").submit();
-		});
-	});
+var oEditors = [];
+var template = '${template}';
+$(function(){
+      nhn.husky.EZCreator.createInIFrame({
+          oAppRef: oEditors,
+          elPlaceHolder: "ir1", 
+          sSkinURI: "./SE/SmartEditor2Skin.html",  
+          htParams : {
+              bUseToolbar : true,             
+              bUseVerticalResizer : true,     
+              bUseModeChanger : true,         
+              fOnBeforeUnload : function(){
+                   
+              }
+          }, 
+          fOnAppLoad : function(){
+              oEditors.getById["ir1"].exec("PASTE_HTML", [template]);
+          },
+          fCreator: "createSEditor2"
+      });
+      
+      //저장버튼 클릭시 form 전송
+      $("#save").click(function(){
+          oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+          $("#frm").submit();
+      });    
+});
+
 </script>
 <style type="text/css">
 .container {

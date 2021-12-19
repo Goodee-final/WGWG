@@ -7,6 +7,6 @@
 <title>work</title>
 </head>
 <body>
-
+${record}
 </body>
 </html>

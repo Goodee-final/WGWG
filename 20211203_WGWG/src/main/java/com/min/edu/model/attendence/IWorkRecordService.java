@@ -4,5 +4,5 @@ import com.min.edu.vo.attendence.WorkRecord;
 
 public interface IWorkRecordService {
 
-	public WorkRecord selectworkrecord(int empno);
+	public WorkRecord selectwr(int emp_no);
 }

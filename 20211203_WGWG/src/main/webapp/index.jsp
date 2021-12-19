@@ -6,17 +6,32 @@
 <meta charset="UTF-8">
 <title>인덱스</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<script src="https://kit.fontawesome.com/d42fd504d6.js"
-	crossorigin="anonymous"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/d42fd504d6.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+<script type="text/javascript">
+	
+	var loc = "<%=session.getAttribute("loc") %>"
+
+	$(document).ready(function() {
+		console.log(loc);
+
+		if (loc != "") {
+			$("#content").load(loc);
+		}
+		$('.nav-flyout li').on('click', function(e) {
+
+			console.log($(this).attr('value'));
+		
+			$("#content").load($(this).attr('value'));
+
+		});
+		
+	});
+</script>
 
 <script language='javascript'>
 
@@ -296,12 +311,6 @@ i {
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button" 
               value="./docinsert.do">기안하기</li>
-					<li class="w3-bar-item w3-button"
-						  value="./signlist.do">전자서명 관리</li>
-					<li class="w3-bar-item w3-button"
-						  value="./signinsert.do">전자서명 등록</li>
-					<li class="w3-bar-item w3-button"
-						  value="./signdraw.do">전자서명만들기</li>
 					<li class="w3-bar-item w3-button" 
               value="">결재 진행함</li>
 					<li class="w3-bar-item w3-button" 
@@ -309,13 +318,28 @@ i {
 					<li class="w3-bar-item w3-button"
 						  value="./completedoc.do">결재 완료함</li>
 					<li class="w3-bar-item w3-button" 
-              value="">참조문서함</li>
+              value="./refdoclist.do">참조문서함</li>
 					<li class="w3-bar-item w3-button"
               value="./mydoclist.do">개인문서함</li>
 					<li class="w3-bar-item w3-button"
-               value="">임시문서함</li>
+               value="./tempdoc.do">임시문서함</li>
 				</ul>
 			</li>
+			
+			
+			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자서명
+				<ul class="nav-flyout">
+				
+					<li class="w3-bar-item w3-button"
+						  value="./signlist.do">전자서명 관리</li>
+					<li class="w3-bar-item w3-button"
+						  value="./signinsert.do">전자서명 등록</li>
+					<li class="w3-bar-item w3-button"
+						  value="./signdraw.do">전자서명만들기</li>
+		
+				</ul>
+			</li>
+			
       
 			<li class="w3-bar-item nav1"><i class="fas fa-business-time"></i>근태관리
 				<ul class="nav-flyout">

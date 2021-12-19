@@ -152,8 +152,11 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Override
 	public String toString() {
 		return "NoticePageVO [logger=" + logger + ", pageCnt=" + pageCnt + ", index=" + index + ", pageStartNum="
-				+ pageStartNum + ", listCnt=" + listCnt + ", total=" + total + ", notice_chk=" + notice_chk + "]";
+				+ pageStartNum + ", listCnt=" + listCnt + ", total=" + total + ", notice_chk=" + notice_chk
+				+ ", searchKeyword=" + searchKeyword + "]";
 	}
 
+
+	
 	
 }

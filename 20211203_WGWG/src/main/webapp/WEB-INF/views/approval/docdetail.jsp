@@ -9,6 +9,14 @@
 <title>결재문서 상세화면</title>
 </head>
 <style type="text/css">
+.container{
+/* 	display: flex; */
+/* 	flex-direction: column; */
+
+
+	
+}
+
 .docinfo {
 	margin: 0 auto;
 	width: 1000px;
@@ -46,10 +54,13 @@ th {
 }
 
 #nextbtn {
-	margin-left: 200px;
+	display:flex;
+	padding:10px 100px;;
+	justify-content: center;
+	align-items: center;
 }
 
-#btn {
+.btn {
 	width: 120px;
 	height: 35px;
 	border-radius: 5px;
@@ -94,24 +105,30 @@ th {
 	height: 600px;
 }
 
-#sign-td{
-	padding: 35px;
+#sign-td {
+	
+	padding: 25px;
 	border: 0px;
-
 }
 
 .signImg {
 	width: 75px;
-	height: 75px;	
-	border: 1px solid #ddd;"
+	height: 75px;
+	border: 1px solid #ddd;
+	"
 }
 
 .signImg:hover {
-	background: skyblue;
+	border: 1px solid red;
 }
 
-.skyblue{
-	background: skyblue;
+.skyblue {
+	border: 2px solid red;
+}
+
+#reason {
+	margin-top: 20px;
+	display: none;
 }
 </style>
 <body>
@@ -182,12 +199,37 @@ th {
 		<%-- 			<c:if test="${docSt == '결재대기'}"> --%>
 		<div id="nextbtn">
 			<!-- 			./appresult.do -->
-			<button id="btn-approve">승인</button>
-			<button id="btn-return" onclick="location.href='./'">반려</button>
+			<button class="btn" id="btn-approve" class="btn-app">승인</button>
+			<button class="btn" id="btn-return" class="btn-app">반려</button>
 		</div>
 
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" role="dialog">
+		<!-- 반려 Modal창 -->
+		<div class="modal fade" id="myModal2" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">반려 사유</h4>
+					</div>
+					<div class="modal-body">
+
+						<div>
+							<textarea id="reason" rows="6" cols="70" name="reason" placeholder="반려사유를 적어주세요"></textarea>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button id="reasonSave" type="button" class="btn btn-default" data-dismiss="modal">저장</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- 승인 Modal -->
+		<div class="modal fade" id="myModal1" role="dialog">
 			<div class="modal-dialog">
 
 				<!-- Modal content-->
@@ -198,19 +240,24 @@ th {
 					</div>
 					<div class="modal-body">
 
-
+						<div id="sign-td">
+							<p>기본 이미지</p>
+							<img class="signImg" src="img/sign/approve.PNG" value="0">
+						</div>
+						<hr>
 						<c:set var="i" value="0" />
-						<c:set var="j" value="3" />
+						<c:set var="j" value="4" />
 
 						<table>
 							<tbody>
 								<c:if test="${!empty signlist}">
-									<c:forEach var="sign" items="${signlist}">
+									<c:forEach var="sign" items="${signlist}" varStatus="status">
 										<c:if test="${i%j == 0 }">
 											<tr>
 										</c:if>
-										<td id="sign-td" >
-											<img class="signImg" src="img/sign/${sign.sign_img}" value="${sign.sign_no}">
+										<td id="sign-td">
+										<p>서명${status.count}</p>
+										<img class="signImg" src="img/sign/${sign.sign_img}" value="${sign.sign_no}">
 										</td>
 										<c:if test="${i%j == j-1 }">
 											</tr>
@@ -222,7 +269,7 @@ th {
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button id="signSave" type="button" class="btn btn-default" data-dismiss="modal">승인</button>
+						<button id="signSave" type="button" class="btn" data-dismiss="modal">승인</button>
 					</div>
 				</div>
 
@@ -232,12 +279,21 @@ th {
 		<%-- 			<c:if test="${docSt == '개인' & detaildoc.app_doc_st == '대기'} "> --%>
 
 		<%-- 			</c:if> --%>
+	
+		<c:if test="${docBox eq '임시저장'}">
+			<div id="nextbtn">
+				<button class="btn" onclick="location.href='./appline.do'">수정</button>
+				<button id="btn-delete" class="btn" >삭제</button>
 
-		<div id="nextbtn">
-			<button id="btn" onclick="location.href='./appline.do'">재상신</button>
-			<button id="btn" onclick="location.href='./appline.do'">기안취소</button>
-			<button id="btn" onclick="location.href='./appline.do'">문서삭제</button>
-		</div>
+			</div>
+		</c:if>
+		<c:if test="${docBox eq '개인'}">
+			<div id="nextbtn">
+				
+				<button class="btn" onclick="location.href='./appline.do'">기안취소</button>
+			</div>
+		</c:if>
+
 	</div>
 
 
@@ -250,7 +306,12 @@ th {
 	$(document).ready(function() {
 		$("#btn-approve").click(function(e) {
 			e.preventDefault();
-			$("#myModal").modal();
+			$("#myModal1").modal();
+		});
+		
+		$("#btn-return").click(function(e) {
+			e.preventDefault();
+			$("#myModal2").modal();
 		});
 
 		$(".signImg").click(function(e) {
@@ -263,8 +324,26 @@ th {
 		$("#signSave").click(function(){
 			var signNo = $(".skyblue").attr('value');
 			console.log(signNo);
-			location.href="./approve.do?signNo="+signNo;
+			console.log(${detaildoc.app_doc_no});
+			location.href="./approve.do?signNo="+signNo+"&docNo="+${detaildoc.app_doc_no};
+			
 		});
+		
+		$("#btn-return").click(function() {
+			$("#reason").css('display','block');
+		});
+		
+		$("#reasonSave").click(function(){
+			var reason = $('#reason').val();
+			console.log(reason);
+			location.href="./docReturn.do?reason="+reason+"&docNo="+${detaildoc.app_doc_no};
+		});
+		
+		$("#btn-delete").click(function(){
+			alert("문서를 삭제하게")
+			location.href="./docDelte.do?docNo="+${detaildoc.app_doc_no};
+		});
+		
 	});
 </script>
 </html>
