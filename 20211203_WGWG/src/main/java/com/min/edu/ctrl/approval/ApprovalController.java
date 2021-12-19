@@ -2,7 +2,9 @@ package com.min.edu.ctrl.approval;
 
 import java.lang.ProcessBuilder.Redirect;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -28,11 +31,13 @@ import com.min.edu.model.emp.EmpServiceImpl;
 import com.min.edu.model.emp.IEmpService;
 import com.min.edu.model.sign.ISignDao;
 import com.min.edu.vo.approval.Approval_Doc;
+import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.approval.Approver;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.form.Form;
+import com.min.edu.vo.notice.NoticePageVO;
 import com.min.edu.vo.sign.Sign;
 
 @Controller
@@ -43,59 +48,6 @@ public class ApprovalController {
 	@Autowired
 	private IApprovalService approvalServiceImpl;
 
-	   @Autowired
-	   private HttpSession session;  
-	   
-	   @GetMapping(value="/mydoclist.do")
-	   public String doclist(Model model) {
-		  //session.setAttribute("userid", "USER25");
-		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
-		  
-	      logger.info("ApprovalController 전체글 조회 List");
-	      List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(1);
-	      
-	      model.addAttribute("doclists", doclists);
-	      return "/approval/mydoclist";
-	   }
-	   
-		@PostMapping(value = "/mydoclist.do")
-		public String searchdoclist(String title, Model model) {
-			int empno = 1;
-			logger.info("ApprovalController 문서 제목 검색 List");
-			System.out.println(title);
-			List<Approval_Doc> doclists = approvalServiceImpl.searchdoclist(title, empno);
-			model.addAttribute("doclists", doclists);
-			return "/approval/mydoclist";
-		}
-	   
-	   @GetMapping(value="/docinsert.do")
-	   public String docinsert(Model model) {
-		   
-	      logger.info("ApprovalController 기안하기 문서 작성");
-	      Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
-	      model.addAttribute("empinfo", empinfo);
-	      return "/approval/docinsert";
-	   }
-	   
-	   @PostMapping(value="/docinsert.do")
-	   public String docapproval(Model model) {
-		   
-	      logger.info("ApprovalController 기안하기 문서 작성");
-	      Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
-	      model.addAttribute("empinfo", empinfo);
-	      return "/approval/mydoclist";
-	   }
-	   
-	   @GetMapping(value="/appline.do")
-	   public String appline(Model model) {
-		  
-	      logger.info("ApprovalController 결재라인 등록");
-	      List<Department> deptlists = approvalServiceImpl.selectAllDept();
-	      List<Emp> emplists = approvalServiceImpl.selectAllEmp();
-	      model.addAttribute("deptlists", deptlists);
-	      model.addAttribute("emplists", emplists);
-	      return "/approval/appline";
-	   }
 
 	@Autowired
 	ISignDao signdao;
@@ -180,14 +132,14 @@ public class ApprovalController {
 		String[] str = ref.split(",");
 		List<String> reflist = null;
 
-		for (int i = 0; i < str.length; i++) {
-			System.out.println("i번째 문자: " + str[i]);
-
-			Emp emp = approvalServiceImpl.selectEmpInfo(Integer.parseInt(str[i]));
-			String name = emp.getEmp_nm();
-			System.out.println("회원번호: " + str[i] + ", 회원이름 : " + name);
-			str[i] = name;
-		}
+//		for (int i = 0; i < str.length; i++) {
+//			System.out.println("i번째 문자: " + str[i]);
+//
+//			Emp emp = approvalServiceImpl.selectEmpInfo(Integer.parseInt(str[i]));
+//			String name = emp.getEmp_nm();
+//			System.out.println("회원번호: " + str[i] + ", 회원이름 : " + name);
+//			str[i] = name;
+//		}
 
 		// 서명 정보
 		List<Sign> signlist = signdao.selectSignList(1);
@@ -455,27 +407,37 @@ public class ApprovalController {
 
 	// 완료 문서함
 	@GetMapping(value = "/completedoc.do")
-	public String docListComplete(Model model) {
+	@PostMapping(value = "/completedoc.do")
+	public String docListComplete(Model model, HttpServletRequest request) {
 
 		logger.info("완료 문서함");
 		Approval_Doc doc = new Approval_Doc();
 		int empno = 1;
 		doc.setEmp_no(empno);
 		doc.setApp_doc_st("완료");
+		
+		Approval_Page paging = new Approval_Page(
+	               request.getParameter("index"),
+	               request.getParameter("pageStartNum"),
+	               request.getParameter("listCnt"),
+	               request.getParameter("notice_chk"),
+	               request.getParameter("searchKeyword")
+	            );
+		doc.setPaging(paging);
 		// 송신
 		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
-
+		paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
 		// 수신경우
 
 		List<Approval_Doc> doclist2 = approvalServiceImpl.selectListDocStApp(doc);
 
 		model.addAttribute("doclist1", doclist1);
 		model.addAttribute("doclist2", doclist2);
+		model.addAttribute("paging", paging);
 		session.setAttribute("loc", "./completedoc.do");
 
 		return "/approval/compldoclist";
 	}
-	
 	
 	
 	@GetMapping(value="/docDelte.do")
@@ -500,7 +462,8 @@ public class ApprovalController {
 		doc.setEmp_no(empno);
 		doc.setApp_doc_st("임시저장");
 
-		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+//		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+		List<Approval_Doc> doclist1 = new ArrayList<Approval_Doc>();
 		model.addAttribute("doclist1", doclist1);
 		session.setAttribute("loc", "./tempdoc.do");
 		return "/approval/tempdoc";
@@ -514,7 +477,95 @@ public class ApprovalController {
 		session.setAttribute("loc", "./refdoclist.do");
 		return "/approval/refdoclist";
 	}
+	
+	// 문서 상세 화면으로 이동"docno":no, "docBox":docBox
+	@ResponseBody
+	@RequestMapping(value="/detailAjax.do", method=RequestMethod.POST)
+	public Map<String,Object>  detailAjax(Model model, String docno, String docBox) {
+		
+		System.out.println("문서함 위치: " + docBox);
 
+		System.out.println("ajax 요청 도착!" + docno + ", "  + docBox);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("docno", docno);
+		map.put("docBox", docBox);
+	
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/reqAjax.do", method=RequestMethod.POST)
+	public Map<String,String> reqAjax(String title, String toggle){
+		System.out.println("ajax 요청 도착!" + title + ", "  + toggle);
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("title", title);
+		map.put("toggle", toggle);
+	
+		return map;
+	}
+
+	@GetMapping(value = "/searchdoclist.do")
+	public String searchdoclist2(String title, String toggle, Model model) {
+		
+		logger.info("완료 문서함");
+		Approval_Doc doc = new Approval_Doc();
+		int empno = 1;
+		doc.setEmp_no(empno);
+		doc.setApp_doc_st("완료");
+		
+		List<Approval_Doc> searchlist1 = new ArrayList<Approval_Doc>();
+		List<Approval_Doc> searchlist2 = new ArrayList<Approval_Doc>();
+		
+		// 송신
+		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+		for (Approval_Doc doc1 : doclist1) {
+			if(doc1.getApp_doc_title().contains(title)) {
+				searchlist1.add(doc1);
+			}
+		}
+
+		// 수신경우
+
+		List<Approval_Doc> doclist2 = approvalServiceImpl.selectListDocStApp(doc);
+		
+		
+		for (Approval_Doc doc2 : doclist2) {
+			if(doc2.getApp_doc_title().contains(title)) {
+				searchlist2.add(doc2);
+			}
+		}
+		
+		model.addAttribute("doclist1", searchlist1);
+		model.addAttribute("doclist2", searchlist2);
+		
+		return "/approval/compldoclist";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/pagingAjax.do", method = RequestMethod.POST)
+	public Map<String, Object> pagingAjax(HttpServletRequest request) {
+		String index = request.getParameter("index");
+		String pageStartNum = request.getParameter("pageStartNum");
+		String listCnt = request.getParameter("listCnt");
+		String app_chk = request.getParameter("app_chk");
+		String searchKeyword = request.getParameter("searchKeyword");
+	
+		System.out.println("ajax 전송 완료! ");
+		System.out.println(index +" " + pageStartNum  +" " +listCnt  +" " +app_chk  +" " +searchKeyword);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("index", index);
+		map.put("pageStartNum", pageStartNum);
+		map.put("listCnt", listCnt);
+		map.put("app_chk", app_chk);
+		map.put("searchKeyword", searchKeyword);
+		
+		return map;
+	}
+
+	
+	
 //	   @PostMapping("/replyBoard.do")
 //	   public String replyBoard(Answerboard_VO vo, HttpSession session) {
 //		   String writer = (String) session.getAttribute("userid");
