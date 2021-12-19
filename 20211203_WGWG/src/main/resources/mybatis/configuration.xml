@@ -34,6 +34,7 @@
 <mappers>
 	<mapper resource="mapper/form_mapper.xml"/>
   	<mapper resource="mapper/workrecord_mapper.xml"/>
+  	<mapper resource="mapper/main_mapper.xml"/>
 	<mapper resource="mapper/schedule.xml"/>
 	<mapper resource="mapper/notice.xml"/>
   

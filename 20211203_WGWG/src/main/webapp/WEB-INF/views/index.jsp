@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -304,18 +305,14 @@ i {
 }
 .main-loginemp {
 	width: 550px;
-	height: 150px;
-	background-color: yellow;
-}
-#empnm{
-	
-}
-#emppo{
-
+	height: 200px;
+	display: inline-flex;
+	padding:15px;
+	border: 1px solid #ccc;
 }
 .main-calendar {
 	width:550px;
-	height: 350px;
+	height: 300px;
 	background-color: pink;
 	margin-top: 30px;
 }
@@ -323,13 +320,66 @@ i {
 .main-notice{
 	width: 550px;
 	height: 250px;
-	background-color: blue;
 }
 .main-approval {
 	width: 550px;
 	height: 250px;
 	background-color: green;
 	margin-top: 30px;
+}
+
+#emp-img {
+	width: 150px;
+	height: 160px;
+	background-color: orange;
+}
+#emp-info {
+	width: 400px;
+	height: 150px;
+	padding: 30px;
+}
+#emp-info span:first-child{
+	font-size: 1.5em !important;
+}
+
+#emp-info span:nth-child(1),#emp-info span:nth-child(2){
+	font-size: 1.3em !important;
+}
+
+#emp-info button{
+	width: 150px;
+	height: 35px;
+	border-radius: 5px;
+	border:none;
+	font-size: 1.1em;
+}
+
+#on{
+	background-color: #073865;
+	color: white;
+	margin-top: 10px;
+	margin-right: 10px;
+	
+}
+#notili{
+	width: 550px;
+	height: 220px;
+	border-collapse: collapse;
+	border-top: 2px solid #ccc;
+	border-bottom: 2px solid #ccc;
+}
+#notili th {
+	text-align: center;
+	border-bottom: 2px solid #ccc;
+	height: 40px;
+	font-weight: normal;
+}
+#notili td {
+	text-align: center;
+}
+caption {
+	color: black;
+	font-size: 1.3em;
 }
 </style>
 
@@ -455,7 +505,14 @@ i {
 		<div id="main-content">
 			<div id="main-content1">
 				<div class="main-loginemp">
-					<span id="empnm">이름${loginEmp.emp_nm}</span><span id="emppo">사원${loginEmp.position_nm}</span>
+					<div id="emp-img">사원 사진 들어감</div>
+					<div id="emp-info">
+						<span>이름${loginEmp.emp_nm}</span><br>
+						<span>부서${loginEmp.dept_nm}</span>
+						<span>직급${loginEmp.position_nm}</span><br>
+						<button type="button" id="on">출근하기</button>
+						<button type="button" id="off">퇴근하기</button>
+					</div>
 				</div>
 				<div class="main-calendar">
 					달력
@@ -463,7 +520,19 @@ i {
 			</div>
 			<div id="main-content2">
 				<div class="main-notice">
-					공지사항
+					<table id="notili">
+					<caption>회사공지사항</caption>
+						<tbody>
+							<c:forEach var="notice" items="${noticeList}">
+								<tr>
+									<td>${notice.notice_no}</td>
+									<td>${notice.notice_title}</td>
+									<td>등록일: ${notice.notice_reg_dt}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					
 				</div>
 				<div class="main-approval">
 					결재
