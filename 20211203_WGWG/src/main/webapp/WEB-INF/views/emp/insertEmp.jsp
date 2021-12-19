@@ -180,6 +180,7 @@ $("#submit_btn").click(function(){
 		background-color: #073865;
 		color: #fff;
 		width: 80px;
+		margin-left: 220px;
 	}
 	.btn:hover{
 		color: #fff;
@@ -188,7 +189,7 @@ $("#submit_btn").click(function(){
 		margin-top: 20px;
 	}
 	#imginfo p{
-		font-size: 14px;
+		font-size: 12px;
 	}
 </style>
 <title>Insert title here</title>
@@ -208,12 +209,6 @@ $("#submit_btn").click(function(){
 			<p>※png,jpg 확장자 파일만 업로드가 가능합니다.</p>
 			<p>※10MB 이하의 파일만 업로드가 가능합니다.</p>
 		</div>
-	</div>
-	<div class="div_left">
-		<label for="name">이름:</label>
-		<input type="text" name="name" id="name" class="form-control"><br>
-		<label for="birth">생년월일:</label>
-		<input type="date" name="birth" id="birth" class="form-control"><br>
 		<label>부서:</label>
 		<select name="dept" class="form-control">
 				<option value="10">사업지원팀</option>
@@ -226,6 +221,13 @@ $("#submit_btn").click(function(){
 				<option value="80">기획팀</option>
 				<option value="90">보안팀</option>
 			</select><br>
+		<label for="name">이름:</label>
+		<input type="text" name="name" id="name" class="form-control"><br>
+	</div>
+	<div class="div_left">
+		
+		<label for="birth">생년월일:</label>
+		<input type="date" name="birth" id="birth" class="form-control"><br>
 		<label for="hiredate">입사년도:</label>
 		<input type="date" name="hiredate" id="hiredate" class="form-control"><br>
 		<label for="address">주소:</label>

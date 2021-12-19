@@ -1,5 +1,6 @@
 package com.min.edu.model.emp;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,11 @@ public class EmpServiceImpl implements IEmpService {
 	@Override
 	public int updatePW(Emp emp) {
 		return dao.updatePW(emp);
+	}
+
+	@Override
+	public Emp selectInsertEmpInfo(int emp_no) {
+		return dao.selectInsertEmpInfo(emp_no);
 	}
 
 }

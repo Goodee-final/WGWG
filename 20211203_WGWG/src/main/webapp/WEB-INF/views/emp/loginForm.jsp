@@ -76,7 +76,6 @@
 <title>로그인 화면</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<div id="container">
 		<div id="title">로그인</div>
 		<form action="./login.do" method="post">
