@@ -74,14 +74,12 @@ body {
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="work" items="${record}" varStatus="status">
 								<tr>
-									<td>${work}</td>
-									<td>${work}</td>
-									<td>${work}</td>
-									<td>${work}</td>
+									<td>${record}</td>
+									<td>${record}</td>
+									<td>${record}</td>
+									<td>${record}</td>
 								</tr>
-							</c:forEach>
 						</tbody>
 					</table>
 				</div>

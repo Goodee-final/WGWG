@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -29,6 +30,7 @@ import com.google.gson.JsonParser;
 import com.min.edu.model.approval.IApprovalService;
 import com.min.edu.model.emp.EmpServiceImpl;
 import com.min.edu.model.emp.IEmpService;
+import com.min.edu.model.form.IFormService;
 import com.min.edu.model.sign.ISignDao;
 import com.min.edu.vo.approval.Approval_Doc;
 import com.min.edu.vo.approval.Approval_Page;
@@ -37,6 +39,7 @@ import com.min.edu.vo.approval.Approver;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.form.Form;
+import com.min.edu.vo.form.FormClassification;
 import com.min.edu.vo.notice.NoticePageVO;
 import com.min.edu.vo.sign.Sign;
 
@@ -48,54 +51,66 @@ public class ApprovalController {
 	@Autowired
 	private IApprovalService approvalServiceImpl;
 
+	   @Autowired
+	   private IFormService formservice;
+	   
+	   @Autowired
+	   private HttpSession session;  
+	   
+	   @GetMapping(value="/mydoclist.do")
+	   public String doclist(Model model) {
+		  //session.setAttribute("userid", "USER25");
+		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
+		  
+	      logger.info("ApprovalController 전체글 조회 List");
+	      List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(1);
+	      
+	      model.addAttribute("doclists", doclists);
+	      return "/approval/mydoclist";
+	   }
+	   
+		@PostMapping(value = "/mydoclist.do")
+		public String searchdoclist(String title, Model model) {
+			int empno = 1;
+			logger.info("ApprovalController 문서 제목 검색 List");
+			System.out.println(title);
+			List<Approval_Doc> doclists = approvalServiceImpl.searchdoclist(title, empno);
+			model.addAttribute("doclists", doclists);
+			return "/approval/mydoclist";
+		}
+	   
+	   @GetMapping(value="/docinsert.do")
+	   public String docinsert(Model model) {
+	      logger.info("ApprovalController 기안하기 문서 작성");
+	      Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
+	      model.addAttribute("empinfo", empinfo);
+	      List<Form> formList = formservice.selectForm();
+	      model.addAttribute("formList", formList);
+	      return "/approval/docinsert";
+	   }
+	   
+	   @PostMapping(value="/docinsert.do")
+	   public String docapproval(Model model, @RequestParam String content) {
+	      logger.info("ApprovalController 기안하기 문서 작성");
+	      Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
+	      model.addAttribute("empinfo", empinfo);
+	      System.out.println("양식 태그"+content);
+	      return "/approval/mydoclist";
+	   }
+	   
+	   @GetMapping(value="/appline.do")
+	   public String appline(Model model) {
+		  
+	      logger.info("ApprovalController 결재라인 등록");
+	      List<Department> deptlists = approvalServiceImpl.selectAllDept();
+	      List<Emp> emplists = approvalServiceImpl.selectAllEmp();
+	      model.addAttribute("deptlists", deptlists);
+	      model.addAttribute("emplists", emplists);
+	      return "/approval/appline";
+	   }
 
 	@Autowired
 	ISignDao signdao;
-
-	@Autowired
-	HttpSession session;
-
-	@GetMapping(value = "/mydoclist.do")
-	public String doclist(Model model) {
-		// session.setAttribute("userid", "USER25");
-		// session.setMaxInactiveInterval(120); //세션이 저장되는 시간(초)
-
-		logger.info("ApprovalController 전체글 조회 List");
-		List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(1);
-
-		model.addAttribute("doclists", doclists);
-		return "/approval/mydoclist";
-	}
-
-	@PostMapping(value = "/mydoclist.do")
-	public String searchdoclist(String title, Model model) {
-		int empno = 1;
-		logger.info("ApprovalController 문서 제목 검색 List");
-		System.out.println(title);
-		List<Approval_Doc> doclists = approvalServiceImpl.searchdoclist(title, empno);
-		model.addAttribute("doclists", doclists);
-		return "/approval/mydoclist";
-	}
-
-	@GetMapping(value = "/docinsert.do")
-	public String docinsert(Model model) {
-
-		logger.info("ApprovalController 기안하기 문서 작성");
-		Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
-		model.addAttribute("empinfo", empinfo);
-		return "/approval/docinsert";
-	}
-
-	@GetMapping(value = "/appline.do")
-	public String appline(Model model) {
-
-		logger.info("ApprovalController 결재라인 등록");
-		List<Department> deptlists = approvalServiceImpl.selectAllDept();
-		List<Emp> emplists = approvalServiceImpl.selectAllEmp();
-		model.addAttribute("deptlists", deptlists);
-		model.addAttribute("emplists", emplists);
-		return "/approval/appline";
-	}
 
 	// 문서 상세 화면으로 이동
 	@GetMapping(value = "/detailmove.do")

@@ -22,7 +22,7 @@ public class WorkRecordController {
 	@RequestMapping(value="/workrecord.do", method = RequestMethod.GET)
 	public String workRecordForm(Model model) {
 		logger.info("근태 화면 이동");
-		WorkRecord record = service.selectworkrecord(1);
+		WorkRecord record = service.selectwr(6);
 		model.addAttribute("record", record);
 		return "attendence/work";
 	}
