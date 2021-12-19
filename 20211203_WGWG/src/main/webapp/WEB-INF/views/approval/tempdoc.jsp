@@ -17,6 +17,7 @@
 			
 			var no = $(this).find('td').eq(0).text();
 			console.log(no);
+			console.log(no);
 			detailAjax(no,"임시저장");
 			
 		});
