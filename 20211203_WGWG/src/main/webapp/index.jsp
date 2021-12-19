@@ -279,6 +279,9 @@ i {
 	width: 800px;
 	height: 150px;
 }
+#content{
+	height: 100%;
+}
 </style>
 
 </head>
@@ -318,12 +321,6 @@ i {
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button" 
               value="./docinsert.do">기안하기</li>
-					<li class="w3-bar-item w3-button"
-						  value="./signlist.do">전자서명 관리</li>
-					<li class="w3-bar-item w3-button"
-						  value="./signinsert.do">전자서명 등록</li>
-					<li class="w3-bar-item w3-button"
-						  value="./signdraw.do">전자서명만들기</li>
 					<li class="w3-bar-item w3-button" 
               value="">결재 진행함</li>
 					<li class="w3-bar-item w3-button" 
@@ -331,13 +328,28 @@ i {
 					<li class="w3-bar-item w3-button"
 						  value="./completedoc.do">결재 완료함</li>
 					<li class="w3-bar-item w3-button" 
-              value="">참조문서함</li>
+              value="./refdoclist.do">참조문서함</li>
 					<li class="w3-bar-item w3-button"
               value="./mydoclist.do">개인문서함</li>
 					<li class="w3-bar-item w3-button"
-               value="">임시문서함</li>
+               value="./tempdoc.do">임시문서함</li>
 				</ul>
 			</li>
+			
+			
+			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자서명
+				<ul class="nav-flyout">
+				
+					<li class="w3-bar-item w3-button"
+						  value="./signlist.do">전자서명 관리</li>
+					<li class="w3-bar-item w3-button"
+						  value="./signinsert.do">전자서명 등록</li>
+					<li class="w3-bar-item w3-button"
+						  value="./signdraw.do">전자서명만들기</li>
+		
+				</ul>
+			</li>
+			
       
 			<li class="w3-bar-item nav1"><i class="fas fa-business-time"></i>근태관리
 				<ul class="nav-flyout">
@@ -390,9 +402,9 @@ i {
 				</ul></li>
 		</ul>
 	</article>
-	<div id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px; width: 900px; height: 700px;">
+	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
 		인덱스 화면
-	</div>
+	</section>
 
 	<footer class="footer">
 		<div class="footer-content">

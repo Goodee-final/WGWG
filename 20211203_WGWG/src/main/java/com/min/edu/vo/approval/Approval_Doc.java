@@ -15,6 +15,7 @@ public class Approval_Doc {
 	private int emp_no;
 	private int form_no;
 	
+	
 	private Form fvo;
 	private Approval_line alvo;
 	

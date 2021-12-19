@@ -9,13 +9,7 @@
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#move-btn1').click(function(){
-				<%session.setAttribute("loc","./signinsert.do");%>
-			});
-		});
-	</script>
+
 
 <title>전자 서명 관리</title>
 <style type="text/css">
