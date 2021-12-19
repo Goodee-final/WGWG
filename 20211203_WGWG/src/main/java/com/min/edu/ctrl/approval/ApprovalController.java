@@ -38,6 +38,7 @@ import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.approval.Approver;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.form.Form;
 import com.min.edu.vo.form.FormClassification;
 import com.min.edu.vo.notice.NoticePageVO;
@@ -84,6 +85,12 @@ public class ApprovalController {
 	      logger.info("ApprovalController 기안하기 문서 작성");
 	      Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
 	      model.addAttribute("empinfo", empinfo);
+	      List<Department> deptlists = approvalServiceImpl.selectAllDept();
+	      List<Emp> emplists = approvalServiceImpl.selectAllEmp();
+	      List<Position> plists = approvalServiceImpl.selectAllPosition();
+	      model.addAttribute("deptlists", deptlists);
+	      model.addAttribute("plists", plists);
+	      model.addAttribute("emplists", emplists);
 	      List<Form> formList = formservice.selectForm();
 	      model.addAttribute("formList", formList);
 	      return "/approval/docinsert";
@@ -102,10 +109,7 @@ public class ApprovalController {
 	   public String appline(Model model) {
 		  
 	      logger.info("ApprovalController 결재라인 등록");
-	      List<Department> deptlists = approvalServiceImpl.selectAllDept();
-	      List<Emp> emplists = approvalServiceImpl.selectAllEmp();
-	      model.addAttribute("deptlists", deptlists);
-	      model.addAttribute("emplists", emplists);
+	      
 	      return "/approval/appline";
 	   }
 
