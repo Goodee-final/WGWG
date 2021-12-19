@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+<!-- mapper(query) xml에서 공통으로 사용하는 type 객체를 Alias로 선언 -->
+<typeAliases>
+	<typeAlias type="com.min.edu.vo.form.FormClassification" alias="formcDto"/>
+	<typeAlias type="com.min.edu.vo.form.Form" alias="formDto"/>
+	<typeAlias type="com.min.edu.vo.attendence.WorkRecord" alias="workRecordDto"/>
+  
+	<typeAlias type="com.min.edu.vo.schedule.ScheduleVO" alias="ScheduleVo"/>
+	<typeAlias type="com.min.edu.vo.schedule.SharedScheduleVO" alias="SharedVo"/>
+	<typeAlias type="com.min.edu.vo.notice.NoticeVO" alias="NoticeVo"/>
+	<typeAlias type="com.min.edu.vo.notice.NoticeFileVO" alias="NoticeFileVo"/>
+  
+	<typeAlias type="com.min.edu.vo.sign.Sign" alias="signDto"/>
+
+	<typeAlias type="com.min.edu.vo.emp.Emp" alias="empvo"/>
+	<typeAlias type="com.min.edu.vo.emp.Department" alias="deptVo"/>
+	<typeAlias type="com.min.edu.vo.emp.Position" alias="pVo"/>
+	
+	<typeAlias type="com.min.edu.vo.approval.Approval_Doc" alias="DocVo"/>
+	
+	<typeAlias type="com.min.edu.vo.worklog.WorkLog" alias="worklogVo"/>
+	
+	<typeAlias type="com.min.edu.vo.approval.Approver" alias="ApproverVo"/>
+</typeAliases>
+	
+<!-- 
+	environments tag를 통해서 DB 접속 정보인 DataSource를 생성해야 하지만 
+	root-context.xml에 <bean class="BasicDataSource">를 통해서 Spring Container가 제어를 가져감
+-->
+
+<!-- SqlSession에서 사용하는 mapper 파일을 연결 -->
+<mappers>
+	<mapper resource="mapper/form_mapper.xml"/>
+  	<mapper resource="mapper/workrecord_mapper.xml"/>
+	<mapper resource="mapper/schedule.xml"/>
+	<mapper resource="mapper/notice.xml"/>
+  
+	<mapper resource="mapper/sign_mapper.xml"/>
+  
+	<mapper resource="mapper/emp_mapper.xml"/>
+	<mapper resource="mapper/emp_seq_mapper.xml"/>
+	
+	<mapper resource="mapper/approval_mapper.xml"/>
+	
+	<mapper resource="mapper/worklog_mapper.xml"/>
+
+</mappers>
+</configuration>

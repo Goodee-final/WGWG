@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.approval.ApprovalDaoImpl">
+	
+	<resultMap type="com.min.edu.vo.emp.Emp" id="AllEmpVo">
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="emp_nm" column="EMP_NM"/>
+		<result property="dept_no" column="DEPT_NO"/>
+		<result property="pVo.position_nm" column="POSITION_NM"/>
+	</resultMap>
+	
+	<resultMap type="com.min.edu.vo.approval.Approval_Doc" id="DocDetailVo">
+		<result property="app_doc_no" column="APP_DOC_NO"/>
+		<result property="app_doc_st" column="APP_DOC_ST"/>
+		<result property="app_line_no" column="APP_LINE_NO"/>
+		<result property="app_doc_reg_dt" column="APP_DOC_REG_DT"/>
+		<result property="app_doc_title" column="APP_DOC_TITLE"/>
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="fvo.form_nm" column="FORM_NM"/>
+		<result property="ref_emp_no" column="REF_EMP_NO"/>
+		<result property="app_doc_content" column="APP_DOC_CONTENT"/>
+		<result property="alvo.approval" column="APPROVAL"/>
+	</resultMap>
+	
+	<resultMap type="com.min.edu.vo.emp.Emp" id="wEmpVo">
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="emp_nm" column="EMP_NM"/>
+		<result property="dVo.dept_nm" column="DEPT_NM"/>
+		<result property="pVo.position_nm" column="POSITION_NM"/>
+	</resultMap>
+	
+	<parameterMap type="com.min.edu.vo.approval.Approval_Doc" id="DocPaging">
+		<parameter property="app_doc_no" />
+		<parameter property="app_doc_st" />
+		<parameter property="paging.pageCnt" />
+		<parameter property="paging.index" />
+		<parameter property="paging.pageStartNum" />
+		<parameter property="paging.listCnt" />
+		<parameter property="paging.total" />
+		<parameter property="paging.app_chk" />
+		<parameter property="paging.searchkeyword" />
+		<parameter property="paging.start" />
+		<parameter property="paging.last" />
+	</parameterMap>
+
+	
+	<select id="selectmyAllDoc" parameterType="java.lang.Integer" resultType="DocVo">
+		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
+			FROM "C##WG".APPROVAL_DOCUMENT WHERE EMP_NO=1 ORDER BY APP_DOC_NO DESC
+	</select>
+
+
+	<select id="selectOneDoc" resultMap="DocDetailVo">
+		SELECT a.APP_DOC_NO, a.APP_DOC_ST, TO_CHAR(a.APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, 
+				a.APP_DOC_TITLE, a.EMP_NO, f.FORM_NM, a.REF_EMP_NO, a.APP_DOC_CONTENT, al.APPROVAL, al.APP_LINE_NO
+			FROM APPROVAL_DOCUMENT a INNER JOIN FORM f ON a.FORM_NO = f.FORM_NO
+									 LEFT OUTER JOIN APPROVAL_LINE al ON a.APP_LINE_NO = al.APP_LINE_NO where a.APP_DOC_NO = #{APP_DOC_NO}
+									 
+	</select>
+	
+	<select id="selectEmpInfo" parameterType="java.lang.Integer" resultMap="wEmpVo">
+		SELECT e.EMP_NO, e.EMP_NM, p.POSITION_NM, d.DEPT_NM
+			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
+							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = #{EMP_NO}
+	</select>
+	
+	<select id="searchdoclist" parameterType="java.lang.String" resultType="DocVo">
+	SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
+			FROM "C##WG".APPROVAL_DOCUMENT WHERE EMP_NO=1 AND LOWER(APP_DOC_TITLE) LIKE LOWER('%'||#{title}||'%') ORDER BY APP_DOC_NO DESC
+	</select>
+	
+	
+	
+	<select id="selectAllEmp" resultMap="AllEmpVo">
+		SELECT e.EMP_NO, e.EMP_NM, e.DEPT_NO, p.POSITION_NM
+			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO ORDER BY p.POSITION_NO DESC
+	</select>
+	
+	<select id="selectAllDept" resultType="deptVo">
+		SELECT DEPT_NM, DEPT_NO
+			FROM "C##WG".DEPARTMENT d ORDER BY DEPT_NO ASC
+	</select>
+	
+	<select id="selectAllPosition" resultType="pVo">
+		SELECT POSITION_NM, POSITION_NO
+			FROM "C##WG".POSITION p ORDER BY POSITION_NO ASC
+	</select>
+	
+	
+	
+	<!--결재자 문서 selectALL    -->
+	<select id="selectAllDocApproval" resultType="DocVo">
+	SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO 
+		FROM APPROVAL_DOCUMENT ad 
+			WHERE APP_LINE_NO IN (
+				SELECT APP_LINE_NO 
+		  			FROM APPROVAL_LINE al, 
+			    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+			               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no',
+			                        APPROVAL_ST  VARCHAR(20) PATH '$.approval_st',
+			                        REASON  VARCHAR(200) PATH '$.reason',
+			                        APPROVAL_DT VARCHAR(200) PATH '$.approval_dt',
+			                        waiting VARCHAR2(4) PATH '$.waiting',
+			                        signimg VARCHAR2(4000) PATH '$.signimg')) AS U
+			                        WHERE U.EMP_NO = #{emp_no}) order by APP_DOC_NO DESC 
+	</select>
+	
+	<!-- 문서 상태에 따른 검색(상신자)-->
+	<select id="selectListDocSt" parameterMap="DocPaging" resultType="DocVo">
+		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO 
+			FROM (
+				SELECT ROWNUM RN, A.*
+					FROM	(
+						SELECT * 
+						FROM APPROVAL_DOCUMENT ad
+						WHERE emp_no = #{emp_no}
+						and APP_DOC_ST = #{app_doc_st}
+						<if test="paging.searchkeyword != null and paging.searchkeyword != ''">
+			 				AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
+			 			</if>   
+						ORDER BY app_doc_no desc 
+					)A
+			) WHERE RN BETWEEN #{paging.start} AND #{paging.last}
+
+	</select>
+	
+	<!-- 결재자 문서 상태에 따른 검색 -->
+	<select id="selectListDocStApp" parameterType="DocVo" resultType="DocVo">
+	SELECT * FROM APPROVAL_DOCUMENT ad 
+		WHERE APP_LINE_NO IN (
+			SELECT APP_LINE_NO 
+	  			FROM APPROVAL_LINE al, 
+		    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+		               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no',
+		                        APPROVAL_ST  VARCHAR(20) PATH '$.approval_st',
+		                        REASON  VARCHAR(200) PATH '$.reason',
+		                        APPROVAL_DT VARCHAR(200) PATH '$.approval_dt',
+		                        waiting VARCHAR2(4) PATH '$.waiting',
+		                        signimg VARCHAR2(4000) PATH '$.signimg')) AS U
+		                        WHERE U.EMP_NO = #{emp_no}) 
+		       and APP_DOC_ST = #{app_doc_st} order by APP_DOC_NO DESC
+	</select>
+	
+	<!-- 결재 대기함 -->
+	<select id="selectListWait" parameterType="ApproverVo" resultType="DocVo">
+	SELECT * 
+	FROM APPROVAL_DOCUMENT ad 
+		WHERE APP_LINE_NO IN (
+			SELECT APP_LINE_NO 
+	  			FROM APPROVAL_LINE al, 
+		    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+		               COLUMNS (emp_no VARCHAR2(100) PATH '$.emp_no',
+		                        approval_st  VARCHAR(20) PATH '$.approval_st',
+		                        reason  VARCHAR(200) PATH '$.reason',
+		                        approval_dt VARCHAR(200) PATH '$.approval_dt',
+		                        waiting VARCHAR2(4) PATH '$.waiting',
+		                        signimg VARCHAR2(4000) PATH '$.signimg')) AS U
+		                        WHERE U.emp_no = #{emp_no} AND U.waiting = #{waiting}) order by APP_DOC_NO DESC
+	</select>
+	
+	<!-- 문서 상태 업데이트 -->
+	<update id="updateDocSt" parameterType="DocVo">
+		UPDATE APPROVAL_DOCUMENT SET
+			APP_DOC_ST = #{app_doc_st} WHERE APP_DOC_NO = #{app_doc_no}
+	</update>
+	
+	<!-- 결재자 JSON 정보 업데이트 -->
+	<update id="updateApproval" parameterType="com.min.edu.vo.approval.Approval_line">
+		UPDATE APPROVAL_LINE 
+		SET APPROVAL = #{approval}
+		WHERE APP_LINE_NO = #{app_line_no}
+	</update>
+	
+	
+	
+	<!-- 페이징 -->
+<!-- 		<select id="selectDocPaging" parameterType="DocVo" resultType="DocVo"> -->
+<!-- 		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO -->
+<!-- 			FROM ( -->
+<!-- 				SELECT ROWNUM RN, A.* -->
+<!-- 					FROM	( -->
+<!-- 						SELECT *  -->
+<!-- 						FROM APPROVAL_DOCUMENT ad -->
+<!-- 						WHERE emp_no = #{emp_no} -->
+<!-- 						and APP_DOC_ST = #{app_doc_st} -->
+<!-- 						ORDER BY app_doc_no desc  -->
+<!-- 					)A -->
+<!-- 			) WHERE RN BETWEEN #{paging.start} AND #{paging.last} -->
+<!-- 			<if test="searchKeyword != null and searchKeyword != ''"> -->
+<!-- 				AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchKeyword}||'%') -->
+<!-- 			</if> -->
+<!-- 	</select> -->
+	
+	
+	   <!-- 총괄페이지 갯수 -->
+   <select id="selectTotalPaging" parameterMap="DocPaging" resultType="java.lang.Integer">
+       SELECT NVL(COUNT(*),0) from
+            APPROVAL_DOCUMENT ad
+						WHERE emp_no = #{emp_no}
+						and APP_DOC_ST = #{app_doc_st}
+           	 <if test="paging.searchkeyword != null and paging.searchkeyword != ''">
+			 	AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
+			 </if>     
+			ORDER BY app_doc_no desc 
+   </select>
+</mapper>
