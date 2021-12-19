@@ -47,7 +47,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	
 	@RequestMapping(value="/login.do",method = RequestMethod.POST)
-	public String login(Emp emp,Model model) throws IOException {
+	public String login(Emp emp,Model model,HttpSession session) throws IOException {
 		logger.info("LoginController @SessionAttribute 사용 {}",emp);
 		
 //		if(bindingResult.hasErrors()) {
@@ -61,6 +61,8 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 				return "emp/loginForm";
 			}
 			model.addAttribute("loginEmp",loginEmp);
+			session.setAttribute("loginEmp", loginEmp.getEmp_no());
+			
 			return "redirect:/";
 			
 	}

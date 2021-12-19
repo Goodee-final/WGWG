@@ -40,4 +40,14 @@ public class FormServiceImpl implements IFormService {
 		return dao.searchFormList(formtitle);
 	}
 
+	@Override
+	public String selectTemplate(int form_no) {
+		return dao.selectTemplate(form_no);
+	}
+
+	@Override
+	public List<Form> selectForm() {
+		return dao.selectForm();
+	}
+
 }

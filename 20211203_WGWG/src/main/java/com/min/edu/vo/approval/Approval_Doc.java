@@ -15,9 +15,11 @@ public class Approval_Doc {
 	private int emp_no;
 	private int form_no;
 	
-	
+	private Approval_Page paging;
 	private Form fvo;
 	private Approval_line alvo;
+	
+	
 	
 	public Approval_Doc() {
 		super();
@@ -66,6 +68,25 @@ public class Approval_Doc {
 		this.alvo = alvo;
 	}
 	
+
+	public Approval_Doc(int app_doc_no, String app_doc_st, String app_doc_reg_dt, String app_doc_title,
+			String ref_emp_no, String app_doc_content, int app_line_no, int app_file_no, int emp_no, int form_no,
+			Approval_Page paging, Form fvo, Approval_line alvo) {
+		super();
+		this.app_doc_no = app_doc_no;
+		this.app_doc_st = app_doc_st;
+		this.app_doc_reg_dt = app_doc_reg_dt;
+		this.app_doc_title = app_doc_title;
+		this.ref_emp_no = ref_emp_no;
+		this.app_doc_content = app_doc_content;
+		this.app_line_no = app_line_no;
+		this.app_file_no = app_file_no;
+		this.emp_no = emp_no;
+		this.form_no = form_no;
+		this.paging = paging;
+		this.fvo = fvo;
+		this.alvo = alvo;
+	}
 
 	public int getApp_doc_no() {
 		return app_doc_no;
@@ -164,6 +185,14 @@ public class Approval_Doc {
 	}
 	
 	
+
+	public Approval_Page getPaging() {
+		return paging;
+	}
+
+	public void setPaging(Approval_Page paging) {
+		this.paging = paging;
+	}
 
 	@Override
 	public String toString() {

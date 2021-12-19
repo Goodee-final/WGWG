@@ -12,4 +12,6 @@ public interface IFormService {
 	public Form selectFormDetail(int form_no);
 	public int insertForm(Form form);
 	public List<Form> searchFormList(String formtitle);
+	public String selectTemplate(int form_class_no);
+	public List<Form> selectForm();
 }

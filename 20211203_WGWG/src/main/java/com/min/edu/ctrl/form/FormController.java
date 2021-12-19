@@ -2,6 +2,7 @@ package com.min.edu.ctrl.form;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.min.edu.model.form.IFormService;
 import com.min.edu.vo.form.Form;
@@ -26,8 +28,6 @@ public class FormController {
 	@Autowired
 	private IFormService service;
 	
-	@Autowired
-	private HttpSession session;
 	
 	@RequestMapping(value="/formlist.do", method=RequestMethod.GET)
 	public String formList(Model model){
@@ -42,7 +42,9 @@ public class FormController {
 		logger.info("양식 상세화면 이동");
 		logger.info("전달받은 양식번호 {}", form_no);
 		Form selectForm = service.selectFormDetail(form_no);
+		String loc = "/formdetail.do";
 		model.addAttribute("selectForm",selectForm);
+		model.addAttribute("loc", loc);
 		return "/form/formdetail";
 	}
 	
@@ -65,7 +67,7 @@ public class FormController {
 //		if(cnt > 0) {
 //			return "/formlist.do";
 //		}
-		return "redirect:/";
+		return "redirect:/formlist.do";
 	}
 	
 	@RequestMapping(value="/formsearch.do", method=RequestMethod.POST)
@@ -74,5 +76,17 @@ public class FormController {
 		List<Form> formList = service.searchFormList(formtitle);
 		model.addAttribute("formList",formList);
 		return "/form/formlist";
+	}
+	
+	@RequestMapping(value="/formselect.do", method=RequestMethod.GET, produces ="application/text; charset=UTF-8")
+	@ResponseBody
+	public String formTemplate(@RequestParam int form_no, Model model, HttpServletResponse response) {
+		response.setCharacterEncoding("UTF-8");
+		logger.info("폼 양식 가져오기 {}", form_no);
+		System.out.println(form_no);
+		String template = service.selectTemplate(form_no);
+		System.out.println(template);
+		return template;
+		
 	}
 }
