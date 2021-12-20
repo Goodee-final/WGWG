@@ -125,20 +125,32 @@
 	</select>
 	
 	<!-- 결재자 문서 상태에 따른 검색 -->
-	<select id="selectListDocStApp" parameterType="DocVo" resultType="DocVo">
-	SELECT * FROM APPROVAL_DOCUMENT ad 
-		WHERE APP_LINE_NO IN (
-			SELECT APP_LINE_NO 
-	  			FROM APPROVAL_LINE al, 
-		    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
-		               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no',
-		                        APPROVAL_ST  VARCHAR(20) PATH '$.approval_st',
-		                        REASON  VARCHAR(200) PATH '$.reason',
-		                        APPROVAL_DT VARCHAR(200) PATH '$.approval_dt',
-		                        waiting VARCHAR2(4) PATH '$.waiting',
-		                        signimg VARCHAR2(4000) PATH '$.signimg')) AS U
-		                        WHERE U.EMP_NO = #{emp_no}) 
-		       and APP_DOC_ST = #{app_doc_st} order by APP_DOC_NO DESC
+	<select id="selectListDocStApp" parameterMap="DocPaging" resultType="DocVo">
+	SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.*
+					FROM(
+						SELECT *
+						FROM APPROVAL_DOCUMENT ad 
+				WHERE APP_LINE_NO IN (
+					SELECT APP_LINE_NO 
+			  			FROM APPROVAL_LINE al, 
+				    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+				               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no',
+				                        APPROVAL_ST  VARCHAR(20) PATH '$.approval_st',
+				                        REASON  VARCHAR(200) PATH '$.reason',
+				                        APPROVAL_DT VARCHAR(200) PATH '$.approval_dt',
+				                        waiting VARCHAR2(4) PATH '$.waiting',
+				                        signimg VARCHAR2(4000) PATH '$.signimg')) AS U
+				                        WHERE U.EMP_NO = #{emp_no}) 
+				       and APP_DOC_ST = #{app_doc_st} 
+				       <if test="paging.searchkeyword != null and paging.searchkeyword != ''">
+			 				AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
+			 			</if>
+				       order by APP_DOC_NO DESC
+					)A
+			) WHERE RN BETWEEN #{paging.start} AND #{paging.last}
+			
 	</select>
 	
 	<!-- 결재 대기함 -->
@@ -172,24 +184,7 @@
 	</update>
 	
 	
-	
-	<!-- 페이징 -->
-<!-- 		<select id="selectDocPaging" parameterType="DocVo" resultType="DocVo"> -->
-<!-- 		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO -->
-<!-- 			FROM ( -->
-<!-- 				SELECT ROWNUM RN, A.* -->
-<!-- 					FROM	( -->
-<!-- 						SELECT *  -->
-<!-- 						FROM APPROVAL_DOCUMENT ad -->
-<!-- 						WHERE emp_no = #{emp_no} -->
-<!-- 						and APP_DOC_ST = #{app_doc_st} -->
-<!-- 						ORDER BY app_doc_no desc  -->
-<!-- 					)A -->
-<!-- 			) WHERE RN BETWEEN #{paging.start} AND #{paging.last} -->
-<!-- 			<if test="searchKeyword != null and searchKeyword != ''"> -->
-<!-- 				AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchKeyword}||'%') -->
-<!-- 			</if> -->
-<!-- 	</select> -->
+
 	
 	
 	   <!-- 총괄페이지 갯수 -->
@@ -203,4 +198,58 @@
 			 </if>     
 			ORDER BY app_doc_no desc 
    </select>
+   
+   <select id="selectTotalPagingApp" parameterMap="DocPaging" resultType="java.lang.Integer">
+   		SELECT NVL(count(*),0) from(
+   			SELECT *
+					FROM	APPROVAL_DOCUMENT ad 
+				WHERE APP_LINE_NO IN (
+					SELECT APP_LINE_NO 
+			  			FROM APPROVAL_LINE al, 
+				    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+				               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no',
+				                        APPROVAL_ST  VARCHAR(20) PATH '$.approval_st',
+				                        REASON  VARCHAR(200) PATH '$.reason',
+				                        APPROVAL_DT VARCHAR(200) PATH '$.approval_dt',
+				                        waiting VARCHAR2(4) PATH '$.waiting',
+				                        signimg VARCHAR2(4000) PATH '$.signimg')) AS U
+				                        WHERE U.EMP_NO = #{emp_no}) 
+				       and APP_DOC_ST = #{app_doc_st} 
+				       <if test="paging.searchkeyword != null and paging.searchkeyword != ''">
+			 				AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
+			 			</if>
+				       order by APP_DOC_NO DESC
+   		)
+   
+   </select>
+   
+   
+   <!-- 참조 -->
+   <select id="selectListRef" parameterMap="DocPaging" resultType="DocVo">
+   	SELECT ROWNUM RN, A.*
+					FROM(
+					SELECT  APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO FROM 
+						APPROVAL_DOCUMENT ad
+							WHERE ad.APP_DOC_NO IN (SELECT r.APP_DOC_NO FROM REFERENCE r WHERE r.EMP_NO = #{emp_no})
+							<if test="paging.searchkeyword != null and paging.searchkeyword != ''">
+			 					AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
+			 				</if>
+							ORDER BY ad.app_doc_no desc
+					)A		
+   </select>
+   
+  <!-- 참조 카운트 -->
+  <select id="selectTotalPagingRef"  parameterMap="DocPaging" resultType="java.lang.Integer">
+	SELECT NVL(count(*),0) from(
+		SELECT * FROM 
+			APPROVAL_DOCUMENT ad, REFERENCE r 
+				WHERE ad.APP_DOC_NO = r.APP_DOC_NO 
+					AND r.EMP_NO =#{emp_no}
+					<if test="paging.searchkeyword != null and paging.searchkeyword != ''">
+			 				AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
+			 			</if>
+					ORDER BY ad.app_doc_no desc
+		);
+  </select>
+   
 </mapper>

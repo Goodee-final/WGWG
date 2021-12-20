@@ -126,4 +126,22 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		return sqlSession.selectOne(NS+"selectTotalPaging", doc);
 	}
 
+	@Override
+	public int selectTotalPagingApp(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPagingApp");
+		return sqlSession.selectOne(NS+"selectTotalPagingApp", doc);
+	}
+
+	@Override
+	public List<Approval_Doc> selectListRef(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 참조 문서 검색 selectListRef");
+		return sqlSession.selectList(NS+"selectListRef", doc);
+	}
+
+	@Override
+	public int selectTotalPagingRef(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPagingApp");
+		return sqlSession.selectOne(NS+"selectTotalPagingRef",doc);
+	}
+
 }

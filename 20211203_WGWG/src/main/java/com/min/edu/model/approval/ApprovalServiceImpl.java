@@ -101,6 +101,21 @@ public class ApprovalServiceImpl implements IApprovalService {
 		return dao.selectTotalPaging(doc);
 	}
 
+	@Override
+	public int selectTotalPagingApp(Approval_Doc doc) {
+		return dao.selectTotalPagingApp(doc);
+	}
+
+	@Override
+	public List<Approval_Doc> selectListRef(Approval_Doc doc) {
+		return dao.selectListRef(doc);
+	}
+
+	@Override
+	public int selectTotalPagingRef(Approval_Doc doc) {
+		return dao.selectTotalPagingRef(doc);
+	}
+
 
 
 }

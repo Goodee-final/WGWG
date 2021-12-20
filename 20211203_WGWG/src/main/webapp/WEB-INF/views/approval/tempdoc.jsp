@@ -10,17 +10,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./js/approve.js" ></script> 
+<script type="text/javascript" src="./js/paging.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$('table tbody tr').click(function(){
-			
-			var no = $(this).find('td').eq(0).text();
-			console.log(no);
-			console.log(no);
-			detailAjax(no,"임시저장");
-			
-		});
+		
+		var state = '임시저장';
+		
+		detailMove(state);
+		
+		search();
+				
+		
 	});
 </script>
 
@@ -52,15 +53,20 @@ th, td {
 	border: 1px solid #ddd
 }
 
-#inputsearch{
+#searchKeyword{
 	border: 1px solid #ddd;
 	font-size: 1.3rem;
 }
 
-#inputsearch:focus {
+#searchKeyword:focus {
 	outline:1px solid #073865;
 }
 
+.test{
+		margin: 0 auto;
+		width: 50%;
+	}
+	
 </style>
 </head>
 <body>
@@ -68,12 +74,12 @@ th, td {
 	<div class="container">
 		<h1>임시 문서함</h1>
 		<br>
-		<form action="./mydoclist.do" method="post">
+<!-- 		<form action="./mydoclist.do" method="post"> -->
 			<ul class="nav nav-pills" style="height: 18px;">
 				<li class="active"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">임시</a></li>
 				<li><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">취소</a></li>
 				<div id="search">
-					<input type="text" placeholder="문서제목으로 검색" id="inputsearch" name="title"> 
+					<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title"> 
 					<input type="submit" id="searchbtn"value="검색">
 				</div>
 			</ul>
@@ -110,7 +116,41 @@ th, td {
 	
 
 			</div>
-		</form>
+			<div class="test">
+				<!-- paging 처리 관련 값 -->
+				<input type="hidden" name="index" id="index" value="${paging.index}">
+				<input type="hidden" name="pageStartNum" id="pageStartNum"
+					value="${paging.pageStartNum}"> <input type="hidden"
+					name="listCnt" id="listCnt" value="${paging.listCnt}">
+					<input type="hidden" name="app_chk" id="app_chk" value="임시"/>
+
+				<div class="center">
+
+					<ul class="pagination">
+
+						<li><a href="#" onclick="pageFirst()">&laquo;</a></li>
+						<li><a href="#"
+							onclick="pagePre(${paging.pageStartNum},${paging.pageCnt})">&lsaquo;</a></li>
+
+						<!-- 페이지 번호 -->
+						<c:forEach var="i" begin="${paging.pageStartNum}"
+							end="${paging.pageLastNum}" step="1">
+						
+							
+								<li><a onclick="pageIndex(${i})">${i}</a></li>													
+					
+						</c:forEach>
+
+						<li><a href="#"
+							onclick="pageNext(${paging.pageStartNum},${paging.total},${paging.listCnt},${paging.pageCnt})">&rsaquo;</a></li>
+						<li><a href="#"
+							onclick="pageLast(${paging.pageStartNum},${paging.total},${paging.listCnt},${paging.pageCnt})">&raquo;</a></li>
+
+					</ul>
+
+				</div>
+			</div>
+<!-- 		</form> -->
 	</div>
 
 </body>

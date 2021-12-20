@@ -63,6 +63,13 @@ th, td {
 	outline:1px solid #073865;
 }
 
+
+.test{
+		margin: 0 auto;
+		width: 28%;
+	}
+	
+
 </style>
 </head>
 <body>
@@ -215,7 +222,12 @@ th, td {
 						<!-- 페이지 번호 -->
 						<c:forEach var="i" begin="${paging.pageStartNum}"
 							end="${paging.pageLastNum}" step="1">
-							<li><a onclick="pageIndex(${i})">${i}</a></li>
+							<c:if test="${empty paging.index}">
+							<li style="color: red; background: white;"><a class="red" style="color: red; background: white;" onclick="pageIndex(${i})">${i}</a></li>
+							</c:if>
+							<c:if test="${!empty paging.index}">
+							<li style="color: red;"><a  style="color: red; background: white;" onclick="pageIndex(${i})">${i}</a></li>
+							</c:if>
 						</c:forEach>
 
 						<li><a href="#"

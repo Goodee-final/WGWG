@@ -34,6 +34,8 @@ public interface IApprovalService {
 	public List<Approval_Doc> selectListDocSt(Approval_Doc doc);
 	//결재대기함
 	public List<Approval_Doc> selectListWait(Approver approver);
+	//참조대기함
+	public List<Approval_Doc> selectListRef(Approval_Doc doc);
 
 	//문서 상태 업데이트
 	public int updateDocSt(Approval_Doc doc);
@@ -45,4 +47,6 @@ public interface IApprovalService {
 	public List<Approval_Doc> selectDocPaging(Approval_Doc doc);
 	//리스트갯수
 	public int selectTotalPaging(Approval_Doc doc);
+	public int selectTotalPagingApp(Approval_Doc doc);
+	public int selectTotalPagingRef(Approval_Doc doc);
 }

@@ -115,7 +115,6 @@ th {
 	width: 75px;
 	height: 75px;
 	border: 1px solid #ddd;
-	"
 }
 
 .signImg:hover {
@@ -135,7 +134,7 @@ th {
 
 	<div class="container">
 		<h1>결재문서상세보기</h1>
-
+		<h1>${docBox}</h1>
 		<hr>
 		<div>
 
@@ -196,9 +195,9 @@ th {
 		<%-- 			<c:if test="${docSt == '참조'}"> --%>
 
 		<%-- 			</c:if> --%>
+		
 		<%-- 			<c:if test="${docSt == '결재대기'}"> --%>
-		<div id="nextbtn">
-			<!-- 			./appresult.do -->
+		<div id="nextbtn">	
 			<button class="btn" id="btn-approve" class="btn-app">승인</button>
 			<button class="btn" id="btn-return" class="btn-app">반려</button>
 		</div>
@@ -276,23 +275,29 @@ th {
 			</div>
 		</div>
 		<%-- 			</c:if> --%>
+		
+		
+		
 		<%-- 			<c:if test="${docSt == '개인' & detaildoc.app_doc_st == '대기'} "> --%>
 
 		<%-- 			</c:if> --%>
 	
+	
+		<div id="Box">
 		<c:if test="${docBox eq '임시저장'}">
 			<div id="nextbtn">
 				<button class="btn" onclick="location.href='./appline.do'">수정</button>
 				<button id="btn-delete" class="btn" >삭제</button>
-
 			</div>
 		</c:if>
+		
+		
 		<c:if test="${docBox eq '개인'}">
 			<div id="nextbtn">
-				
 				<button class="btn" onclick="location.href='./appline.do'">기안취소</button>
 			</div>
 		</c:if>
+		</div>
 
 	</div>
 
@@ -325,7 +330,32 @@ th {
 			var signNo = $(".skyblue").attr('value');
 			console.log(signNo);
 			console.log(${detaildoc.app_doc_no});
-			location.href="./approve.do?signNo="+signNo+"&docNo="+${detaildoc.app_doc_no};
+			
+			var sendData = {"signNo":signNo, "docNo":${detaildoc.app_doc_no}}
+			console.log(sendData);
+			
+			$.ajax({
+				type:"post",
+				url:"./approve.do",
+				data: sendData,
+				success:function(data){
+					var docBox = data["docBox"];
+					var docno = data["docno"];
+					console.log("docBox: "+ data["docBox"]);
+// 					setTimeout(function() {
+// 						alert("승인 되었습니다.");
+// 						}, 1000);
+					alert("승인 되었습니다.");
+					console.log('데이터 왔다감');
+					$('#content').load('./docdetail.do?docBox='+ docBox + "&docno="+docno);
+// 					$('#content').load('./docdetail.do?')
+				},
+				error:function(jqXHR, textStatus, errorThrown){
+					console.log("데이터 왔다갔다 실패!!");
+					alert('오류 발생');
+				}
+			});
+// 			location.href="./approve.do?signNo="+signNo+"&docNo="+${detaildoc.app_doc_no};
 			
 		});
 		

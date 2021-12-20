@@ -1,7 +1,10 @@
 /**
  *
  */
-function pagingAjax() {
+function AppPaging() {
+		
+	var active =  $('.active').attr('val');
+	console.log(active);
 	
 	var app_chk = $('#app_chk').val();
 	var searchKeyword = $('#searchKeyword').val();
@@ -9,26 +12,22 @@ function pagingAjax() {
 	var pageStartNum = $('#pageStartNum').val();
 	var listCnt = $('#listCnt').val();
 	
-	var sendData = { "app_chk": app_chk, "searchKeyword": searchKeyword, "index": index, "pageStartNum": pageStartNum, "listCnt": listCnt }
+	var sendData = { "app_chk": app_chk, "searchKeyword": searchKeyword, "index": index, "pageStartNum": pageStartNum, "listCnt": listCnt, "active": active };
  	console.log(sendData);
 
-	$.ajax({
-		url: "./pagingAjax.do"
-		, method: 'POST'
-		, data: sendData
-		, success: function(data) {
-			console.log("데이터 왔다갔다 성공");
-			var reData = "app_chk: " + data["app_chk"] + "searchKeyword:" + searchKeyword +"index: " + index+ "startNum: " + pageStartNum+ "listCnt: "+ listCnt ;
-			var redata1 = data["app_chk"];
-			var redata2 = data["searchKeyword"];
-			var redata3 = data["index"];
-			var redata4 = data["pageStartNum"];
-			var redata5 = data["listCnt"];
 
-			$('#content').load('./completedoc.do?app_chk=' + redata1 + '&searchKeyword=' + redata2 + '&index=' + redata3 + '&pageStartNum=' + redata4 + '&listCnt=' + redata5);
-		}
-	});
+
+	if(app_chk == '완료'){				
+		$('#content').load('./completedoc.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);
+	}else if(app_chk == '임시'){
+		$('#content').load('./tempdoc.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);
+	}else if(app_chk == '참조'){
+		$('#content').load('./refdoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt);				
+	}
+
 }
+
+
 
 //paging submit 공통
 function frmPaging() {  
@@ -38,7 +37,7 @@ function frmPaging() {
 	
 	}else{
 		
-   		pagingAjax();
+   		AppPaging();
 	}	
 }
 //몇개씩 보여줄 것인지 
