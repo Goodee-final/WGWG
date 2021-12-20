@@ -60,7 +60,7 @@
 		<h1 class="title">양식 목록</h1>
 		<form action="./formsearch.do" method="post">
 			<input type="text" placeholder="제목으로 검색" name="formtitle" id="inputsearch">
-			<input type="submit" value="검색">
+			<input type="submit" value="검색" id="searchbtn">
 		</form>
 		<table class="formList">
 			<tr class="head">

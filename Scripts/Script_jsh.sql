@@ -300,6 +300,20 @@ FROM WORK_RECORD wr JOIN EMP e
 ON wr.EMP_NO = e.EMP_NO 
 WHERE wr.EMP_NO = 6;
 
+UPDATE FORM SET TEMPLATE =
+	TO_CLOB('<table border="1px solid black" style="border-collapse: collapse; width: 1000px;"><tr style="height: 30px;"> <th style="background-color: #bbf3fa; width: 100px;">요일</th><th colspan="3" style="background-color: #bbf3fa;width: 300px;">업무명</th><th colspan="4" style="background-color: #bbf3fa; width: 400px;">업무내용</th></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">월</th><td rowspan="3" colspan="3" style="width: 400px;"></td>')||
+	TO_CLOB('<td rowspan="3" colspan="4" style="width: 500px;"></td></tr> <tr></tr><tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">화</th><td rowspan="3" colspan="3" style="width: 400px;"></td><td rowspan="3" colspan="4" style="width: 500px;"></td></tr><tr></tr> <tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">수</th><td rowspan="3" colspan="3" style="width: 400px;"></td><td rowspan="3" colspan="4" style="width: 500px;"></td></tr><tr></tr><tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">목</th><td rowspan="3" colspan="3" style="width: 400px;"></td><td rowspan="3" colspan="4" style="width: 500px;"></td></tr><tr></tr> <tr></tr> <tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">금</th><td rowspan="3" colspan="3" style="width: 400px;"></td><td rowspan="3" colspan="4" style="width: 500px;"></td> </tr><tr></tr><tr></tr><tr style="height: 30px;"><th colspan="4" style="background-color: #bbf3fa; width: 500px;">비고</th><th colspan="4" style="background-color: #bbf3fa;width: 500px;">차주 업무 계획</th></tr><tr style="height: 120px;"><td rowspan="4" colspan="4" style="width: 500px;"></td><td rowspan="4" colspan="4" style="width: 500px;"></td></tr></table>')
+WHERE FORM_NO = 9;
+
+INSERT INTO TABLE_NAME
+(
+COLUMN_MN
+)
+VALUES
+(
+#COLUMN_NAME#
+)
+
 
 --날짜별 출퇴근시간 조회 쿼리문
 SELECT wr.EMP_NO, e.EMP_NM, 
@@ -312,3 +326,10 @@ WHERE wr.EMP_NO = 6;
 
 --들어가야 하는 값의 형태
 {"WORK_LOG":[{"DATE":"2021-12-19","ST":"2021-12-19 08:59:57","ET":"2021-12-19 18:02:13"},{"DATE":"2021-12-20","ST":"2021-12-20 08:59:57","ET":"2021-12-20 18:02:13"}]}
+
+SELECT e.EMP_NO, e.EMP_NM, p.POSITION_NM, d.DEPT_NM, e.PHOTO
+			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
+							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = 3;
+							
+SELECT * FROM emp WHERE dept_no = 10;
+SELECT * FROM DEPARTMENT d ;

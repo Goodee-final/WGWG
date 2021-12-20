@@ -71,6 +71,8 @@ a {
 	text-decoration: none;
 	width: max-content;
 	height: max-content;
+	color: black;
+	cursor: pointer;
 }
 
 ul {
@@ -78,8 +80,8 @@ ul {
 }
 
 .header {
-	display: block;
-	max-width: 1600px;
+	display: inline-block;
+	width: 100%;
 	height: 80px;
 	margin: 0 auto;
 	padding: 0;
@@ -104,17 +106,9 @@ ul {
 	margin-left: 30px;
 }
 
-.nav li {
-	float: left;
-}
-
-.left {
-	float: left;
-}
 
 .right {
 	color: white;
-	float: right;
 }
 
 .right .nav{
@@ -125,6 +119,7 @@ ul {
 
 .right .nav li {
 	margin-left: 15px;
+	display: inline-block;
 }
 
 .nav-icon {
@@ -331,7 +326,6 @@ i {
 #emp-img {
 	width: 150px;
 	height: 160px;
-	background-color: orange;
 }
 #emp-info {
 	width: 400px;
@@ -339,15 +333,15 @@ i {
 	padding: 30px;
 }
 #emp-info span:first-child{
-	font-size: 1.5em !important;
+	font-size: 1.8em !important;
 }
 
 #emp-info span:nth-child(1),#emp-info span:nth-child(2){
-	font-size: 1.3em !important;
+	font-size: 1.5em !important;
 }
 
 #emp-info button{
-	width: 150px;
+	width: 130px;
 	height: 35px;
 	border-radius: 5px;
 	border:none;
@@ -358,7 +352,7 @@ i {
 	background-color: #073865;
 	color: white;
 	margin-top: 10px;
-	margin-right: 10px;
+	margin-right: 20px;
 	
 }
 #notili{
@@ -377,9 +371,15 @@ i {
 #notili td {
 	text-align: center;
 }
-caption {
-	color: black;
+#allno{
 	font-size: 1.3em;
+}
+#moreno {
+	margin-left: 380px;
+}
+#empphoto{
+	width:150px;
+	height: 160px;
 }
 </style>
 
@@ -487,11 +487,15 @@ caption {
 					<li class="w3-bar-item w3-button" value="">채팅</li>
 					<li class="w3-bar-item w3-button" value="">채팅</li>
 				</ul></li>
-			<li class="w3-bar-item nav1"><i class="fas fa-file"></i>양식함
-				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="./formlist.do">양식목록</li>
-					<li class="w3-bar-item w3-button" value="./forminsert.do">양식등록</li>
-				</ul></li>
+			<c:if test="${emp.dept_no eq 10}">
+					<li class="w3-bar-item nav1"><i class="fas fa-file"></i>양식함
+						<ul class="nav-flyout">
+							<li class="w3-bar-item w3-button" value="./formlist.do">양식목록</li>
+							<li class="w3-bar-item w3-button" value="./forminsert.do">양식등록</li>
+						</ul>
+					</li>
+			</c:if>
+			
 			<li class="w3-bar-item nav1"><i class="fas fa-users"></i>사원관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
@@ -505,11 +509,11 @@ caption {
 		<div id="main-content">
 			<div id="main-content1">
 				<div class="main-loginemp">
-					<div id="emp-img">사원 사진 들어감</div>
+					<div id="emp-img"><img id="empphoto" src="./img/${emp.photo}"></div>
 					<div id="emp-info">
-						<span>이름${loginEmp.emp_nm}</span><br>
-						<span>부서${loginEmp.dept_nm}</span>
-						<span>직급${loginEmp.position_nm}</span><br>
+						<span>${emp.emp_nm}</span><br>
+						<span>${emp.dVo.dept_nm}</span>
+						<span>${emp.pVo.position_nm}</span><br>
 						<button type="button" id="on">출근하기</button>
 						<button type="button" id="off">퇴근하기</button>
 					</div>
@@ -520,13 +524,14 @@ caption {
 			</div>
 			<div id="main-content2">
 				<div class="main-notice">
+				<span id="allno">전체공지사항</span>
+				<span id="moreno"><a href="./noticeList.do">더보기</a></span>
 					<table id="notili">
-					<caption>회사공지사항</caption>
 						<tbody>
 							<c:forEach var="notice" items="${noticeList}">
 								<tr>
 									<td>${notice.notice_no}</td>
-									<td>${notice.notice_title}</td>
+									<td><a href="./detailnotice.do?notice_no=${notice.notice_no}">${notice.notice_title}</a></td>
 									<td>등록일: ${notice.notice_reg_dt}</td>
 								</tr>
 							</c:forEach>

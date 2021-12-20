@@ -63,7 +63,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 			model.addAttribute("loginEmp",loginEmp);
 			session.setAttribute("loginEmp", loginEmp.getEmp_no());
 			
-			return "redirect:/";
+			return "redirect:/home.do";
 			
 	}
 	

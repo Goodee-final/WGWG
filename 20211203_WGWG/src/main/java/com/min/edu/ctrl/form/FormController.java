@@ -44,7 +44,6 @@ public class FormController {
 		Form selectForm = service.selectFormDetail(form_no);
 		String loc = "/formdetail.do";
 		model.addAttribute("selectForm",selectForm);
-		model.addAttribute("loc", loc);
 		return "/form/formdetail";
 	}
 	
@@ -62,6 +61,7 @@ public class FormController {
 		System.out.println(content);
 		System.out.println(formclassification);
 		System.out.println(title);
+		System.out.println(content.length());
 		Form form = new Form(title, content, formclassification);
 		int cnt = service.insertForm(form);
 //		if(cnt > 0) {

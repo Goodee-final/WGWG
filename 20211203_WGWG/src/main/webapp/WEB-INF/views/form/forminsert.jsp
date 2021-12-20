@@ -59,44 +59,42 @@ $(function(){
 		color: white;
 		
 	}
-	#savebtn {
+	#save {
 		width: 100px;
 		height: 35px;
 		border-radius: 5px;
 		border: 1px solid #ddd;
 		background-color: #073865;
 		margin-top: 20px;
-		margin-left: 800px;
+		margin-left: 750px;
 		color: white;
 	}
+	#formcselect{
+		width: 150px;
+		height: 35px;
+		border: 1px solid #ccc;
+		margin-bottom: 10px;
+	}
+	#title{
+		width: 935px;
+		height: 40px;
+		margin-bottom: 20px;
+	}
+	
 </style>
 </head>
 <body>
 	<div class="container">
 		<h1 class="title">양식 등록</h1>
 		<form id="frm" action="./insertform.do" method="post" >
-		<table class="editor">
-			<tr>
-				<td>문서분류</td>
-				<td>
-					<select name="formclassification">
+					양식분류 <select name="formclassification" id="formcselect">
 						<c:forEach items="${fclist}" var="list">
 							<option value="${list.form_class_no}">${list.form_class_nm}</option>
 						</c:forEach>
 					</select>
-				</td>
-			<tr>
-	        <tr>
-	            <td>제목</td>
-	            <td><input type="text" id="title" name="title" style="width:650px"/></td>
-	        </tr>
-	        <tr>
-	            <td>내용</td>
-	            <td>
-	                <textarea rows="20" cols="40" id="ir1" name="content" style="width:650px; height:350px; "></textarea>
-	            </td>
-	        </tr>
-		</table>
+				<br>	
+	            양식제목 <input type="text" id="title" name="title"/>
+	                <textarea rows="20" cols="135" id="ir1" name="content"></textarea>
 		<input id="save" type="submit" value="저장">
 		<input type="button" id="backbtn" onclick="location.href='./formlist.do'" value="목록으로 돌아가기">
 		</form>
