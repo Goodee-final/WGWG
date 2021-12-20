@@ -447,7 +447,7 @@ i {
 					<li class="w3-bar-item w3-button "
 						value="./insert_emp_form.do">사원등록</li>
 					<li class="w3-bar-item w3-button "
-						value="">사원조회</li>
+						value="./empList.do">사원조회</li>
 				</ul></li>
 		</ul>
 	</article>

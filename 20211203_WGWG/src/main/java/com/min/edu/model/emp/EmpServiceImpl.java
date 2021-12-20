@@ -1,10 +1,13 @@
 package com.min.edu.model.emp;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.paging.PageVO;
 
 @Service
 public class EmpServiceImpl implements IEmpService {
@@ -41,6 +44,21 @@ public class EmpServiceImpl implements IEmpService {
 	@Override
 	public Emp selectInsertEmpInfo(int emp_no) {
 		return dao.selectInsertEmpInfo(emp_no);
+	}
+
+	@Override
+	public List<Emp> selectEmpAll() {
+		return dao.selectEmpAll();
+	}
+
+	@Override
+	public List<Emp> selectPaging(PageVO paging) {
+		return dao.selectPaging(paging);
+	}
+
+	@Override
+	public int selectTotalPaging() {
+		return dao.selectTotalPaging();
 	}
 
 }

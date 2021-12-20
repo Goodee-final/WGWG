@@ -36,7 +36,10 @@ function frmPaging() {
    	if(document.getElementById('frmPaging')){
  	  document.getElementById('frmPaging').submit();
 	
-	}else{
+	}else if(document.getElementById('emppaging')){
+		
+	}
+	else{
 		
    		pagingAjax();
 	}	

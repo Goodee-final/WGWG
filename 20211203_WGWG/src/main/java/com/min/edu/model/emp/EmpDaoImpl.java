@@ -1,6 +1,8 @@
 package com.min.edu.model.emp;
 
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.paging.PageVO;
 
 @Repository
 public class EmpDaoImpl implements IEmpDao {
@@ -51,6 +54,22 @@ public class EmpDaoImpl implements IEmpDao {
 	@Override
 	public Emp selectInsertEmpInfo(int emp_no) {
 		return sqlSession.selectOne(NS+"selectInsertEmpInfo",emp_no);
+	}
+
+	@Override
+	public List<Emp> selectEmpAll() {
+		logger.info("EmpDaoImpl  selectEmpAll");
+		return sqlSession.selectList(NS+"selectEmpAll");
+	}
+
+	@Override
+	public List<Emp> selectPaging(PageVO paging) {
+		return sqlSession.selectList(NS+"selectPaging",paging);
+	}
+
+	@Override
+	public int selectTotalPaging() {
+		return sqlSession.selectOne(NS+"selectTotalPaging");
 	}
 
 	
