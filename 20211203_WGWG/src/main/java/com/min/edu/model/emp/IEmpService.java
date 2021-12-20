@@ -4,6 +4,7 @@ package com.min.edu.model.emp;
 import java.util.List;
 
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Emp_Page;
 import com.min.edu.vo.paging.PageVO;
 
 public interface IEmpService {
@@ -22,7 +23,7 @@ public interface IEmpService {
 	
 	public List<Emp> selectEmpAll();
 	
-	public List<Emp> selectPaging(PageVO paging);
+	public List<Emp> selectPaging(Emp_Page paging);
 	
 	public int selectTotalPaging();
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Emp_Page;
 import com.min.edu.vo.paging.PageVO;
 
 @Repository
@@ -63,7 +64,7 @@ public class EmpDaoImpl implements IEmpDao {
 	}
 
 	@Override
-	public List<Emp> selectPaging(PageVO paging) {
+	public List<Emp> selectPaging(Emp_Page paging) {
 		return sqlSession.selectList(NS+"selectPaging",paging);
 	}
 

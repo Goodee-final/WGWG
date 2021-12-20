@@ -9,11 +9,27 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="./css/paging.css" >
 <script type="text/javascript" src="./js/paging.js"></script>
+<style type="text/css">
+	#searchBy{
+		display: inline-block;
+		width: 110px;
+	}
+	#searchWord {
+		display: inline-block;
+		width: 300px;
+	}
+</style>
 <title>Insert title here</title>
 </head>
 <body>
 <div class="container">
   <h2 id="emppaging">사원목록</h2>
+  <select id="searchBy" class="form-control">
+  	<option value=1>사원번호</option>
+  	<option value=2>이름</option>
+  	<option value=3>부서</option>
+  </select>
+  <input type="search" class="form-control" id="searchWord" placeholder="검색 내용을 입력해주세요.">
   <table class="table table-hover">
     <thead>
       <tr>

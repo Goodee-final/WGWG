@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Emp_Page;
 import com.min.edu.vo.paging.PageVO;
 
 @Service
@@ -52,7 +53,7 @@ public class EmpServiceImpl implements IEmpService {
 	}
 
 	@Override
-	public List<Emp> selectPaging(PageVO paging) {
+	public List<Emp> selectPaging(Emp_Page paging) {
 		return dao.selectPaging(paging);
 	}
 

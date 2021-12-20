@@ -20,6 +20,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.min.edu.model.emp.IEmpService;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Emp_Page;
 import com.min.edu.vo.emp.UploadFile;
 import com.min.edu.vo.paging.PageVO;
 
@@ -138,10 +139,12 @@ public class EmpController {
 	@GetMapping(value="/empList.do")
 	public String selectAll(Model model,HttpServletRequest req) {
 		logger.info("empList 사원 전체 조회 화면 이동");
-		PageVO paging = new PageVO(
+		Emp_Page paging = new Emp_Page(
 				req.getParameter("index"),
 				req.getParameter("pageStartNum"),
-				req.getParameter("listCnt")
+				req.getParameter("listCnt"),
+				req.getParameter("searchBy"),
+				req.getParameter("searchWord")
 				);
 		logger.info("페이징 DTO 값 : {}",paging.toString());
 		

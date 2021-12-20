@@ -75,22 +75,40 @@
 			WHERE EMP_NO=#{emp_no}
 	</update>
 	
-	<select id="selectPaging" parameterType="com.min.edu.vo.paging.PageVO" resultType="empvo">
-		SELECT *
-			FROM (
-				SELECT e.*, ROW_NUMBER () OVER(ORDER BY EMP_NO DESC) RNUM
-					FROM EMP e
-					<!-- <if test="paging.searchkeyword != null and paging.searchkeyword != ''">
-			 			WHERE LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
-			 		</if> --> 
-			)WHERE RNUM BETWEEN #{start} AND #{last}
+	<select id="selectPaging" parameterType="com.min.edu.vo.emp.Emp_Page" resultType="empvo">
+	SELECT DEPT_NM,EMP_NO,EMP_NM,POSITION_NM 
+	FROM (
+		SELECT ROW_NUMBER() OVER(ORDER BY e.EMP_NO) RNUM, e.*,d.*,p.* 
+			FROM EMP e , DEPARTMENT d,"POSITION" p 
+			<if test="paging.searchBy == '' and paging.searchWord == ''">
+				WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO ORDER BY e.EMP_NO
+			</if>
+			<if test="paging.searchBy == '사원번호' and paging.searchWord != ''">
+				FROM EMP e , DEPARTMENT d,"POSITION" p WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND e.EMP_NO LIKE LOWER('%'||#{paging.searchWord}||'%') ORDER BY e.EMP_NO
+			</if>
+			<if test="paging.searchBy == '이름' and paging.searchWord != ''">
+				FROM EMP e , DEPARTMENT d,"POSITION" p WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND e.EMP_NM LIKE LOWER('%'||#{paging.searchWord}||'%') ORDER BY e.EMP_NO
+			</if>
+			<if test="paging.searchBy == '부서' and paging.searchWord != ''">
+			FROM EMP e , DEPARTMENT d,"POSITION" p WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND d.DEPT_NM LIKE LOWER('%'||#{paging.searchWord}||'%') ORDER BY e.EMP_NO
+			</if>
+			) WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 
 
 	<select id="selectTotalPaging" resultType="java.lang.Integer">
 		SELECT NVL(COUNT(*),0) FROM EMP
-		<!-- <if test="paging.searchkeyword != null and paging.searchkeyword != ''">
-			 	WHERE LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
-			 </if>  -->
+		<if test="paging.searchBy == '' and paging.searchWord == ''">
+			 WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO
+		</if>
+		<if test="paging.searchBy == '사원번호' and paging.searchWord != ''">
+			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND e.EMP_NO LIKE LOWER('%'||#{paging.searchWord}||'%')
+		</if>
+		<if test="paging.searchBy == '이름' and paging.searchWord != ''">
+			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND e.EMP_NM LIKE LOWER('%'||#{paging.searchWord}||'%')
+		</if>
+		<if test="paging.searchBy == '부서' and paging.searchWord != ''">
+			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND d.DEPT_NM LIKE LOWER('%'||#{paging.searchWord}||'%')
+		</if>
 	</select>
 </mapper>
