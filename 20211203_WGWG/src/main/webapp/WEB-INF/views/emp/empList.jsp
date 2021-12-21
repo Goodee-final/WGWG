@@ -24,12 +24,14 @@
 <body>
 <div class="container">
   <h2 id="emppaging">사원목록</h2>
-  <select id="searchBy" class="form-control">
-  	<option value=1>사원번호</option>
-  	<option value=2>이름</option>
-  	<option value=3>부서</option>
+  	<select name="searchBy" id="searchBy" class="form-control">
+  	<option value="0" selected>전체보기</option>
+  	<option value="1">사원번호</option>
+  	<option value="2">이름</option>
+  	<option value="3">부서</option>
   </select>
-  <input type="search" class="form-control" id="searchWord" placeholder="검색 내용을 입력해주세요.">
+  <input type="search" class="form-control" name="searchWord" id="searchWord" placeholder="검색 내용을 입력해주세요.">
+  <input type="button" class="btn" value="검색" onclick="empListCnt()">
   <table class="table table-hover">
     <thead>
       <tr>
@@ -58,7 +60,6 @@
 			<ul class="pagination">
 				<li><a href="#" onclick="pageFirst()">&laquo;</a></li>
 				<li><a href="#" onclick="pagePre(${paging.pageStartNum},${paging.pageCnt})">&lsaquo;</a></li>
-
 				<!-- 페이지 번호 -->
 				<c:forEach var="i" begin="${paging.pageStartNum}" end="${paging.pageLastNum}">
 					<li><a onclick="pageIndex(${i})">${i}</a></li>

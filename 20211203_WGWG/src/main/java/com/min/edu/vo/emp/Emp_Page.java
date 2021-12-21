@@ -15,7 +15,7 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 	private int listCnt; //출력할 리스트 갯수(1페이지에 몇개씩 보일지)
 	private int total; //리스트의 총 갯수(총 갯수를 리스트 갯수로 나눠야 페이지 수가 나온다)
 
-	private String serchBy;
+	private String searchBy;
 	private String searchWord;
 	
 	{
@@ -24,6 +24,9 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 		index = 0;
 		pageStartNum = 1;
 		listCnt = 5;
+		searchBy= "0";
+		searchWord = "";
+		
 	}
 	
 	
@@ -32,7 +35,7 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 
 
-	public Emp_Page(String index, String pageStartNum, String listCnt, String serchBy, String searchWord) {
+	public Emp_Page(String index, String pageStartNum, String listCnt, String searchBy, String searchWord) {
 		logger.info("================== PagingDto 생성자 호출 시간 ================== {}",new Date());
 		
 		if(index != null) {
@@ -44,8 +47,8 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 		if(listCnt != null) {
 			this.listCnt = Integer.parseInt(listCnt);
 		}
-		if(serchBy != null) {
-			this.serchBy = serchBy;
+		if(searchBy != null) {
+			this.searchBy = searchBy;
 		}
 		if(searchWord != null) {
 			this.searchWord = searchWord;
@@ -54,7 +57,7 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	
 
-	public Emp_Page(int pageCnt, int index, int pageStartNum, int listCnt, int total, String serchBy,
+	public Emp_Page(int pageCnt, int index, int pageStartNum, int listCnt, int total, String searchBy,
 			String searchWord) {
 		super();
 		this.pageCnt = pageCnt;
@@ -62,7 +65,7 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 		this.pageStartNum = pageStartNum;
 		this.listCnt = listCnt;
 		this.total = total;
-		this.serchBy = serchBy;
+		this.searchBy = searchBy;
 		this.searchWord = searchWord;
 	}
 
@@ -142,12 +145,12 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 		this.total = total;
 	}
 	
-	public String getSerchBy() {
-		return serchBy;
+	public String getSearchBy() {
+		return searchBy;
 	}
 
-	public void setSerchBy(String serchBy) {
-		this.serchBy = serchBy;
+	public void setSearchBy(String searchBy) {
+		this.searchBy = searchBy;
 	}
 
 	public String getSearchWord() {

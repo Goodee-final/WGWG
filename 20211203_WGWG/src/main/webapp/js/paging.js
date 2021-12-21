@@ -41,8 +41,10 @@ function frmPaging() {
 	}
 	else{
 		
-   		pagingAjax();
+   		//pagingAjax();
+		empPaging();
 	}	
+	
 }
 //몇개씩 보여줄 것인지 
 function listCnt(){
@@ -59,6 +61,26 @@ function nchk(){
 	document.getElementById("searchKeyword").value=document.getElementById("searchKeyword").value
 	frmPaging();
 }
+function empListCnt(){
+	document.getElementById("index").value=0;
+	document.getElementById("pageStartNum").value=1;
+	document.getElementById("listCnt").value=document.getElementById("listCount").value;	
+	document.getElementById("searchBy").value=document.getElementById("searchBy").value;		
+	document.getElementById("searchWord").value=document.getElementById("searchWord").value;
+	frmPaging();
+}
+
+function empPaging(){
+   
+   var index = $('#index').value;
+   var pageStartNum = $('#pageStartNum').value;
+   var listCnt = $('#listCnt').value;
+   var searchBy = $('#searchBy').value;
+   var searchWord = $('#searchWord').value;
+   console.log("select Box : "+searchBy + "검색어 : " + searchWord);
+   $('#content').load('./empList.do?searchWord=' + searchWord + '&searchBy=' + searchBy + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt);            
+}
+
 function pageFirst() {
 	var index = document.getElementById('index');
 	var pageStartNum = document.getElementById('pageStartNum');

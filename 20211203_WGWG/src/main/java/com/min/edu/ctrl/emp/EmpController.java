@@ -22,7 +22,6 @@ import com.min.edu.model.emp.IEmpService;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Emp_Page;
 import com.min.edu.vo.emp.UploadFile;
-import com.min.edu.vo.paging.PageVO;
 
 @Controller
 public class EmpController {
@@ -146,6 +145,7 @@ public class EmpController {
 				req.getParameter("searchBy"),
 				req.getParameter("searchWord")
 				);
+		logger.info("%%%%%%%%%%%%%%%%%%%%%%"+req.getParameter("searchBy")); //null
 		logger.info("페이징 DTO 값 : {}",paging.toString());
 		
 		paging.setTotal(service.selectTotalPaging());
