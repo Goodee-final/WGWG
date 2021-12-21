@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.notice.NoticeFileVO;
 import com.min.edu.vo.notice.NoticePageVO;
 import com.min.edu.vo.notice.NoticeVO;
@@ -110,6 +111,12 @@ public class NoticeDaoImpl implements INoticeDao {
 	public int insertNoticeCompany(NoticeVO vo) {
 		logger.info("공지사항 회사글 등록 insertNoticeCompany {}",vo);
 		return sqlSession.insert(NS+"insertNoticeCompany",vo);
+	}
+
+	@Override
+	public Emp selectEList(int emp_no) {
+		logger.info("emp리스트 {}",emp_no);
+		return sqlSession.selectOne(NS+"selectEList",emp_no);
 	}
 
 	
