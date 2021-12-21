@@ -58,27 +58,52 @@ public class ApprovalController {
 	   @Autowired
 	   private HttpSession session;  
 	   
-	   @GetMapping(value="/mydoclist.do")
-	   public String doclist(Model model) {
+	   
+	   @RequestMapping(value="/mydoclist.do", method = {RequestMethod.GET, RequestMethod.POST})
+	   public String doclist(Model model, HttpServletRequest request) {
 		  //session.setAttribute("userid", "USER25");
 		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
 		  
+		  Approval_Doc doc = new Approval_Doc();
+		  int empno = 1;
+		  doc.setEmp_no(empno);
+//		  doc.setApp_doc_st("완료");
+		   
 	      logger.info("ApprovalController 전체글 조회 List");
-	      List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(1);
 	      
+	      Approval_Page paging = new Approval_Page(
+	               request.getParameter("index"),
+	               request.getParameter("pageStartNum"),
+	               request.getParameter("listCnt"),
+	               request.getParameter("app_chk"),
+	               request.getParameter("searchKeyword"),
+	               request.getParameter("active")
+	            );
+		doc.setPaging(paging);
+		List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(doc);
+		paging.setTotal(approvalServiceImpl.selectTotalPagingAll(doc));
+		
+		System.out.println(paging);
+	      
+		model.addAttribute("paging",paging);
 	      model.addAttribute("doclists", doclists);
+	      
+	      session.setAttribute("loc", "./approval/mydoclist");
+	      
 	      return "/approval/mydoclist";
 	   }
 	   
-		@PostMapping(value = "/mydoclist.do")
-		public String searchdoclist(String title, Model model) {
-			int empno = 1;
-			logger.info("ApprovalController 문서 제목 검색 List");
-			System.out.println(title);
-			List<Approval_Doc> doclists = approvalServiceImpl.searchdoclist(title, empno);
-			model.addAttribute("doclists", doclists);
-			return "/approval/mydoclist";
-		}
+//		@PostMapping(value = "/mydoclist.do")
+//		public String searchdoclist(String title, Model model) {
+//			int empno = 1;
+//			logger.info("ApprovalController 문서 제목 검색 List");
+//			
+//			
+//			System.out.println(title);
+//			List<Approval_Doc> doclists = approvalServiceImpl.searchdoclist(title, empno);
+//			model.addAttribute("doclists", doclists);
+//			return "/approval/mydoclist";
+//		}
 	   
 	   @GetMapping(value="/docinsert.do")
 	   public String docinsert(Model model) {
@@ -142,23 +167,35 @@ public class ApprovalController {
 		System.out.println("form 이름 : " + detaildoc.getFvo().getForm_nm());
 		System.out.println(detaildoc.getFvo().getForm_no());
 
+		//결재자 정보
+		System.out.println("라인넘버: " + detaildoc.getApp_line_no());
+		List<Approver> approver = approvalServiceImpl.selectSignList(detaildoc.getApp_line_no());
+		System.out.println(approver);
+		
+		List<Emp> appInfo = new ArrayList<Emp>();
+		for (Approver app : approver) {
+			appInfo.add(approvalServiceImpl.selectEmpInfo(app.getEmp_no()));
+		}
+		
+		
 		// 작성자 회원 정보
 		Emp empinfo = approvalServiceImpl.selectEmpInfo(detaildoc.getEmp_no());
 
 		// 참조인 배열
 		String ref = detaildoc.getRef_emp_no();
+		System.out.println(ref);
 
 		String[] str = ref.split(",");
 		List<String> reflist = null;
 
-//		for (int i = 0; i < str.length; i++) {
-//			System.out.println("i번째 문자: " + str[i]);
-//
-//			Emp emp = approvalServiceImpl.selectEmpInfo(Integer.parseInt(str[i]));
-//			String name = emp.getEmp_nm();
-//			System.out.println("회원번호: " + str[i] + ", 회원이름 : " + name);
-//			str[i] = name;
-//		}
+		for (int i = 0; i < str.length; i++) {
+			System.out.println("i번째 문자: " + str[i]);
+
+			Emp emp = approvalServiceImpl.selectEmpInfo(Integer.parseInt(str[i]));
+			String name = emp.getEmp_nm();
+			System.out.println("회원번호: " + str[i] + ", 회원이름 : " + name);
+			str[i] = name;
+		}
 
 		// 서명 정보
 		List<Sign> signlist = signdao.selectSignList(1);
@@ -168,6 +205,8 @@ public class ApprovalController {
 		model.addAttribute("refName", str);
 		model.addAttribute("detaildoc", detaildoc);
 		model.addAttribute("docBox", docBox);
+		model.addAttribute("approver",approver);
+		model.addAttribute("appInfo",appInfo);
 		session.setAttribute("loc", "./docdetail.do?docno=" + docno);
 		return "/approval/docdetail";
 	}
@@ -220,7 +259,9 @@ public class ApprovalController {
 
 		int dataCNT = element.getAsJsonObject().get("APPROVAL").getAsJsonArray().size();
 		Approver approver = null;
+		
 		String approval = "{\"APPROVAL\":[";
+		
 		for (int i = 0; i < dataCNT; i++) {
 
 			JsonObject temp = element.getAsJsonObject().get("APPROVAL").getAsJsonArray().get(i).getAsJsonObject();
@@ -260,7 +301,7 @@ public class ApprovalController {
 							empJson3.getAsString(), // 반려 사유
 							empJson4.getAsString(), // 결재일
 							"y", // 대기 여부
-							empJson6.getAsString() // 결재일
+							empJson6.getAsString() // 전자서명
 							
 					);
 					flag = false;

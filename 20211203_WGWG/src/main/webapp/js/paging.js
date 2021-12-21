@@ -13,20 +13,29 @@ function AppPaging() {
 	var listCnt = $('#listCnt').val();
 	
 	var sendData = { "app_chk": app_chk, "searchKeyword": searchKeyword, "index": index, "pageStartNum": pageStartNum, "listCnt": listCnt, "active": active };
- 	console.log(sendData);
+ 	alert("Hello world!");
+	console.log(sendData);
 
 
 
-	if(app_chk == '완료'){				
+	if(app_chk == '완료'){		
+		alert('안녕');		
+		console.log('안녕');
 		$('#content').load('./completedoc.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);
 	}else if(app_chk == '임시'){
+		alert('안녕');
+		console.log('안녕');
 		$('#content').load('./tempdoc.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);
 	}else if(app_chk == '참조'){
+		alert('안녕');
+		console.log('안녕');
 		$('#content').load('./refdoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt);				
+	}else if(app_chk == '개인'){
+		console.log('안녕');
+		$('#content').load('./mydoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);
 	}
 
 }
-
 
 
 //paging submit 공통

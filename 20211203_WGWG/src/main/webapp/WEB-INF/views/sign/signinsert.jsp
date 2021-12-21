@@ -18,6 +18,7 @@
 	var sel_file;
 
 	
+	
 	var cloneObj = $("#input_img").clone();
 	
 	$(document).ready(function() {
@@ -27,7 +28,11 @@
 		
 		$("#profileImg").click(function() {
 			$("#input_img").click();
-		})
+		});
+		
+		$('#cancleSign').click(function(){
+			$('#content').load('./signlist.do');
+		});
 	});
 	
 	
@@ -67,6 +72,8 @@
 				$("#input_img").html(cloneObj.html());
 			
 		});	
+		
+	
 		
 		
 
@@ -142,8 +149,8 @@
 				</tbody>
 			</table>
 			<input type="submit" id="uploadBtn" class="btn btn-primary"
-				value="저장하기"> <input type="button" class="btn btn-primary"
-				value="취소하기" onclick="href.location='sign'">
+				value="저장하기"> <input type="button" id="cancleSign" class="btn btn-primary"
+				value="취소하기">
 			${savedFileName}
 
 		</form>

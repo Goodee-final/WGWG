@@ -64,7 +64,7 @@ th, td {
 
 .test{
 		margin: 0 auto;
-		width: 50%;
+		width: 28%;
 	}
 	
 </style>
@@ -116,13 +116,14 @@ th, td {
 	
 
 			</div>
+				
 			<div class="test">
 				<!-- paging 처리 관련 값 -->
 				<input type="hidden" name="index" id="index" value="${paging.index}">
 				<input type="hidden" name="pageStartNum" id="pageStartNum"
 					value="${paging.pageStartNum}"> <input type="hidden"
 					name="listCnt" id="listCnt" value="${paging.listCnt}">
-					<input type="hidden" name="app_chk" id="app_chk" value="임시"/>
+					<input type="hidden" name="app_chk" id="app_chk" value="임시저장"/>
 
 				<div class="center">
 
@@ -133,12 +134,15 @@ th, td {
 							onclick="pagePre(${paging.pageStartNum},${paging.pageCnt})">&lsaquo;</a></li>
 
 						<!-- 페이지 번호 -->
-						<c:forEach var="i" begin="${paging.pageStartNum}"
+							<c:forEach var="i" begin="${paging.pageStartNum}"
 							end="${paging.pageLastNum}" step="1">
-						
 							
-								<li><a onclick="pageIndex(${i})">${i}</a></li>													
-					
+							<c:if test="${paging.index+1 == i}">
+							<li style="background: #eee;"><a style="background: #eee;" onclick="pageIndex(${i})">${i}</a></li>
+							</c:if>
+							<c:if test="${paging.index+1 != i}">
+							<li><a onclick="pageIndex(${i})">${i}</a></li>
+							</c:if>
 						</c:forEach>
 
 						<li><a href="#"

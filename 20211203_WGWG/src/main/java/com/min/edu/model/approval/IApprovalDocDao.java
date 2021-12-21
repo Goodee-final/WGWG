@@ -15,7 +15,7 @@ public interface IApprovalDocDao {
 	
 
 	//전체문서 출력
-	public List<Approval_Doc> selectmyAllDoc(int empno);
+	public List<Approval_Doc> selectmyAllDoc(Approval_Doc doc);
 	//문서 검색
 	public List<Approval_Doc> searchdoclist(String title, int empno);
 	//문서 상세
@@ -53,4 +53,8 @@ public interface IApprovalDocDao {
 	public int selectTotalPaging(Approval_Doc doc);
 	public int selectTotalPagingApp(Approval_Doc doc);
 	public int selectTotalPagingRef(Approval_Doc doc);
+	public int selectTotalPagingAll(Approval_Doc doc);
+	
+	//결재자 서명 리스트
+	public List<Approver> selectSignList(int appLineNo);
 }

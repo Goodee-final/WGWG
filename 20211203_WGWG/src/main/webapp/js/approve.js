@@ -33,3 +33,9 @@ function search(active){
 		pagingAjax();
 	});
 }
+
+function detail(no){
+	e.preventDefault();
+	$('#content').load("./detailnotice.do?notice_no="+no);
+}
+

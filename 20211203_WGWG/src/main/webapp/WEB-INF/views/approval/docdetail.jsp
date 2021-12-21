@@ -135,6 +135,33 @@ th {
 	<div class="container">
 		<h1>결재문서상세보기</h1>
 		<h1>${docBox}</h1>
+		<table>
+		<tr>
+		<c:forEach var="app" items="${appInfo}" varStatus="status">
+		
+			<td style="width: 77px; height: 77px;">
+				<c:if test="${approver[status.index].signimg != null}" >
+					<img src="img/sign/${approver[status.index].signimg}" style="width: 60px; height: 60px;">				
+				</c:if>
+			</td>
+		</c:forEach>
+			</tr>
+			<tr>
+			<c:forEach var="app" items="${appInfo}" varStatus="status">
+				
+				<td>
+					<c:if test="${appInfo[status.index].emp_nm != null }">
+						<p>${appInfo[status.index].pVo.position_nm}<br>
+						${appInfo[status.index].emp_nm }</p>
+					</c:if>
+				</td>
+			</c:forEach>
+			</tr>
+		</table>
+<%-- 		<c:forEach var="app" items="approver"> --%>
+<%-- 			<img src="img/sign/${app.signimg}" style="width: 75px; height: 75px;"> --%>
+<%-- 		</c:forEach> --%>
+		
 		<hr>
 		<div>
 
@@ -192,9 +219,32 @@ th {
 			${detaildoc.app_doc_content}
 			</textarea>
 
-		<%-- 			<c:if test="${docSt == '참조'}"> --%>
+		<c:if test="${docSt == '참조'}">
+			<button class="btn" id="btn-ref">피드백</button>
+			
+			<!-- 피드백 Modal창 -->
+			<div class="modal fade" id="myModal2" role="dialog">
+				<div class="modal-dialog">
 
-		<%-- 			</c:if> --%>
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">피드백</h4>
+						</div>
+						<div class="modal-body">
+	
+							
+	
+						</div>
+						<div class="modal-footer">
+							<button id="reasonSave" type="button" class="btn btn-default" data-dismiss="modal">저장</button>
+						</div>
+					</div>
+	
+				</div>
+			</div>
+		</c:if>
 		
 		<%-- 			<c:if test="${docSt == '결재대기'}"> --%>
 		<div id="nextbtn">	

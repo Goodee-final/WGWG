@@ -123,7 +123,6 @@ th, td {
 					name="listCnt" id="listCnt" value="${paging.listCnt}">
 					<input type="hidden" name="app_chk" id="app_chk" value="참조"/>
 
-
 				<div class="center">
 
 					<ul class="pagination">
@@ -133,12 +132,15 @@ th, td {
 							onclick="pagePre(${paging.pageStartNum},${paging.pageCnt})">&lsaquo;</a></li>
 
 						<!-- 페이지 번호 -->
-						<c:forEach var="i" begin="${paging.pageStartNum}"
+							<c:forEach var="i" begin="${paging.pageStartNum}"
 							end="${paging.pageLastNum}" step="1">
-						
 							
-								<li><a onclick="pageIndex(${i})">${i}</a></li>													
-					
+							<c:if test="${paging.index+1 == i}">
+							<li style="background: #eee;"><a style="background: #eee;" onclick="pageIndex(${i})">${i}</a></li>
+							</c:if>
+							<c:if test="${paging.index+1 != i}">
+							<li><a onclick="pageIndex(${i})">${i}</a></li>
+							</c:if>
 						</c:forEach>
 
 						<li><a href="#"
