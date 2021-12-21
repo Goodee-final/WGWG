@@ -12,8 +12,8 @@ public class WorkRecordServiceImpl implements IWorkRecordService {
 	private IWorkRecordDao dao;
 	
 	@Override
-	public WorkRecord selectworkrecord(int empno) {
-		return dao.selectworkrecord(empno);
+	public WorkRecord selectwr(int emp_no) {
+		return dao.selectwr(emp_no);
 	}
 
 }

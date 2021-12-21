@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.min.edu.vo.approval.Approval_Doc;
+import com.min.edu.vo.approval.Approval_Page;
+import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.approval.Approver;
@@ -89,6 +91,32 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl 결재대기 문서 조회 selectListWait");
 		
 		return sqlSession.selectList(NS+"selectListWait", approver);
+	}
+
+	@Override
+	public int updateDocSt(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 문서 상태 업데이트 updateDocSt");
+		return sqlSession.update(NS+"updateDocSt", doc);
+	}
+
+	@Override
+	public int updateApproval(Approval_line line) {
+		logger.info("ApprovalDocDaoImpl 결재자 JSON 상태 업데이트 updateApproval");
+		return sqlSession.update(NS+"updateApproval", line);
+		
+	}
+
+	@Override
+	public List<Approval_Doc> selectDocPaging(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 페이징 처리 selectPaging");
+		
+		return sqlSession.selectList(NS+"selectDocPaging", doc);
+	}
+
+	@Override
+	public int selectTotalPaging(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPaging");
+		return sqlSession.selectOne(NS+"selectTotalPaging", doc);
 	}
 
 

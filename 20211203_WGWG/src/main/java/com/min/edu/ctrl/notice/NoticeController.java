@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
+import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.notice.NoticeFileVO;
 import com.min.edu.vo.notice.NoticePageVO;
 import com.min.edu.vo.notice.NoticeVO;
@@ -46,7 +49,12 @@ public class NoticeController {
 	
 	@RequestMapping(value ="/noticeList.do" , method = {RequestMethod.POST,RequestMethod.GET})
 	public String paging(Model model,HttpServletRequest request) {
-		logger.info("****NoticeController에 paging접속*****");		
+		logger.info("****NoticeController에 paging접속*****");
+		int emp_no = (int) session.getAttribute("loginEmp");
+		logger.info("세션으로 가져온 emp_no의 값{}",emp_no);
+		Emp emp = service.selectEList(emp_no);
+		logger.info("emp테이블에서 가져온 리스트의 값{}",emp);
+		session.setAttribute("emp", emp);
 		NoticePageVO paging = new NoticePageVO(
                request.getParameter("index"),
                request.getParameter("pageStartNum"),
@@ -85,9 +93,33 @@ public class NoticeController {
 		return "notice/noticeList";
     }
 	
+	@ResponseBody
+	@RequestMapping(value = "/noticepagingAjax.do", method = RequestMethod.POST)
+	public Map<String, Object> pagingAjax(HttpServletRequest request) {
+		String index = request.getParameter("index");
+		String pageStartNum = request.getParameter("pageStartNum");
+		String listCnt = request.getParameter("listCnt");
+		String notice_chk = request.getParameter("notice_chk");
+		String searchKeyword = request.getParameter("searchKeyword");
+	
+		System.out.println("ajax 전송 완료! ");
+		System.out.println(index +" " + pageStartNum  +" " +listCnt  +" " +notice_chk  +" " +searchKeyword);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("index", index);
+		map.put("pageStartNum", pageStartNum);
+		map.put("listCnt", listCnt);
+		map.put("notice_chk", notice_chk);
+		map.put("searchKeyword", searchKeyword);
+		
+		return map;
+	}
+	
 	@GetMapping(value="/noticeInsertForm.do")
 	public String noticeInsertForm() {		
 		logger.info("NoticeController에 noticeInsertForm");
+		session.setAttribute("loc","./noticeInsertForm.do");		
 		return "notice/noticeInsert";
 	}
 	
@@ -335,14 +367,15 @@ public class NoticeController {
 		}
 		
 		
-		
+		//session.setAttribute("loc","./detailnotice.do?notice_no="+vo.getNotice_no());
 		return "redirect:/detailnotice.do?notice_no="+ vo.getNotice_no();
 	}
 	
 	@GetMapping("/noticedelete.do")
 	public String delete(@RequestParam("notice_no")int notice_no) {
 		logger.info("NoticeController 삭제하는 컨트롤러");
-		service.deleteNF(notice_no);				
+		service.deleteNF(notice_no);
+		session.setAttribute("loc","./noticeList.do");
 		return "redirect:/noticeList.do";
 	}
 }

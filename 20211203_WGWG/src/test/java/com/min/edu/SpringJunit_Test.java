@@ -10,6 +10,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.min.edu.model.attendence.IWorkRecordDao;
+import com.min.edu.model.attendence.WorkRecordDaoImpl;
+import com.min.edu.model.emp.EmpDaoImpl;
+import com.min.edu.model.emp.IEmpDao;
 import com.min.edu.model.form.FormDaoImpl;
 import com.min.edu.model.form.IFormDao;
 
@@ -35,7 +39,11 @@ public class SpringJunit_Test {
 	@Autowired
 	private IFormDao dao = new FormDaoImpl();
 	
+	@Autowired
+	private IWorkRecordDao wrdao = new WorkRecordDaoImpl();
 	
+	@Autowired
+	private IEmpDao edao = new EmpDaoImpl();
 	
 	/*
 	 * servlet-context.xml의 <context:component-scan base-package="com.min.edu">에 의해서
@@ -49,12 +57,19 @@ public class SpringJunit_Test {
 	
 	@Test
 	public void test() {
+		//assertNotNull(context);
+		
 		//assertNotNull(dao.selectFormcList());
-		assertNotNull(dao.selectFormList());
+		//assertNotNull(dao.selectFormList());
 		//assertNotNull(dao.selectFormDetail(1));
 		
+		/*
+		 * Emp emp = new Emp(); emp.setEmp_nm("홍길동"); emp.setEmail("email@email.com");
+		 * emp.setPhoto("photo"); emp.setAddress("서울시 암사동");
+		 * emp.setTel("010-1234-5678"); emp.setHiredate("2021-12-08");
+		 * emp.setWork_st("재직"); emp.setPosition_no(1); emp.setDept_no(20);
+		 */
 		
-
 	}
 
 }

@@ -52,4 +52,14 @@
 		WHERE LOWER(F.FORM_NM) LIKE LOWER('%'||#{formtitle}||'%')
 		ORDER BY FORM_NO DESC
 </select>
+
+<select id="selectTemplate" parameterType="java.lang.Integer" resultType="java.lang.String">
+	SELECT TEMPLATE 
+		FROM FORM
+		WHERE FORM_NO = ${forn_no}
+</select>
+
+<select id="selectForm" resultType="formDto">
+	SELECT FORM_NO, FORM_NM FROM FORM ORDER BY FORM_NO ASC
+</select>
 </mapper>

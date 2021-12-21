@@ -52,10 +52,11 @@ public class SignController {
 	@RequestMapping(value = "/signlist.do", method = RequestMethod.GET)
 	public String signList(Model model) {
 		session.setAttribute("loc", "./signlist.do");
+		int empno = 1;
 		logger.info("signlist로 이동");
 
 		// 로그인된 회원의 전자서명 리스트 조회
-		List<Sign> signList = dao.selectSignList(1);// 회원번호 들어감
+		List<Sign> signList = dao.selectSignList(empno);// 회원번호 들어감
 		model.addAttribute("signList",signList);
 		System.out.println(signList.toString());
 		return "sign/signlist";
@@ -70,7 +71,7 @@ public class SignController {
 	}
 
 	@RequestMapping(value = "/signinsert.do", method = RequestMethod.GET)
-	public String signDownload(HttpServletRequest request) throws IOException {
+	public String signDownload(HttpServletRequest request){
 		
 		session.setAttribute("loc","./signinsert.do");
 		return "sign/signinsert";
@@ -103,34 +104,7 @@ public class SignController {
 		
 	}
 	
-	   //완료 문서함
-	   @GetMapping(value="/completedoc.do")
-	   public String docListComplete(Model model) {
-		   
-		   logger.info("완료 문서함");
-		   Approval_Doc doc = new Approval_Doc();
-		   int empno = 1;
-		   doc.setEmp_no(empno);
-		   doc.setApp_doc_st("완료");
-		   //송신
-		   List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
-		   
-		   //수신경우
-
-		   List<Approval_Doc> doclist2 = approvalServiceImpl.selectListDocStApp(doc);
-		   
-		   model.addAttribute("doclist1",doclist1);
-		   model.addAttribute("doclist2",doclist2);
-		   session.setAttribute("loc", "./completedoc.do");
-		   
-		   return "/approval/compldoclist";
-	   }
+	  
 	   
-	
-	@RequestMapping(value = "/main.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String index(Model model) {
-		//System.out.println(loc);
-		//session.setAttribute("loc",loc);
-		return "common/home";
-	}
+
 }
