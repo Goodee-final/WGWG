@@ -75,40 +75,39 @@
 			WHERE EMP_NO=#{emp_no}
 	</update>
 	
-	<select id="selectPaging" parameterType="com.min.edu.vo.emp.Emp_Page" resultType="empvo">
-	SELECT DEPT_NM,EMP_NO,EMP_NM,POSITION_NM 
+	<select id="selectPaging" parameterType="com.min.edu.vo.emp.Emp_Page" resultMap="selectAllMap">
+	SELECT DEPT_NM, EMP_NO, EMP_NM, POSITION_NM 
 	FROM (
 		SELECT ROW_NUMBER() OVER(ORDER BY e.EMP_NO) RNUM, e.*,d.*,p.* 
 			FROM EMP e , DEPARTMENT d,"POSITION" p 
-			<if test="searchBy == '0' and searchWord == null">
-				WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO ORDER BY e.EMP_NO
+				WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO
+			
+			<if test="searchBy == '사원번호' and searchWord != null">
+				AND e.EMP_NO LIKE LOWER('%'||#{searchWord}||'%')
 			</if>
-			<if test="searchBy == '1' and searchWord != null">
-				FROM EMP e , DEPARTMENT d,"POSITION" p WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND e.EMP_NO LIKE LOWER('%'||#{searchWord}||'%') ORDER BY e.EMP_NO
+			<if test="searchBy == '이름' and searchWord != null">
+				AND e.EMP_NM LIKE LOWER('%'||#{searchWord}||'%')
 			</if>
-			<if test="searchBy == '2' and searchWord != null">
-				FROM EMP e , DEPARTMENT d,"POSITION" p WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND e.EMP_NM LIKE LOWER('%'||#{searchWord}||'%') ORDER BY e.EMP_NO
+			<if test="searchBy == '부서' and searchWord != null">
+				AND d.DEPT_NM LIKE LOWER('%'||#{searchWord}||'%')
 			</if>
-			<if test="searchBy == '3' and searchWord != null">
-			FROM EMP e , DEPARTMENT d,"POSITION" p WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND d.DEPT_NM LIKE LOWER('%'||#{searchWord}||'%') ORDER BY e.EMP_NO
-			</if>
-			) WHERE RNUM BETWEEN #{start} AND #{last}
+			ORDER BY e.EMP_NO
+				) WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
 
 
 	<select id="selectTotalPaging" resultType="java.lang.Integer">
-		SELECT NVL(COUNT(*),0) FROM EMP
-		<if test="searchBy == '0' and searchWord == ''">
-			 WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO
+		SELECT NVL(COUNT(*),0) FROM EMP e , DEPARTMENT d,"POSITION" p 
+			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO
+		
+		<if test="searchBy == '사원번호' and searchWord != null">
+			AND e.EMP_NO LIKE LOWER('%'||#{paging.searchWord}||'%')
 		</if>
-		<if test="searchBy == '1' and searchWord != ''">
-			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND e.EMP_NO LIKE LOWER('%'||#{paging.searchWord}||'%')
+		<if test="searchBy == '이름' and searchWord != null">
+			AND e.EMP_NM LIKE LOWER('%'||#{paging.searchWord}||'%')
 		</if>
-		<if test="searchBy == '2' and searchWord != ''">
-			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND e.EMP_NM LIKE LOWER('%'||#{paging.searchWord}||'%')
-		</if>
-		<if test="searchBy == '3' and searchWord != ''">
-			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND d.DEPT_NM LIKE LOWER('%'||#{paging.searchWord}||'%')
+		<if test="searchBy == '부서' and searchWord != null">
+			AND d.DEPT_NM LIKE LOWER('%'||#{paging.searchWord}||'%')
 		</if>
 	</select>
 </mapper>

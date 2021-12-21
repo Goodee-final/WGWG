@@ -37,12 +37,12 @@ function frmPaging() {
  	  document.getElementById('frmPaging').submit();
 	
 	}else if(document.getElementById('emppaging')){
-		
+		empPaging();
 	}
 	else{
 		
-   		//pagingAjax();
-		empPaging();
+   		pagingAjax();
+		
 	}	
 	
 }
@@ -64,20 +64,17 @@ function nchk(){
 function empListCnt(){
 	document.getElementById("index").value=0;
 	document.getElementById("pageStartNum").value=1;
-	document.getElementById("listCnt").value=document.getElementById("listCount").value;	
-	document.getElementById("searchBy").value=document.getElementById("searchBy").value;		
-	document.getElementById("searchWord").value=document.getElementById("searchWord").value;
-	frmPaging();
+	empPaging();
 }
 
 function empPaging(){
-   
-   var index = $('#index').value;
-   var pageStartNum = $('#pageStartNum').value;
-   var listCnt = $('#listCnt').value;
-   var searchBy = $('#searchBy').value;
-   var searchWord = $('#searchWord').value;
-   console.log("select Box : "+searchBy + "검색어 : " + searchWord);
+   var index = $('#index').val();
+   var pageStartNum = $('#pageStartNum').val();
+   var listCnt = $('#listCnt').val();
+   var searchBy = $('#searchBy').val();
+   var searchWord = $('#searchWord').val();
+	
+   console.log("select Box : "+searchBy + "검색어 : " + searchWord + "index : "+index + "pageStartNum : "+pageStartNum+"listCnt"+listCnt );
    $('#content').load('./empList.do?searchWord=' + searchWord + '&searchBy=' + searchBy + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt);            
 }
 

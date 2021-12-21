@@ -24,7 +24,7 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 		index = 0;
 		pageStartNum = 1;
 		listCnt = 5;
-		searchBy= "0";
+		searchBy= "전체보기";
 		searchWord = "";
 		
 	}
@@ -161,9 +161,13 @@ Logger logger = LoggerFactory.getLogger(this.getClass());
 		this.searchWord = searchWord;
 	}
 
+
 	@Override
 	public String toString() {
-		return "PagingDto [pageCnt=" + pageCnt + ", index=" + index + ", pageStartNum=" + pageStartNum + ", listCnt="
-				+ listCnt + ", total=" + total + "]";
+		return "Emp_Page [logger=" + logger + ", pageCnt=" + pageCnt + ", index=" + index + ", pageStartNum="
+				+ pageStartNum + ", listCnt=" + listCnt + ", total=" + total + ", searchBy=" + searchBy
+				+ ", searchWord=" + searchWord + "]";
 	}
+
+	
 }

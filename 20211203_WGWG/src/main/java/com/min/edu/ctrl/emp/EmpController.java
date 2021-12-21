@@ -152,6 +152,10 @@ public class EmpController {
 		List<Emp> lists = service.selectPaging(paging);
 		
 		model.addAttribute("empList",lists);
+		for (Emp emp : lists) {
+			System.out.println("부서명 : "+emp.getdVo().getDept_nm());
+			System.out.println("직급명 : "+emp.getpVo().getPosition_nm());
+		}
 		model.addAttribute("paging",paging);
 		logger.info("페이징 DTO 값 : {}",paging.toString());
 		System.out.println(lists.toString());

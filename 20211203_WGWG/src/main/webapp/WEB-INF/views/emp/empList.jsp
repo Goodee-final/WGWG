@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="./css/paging.css" >
 <script type="text/javascript" src="./js/paging.js"></script>
+<script type="text/javascript">
+	
+</script>
 <style type="text/css">
 	#searchBy{
 		display: inline-block;
@@ -25,12 +28,33 @@
 <div class="container">
   <h2 id="emppaging">사원목록</h2>
   	<select name="searchBy" id="searchBy" class="form-control">
-  	<option value="0" selected>전체보기</option>
-  	<option value="1">사원번호</option>
-  	<option value="2">이름</option>
-  	<option value="3">부서</option>
+  	<c:if test="${paging.searchBy == '전체보기'}">
+  		<option value="전체보기" selected>전체보기</option>
+  		<option value="사원번호">사원번호</option>
+  		<option value="이름">이름</option>
+  		<option value="부서">부서</option>
+  	</c:if>
+  	<c:if test="${paging.searchBy == '사원번호'}">
+  		<option value="전체보기" >전체보기</option>
+  		<option value="사원번호" selected>사원번호</option>
+  		<option value="이름">이름</option>
+  		<option value="부서">부서</option>
+  	</c:if>
+  	<c:if test="${paging.searchBy == '이름'}">
+  		<option value="전체보기" >전체보기</option>
+  		<option value="사원번호">사원번호</option>
+  		<option value="이름" selected>이름</option>
+  		<option value="부서">부서</option>
+  	</c:if>
+  	<c:if test="${paging.searchBy == '부서'}">
+  		<option value="전체보기" >전체보기</option>
+  		<option value="사원번호">사원번호</option>
+  		<option value="이름">이름</option>
+  		<option value="부서" selected>부서</option>
+  	</c:if>
+  	
   </select>
-  <input type="search" class="form-control" name="searchWord" id="searchWord" placeholder="검색 내용을 입력해주세요.">
+  <input type="search" class="form-control" name="searchWord" id="searchWord" value="${paging.searchWord}" placeholder="검색 내용을 입력해주세요.">
   <input type="button" class="btn" value="검색" onclick="empListCnt()">
   <table class="table table-hover">
     <thead>
