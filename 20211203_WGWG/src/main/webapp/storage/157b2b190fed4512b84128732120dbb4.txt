@@ -1,0 +1,6 @@
+aws가입 
+https://cafe.naver.com/jjdev/11485
+
+
+lightsail 접속, 인스턴스(우분투OS) 생성 
+https://cafe.naver.com/jjdev/11486
