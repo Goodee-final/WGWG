@@ -25,6 +25,8 @@ public interface IApprovalService {
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();
 	public List<Position> selectAllPosition();
+	//상신
+    public int insertDoc(Approval_Doc doc);
   
 	//결재자
 	public List<Approval_Doc> selectAllDocApp(int empno);

@@ -19,7 +19,4 @@ public class Approver {
 	private String waiting;		// 대기 여부
 	private String signimg;		// 전자서명
 	
-
-
-	
 }

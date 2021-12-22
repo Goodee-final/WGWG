@@ -72,6 +72,12 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl selectAllPosition");
 		return sqlSession.selectList(NS + "selectAllPosition");
 	}
+	
+	@Override
+	public int insertDoc(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl insert");
+		return sqlSession.insert(NS + "insertDoc", doc);
+	}
 
 
 	@Override
@@ -125,6 +131,7 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPaging");
 		return sqlSession.selectOne(NS+"selectTotalPaging", doc);
 	}
+
 
 	@Override
 	public int selectTotalPagingApp(Approval_Doc doc) {
