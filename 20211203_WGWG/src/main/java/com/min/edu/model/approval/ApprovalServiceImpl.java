@@ -21,8 +21,8 @@ public class ApprovalServiceImpl implements IApprovalService {
 	private IApprovalDocDao dao;
 	
 	@Override
-	public List<Approval_Doc> selectmyAllDoc(int empno) {
-		return dao.selectmyAllDoc(empno);
+	public List<Approval_Doc> selectmyAllDoc(Approval_Doc doc) {
+		return dao.selectmyAllDoc(doc);
 	}
 	
 	@Override
@@ -99,6 +99,32 @@ public class ApprovalServiceImpl implements IApprovalService {
 	@Override
 	public int selectTotalPaging(Approval_Doc doc) {
 		return dao.selectTotalPaging(doc);
+	}
+
+	@Override
+	public int selectTotalPagingApp(Approval_Doc doc) {
+		return dao.selectTotalPagingApp(doc);
+	}
+
+	@Override
+	public List<Approval_Doc> selectListRef(Approval_Doc doc) {
+		return dao.selectListRef(doc);
+	}
+
+	@Override
+	public int selectTotalPagingRef(Approval_Doc doc) {
+		return dao.selectTotalPagingRef(doc);
+	}
+
+	@Override
+	public List<Approver> selectSignList(int appLineNo) {
+		return dao.selectSignList(appLineNo);
+	}
+
+	@Override
+	public int selectTotalPagingAll(Approval_Doc doc) {
+		
+		return dao.selectTotalPagingAll(doc);
 	}
 
 
