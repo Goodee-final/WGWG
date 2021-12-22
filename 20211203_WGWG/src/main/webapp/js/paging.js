@@ -44,10 +44,16 @@ function frmPaging() {
    	if(document.getElementById('frmPaging')){
  	  document.getElementById('frmPaging').submit();
 	
-	}else{
+	}else if(document.getElementById('emppaging')){
+		empPaging();
+	}
+	else{
+		
+   		pagingAjax();
 		
    		AppPaging();
 	}	
+	
 }
 //몇개씩 보여줄 것인지 
 function listCnt(){
@@ -64,6 +70,23 @@ function nchk(){
 	document.getElementById("searchKeyword").value=document.getElementById("searchKeyword").value
 	frmPaging();
 }
+function empListCnt(){
+	document.getElementById("index").value=0;
+	document.getElementById("pageStartNum").value=1;
+	empPaging();
+}
+
+function empPaging(){
+   var index = $('#index').val();
+   var pageStartNum = $('#pageStartNum').val();
+   var listCnt = $('#listCnt').val();
+   var searchBy = $('#searchBy').val();
+   var searchWord = $('#searchWord').val();
+	
+   console.log("select Box : "+searchBy + "검색어 : " + searchWord + "index : "+index + "pageStartNum : "+pageStartNum+"listCnt"+listCnt );
+   $('#content').load('./empList.do?searchWord=' + searchWord + '&searchBy=' + searchBy + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt);            
+}
+
 function pageFirst() {
 	var index = document.getElementById('index');
 	var pageStartNum = document.getElementById('pageStartNum');

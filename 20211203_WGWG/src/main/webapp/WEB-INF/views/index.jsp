@@ -443,12 +443,17 @@ i {
 					<li class="w3-bar-item w3-button" value="./formlist.do">양식목록</li>
 					<li class="w3-bar-item w3-button" value="./forminsert.do">양식등록</li>
 				</ul></li>
-			<li class="w3-bar-item nav1"><i class="fas fa-users"></i>사원관리
+			<li class="w3-bar-item nav1"><i class="fas fa-user"></i>사원관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
 						value="./insert_emp_form.do">사원등록</li>
 					<li class="w3-bar-item w3-button "
-						value="">사원조회</li>
+						value="./empList.do">사원조회</li>
+				</ul></li>
+			<li class="w3-bar-item nav1"><i class="fas fa-id-badge"></i>부서관리
+				<ul class="nav-flyout">
+					<li class="w3-bar-item w3-button "
+						value="./insert_emp_form.do">부서조회 및 관리</li>
 				</ul></li>
 		</ul>
 	</article>
@@ -456,7 +461,7 @@ i {
 		<div id="main-content">
 			<div id="main-content1">
 				<div class="main-loginemp">
-					<span id="empnm">이름${loginEmp.emp_nm}</span><span id="emppo">사원${loginEmp.position_nm}</span>
+					<span id="empnm">이름</span><span id="emppo">사원</span>
 				</div>
 				<div class="main-calendar">
 					달력
