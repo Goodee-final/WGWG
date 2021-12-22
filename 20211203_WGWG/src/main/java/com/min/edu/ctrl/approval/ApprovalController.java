@@ -1,5 +1,7 @@
 package com.min.edu.ctrl.approval;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.lang.ProcessBuilder.Redirect;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -64,7 +67,7 @@ public class ApprovalController {
 		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
 		  
 	      logger.info("ApprovalController 전체글 조회 List");
-	      List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(1);
+	      List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(7);
 	      
 	      model.addAttribute("doclists", doclists);
 	      return "/approval/mydoclist";
@@ -92,26 +95,32 @@ public class ApprovalController {
 	      model.addAttribute("plists", plists);
 	      model.addAttribute("emplists", emplists);
 	      List<Form> formList = formservice.selectForm();
-	      model.addAttribute("formList", formList);
+	      model.addAttribute("formList", formList);      
+	      
 	      return "/approval/docinsert";
 	   }
 	   
 	   @PostMapping(value="/docinsert.do")
-	   public String docapproval(Model model, @RequestParam String content) {
+	   public String docapproval(Model model, @RequestParam String app_doc_title, @RequestParam String app_doc_content, @RequestParam String form_num) {
 	      logger.info("ApprovalController 기안하기 문서 작성");
-	      Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
-	      model.addAttribute("empinfo", empinfo);
-	      System.out.println("양식 태그"+content);
+	      int form_no = Integer.parseInt(form_num);
+	      Approval_Doc doc = new Approval_Doc(app_doc_title, app_doc_content, form_no);
+	      approvalServiceImpl.insertDoc(doc);
+	      System.out.println("문서"+doc);
 	      return "/approval/mydoclist";
 	   }
 	   
-	   @GetMapping(value="/appline.do")
-	   public String appline(Model model) {
-		  
+	   @PostMapping(value="/appline.do")
+	   @ResponseBody
+	   public String appline(@RequestParam(value="arr[]")List<String> arr, Model model) {
 	      logger.info("ApprovalController 결재라인 등록");
-	      
-	      return "/approval/appline";
+	      List<String> appline = arr;
+	      System.out.println(appline);
+	      model.addAttribute("appline", appline);
+	      return "redirect:/approval/docinsert";
 	   }
+	   
+	  
 
 	@Autowired
 	ISignDao signdao;

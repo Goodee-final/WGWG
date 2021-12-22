@@ -19,7 +19,7 @@
 		<result property="fvo.form_nm" column="FORM_NM"/>
 		<result property="ref_emp_no" column="REF_EMP_NO"/>
 		<result property="app_doc_content" column="APP_DOC_CONTENT"/>
-		<result property="alvo.approval" column="APPROVAL"/>
+		<result property="alvo.approver" column="APPROVER"/>
 	</resultMap>
 	
 	<resultMap type="com.min.edu.vo.emp.Emp" id="wEmpVo">
@@ -46,15 +46,15 @@
 	
 	<select id="selectmyAllDoc" parameterType="java.lang.Integer" resultType="DocVo">
 		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
-			FROM "C##WG".APPROVAL_DOCUMENT WHERE EMP_NO=1 ORDER BY APP_DOC_NO DESC
+			FROM "C##WG".APPROVAL_DOCUMENT WHERE EMP_NO=7 ORDER BY APP_DOC_NO DESC
 	</select>
 
 
-	<select id="selectOneDoc" resultMap="DocDetailVo">
+	<select id="selectOneDoc" parameterType="java.lang.Integer" resultMap="DocDetailVo">
 		SELECT a.APP_DOC_NO, a.APP_DOC_ST, TO_CHAR(a.APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, 
 				a.APP_DOC_TITLE, a.EMP_NO, f.FORM_NM, a.REF_EMP_NO, a.APP_DOC_CONTENT, al.APPROVAL, al.APP_LINE_NO
 			FROM APPROVAL_DOCUMENT a INNER JOIN FORM f ON a.FORM_NO = f.FORM_NO
-									 LEFT OUTER JOIN APPROVAL_LINE al ON a.APP_LINE_NO = al.APP_LINE_NO where a.APP_DOC_NO = #{APP_DOC_NO}
+									 LEFT OUTER JOIN APPROVAL_LINE al ON a.APP_LINE_NO = al.APP_LINE_NO where a.APP_DOC_NO = #{app_doc_no}
 									 
 	</select>
 	
@@ -69,7 +69,12 @@
 			FROM "C##WG".APPROVAL_DOCUMENT WHERE EMP_NO=1 AND LOWER(APP_DOC_TITLE) LIKE LOWER('%'||#{title}||'%') ORDER BY APP_DOC_NO DESC
 	</select>
 	
-	
+	<select id="selectAppLine" parameterType="java.lang.Integer" resultType="empvo">
+	SELECT EMP_NO
+		FROM APPROVAL_LINE al, 
+		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+		COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no')) WHERE APP_LINE_NO = 7
+	</select>
 	
 	<select id="selectAllEmp" resultMap="AllEmpVo">
 		SELECT e.EMP_NO, e.EMP_NM, e.DEPT_NO, p.POSITION_NM
@@ -85,6 +90,12 @@
 		SELECT POSITION_NM, POSITION_NO
 			FROM "C##WG".POSITION p ORDER BY POSITION_NO ASC
 	</select>
+	
+	<insert id="insertDoc" parameterType="DocVo">
+		INSERT INTO "C##WG".APPROVAL_DOCUMENT
+			(APP_DOC_NO, APP_DOC_ST, APP_DOC_REG_DT, APP_DOC_TITLE, REF_EMP_NO, APP_DOC_CONTENT, APP_LINE_NO, APP_FILE_NO, EMP_NO, FORM_NO)
+		VALUES(APP_DOC_SEQ.NEXTVAL, '진행', sysdate, #{app_doc_title}, '1,2', #{app_doc_content}, 1, null, 7, #{form_no})
+	</insert>
 	
 	
 	

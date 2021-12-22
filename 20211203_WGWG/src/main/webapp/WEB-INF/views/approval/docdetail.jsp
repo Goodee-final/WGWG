@@ -83,10 +83,11 @@ th {
 	margin-left: 70px;
 }
 
-#formname {
-	justify-content: space-between;
+#formnm {
+	margin: 0 auto;
 	font-size: 3rem;
-	margin-left: 150px;
+	text-align: center;
+	margin-bottom: 10px;
 }
 
 #lineselect {
@@ -115,7 +116,6 @@ th {
 	width: 75px;
 	height: 75px;
 	border: 1px solid #ddd;
-	"
 }
 
 .signImg:hover {
@@ -130,6 +130,15 @@ th {
 	margin-top: 20px;
 	display: none;
 }
+
+#doccont{
+	margin: 0 auto;
+	width: 1000px;
+}
+
+#doccontents{
+	margin-top: 20px;
+}
 </style>
 <body>
 
@@ -137,8 +146,8 @@ th {
 		<h1>결재문서상세보기</h1>
 
 		<hr>
-		<div>
-
+		<div id="doccont">
+		<div id="formnm">
 			<label id="formname">${detaildoc.fvo.form_nm}</label>
 		</div>
 
@@ -189,9 +198,11 @@ th {
 			</table>
 		</div>
 
-		<textarea rows="10" cols="80" readonly>
+		<div id="doccontents">
 			${detaildoc.app_doc_content}
-			</textarea>
+		</div>
+		
+	</div>
 
 		<%-- 			<c:if test="${docSt == '참조'}"> --%>
 
