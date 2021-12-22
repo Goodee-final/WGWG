@@ -2,6 +2,7 @@ package com.min.edu.model.notice;
 
 import java.util.List;
 
+import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.notice.NoticeFileVO;
 import com.min.edu.vo.notice.NoticePageVO;
 import com.min.edu.vo.notice.NoticeVO;
@@ -41,7 +42,8 @@ public interface INoticeService {
 		//공지사항,파일 둘다삭제
 		public int deleteNF(int notice_no);
 		
-		
+		//emp테이블 리스트
+		public Emp selectEList(int emp_no);
 		
 		
 	

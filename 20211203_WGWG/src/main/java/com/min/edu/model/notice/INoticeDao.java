@@ -2,6 +2,7 @@ package com.min.edu.model.notice;
 
 import java.util.List;
 
+import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.notice.NoticeFileVO;
 import com.min.edu.vo.notice.NoticePageVO;
 import com.min.edu.vo.notice.NoticeVO;
@@ -35,4 +36,7 @@ public interface INoticeDao {
 	//부서별 페이징 처리
 	public List<NoticeVO> selectNotchk(NoticePageVO vo);
 	public int countNoticechk(NoticePageVO paging);	
+	
+	//emp테이블 리스트
+	public Emp selectEList(int emp_no);
 }

@@ -164,5 +164,12 @@
 		WHERE RN BETWEEN #{start} AND #{last} 		
 	</select>
 	
+	<select id="selectEList" parameterType="Integer" resultType="empvo">
+		SELECT EMP_NO, EMP_NM, PW, EMAIL, PHOTO, ADDRESS, TEL, HIREDATE, WORK_ST, BIRTH, POSITION_NO, DEPT_NO
+			FROM EMP
+			WHERE EMP_NO = #{emp_no}
+		
+	</select>
+	
 	
 </mapper>

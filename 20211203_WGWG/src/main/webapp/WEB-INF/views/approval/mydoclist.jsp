@@ -15,14 +15,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$('table tbody tr').click(function(){
-			
-			var no = $(this).find('td').eq(0).text();
-			console.log(no);
-			detailAjax(no,"개인");
+		var state = '개인';
 		
-
-		});
+		detailMove(state);
+		
+		search();
 	});
 </script>
 
@@ -63,21 +60,28 @@ th, td {
 	outline:1px solid #073865;
 }
 
+
+.test{
+		margin: 0 auto;
+		width: 28%;
+	}
+	
+
 </style>
 </head>
 <body>
 	<div class="container">
 		<h1>개인 문서함</h1>
 		<br>
-		<form action="./mydoclist.do" method="post" >
+		
 		<ul class="nav nav-pills" style="height:18px;">
  			<li class="active" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>
 			<li><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>
 			<li><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>
 			<li><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>
 			<div id="search">
-			<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title">
-			<input type="submit" id="searchbtn" value="검색" onclick="nchk();">
+			<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title" value="${paging.searchkeyword}">
+			<input type="submit" id="searchbtn" value="검색">
 			</div>
 		</ul>
 		
@@ -197,12 +201,14 @@ th, td {
 		</div>
 		
 		
+			
 			<div class="test">
 				<!-- paging 처리 관련 값 -->
 				<input type="hidden" name="index" id="index" value="${paging.index}">
 				<input type="hidden" name="pageStartNum" id="pageStartNum"
 					value="${paging.pageStartNum}"> <input type="hidden"
-					name="listCnt" id="listCnt" value="5">
+					name="listCnt" id="listCnt" value="${paging.listCnt}">
+					<input type="hidden" name="app_chk" id="app_chk" value="개인"/>
 
 				<div class="center">
 
@@ -213,9 +219,15 @@ th, td {
 							onclick="pagePre(${paging.pageStartNum},${paging.pageCnt})">&lsaquo;</a></li>
 
 						<!-- 페이지 번호 -->
-						<c:forEach var="i" begin="${paging.pageStartNum}"
+							<c:forEach var="i" begin="${paging.pageStartNum}"
 							end="${paging.pageLastNum}" step="1">
+							
+							<c:if test="${paging.index+1 == i}">
+							<li style="background: #eee;"><a style="background: #eee;" onclick="pageIndex(${i})">${i}</a></li>
+							</c:if>
+							<c:if test="${paging.index+1 != i}">
 							<li><a onclick="pageIndex(${i})">${i}</a></li>
+							</c:if>
 						</c:forEach>
 
 						<li><a href="#"
@@ -228,7 +240,7 @@ th, td {
 				</div>
 			</div>
 		
-		</form>
+		
 	</div>
 	
 </body>

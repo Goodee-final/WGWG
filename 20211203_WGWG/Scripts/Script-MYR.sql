@@ -4,7 +4,7 @@ VALUES(0, '', '');
 
 INSERT INTO "C##WG".APPROVAL_DOCUMENT
 (APP_DOC_NO, APP_DOC_ST, APP_DOC_REG_DT, APP_DOC_TITLE, REF_EMP_NO, APP_DOC_CONTENT, APP_LINE_NO, APP_FILE_NO, EMP_NO, FORM_NO)
-VALUES(0, '', '', '', '', '', 0, 0, 0, 0);
+VALUES(23, '진행', sysdate, #{app_doc_title}, '1,2', #{app_doc_content}, 1, 0, 7, #{form_no});
 
 INSERT INTO "C##WG".APPROVAL_FILE
 (APP_FILE_NO, APP_FILE_NM, APP_FILE_SAVE_NM, APP_FILE_SIZE)
@@ -13,6 +13,8 @@ VALUES(0, '', '', 0);
 INSERT INTO "C##WG".NOTIFICATION
 (NOTIFICATION_NO, NOTIFICATION_CHK, APP_DOC_NO)
 VALUES(0, '', 0);
+
+CREATE SEQUENCE APP_DOC_SEQ;
 
 --결재문서함 selectAll
 SELECT a.APP_DOC_NO, a.APP_DOC_ST, TO_CHAR(a.APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, a.APP_DOC_TITLE, a.EMP_NO, f.FORM_NM
@@ -63,4 +65,42 @@ LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO ORDER BY d.D
 
 		SELECT DEPT_NM, DEPT_NO
 			FROM "C##WG".DEPARTMENT d DEPT_NO DESC;
+		
+SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting
+      FROM APPROVAL_LINE al, 
+          JSON_TABLE(al.APPROVAL, '$.APPROVAL[*]'
+               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.empno',
+                        APPROVAL_ST  VARCHAR(20) PATH '$.check',
+                        REASON  VARCHAR(200) PATH '$.reason',
+                        APPROVAL_DT VARCHAR(200) PATH '$.regdate',
+                        waiting INTEGER PATH '$.waiting')) AS U         
+                        WHERE al.APP_LINE_NO = 6;
+                       
+                       
+SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting
+	  			FROM APPROVAL_LINE al, 
+		    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+		               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no',
+		                        APPROVAL_ST  VARCHAR(20) PATH '$.approval_st',
+		                        REASON  VARCHAR(200) PATH '$.reason',
+		                        APPROVAL_DT VARCHAR(200) PATH '$.approval_dt',
+		                        waiting INTEGER PATH '$.waiting',
+		                       	signimg INTEGER PATH '$.signimg')) WHERE APP_LINE_NO = 1;
+
+SELECT EMP_NO
+	FROM APPROVAL_LINE al, 
+	JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+	COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no')) WHERE APP_LINE_NO = 7;
+		             
+		                       
+		                       
+SELECT APP_LINE_NO, APPROVAL, BOOKMARK
+FROM "C##WG".APPROVAL_LINE;
+
+
+SELECT APP_LINE_NO, APPROVAL, 
+JSON_VALUE(APPROVAL,'$.APPROVAL.emp_no') AS DT,
+   JSON_VALUE(APPROVAL,'$.APPROVAL.approval_st') AS ST,
+   JSON_VALUE(APPROVAL,'$.APPROVAL.reason') AS E
+FROM APPROVAL_LINE al;
 

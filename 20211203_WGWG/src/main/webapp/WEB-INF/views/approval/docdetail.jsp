@@ -83,10 +83,11 @@ th {
 	margin-left: 70px;
 }
 
-#formname {
-	justify-content: space-between;
+#formnm {
+	margin: 0 auto;
 	font-size: 3rem;
-	margin-left: 150px;
+	text-align: center;
+	margin-bottom: 10px;
 }
 
 #lineselect {
@@ -115,7 +116,6 @@ th {
 	width: 75px;
 	height: 75px;
 	border: 1px solid #ddd;
-	"
 }
 
 .signImg:hover {
@@ -130,15 +130,51 @@ th {
 	margin-top: 20px;
 	display: none;
 }
+
+#doccont{
+	margin: 0 auto;
+	width: 1000px;
+}
+
+#doccontents{
+	margin-top: 20px;
+}
 </style>
 <body>
 
 	<div class="container">
 		<h1>결재문서상세보기</h1>
-
+		<h1>${docBox}</h1>
+		<table>
+		<tr>
+		<c:forEach var="app" items="${appInfo}" varStatus="status">
+		
+			<td style="width: 77px; height: 77px;">
+				<c:if test="${approver[status.index].signimg != null}" >
+					<img src="img/sign/${approver[status.index].signimg}" style="width: 60px; height: 60px;">				
+				</c:if>
+			</td>
+		</c:forEach>
+			</tr>
+			<tr>
+			<c:forEach var="app" items="${appInfo}" varStatus="status">
+				
+				<td>
+					<c:if test="${appInfo[status.index].emp_nm != null }">
+						<p>${appInfo[status.index].pVo.position_nm}<br>
+						${appInfo[status.index].emp_nm }</p>
+					</c:if>
+				</td>
+			</c:forEach>
+			</tr>
+		</table>
+<%-- 		<c:forEach var="app" items="approver"> --%>
+<%-- 			<img src="img/sign/${app.signimg}" style="width: 75px; height: 75px;"> --%>
+<%-- 		</c:forEach> --%>
+		
 		<hr>
-		<div>
-
+		<div id="doccont">
+		<div id="formnm">
 			<label id="formname">${detaildoc.fvo.form_nm}</label>
 		</div>
 
@@ -189,16 +225,41 @@ th {
 			</table>
 		</div>
 
-		<textarea rows="10" cols="80" readonly>
+		<div id="doccontents">
 			${detaildoc.app_doc_content}
-			</textarea>
+		</div>
+		
+	</div>
 
-		<%-- 			<c:if test="${docSt == '참조'}"> --%>
+		<c:if test="${docSt == '참조'}">
+			<button class="btn" id="btn-ref">피드백</button>
+			
+			<!-- 피드백 Modal창 -->
+			<div class="modal fade" id="myModal2" role="dialog">
+				<div class="modal-dialog">
 
-		<%-- 			</c:if> --%>
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">피드백</h4>
+						</div>
+						<div class="modal-body">
+	
+							
+	
+						</div>
+						<div class="modal-footer">
+							<button id="reasonSave" type="button" class="btn btn-default" data-dismiss="modal">저장</button>
+						</div>
+					</div>
+	
+				</div>
+			</div>
+		</c:if>
+		
 		<%-- 			<c:if test="${docSt == '결재대기'}"> --%>
-		<div id="nextbtn">
-			<!-- 			./appresult.do -->
+		<div id="nextbtn">	
 			<button class="btn" id="btn-approve" class="btn-app">승인</button>
 			<button class="btn" id="btn-return" class="btn-app">반려</button>
 		</div>
@@ -276,23 +337,29 @@ th {
 			</div>
 		</div>
 		<%-- 			</c:if> --%>
+		
+		
+		
 		<%-- 			<c:if test="${docSt == '개인' & detaildoc.app_doc_st == '대기'} "> --%>
 
 		<%-- 			</c:if> --%>
 	
+	
+		<div id="Box">
 		<c:if test="${docBox eq '임시저장'}">
 			<div id="nextbtn">
 				<button class="btn" onclick="location.href='./appline.do'">수정</button>
 				<button id="btn-delete" class="btn" >삭제</button>
-
 			</div>
 		</c:if>
+		
+		
 		<c:if test="${docBox eq '개인'}">
 			<div id="nextbtn">
-				
 				<button class="btn" onclick="location.href='./appline.do'">기안취소</button>
 			</div>
 		</c:if>
+		</div>
 
 	</div>
 
@@ -325,7 +392,32 @@ th {
 			var signNo = $(".skyblue").attr('value');
 			console.log(signNo);
 			console.log(${detaildoc.app_doc_no});
-			location.href="./approve.do?signNo="+signNo+"&docNo="+${detaildoc.app_doc_no};
+			
+			var sendData = {"signNo":signNo, "docNo":${detaildoc.app_doc_no}}
+			console.log(sendData);
+			
+			$.ajax({
+				type:"post",
+				url:"./approve.do",
+				data: sendData,
+				success:function(data){
+					var docBox = data["docBox"];
+					var docno = data["docno"];
+					console.log("docBox: "+ data["docBox"]);
+// 					setTimeout(function() {
+// 						alert("승인 되었습니다.");
+// 						}, 1000);
+					alert("승인 되었습니다.");
+					console.log('데이터 왔다감');
+					$('#content').load('./docdetail.do?docBox='+ docBox + "&docno="+docno);
+// 					$('#content').load('./docdetail.do?')
+				},
+				error:function(jqXHR, textStatus, errorThrown){
+					console.log("데이터 왔다갔다 실패!!");
+					alert('오류 발생');
+				}
+			});
+// 			location.href="./approve.do?signNo="+signNo+"&docNo="+${detaildoc.app_doc_no};
 			
 		});
 		
