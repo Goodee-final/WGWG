@@ -25,6 +25,9 @@
 	<resultMap type="com.min.edu.vo.emp.Emp" id="wEmpVo">
 		<result property="emp_no" column="EMP_NO"/>
 		<result property="emp_nm" column="EMP_NM"/>
+		<result property="photo" column="PHOTO"/>
+		<result property="photo" column="PHOTO"/>
+		<result property="dept_no" column="DEPT_NO"/>
 		<result property="dVo.dept_nm" column="DEPT_NM"/>
 		<result property="pVo.position_nm" column="POSITION_NM"/>
 	</resultMap>
@@ -78,7 +81,7 @@
 	</select>
 	
 	<select id="selectEmpInfo" parameterType="java.lang.Integer" resultMap="wEmpVo">
-		SELECT e.EMP_NO, e.EMP_NM, p.POSITION_NM, d.DEPT_NM
+		SELECT e.EMP_NO, e.EMP_NM, p.POSITION_NM, d.DEPT_NM, e.PHOTO, e.DEPT_NO
 			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
 							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = #{EMP_NO}
 	</select>

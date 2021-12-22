@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.min.edu.vo.form.Form;
 import com.min.edu.vo.form.FormClassification;
+import com.min.edu.vo.paging.PagingDto;
 
 @Service
 public class FormServiceImpl implements IFormService {
@@ -48,6 +49,16 @@ public class FormServiceImpl implements IFormService {
 	@Override
 	public List<Form> selectForm() {
 		return dao.selectForm();
+	}
+
+	@Override
+	public List<Form> selectPaging(PagingDto paging) {
+		return dao.selectPaging(paging);
+	}
+
+	@Override
+	public int selectTotalPaging() {
+		return dao.selectTotalPaging();
 	}
 
 }
