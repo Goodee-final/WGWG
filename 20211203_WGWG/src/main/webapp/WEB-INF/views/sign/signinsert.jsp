@@ -18,6 +18,7 @@
 	var sel_file;
 
 	
+	
 	var cloneObj = $("#input_img").clone();
 	
 	$(document).ready(function() {
@@ -27,7 +28,11 @@
 		
 		$("#profileImg").click(function() {
 			$("#input_img").click();
-		})
+		});
+		
+		$('#cancleSign').click(function(){
+			$('#content').load('./signlist.do');
+		});
 	});
 	
 	
@@ -67,6 +72,8 @@
 				$("#input_img").html(cloneObj.html());
 			
 		});	
+		
+	
 		
 		
 
@@ -108,8 +115,7 @@
 							</p>
 						</td>
 						<td>
-							<p>전자서명은 최대 3개까지 등록 가능 합니다.</p>
-							<p>확장자는 이미지 파일(.png)만 업로드 가능합니다.</p>
+							<p>확장자는 이미지 파일만 업로드 가능합니다.</p>
 							<p>용량은 10MB를 초과 할 수 없습니다.</p>
 						</td>
 					</tr>
@@ -143,8 +149,8 @@
 				</tbody>
 			</table>
 			<input type="submit" id="uploadBtn" class="btn btn-primary"
-				value="저장하기"> <input type="button" class="btn btn-primary"
-				value="취소하기" onclick="href.location='sign'">
+				value="저장하기"> <input type="button" id="cancleSign" class="btn btn-primary"
+				value="취소하기">
 			${savedFileName}
 
 		</form>
