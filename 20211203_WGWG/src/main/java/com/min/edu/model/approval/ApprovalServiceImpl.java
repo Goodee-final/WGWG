@@ -11,6 +11,7 @@ import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
 
 @Service
@@ -20,8 +21,8 @@ public class ApprovalServiceImpl implements IApprovalService {
 	private IApprovalDocDao dao;
 	
 	@Override
-	public List<Approval_Doc> selectmyAllDoc(int empno) {
-		return dao.selectmyAllDoc(empno);
+	public List<Approval_Doc> selectmyAllDoc(Approval_Doc doc) {
+		return dao.selectmyAllDoc(doc);
 	}
 	
 	@Override
@@ -31,26 +32,32 @@ public class ApprovalServiceImpl implements IApprovalService {
 
 	@Override
 	public Approval_Doc selectOneDoc(int docno) {
-		// TODO Auto-generated method stub
 		return dao.selectOneDoc(docno);
 	}
 
 	@Override
 	public Emp selectEmpInfo(int empno) {
-		// TODO Auto-generated method stub
 		return dao.selectEmpInfo(empno);
 	}
 
 	@Override
 	public List<Emp> selectAllEmp() {
-		// TODO Auto-generated method stub
 		return dao.selectAllEmp();
 	}
 
 	@Override
 	public List<Department> selectAllDept() {
-		// TODO Auto-generated method stub
 		return dao.selectAllDept();
+	}
+	
+	@Override
+	public List<Position> selectAllPosition() {
+		return dao.selectAllPosition();
+	}
+	
+	@Override
+	public int insertDoc(Approval_Doc doc) {
+		return dao.insertDoc(doc);
 	}
 	
 	@Override
@@ -94,6 +101,31 @@ public class ApprovalServiceImpl implements IApprovalService {
 		return dao.selectTotalPaging(doc);
 	}
 
+	@Override
+	public int selectTotalPagingApp(Approval_Doc doc) {
+		return dao.selectTotalPagingApp(doc);
+	}
+
+	@Override
+	public List<Approval_Doc> selectListRef(Approval_Doc doc) {
+		return dao.selectListRef(doc);
+	}
+
+	@Override
+	public int selectTotalPagingRef(Approval_Doc doc) {
+		return dao.selectTotalPagingRef(doc);
+	}
+
+	@Override
+	public List<Approver> selectSignList(int appLineNo) {
+		return dao.selectSignList(appLineNo);
+	}
+
+	@Override
+	public int selectTotalPagingAll(Approval_Doc doc) {
+		
+		return dao.selectTotalPagingAll(doc);
+	}
 
 
 }

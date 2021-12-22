@@ -10,6 +10,21 @@
 	<result property="pVo.position_nm" column="position_nm"/>
 </resultMap>
 
+<resultMap type="empvo" id="selectAllMap">
+	<id column="emp_no" property="emp_no"/>
+	<result column="emp_nm" property="emp_nm"/>
+	<result column="pw" property="pw"/>
+	<result column="email" property="email"/>
+	<result column="photo" property="photo"/>
+	<result column="address" property="address"/>
+	<result column="tel" property="tel"/>
+	<result column="hiredate" property="hiredate"/>
+	<result column="work_st" property="work_st"/>
+	<result column="birth" property="birth"/>
+	<result column="position_nm" property="pVo.position_nm"/>
+	<result column="dept_nm" property="dVo.dept_nm"/>
+</resultMap>
+
 	<insert id="insert_emp" parameterType="empvo">
 		INSERT INTO EMP
 				(EMP_NO, EMP_NM, PW,
@@ -29,6 +44,12 @@
 		SELECT e.EMP_NO, e.EMP_NM , e.PW, p.POSITION_NM , d.DEPT_NM 
    			FROM EMP e, DEPARTMENT d, "POSITION" p 
    				WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND EMP_NO =#{emp_no}
+	</select>
+	
+	<select id="selectEmpAll" resultMap="selectAllMap">
+		SELECT e.EMP_NO,e.EMP_NM ,e.EMAIL ,e.PHOTO ,e.ADDRESS ,e.TEL ,e.HIREDATE ,e.BIRTH,P.POSITION_NM ,d.DEPT_NM,e.WORK_ST 
+   			FROM EMP e, DEPARTMENT d, "POSITION" p 
+   			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO ORDER BY e.EMP_NO
 	</select>
 	
 	<select id="getLogin" parameterType="java.util.Map" resultType="empvo">
@@ -53,4 +74,40 @@
 			SET PW=#{pw}
 			WHERE EMP_NO=#{emp_no}
 	</update>
+	
+	<select id="selectPaging" parameterType="com.min.edu.vo.emp.Emp_Page" resultMap="selectAllMap">
+	SELECT DEPT_NM, EMP_NO, EMP_NM, POSITION_NM 
+	FROM (
+		SELECT ROW_NUMBER() OVER(ORDER BY e.EMP_NO) RNUM, e.*,d.*,p.* 
+			FROM EMP e , DEPARTMENT d,"POSITION" p 
+				WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO
+			
+			<if test="searchBy == '사원번호' and searchWord != null">
+				AND e.EMP_NO LIKE LOWER('%'||#{searchWord}||'%')
+			</if>
+			<if test="searchBy == '이름' and searchWord != null">
+				AND e.EMP_NM LIKE LOWER('%'||#{searchWord}||'%')
+			</if>
+			<if test="searchBy == '부서' and searchWord != null">
+				AND d.DEPT_NM LIKE LOWER('%'||#{searchWord}||'%')
+			</if>
+			ORDER BY e.EMP_NO
+				) WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+
+
+	<select id="selectTotalPaging" resultType="java.lang.Integer">
+		SELECT NVL(COUNT(*),0) FROM EMP e , DEPARTMENT d,"POSITION" p 
+			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO
+		
+		<if test="searchBy == '사원번호' and searchWord != null">
+			AND e.EMP_NO LIKE LOWER('%'||#{paging.searchWord}||'%')
+		</if>
+		<if test="searchBy == '이름' and searchWord != null">
+			AND e.EMP_NM LIKE LOWER('%'||#{paging.searchWord}||'%')
+		</if>
+		<if test="searchBy == '부서' and searchWord != null">
+			AND d.DEPT_NM LIKE LOWER('%'||#{paging.searchWord}||'%')
+		</if>
+	</select>
 </mapper>
