@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.min.edu.vo.emp.Department;
+import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.worklog.WorkLog;
 
 @Service
@@ -44,14 +46,24 @@ public class WorkLogServiceImpl implements IWorkLogService {
 		return dao.updateWorkLogContent(workLog);
 	}
 
+//	@Override
+//	public int updateWorkLogDelflag(Map<String, String[]> worklog_nos) {
+//		return dao.updateWorkLogDelflag(worklog_nos);
+//	}
+//
+//	@Override
+//	public int deleteWorkLog(Map<String, String[]> worklog_nos) {
+//		return dao.deleteWorkLog(worklog_nos);
+//	}
+
 	@Override
-	public int updateWorkLogDelflag(Map<String, String[]> worklog_nos) {
-		return dao.updateWorkLogDelflag(worklog_nos);
+	public List<Department> selectAllDept() {
+		return dao.selectAllDept();
 	}
 
 	@Override
-	public int deleteWorkLog(Map<String, String[]> worklog_nos) {
-		return dao.deleteWorkLog(worklog_nos);
+	public Emp selectEmpNo(int emp_no) {
+		return dao.selectEmpNo(emp_no);
 	}
 
 }

@@ -16,6 +16,7 @@
 	<resultMap type="com.min.edu.vo.emp.Emp" id="EmpVo">
 		<result property="emp_no" column="EMP_NO"/>
 		<result property="emp_nm" column="EMP_NM"/>
+		<result property="position_no" column="POSITION_NO"/>
 		<result property="dept_no" column="DEPT_NO"/>
 	</resultMap>
 	
@@ -23,11 +24,10 @@
 		<result property="position_no" column="POSITION_NO"/>
 		<result property="position_nm" column="POSITION_NM"/>
 	</resultMap>
-
+	
 	<!-- 부서별 조회 -->
 	<select id="selectAllDeptWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM , e.DEPT_NO , p.POSITION_NM 
-
 			FROM WORKLOG w
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO 
@@ -43,7 +43,6 @@
 	<select id="selectAllMyWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM , p.POSITION_NM 
 			FROM WORKLOG w
-
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO 
 			LEFT JOIN "POSITION" p 
@@ -54,11 +53,16 @@
 	
 	<!-- 상세보기 -->
 	<select id="selectDetailWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
-		SELECT * FROM WORKLOG w 
+		SELECT w.*, e.EMP_NM , e.DEPT_NO , p.POSITION_NM 
+			FROM WORKLOG w
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO 
+			LEFT JOIN "POSITION" p 
+			ON e.POSITION_NO = p.POSITION_NO
 			WHERE WORKLOG_NO = #{worklog_no}
 	</select>
 	
-	<!-- 작성자이름 or 제목에 해당하는 글자로 검색 -->
+	<!-- 작성자이름 or 내용에 해당하는 글자로 검색 -->
 
 <!-- 	<select id="searchWorkLog" parameterType="java.util.Map" resultMap="worklogVo"> -->
 	<select id="searchWorkLog" parameterType="java.lang.String" resultMap="worklogVo">
@@ -81,10 +85,22 @@
 				OR UPPER(w.WORKLOG_CONTENT) LIKE UPPER('%'||#{searchWord}||'%')
 	</select>
 	
+	<!-- 업무일지 날짜로 검색 -->
+	<!-- <select id="selectByDate">
+		SELECT w.*, e.EMP_NM, d.DEPT_NM 
+			FROM WORKLOG w 
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO
+			LEFT JOIN DEPARTMENT d 
+			ON e.DEPT_NO = d.DEPT_NO
+			WHERE WORKLOG_REG_DT > #{startDate} AND '2021.12.19' < WORKLOG_REG_DT
+			ORDER BY WORKLOG_REG_DT DESC
+	</select> -->
+	
 	<!-- 업무일지 작성 -->
 	<insert id="insertWorkLog" parameterType="worklogVo">
 		INSERT INTO WORKLOG
-			(WORKLOG_NO, WORKLOG_CONTENT, WORKLOG_DELFLAG, EMP_NO)
+			(WORKLOG_NO, WORKLOG_CONTENT, EMP_NO)
 			VALUES(WORKLOG_SEQ.NEXTVAL, #{worklog_content}, #{emp_no})
 	</insert>
 	
@@ -96,23 +112,35 @@
 	</update>
 	
 	<!-- 업무일지 DELFLAG 수정 -->
-	<update id="updateWorkLogDelflag" parameterType="java.util.Map">
+	<!-- <update id="updateWorkLogDelflag" parameterType="java.util.Map">
 		UPDATE WORKLOG
 			SET WORKLOG_DELFLAG='Y'
 			WHERE WORKLOG_NO IN
 			<foreach collection="worklog_nos" item="worklog_no" open="(" separator="," close=")">
 				#{worklog_no}
 			</foreach>
-	</update>
+	</update> -->
 	
 	<!-- 업무일지 완전 삭제 -->
-	<delete id="deleteWorkLog" parameterType="java.util.Map">
+	<!-- <delete id="deleteWorkLog" parameterType="java.util.Map">
 		DELETE FROM WORKLOG w 
 			WHERE WORKLOG_NO IN
 			<foreach collection="worklog_nos" item="worklog_no" open="(" separator="," close=")">
 				#{worklog_no}
 			</foreach>
-	</delete>
+	</delete> -->
+
+	<!-- 업무일지 조회할 때 로그인한 사람의 부서번호랑 부서번호 리스트 중에 비교? -->
+	<select id="selectAllDept" resultType="deptVo">
+		SELECT * FROM DEPARTMENT
+	</select>
+
+	<!-- emp_no 가져오기 -->
+	<select id="selectEmpNo" parameterType="java.lang.Integer" resultMap="EmpVo">
+		SELECT * FROM EMP
+			WHERE EMP_NO = #{emp_no}
+	</select>
+
 
 </mapper>
 

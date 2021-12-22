@@ -61,7 +61,7 @@ public class UploadController {
 		if(file == null || file.isEmpty()) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out =  response.getWriter();
-			out.println("<script>alert('이미지 파일을 선택해 주세요'); location.href='./signinsert.do'</script>");
+			out.println("<script>alert('이미지 파일을 선택해 주세요'); location.href='./'</script>");
 			out.flush();
 			return null;
 		}

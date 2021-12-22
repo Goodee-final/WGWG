@@ -5,15 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <title>인덱스</title>
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script src="https://kit.fontawesome.com/d42fd504d6.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-
-
+<link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
+<link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
 <script type="text/javascript">
 	
 	var loc = "<%=session.getAttribute("loc") %>"
@@ -34,6 +34,7 @@
 		
 	});
 </script>
+
 <script language='javascript'>
 
 function noEvent() {
@@ -403,3 +404,29 @@ i {
 		</div>
     </footer>
 </body>
+
+
+<script type="text/javascript">
+	
+	var loc =  "<%=session.getAttribute("loc") %>"
+
+	$(document).ready(function() {
+		console.log(loc);
+
+		if (loc != "") {
+			$("#content").load(loc);
+		}else{
+			
+		}
+
+		$('.nav-flyout li').on('click', function(e) {
+
+			console.log($(this).attr('value'));
+		
+			$("#content").load($(this).attr('value'));
+
+		});
+		
+		
+	});
+</script>
