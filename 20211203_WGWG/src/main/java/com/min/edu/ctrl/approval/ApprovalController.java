@@ -234,6 +234,7 @@ public class ApprovalController {
 		String signimg;
 		int docno = Integer.parseInt(req.getParameter("docNo"));
 		int empno = 2;
+		System.out.println("사인 : "+signNo + "문서번호 : "+docno );
 		
 		System.out.println("sign번호 : " + signNo +" docNo는 " + docno);
 		boolean flag = false;
@@ -255,11 +256,19 @@ public class ApprovalController {
 
 		// 내 결재 대기 상태 n로 변경
 		Approval_Doc doc = approvalServiceImpl.selectOneDoc(docno);
+		System.out.println("doc: "+  doc);
 		Approval_line appline = doc.getAlvo();
+		System.out.println("doc: " + doc);
+		System.out.println("appline: "+ appline);
+//		System.out.println("applineNo " + appline.get);
 		int lineNo = approvalServiceImpl.selectOneDoc(docno).getApp_line_no();
-		appline.setApp_line_no(lineNo);
-	
+		System.out.println(doc.getApp_line_no());
+//		appline.setApp_line_no(1);
+//		appline.setApp_line_no(doc.getApp_line_no());
+//		System.out.println("appline: "+ appline);
+		
 		String jsonObj = appline.getApproval();
+		System.out.println("applineNo: "+ lineNo + "!!!!!!!!!!!!");
 		
 
 		Gson gson = new Gson();
