@@ -473,7 +473,7 @@ th {
 
 		for (var i = 0; i < arr.length; i++) {
 		    console.log(arr[i]+" ");
-		    empnm+i.innerHTML = arr[i];
+		    //empnm+i.innerHTML = arr[i];
 		}
 		
 		$.ajax({
