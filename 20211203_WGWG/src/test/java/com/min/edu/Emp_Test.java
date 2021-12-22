@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.min.edu.model.emp.IEmpDao;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Emp_Page;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -48,7 +49,8 @@ public class Emp_Test {
 		
 //		assertEquals("사업지원팀", edao.selectInsertEmpInfo(20211242).getdVo().getDept_nm());
 		
-		
+		Emp_Page epage = new Emp_Page();
+		assertNotNull(edao.selectPaging(epage));
 		
 	}
 

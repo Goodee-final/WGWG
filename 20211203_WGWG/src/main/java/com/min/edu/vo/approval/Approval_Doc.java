@@ -24,6 +24,15 @@ public class Approval_Doc {
 	public Approval_Doc() {
 		super();
 	}
+	
+	public Approval_Doc(String app_doc_title, String app_doc_content, int form_no) {
+		super();
+		this.app_doc_title = app_doc_title;
+		this.app_doc_content = app_doc_content;
+		this.form_no = form_no;
+	}
+
+
 
 	public Approval_Doc(int app_doc_no, String app_doc_st, String app_doc_reg_dt, String app_doc_title, int emp_no, int form_no) {
 		super();
@@ -33,6 +42,20 @@ public class Approval_Doc {
 		this.app_doc_title = app_doc_title;
 		this.emp_no = emp_no;
 		this.form_no = form_no;
+	}
+	
+	
+
+	public Approval_Doc(int app_doc_no, String app_doc_reg_dt, String app_doc_title, String app_doc_content, int emp_no,
+			int form_no, Form fvo) {
+		super();
+		this.app_doc_no = app_doc_no;
+		this.app_doc_reg_dt = app_doc_reg_dt;
+		this.app_doc_title = app_doc_title;
+		this.app_doc_content = app_doc_content;
+		this.emp_no = emp_no;
+		this.form_no = form_no;
+		this.fvo = fvo;
 	}
 
 	public Approval_Doc(int app_doc_no, String app_doc_st, String app_doc_reg_dt, String app_doc_title,

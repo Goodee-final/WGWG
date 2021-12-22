@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.notice.NoticeFileVO;
 import com.min.edu.vo.notice.NoticePageVO;
 import com.min.edu.vo.notice.NoticeVO;
@@ -98,6 +99,11 @@ public class NoticeServiceImpl implements INoticeService{
 	@Override
 	public int insertNoticeCompany(NoticeVO vo) {
 		return dao.insertNoticeCompany(vo);
+	}
+
+	@Override
+	public Emp selectEList(int emp_no) {
+		return dao.selectEList(emp_no);
 	}
 
 	

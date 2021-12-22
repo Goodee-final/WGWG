@@ -18,7 +18,10 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
+<link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
+<link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
 
 <script type="text/javascript">
 	
@@ -496,9 +499,13 @@ i {
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
 						value="./insert_emp_form.do">사원등록</li>
-					<li class="w3-bar-item w3-button" value="">사원조회</li>
-				</ul>
-			</li>
+					<li class="w3-bar-item w3-button "value="./empList.do">사원조회</li>
+				</ul></li>
+			<li class="w3-bar-item nav1"><i class="fas fa-id-badge"></i>부서관리
+				<ul class="nav-flyout">
+					<li class="w3-bar-item w3-button "
+						value="./insert_emp_form.do">부서조회 및 관리</li>
+				</ul></li>
 		</ul>
 	</article>
 	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
@@ -513,6 +520,7 @@ i {
 						<!-- <button type="button" id="on">출근하기</button>
 						<button type="button" id="off">퇴근하기</button> -->
 					</div>
+					<span id="empnm">이름</span><span id="emppo">사원</span>
 				</div>
 				<div class="main-calendar">
 					달력
