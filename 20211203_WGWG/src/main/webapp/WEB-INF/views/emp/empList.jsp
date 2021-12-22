@@ -10,7 +10,15 @@
 <link rel="stylesheet" href="./css/paging.css" >
 <script type="text/javascript" src="./js/paging.js"></script>
 <script type="text/javascript">
-	
+	$(".selectRow").click(function(){
+		var tr = $(this);
+		var td = tr.children();
+		var empnoVal = td.eq(1).text();
+		
+		console.log(empnoVal);
+		
+		$("#content").load("./updateEmpForm.do?emp_no="+empnoVal);
+  	});
 </script>
 <style type="text/css">
 	#searchBy{
@@ -67,7 +75,7 @@
     </thead>
     <tbody>
     <c:forEach var="empList" items="${empList}">
-    	<tr>
+    	<tr class="selectRow" style="cursor: pointer;">
           <td>${empList.dVo.dept_nm}</td>
           <td>${empList.emp_no}</td>
           <td>${empList.emp_nm}</td>

@@ -153,12 +153,17 @@ public class EmpController {
 		
 		model.addAttribute("empList",lists);
 		for (Emp emp : lists) {
-			System.out.println("부서명 : "+emp.getdVo().getDept_nm());
-			System.out.println("직급명 : "+emp.getpVo().getPosition_nm());
 		}
 		model.addAttribute("paging",paging);
 		logger.info("페이징 DTO 값 : {}",paging.toString());
 		System.out.println(lists.toString());
 		return "emp/empList";
+	}
+	
+	@GetMapping(value="/updateEmpForm.do")
+	public String updateEmpForm(HttpServletRequest req) {
+		logger.info("EmpController 사원목록에서 상세정보페이지 이동");
+		int emp_no = Integer.parseInt(req.getParameter("emp_no"));
+		return "emp/updateEmpForm";
 	}
 }
