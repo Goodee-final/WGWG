@@ -448,39 +448,35 @@ i {
 		
 				</ul>
 			</li>
-			
-      
-			<li class="w3-bar-item nav1"><i class="fas fa-business-time"></i>근태관리
-				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="./workrecord.do">근태관리</li>
-					<li class="w3-bar-item w3-button" value="">근태관리</li>
-				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="fas fa-thumbtack"></i> 공지사항
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button"
 						value="./noticeList.do">공지사항</li>
 					<li class="w3-bar-item w3-button" value="">공지사항</li>
-				</ul></li>
+				</ul>
+			</li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>일정관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button"
 						value="./loadForm.do">일정관리</li>
 					<li class="w3-bar-item w3-button" value="">일정관리</li>
-				</ul></li>
+				</ul>
+			</li>
 
-			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약관리
+			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="">예약관리</li>
-					<li class="w3-bar-item w3-button" value="">예약관리</li>
+					<li class="w3-bar-item w3-button" value="./reservation.do">예약하기</li>
+					<li class="w3-bar-item w3-button" value="./reservationist.do">예약목록</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i>업무일지
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button" value="./worklogInsert.do">업무일지 작성</li>
 					<li class="w3-bar-item w3-button" value="./worklogList.do">업무일지 조회</li>
-				</ul></li>
+				</ul>
+			</li>
 
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>채팅
 				<ul class="nav-flyout">
@@ -488,21 +484,21 @@ i {
 					<li class="w3-bar-item w3-button" value="">채팅</li>
 				</ul></li>
 			<c:if test="${emp.dept_no eq 10}">
-					<li class="w3-bar-item nav1"><i class="fas fa-file"></i>양식함
-						<ul class="nav-flyout">
-							<li class="w3-bar-item w3-button" value="./formlist.do">양식목록</li>
-							<li class="w3-bar-item w3-button" value="./forminsert.do">양식등록</li>
-						</ul>
-					</li>
+				<li class="w3-bar-item nav1"><i class="fas fa-file"></i>양식함
+					<ul class="nav-flyout">
+						<li class="w3-bar-item w3-button" value="./formlist.do">양식목록</li>
+						<li class="w3-bar-item w3-button" value="./forminsert.do">양식등록</li>
+					</ul>
+				</li>
 			</c:if>
 			
 			<li class="w3-bar-item nav1"><i class="fas fa-users"></i>사원관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
 						value="./insert_emp_form.do">사원등록</li>
-					<li class="w3-bar-item w3-button "
-						value="">사원조회</li>
-				</ul></li>
+					<li class="w3-bar-item w3-button" value="">사원조회</li>
+				</ul>
+			</li>
 		</ul>
 	</article>
 	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
@@ -514,8 +510,8 @@ i {
 						<span>${emp.emp_nm}</span><br>
 						<span>${emp.dVo.dept_nm}</span>
 						<span>${emp.pVo.position_nm}</span><br>
-						<button type="button" id="on">출근하기</button>
-						<button type="button" id="off">퇴근하기</button>
+						<!-- <button type="button" id="on">출근하기</button>
+						<button type="button" id="off">퇴근하기</button> -->
 					</div>
 				</div>
 				<div class="main-calendar">

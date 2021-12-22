@@ -358,6 +358,8 @@ th {
          $("#save").click(function(){
              oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
              var content = document.getElementById("ir1").value;
+             var data = data.replace(/[<][^>]*[>]/g, '');
+             console.log(data);
              $("#frm").submit();
          });
    });
