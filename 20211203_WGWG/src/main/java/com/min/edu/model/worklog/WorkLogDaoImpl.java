@@ -42,8 +42,16 @@ public class WorkLogDaoImpl implements IWorkLogDao {
 
 	@Override
 	public List<WorkLog> searchWorkLog(String searchWord) {
-		logger.info("WorkLogDaoImpl searchWorkLog 업무일지 검색");
+		logger.info("WorkLogDaoImpl searchWorkLog 업무일지 검색 - 작성자, 내용");
 		return sqlSession.selectList(NS + "searchWorkLog", searchWord);
+	}
+
+	@Override
+	public List<WorkLog> searchByDate(Map<String, Object> map) {
+		logger.info("WorkLogDaoImpl searchByDate 업무일지 검색 - 기간");
+		logger.info("searchByDate MAP : " + map);
+		
+		return sqlSession.selectList(NS + "searchByDate", map);
 	}
 
 	@Override
@@ -70,16 +78,16 @@ public class WorkLogDaoImpl implements IWorkLogDao {
 //		return sqlSession.delete(NS + "deleteWorkLog", worklog_nos);
 //	}
 
-	@Override
-	public List<Department> selectAllDept() {
-		logger.info("전제 부서 조회 List<Department>");
-		return sqlSession.selectList(NS+"selectAllDept");
-	}
+//	@Override
+//	public Emp selectEmpDP(int emp_no) {
+//		logger.info("selectEmpDP 본인 부서번호까지 정보 다 가져오기");
+//		return sqlSession.selectOne(NS+"selectEmpDP");
+//	}
 
 	@Override
 	public Emp selectEmpNo(int emp_no) {
 		logger.info("emp_no 고르기 {}", emp_no);
-		return sqlSession.selectOne(NS+"selectEmpNo", emp_no);
+		return sqlSession.selectOne(NS + "selectEmpNo", emp_no);
 	}
 
 }
