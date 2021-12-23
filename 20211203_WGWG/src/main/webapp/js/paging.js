@@ -60,7 +60,7 @@ function noticepagingAjax() {
 //paging submit 공통
 function frmPaging() {  
 	console.log("도착");
-   	if( 'document.getElementById("notice_chk").value)' != null || 'document.getElementById("notice_chk").value)' != ''){
+   	if(document.getElementById("notice_chk")){
 
  	  noticepagingAjax();
 	}else{		

@@ -4,103 +4,418 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Toast ui calendar</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
-<link rel="stylesheet" type="text/css" href="https://nhn.github.io/tui.calendar/latest/examples/css/icons.css">
-<link rel="stylesheet" type="text/css" href="./dist/tui-calendar.css">
-<link rel="stylesheet" href="./css/Calendar.css">
-<style type="text/css">
-	.content{
- 		width: 1500px;
- 		height: 800px;
- 	}
-</style>
 
-</head>
+<title>Insert title here</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="fullcalenda/lib/main.css" rel="stylesheet" />
+<script type="text/javascript" src="fullcalenda/lib/main.js"></script>
+<script type="text/javascript" src="fullcalenda/lib/locales-all.min.js"></script>
 
-<body>
-<div class="col-xs-2" style="margin-top: 63px;">
-	<div>
-        <!-- <div class="lnb-new-schedule">
-            <button id="btn-new-schedule" type="button" class="btn btn-default btn-block lnb-new-schedule-btn" data-toggle="modal">New schedule</button>
-        </div>
-        <div id="lnb-calendars" class="lnb-calendars">
-            <div>
-                <div class="lnb-calendars-item">
-                    <label>
-                        <input type="checkbox" value="all" checked>
-                        <span></span>
-                        <strong>View all</strong>
-                    </label>
-                </div>
-            </div>-->
-            
-           <div id="calendarList" class="lnb-calendars-d1">
-				
-			</div>
-        </div>
-    </div>
-<!--  -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="fullcalenda/js/addEvent.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+ <link rel="stylesheet" href="fullcalenda/css/main.css">
 
-       <div id="calendarList" class="lnb-calendars-d1 list-group"></div>
-</div>
+ 
+ 
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <script>
+ $(function(){
+	 
+	 var eventModal = $('#reply');
+	 var modalTitle = $('.modal-title');
+     var editTitle = $('#edit-title');
+     var editStart = $('#edit-start');
+     var editEnd = $('#edit-end');
+     var editColortx = $('#edit-colortx');
+     var editColorbg = $('#edit-colorbg');
+     var editDesc = $('#edit-desc');
+     
+    
+     
+     
+var request = $.ajax({
+  url: "./calendarlist.do?emp_no=${emp.emp_no}", //나중에 세션자리
+  method: "post",
+  dataType: "json",
+  data: {},
+	  success: function (msg) {
+		  console.log(msg);
+		  $.each(msg,function(key,value){	
+			  console.log(value.description);
+			  events: ([
+			         {
+					  title: value.title,
+			           start: value.start,
+			           end: value.end,
+			           textColor:value.textColor,
+			           backgroundColor:value.backgroundColor,
+			           description:value.description		
+			  }]);
+		         
+		 });
+	  } 
+});
 
- 	<div class="col-xs-9">
-		<div id="menu">
-		    <span id="menu-navi">
-		      <button type="button" class="btn btn-default btn-sm move-time" data-action="move-time">일</button>
-			  <button type="button" class="btn btn-default btn-sm move-1week" data-action="move-1week">1주</button>
-			  <button type="button" class="btn btn-default btn-sm move-2week" data-action="move-2week">2주</button>
-			  <button type="button" class="btn btn-default btn-sm move-month" data-action="move-month">월</button>
-		      <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
-		      <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev">
-		        <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>
-		      </button>
-		      <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next">
-		        <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
-		      </button>
-		    </span>
-		    <span id="renderRange" class="render-range"></span>
+request.done(function(data) {
+	console.log(data);
+	var eventModal = $('#reply');
+ 	var modalTitle = $('.modal-title');
+   	var editTitle = $('#edit-title');
+   	var editStart = $('#edit-start');
+    var editEnd = $('#edit-end');
+    var editColortx = $('#edit-colortx');
+    var editColorbg = $('#edit-colorbg');
+    var editDesc = $('#edit-desc');
+    
+    var addBtnContainer = $('.modalBtnContainer-addEvent');
+    var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
+    
+	var calendarEl = document.getElementById('calendar');
+	
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    	height: '800px', // calendar 높이 설정
+    	expandRows: true, // 화면에 맞게 높이 재설정
+        slotMinTime: "00:00", // Day 캘린더에서 시작 시간
+        slotMaxTime: "23:59", // Day 캘린더에서 종료 시간
+    	headerToolbar: {
+    		left: 'prev,next today',
+    		center: 'title',
+    		right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',  
+    		
+    },
+    
+      initialView: 'dayGridMonth',
+      navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+      editable: false, // 수정 가능?
+   	  selectMirror: true,
+      selectable: true, // 달력 일자 드래그 설정가능
+      nowIndicator: true, // 현재 시간 마크
+      dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+      showNonCurrentDates:false, // 다음달 이전달  캘린더에 안보이게 설정
+      locale: 'ko',
+      
+      
+      //드래그로 이벤트발생
+      select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+    	  
+    	  var starts=new Date(arg.start);
+    	 
+    	  modalTitle.html('일정 등록');
+      	  console.log(arg);
+      	  console.log(arg.startStr);
+      	  console.log(arg.endStr); 
+      	    
+          editTitle.val('');
+          editStart.val(dateFormat(arg.start));
+          editEnd.val(dateFormat2(arg.end));
+          editColortx.val();
+          editColorbg.val();
+          editDesc.val('');
+          
+      	  addBtnContainer.show();
+      	  modifyBtnContainer.hide();
+      	  eventModal.modal('show');
+      	 
+      	  $('#save-event').on('click', function () {
+
+             var eventData = {		                    
+                 title: editTitle.val(),
+                 start: editStart.val(),
+                 end: editEnd.val(),		                     
+                 textColor: editColortx.val(),
+                 backgroundColor: editColorbg.val(),
+                 description: editDesc.val(),
+             };
+
+             if (eventData.start > eventData.end) {
+                 alert('끝나는 날짜가 앞설 수 없습니다.');
+                 return false;
+             }
+
+             if (eventData.title === '') {
+                 alert('일정명은 필수입니다.');
+                 return false;
+             }
+
+             
+	                 
+             eventModal.modal('hide');
+             
+             //새로운 일정 저장
+				console.log(${emp.emp_no});
+				console.log(eventData.title);
+				console.log(eventData.start);
+				console.log(eventData.end);
+				console.log(eventData.textColor);
+				console.log(eventData.backgroundColor);
+				console.log(eventData.description);
+             $.ajax({
+         		url : "./calendarsave.do",
+         		type : "post",
+         		dataType : "json",
+         		data :
+         		{
+         			"emp_no" : ${emp.emp_no},
+         			"title" : eventData.title,         			
+         			"start" : eventData.start,
+         			"end" : eventData.end,
+         			"textColor": eventData.textColor,
+                    "backgroundColor": eventData.backgroundColor,
+                    "description": eventData.description
+         		},
+        		success : function(msg){
+        			alert("일정 등록에 성공했습니다");
+        			location.href="./loadForm.do";
+        		},
+         		error : function() {
+         			alert("잘못된 요청입니다.");
+         		}
+         	});
+         });
+      	  
+     },
+
+      /*
+    	//일정 등록	
+    	  dateClick: function (arg) {
+      	  	modalTitle.html('일정 등록');
+      	  	
+      	    
+      	    
+          editTitle.val('');
+          editStart.val(dateFormat(arg.start));
+          editEnd.val(dateFormat(arg.end));
+      	    editType.val('');
+      	    editDesc.val('');
+      	    editColor.val('');
+			
+      	    addBtnContainer.show();
+      	    modifyBtnContainer.hide();
+      	    eventModal.modal('show');
+    	
+      },*/
+      eventClick: function(arg) { // 있는 일정 클릭시, 
+    	 
+    	  $.each(data,function(key,value){	
+    		  
+    		  console.log(value.description);
+    	  })
+      		
+
+      	    if (arg.event.end == null) {
+      	        arg.event.end = arg.event.start;
+      	    }
+          
+      	    
+      	    modalTitle.html('일정 수정');
+      	    editTitle.val(arg.event.title);
+      	    console.log(arg.event.start);
+      	    console.log(arg.event.end);
+      	  	editStart.val(dateFormat3(arg.event.start));
+      	    editEnd.val(dateFormat3(arg.event.end));
+      		console.log(arg.event.textColor);
+      	 	console.log(arg.event.backgroundColor);
+      	    editColortx.val(arg.event.textColor).css('color', arg.event.textColor);
+      	    editColorbg.val(arg.event.backgroundColor).css('color', arg.event.backgroundColor);
+      	 	console.log(arg.event.description);
+      	 	console.log(typeof(data));
+      	    editDesc.val(arg.event.description);
+      	    
+      	    
+      	    addBtnContainer.hide();
+      	    modifyBtnContainer.show();
+      	    eventModal.modal('show');
+
+			
+      		//calendar.on('beforeUpdateSchedule', function(event) {
+      		
+      		 
+      		//});
+    
+      },
+     
+    	 
+      events: data
+    });
+
+    calendar.render();								
+});		 
 		
-		<div id="calendar" style="height: 600px;"></div>
-</div>
-		<div calss=".tui-full-calendar-popup-section-item.tui-full-calendar-section-location">
-		.tui-full-calendar-popup-section-item.tui-full-calendar-section-location {
-  display: none;
-}
-.tui-full-calendar-popup-section-item.tui-full-calendar-section-location input {
-	display: none;
-/*   width: 400px; */
-}
-		</div>
-	</div>
-</body>
+		
+});
+    
 
-<script id="template-lnb-calendars-item" type="x-tmpl-mustache">
-  {{#users}}
-    <div class="lnb-calendars-item list-group-item">
-        <label>
-            <input type="checkbox" class="tui-full-calendar-checkbox-round" value="{{ id }}" checked>
-            <span style="border-color: {{ color }}; background-color: {{ color }};" data-visible="visible"></span>
-            <span>{{ name }}</span>
-        </label>
+ 
+
+ 
+	$("#updateEvent").click(function(e){
+		e.preventDefault();
+		console.log($("#edit-start").val());
+	})	  
+  	  
+/* function frm() {  
+		
+	   	if(document.getElementById('calendarinsert')){
+	 	document.getElementById('calendarinsert').submit();
+		
+		}
+	}	*/	
+ function dateFormat(date) {
+	 let month = date.getMonth() +1;
+     let day = date.getDate();
+     let hour = date.getHours()+9;
+     let minute = date.getMinutes();
+
+     month = month >= 10 ? month : '0' + month;
+     day = day >= 10 ? day : '0' + day;
+     hour = hour >= 10 ? hour : '0' + hour;
+     minute = minute >= 10 ? minute : '0' + minute;
+
+     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
+} 
+	function dateFormat2(date) {
+		 let month = date.getMonth() +1;
+	     let day = date.getDate()-1;
+	     let hour = date.getHours()+10;
+	     let minute = date.getMinutes();
+
+	     month = month >= 10 ? month : '0' + month;
+	     day = day >= 10 ? day : '0' + day;
+	     hour = hour >= 10 ? hour : '0' + hour;
+	     minute = minute >= 10 ? minute : '0' + minute;
+
+	     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
+	} 	
+	function dateFormat3(date) {
+		 let month = date.getMonth() +1;
+	     let day = date.getDate();
+	     let hour = date.getHours();
+	     let minute = date.getMinutes();
+
+	     month = month >= 10 ? month : '0' + month;
+	     day = day >= 10 ? day : '0' + day;
+	     hour = hour >= 10 ? hour : '0' + hour;
+	     minute = minute >= 10 ? minute : '0' + minute;
+
+	     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
+	} 
+ 
+ /* 
+ function datetimelocalcha(date) {
+     let month = date.getMonth() +1;
+     let day = date.getDate()-1;
+     let hour = date.getHours();
+     let minute = date.getMinutes();
+
+     month = month >= 10 ? month : '0' + month;
+     day = day >= 10 ? day : '0' + day;
+     hour = hour >= 10 ? hour : '0' + hour;
+     minute = minute >= 10 ? minute : '0' + minute;
+
+     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
+}
+ function datetimelocalsum(date) {
+	 console.log(date);
+     let month = date.getMonth() + 1;
+     let day = date.getDate()+1;
+     let hour = date.getHours();
+     let minute = date.getMinutes();
+
+     month = month >= 10 ? month : '0' + month;
+     day = day >= 10 ? day : '0' + day;
+     hour = hour >= 10 ? hour : '0' + hour;
+     minute = minute >= 10 ? minute : '0' + minute;
+
+     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
+} */
+</script>
+<style>
+#calendar{
+   width:60%;
+   margin:20px auto;
+}
+</style>
+</head>
+<body>
+		
+    <div id="calendar"></div>
+    
+    		<!-- 일정 추가 MODAL -->
+        
+  <div class="modal fade" id="reply" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">등록</h4>
+          
+        </div>
+          <form action="" method="post" id="calendarinsert" class="form-margin">
+         <div class="modal-body">
+                        
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4" for="edit-title">일정명</label>
+                                <input class="inputModal" type="text" name="edit-title" id="edit-title"
+                                    required="required" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4" for="edit-start">시작</label>
+                                <input class="inputModal" type="datetime-local" name="edit-start" id="edit-start" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4" for="edit-end">끝</label>
+                                <input class="inputModal" type="datetime-local" name="edit-end" id="edit-end" />
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4" for="edit-colortx">글자색</label>
+                                <input type="color" class="inputModal" name="edit-colortx" id="edit-colortx" style="width: 50px" value="#FFFAFA">                             
+                                
+                            </div>
+                        </div>     
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4" for="edit-colorbg">배경색</label>
+                                <input type="color" class="inputModal" name="edit-colorbg" id="edit-colorbg" style="width: 50px" value="#74c0fc">                             
+                                
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4" for="edit-desc">설명</label>
+                                <textarea rows="4" cols="50" class="inputModal" name="edit-desc"
+                                    id="edit-desc"></textarea>
+                            </div>
+                        </div>                   
+                    </div>
+                    <div class="modal-footer modalBtnContainer-addEvent">
+                    	<button type="button" class="btn btn-primary" id="save-event">저장</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>                        
+                    </div>
+                    <div class="modal-footer modalBtnContainer-modifyEvent">
+                    <button type="button" class="btn btn-primary" id="updateEvent">저장</button>
+                    <button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                        
+                        
+                    </div>
+            </form>     
+      </div>      
     </div>
-    {{/users}}
-</script>
-<script type="text/javascript">
-class="tui-full-calendar-popup-container"
-</script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
-<script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
-<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-<script src =" https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js "></script>
-<script src="./dist/tui-calendar.js"></script>
-<script src="./js/Calendar.js"></script>
+  </div>	
+
+  </body>
 </html>
