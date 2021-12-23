@@ -520,7 +520,6 @@ i {
 						<!-- <button type="button" id="on">출근하기</button>
 						<button type="button" id="off">퇴근하기</button> -->
 					</div>
-					<span id="empnm">이름</span><span id="emppo">사원</span>
 				</div>
 				<div class="main-calendar">
 					달력

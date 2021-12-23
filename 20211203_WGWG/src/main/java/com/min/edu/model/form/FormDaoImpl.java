@@ -1,6 +1,7 @@
 package com.min.edu.model.form;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -39,9 +40,9 @@ public class FormDaoImpl implements IFormDao {
 	}
 
 	@Override
-	public int insertForm(Form form) {
-		logger.info("양식 등록 {}", form);
-		return sqlSession.insert(NS+"insertForm", form);
+	public int insertForm(Map<String, Object> map) {
+		logger.info("양식 등록 {}", map);
+		return sqlSession.insert(NS+"insertForm", map);
 	}
 
 	@Override
@@ -72,6 +73,18 @@ public class FormDaoImpl implements IFormDao {
 	public int selectTotalPaging() {
 		logger.info("전체 글 갯수 확인하기");
 		return sqlSession.selectOne(NS+"selectTotalPaging");
+	}
+
+	@Override
+	public List<Form> searchPaging(Map<String, Object> map) {
+		logger.info("검색내역 페이징 처리하기{}", map);
+		return sqlSession.selectList(NS+"searchPaging", map);
+	}
+
+	@Override
+	public int searchTotalPaging(String formtitle) {
+		logger.info("검색내역 갯수 확인하기 검색어 -> {}", formtitle);
+		return sqlSession.selectOne(NS+"searchTotalPaging", formtitle);
 	}
 
 }

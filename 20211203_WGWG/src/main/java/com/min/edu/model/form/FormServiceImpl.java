@@ -1,6 +1,7 @@
 package com.min.edu.model.form;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class FormServiceImpl implements IFormService {
 	}
 
 	@Override
-	public int insertForm(Form form) {
-		return dao.insertForm(form);
+	public int insertForm(Map<String, Object> map) {
+		return dao.insertForm(map);
 	}
 
 	@Override
@@ -59,6 +60,16 @@ public class FormServiceImpl implements IFormService {
 	@Override
 	public int selectTotalPaging() {
 		return dao.selectTotalPaging();
+	}
+
+	@Override
+	public List<Form> searchPaging(Map<String, Object> map) {
+		return dao.searchPaging(map);
+	}
+
+	@Override
+	public int searchTotalPaging(String formtitle) {
+		return dao.searchTotalPaging(formtitle);
 	}
 
 }
