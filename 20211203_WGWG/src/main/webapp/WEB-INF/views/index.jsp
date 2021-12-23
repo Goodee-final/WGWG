@@ -510,7 +510,7 @@ i {
 			<li class="w3-bar-item nav1"><i class="fas fa-id-badge"></i>부서관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
-						value="./insert_emp_form.do">부서조회 및 관리</li>
+						value="./deptList.do">부서조회 및 관리</li>
 				</ul></li>
 		</ul>
 	</article>

@@ -58,7 +58,7 @@
 </style>
 <script type="text/javascript">
 	$("#toListbtn").click(function(){
-		$("#content").load("./empList.do");
+		//$("#content").load("./empList.do");
   	});
 </script>
 </head>
@@ -119,7 +119,7 @@
 		<label for="email">이메일:</label>
 		<input type="email" id="email" name="email" class="form-control"><br>
 		<input type="submit" value="수정하기" class="btn" id="submit_btn">
-		<input type='button' value="목록으로" class ="btn" id='toListbtn'>
+		<input type='button' value="목록으로" class ="btn" id='toListbtn' onclick="location.href='./home.do'">
 	</div>
 	</div>
 	</form:form>

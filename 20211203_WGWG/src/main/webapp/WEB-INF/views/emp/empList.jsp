@@ -17,7 +17,27 @@
 		
 		console.log(empnoVal);
 		
-		$("#content").load("./updateEmpForm.do?emp_no="+empnoVal);
+		location.href="./updateEmpForm.do?emp_no="+empnoVal;
+		
+		/*  $.ajax({
+			contentType:"application/json",
+			type:"get",
+			data:{
+				"emp_no":emp_no
+			},
+			url:"/updateEmpForm.do",
+			success:function(data){
+				console.log("send emp_no");
+			},
+			error:function(){
+				console.log("no emp_no");
+			}
+			
+		});
+		
+		$("#content").load("./updateEmpForm.do?emp_no="+emp_no);
+		console.log("updateEmpForm.do?emp_no="+emp_no); */ 
+		
   	});
 </script>
 <style type="text/css">
