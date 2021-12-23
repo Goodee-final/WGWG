@@ -77,7 +77,7 @@ SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting
                         WHERE al.APP_LINE_NO = 6;
                        
                        
-SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting
+SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting, signimg
 	  			FROM APPROVAL_LINE al, 
 		    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
 		               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no',
@@ -85,7 +85,7 @@ SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting
 		                        REASON  VARCHAR(200) PATH '$.reason',
 		                        APPROVAL_DT VARCHAR(200) PATH '$.approval_dt',
 		                        waiting INTEGER PATH '$.waiting',
-		                       	signimg INTEGER PATH '$.signimg')) WHERE APP_LINE_NO = 1;
+		                       	signimg INTEGER PATH '$.signimg'));
 
 SELECT EMP_NO
 	FROM APPROVAL_LINE al, 
