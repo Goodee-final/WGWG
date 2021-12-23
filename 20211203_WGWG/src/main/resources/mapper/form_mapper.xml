@@ -62,4 +62,18 @@
 <select id="selectForm" resultType="formDto">
 	SELECT FORM_NO, FORM_NM FROM FORM ORDER BY FORM_NO ASC
 </select>
+
+<select id="selectPaging" parameterType="com.min.edu.vo.paging.PagingDto" resultMap="FormJoinVo">
+	SELECT FORM_NO, FORM_NM, FORM_REG_DT, FORM_CLASS_NM
+	FROM(
+		SELECT f.*,fc.FORM_CLASS_NM, ROW_NUMBER () OVER (ORDER BY f.FORM_NO DESC) RNUM
+			FROM FORM f JOIN FORM_CLASSIFICATION fc
+			ON F.FORM_CLASS_NO = FC.FORM_CLASS_NO
+		)
+	WHERE RNUM BETWEEN #{start} AND #{last} 
+</select>
+
+<select id="selectTotalPaging" resultType="java.lang.Integer">
+	 SELECT NVL(COUNT(*),0) FROM FORM
+</select>
 </mapper>

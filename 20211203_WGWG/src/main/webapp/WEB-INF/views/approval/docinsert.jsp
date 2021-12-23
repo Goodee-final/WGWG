@@ -542,6 +542,8 @@ th {
          $("#save").click(function(){
              oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
              var content = document.getElementById("ir1").value;
+             var data = data.replace(/[<][^>]*[>]/g, '');
+             console.log(data);
              var form_no = $('#formList option:selected').val();
              $('input[name=form_num]').attr('value', form_no);
              console.log(form_no);

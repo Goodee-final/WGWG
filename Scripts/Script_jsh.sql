@@ -105,12 +105,11 @@ WHERE FORM_NO = 21;
 
 
 SELECT wr.EMP_NO, e.EMP_NM, 
-	JSON_VALUE(WORK_LOG,'$.WORK_LOG.DATE') AS DT,
 	JSON_VALUE(WORK_LOG,'$.WORK_LOG.ST') AS ST,
-	JSON_VALUE(WORK_LOG,'$.WORK_LOG.ED') AS ED
+	JSON_VALUE(WORK_LOG,'$.WORK_LOG.ET') AS ET
 FROM WORK_RECORD wr JOIN EMP e
 ON wr.EMP_NO = e.EMP_NO 
-WHERE wr.EMP_NO = 1;
+WHERE wr.EMP_NO = 6;
 
 SELECT wr.EMP_NO AS EMP_NO, e.EMP_NM AS EMP_NM, wr.WORK_LOG AS WORK_LOG
 	FROM WORk_RECORD wr JOIN EMP e
@@ -123,3 +122,233 @@ WHERE FORM_NO = 1;
 SELECT FORM_NO, FORM_NM FROM FORM ORDER BY FORM_NO ASC;
 
 SELECT * FROM APPROVAL_DOCUMENT ad;
+
+DELETE FROM FORM WHERE FORM_NO >= 30;
+
+UPDATE FORM SET TEMPLATE =
+	TO_CLOB('<table border="1px solid black" style="border-collapse: collapse; width: 800px;"><tr style="height: 30px;"> <th style="background-color: #bbf3fa; width: 100px;">요일</th><th colspan="3" style="background-color: #bbf3fa;width: 200px;">업무명</th><th colspan="4" style="background-color: #bbf3fa; width: 300px;">업무내용</th></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">월</th><td rowspan="3" colspan="3" style="width: 300px;"></td>')||
+	TO_CLOB('<td rowspan="3" colspan="4" style="width: 400px;"></td></tr> <tr></tr><tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">화</th><td rowspan="3" colspan="3" style="width: 300px;"></td><td rowspan="3" colspan="4" style="width: 400px;"></td></tr><tr></tr> <tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">수</th><td rowspan="3" colspan="3" style="width: 300px;"></td><td rowspan="3" colspan="4" style="width: 400px;"></td></tr><tr></tr><tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">목</th><td rowspan="3" colspan="3" style="width: 300px;"></td><td rowspan="3" colspan="4" style="width: 400px;"></td></tr><tr></tr> <tr></tr> <tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">금</th><td rowspan="3" colspan="3" style="width: 300px;"></td><td rowspan="3" colspan="4" style="width: 400px;"></td> </tr><tr></tr><tr></tr><tr style="height: 30px;"><th colspan="4" style="background-color: #bbf3fa; width: 400px;">비고</th><th colspan="4" style="background-color: #bbf3fa;width: 400px;">차주 업무 계획</th></tr><tr style="height: 120px;"><td rowspan="4" colspan="4" style="width: 400px;"></td><td rowspan="4" colspan="4" style="width: 400px;"></td></tr></table>')
+WHERE FORM_NO = 9;
+
+UPDATE WORK_RECORD SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG, '{"ED":"2021-12-19 17:59:58"}') WHERE EMP_NO =6;
+UPDATE WORK_RECORD SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG, '[{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}]') WHERE EMP_NO =6;
+UPDATE WORK_RECORD SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG, '{"ED":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}') WHERE EMP_NO =6;
+UPDATE WORK_RECORD SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG, '{"DATE":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'"}') WHERE EMP_NO =6;
+
+INSERT INTO WORK_RECORD
+(EMP_NO, WORK_LOG)
+VALUES(6, '{"DATE":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'", "WORK_LOG":{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'","ET":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"},"DATE":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'", "WORK_LOG":{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'","ET":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"},"DATE":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'","WORK_LOG":{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'","ET":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}');
+SELECT * FROM WORK_RECORD wr ;
+
+UPDATE WORK_RECORD 
+SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG,              
+                   '{"DATE":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'","WORK_LOG":{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}}')
+WHERE EMP_NO = 6;
+
+
+INSERT INTO WORK_RECORD
+(EMP_NO, WORK_LOG)
+VALUES(6, '{"WORK_LOG":{"DATE":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'"}}');
+
+UPDATE WORK_RECORD 
+SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG,              
+                   '{"DATE":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'","WORK_LOG":{"ET":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}}')
+WHERE EMP_NO = 6;
+
+UPDATE WORK_RECORD 
+SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG,              
+                   '{"WORK_LOG":{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}}')
+WHERE EMP_NO = 6;
+UPDATE WORK_RECORD 
+SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG,              
+                   '{"WORK_LOG":{"ET":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}}')
+WHERE EMP_NO = 6;
+
+
+
+SELECT JSON_MERGEPATCH(WORK_LOG, '{"WORK_LOG":{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}}') AS WORK_LOG
+FROM WORK_RECORD
+WHERE EMP_NO = 6;
+
+UPDATE WORK_RECORD 
+SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG,              
+                   '{"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'":{}}')
+WHERE EMP_NO = 6;
+
+INSERT INTO WORK_RECORD
+(EMP_NO, WORK_LOG)
+VALUES(6, '{"WORK_LOG":[{"DATE":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'", ST:"", ET:""}]}');
+
+SELECT * FROM WORK_RECORD wr ;
+
+UPDATE WORK_RECORD 
+SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG,              
+                   '{"WORK_LOG":[{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'"}]"}')
+WHERE EMP_NO = 6;
+
+UPDATE WORK_RECORD 
+SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG,              
+                   '{"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'":
+								{"ET":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'"}}')
+WHERE EMP_NO = 6;
+
+select json_transform(json_data,
+                      append '$.produce' = JSON('{"fruit":"banana","quantity":20}')
+                      returning clob pretty) as data
+from   t1
+where  id = 2;
+
+SELECT json_transform(WORK_LOG,
+                      SET '$.WORK_LOG.ST' = systimestamp
+                      returning clob pretty) AS DATA 
+FROM   WORK_RECORD wr 
+WHERE  EMP_NO = 6;
+
+select json_transform(WORK_LOG,
+                      append '$.WORK_LOG' = JSON('{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'","ET":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd')||'"}')
+                      returning clob pretty) as data
+FROM   WORK_RECORD wr 
+WHERE  EMP_NO = 6;
+
+
+INSERT INTO WORK_RECORD
+(EMP_NO, WORK_LOG)
+VALUES(6, '{"WORK_LOG":[{"DATE":"2021-12-19","ST":"2021-12-19 08:59:57","ET":"2021-12-19 18:02:13"},{"DATE":"2021-12-20","ST":"2021-12-20 08:59:57","ET":"2021-12-20 18:02:13"}]}');
+
+SELECT * FROM WORK_RECORD wr ;
+
+UPDATE WORK_RECORD 
+SET WORK_LOG = JSON_MERGEPATCH('$.WORK_LOG[0]',              
+                   '{"WORK_LOG":{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}}')
+WHERE EMP_NO = 6;
+UPDATE WORK_RECORD 
+SET WORK_LOG = JSON_MERGEPATCH(WORK_LOG,              
+                   '{"WORK_LOG":{"ET":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}}')
+WHERE EMP_NO = 6;
+
+SELECT * FROM WORK_RECORD wr ;
+
+UPDATE WORK_RECORD SET WORK_LOG = JSON_TRANSFORM(WORK_LOG,
+                      SET '$.WORK_LOG[0].ST' = '{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}'
+                      FORMAT JSON)
+from   WORK_RECORD
+where  EMP_NO = 6;
+
+UPDATE WORK_RECORD SET APPROVAL = json_transform(APPROVAL,
+               SET  '$.APPROVAL[1]' = 
+                   '{"check":"반려",
+                          "waiting":"n",
+                          "regdate":"'||to_char(CURRENT_TIMESTAMP, 'yyyy/mm/dd HH:MI')||'"}'
+                           FORMAT JSON)
+                           
+UPDATE WORK_RECORD SET WORK_LOG = JSON_TRANSFORM(WORK_LOG ,SET '$.WORK_LOG.ST' = '{"ST":"'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'"}') WHERE EMP_NO = 6; 
+
+SELECT * FROM APPROVAL_LINE al WHERE APP_LINE_NO =1;
+
+SELECT * FROM WORK_RECORD wr ;
+
+UPDATE WORK_RECORD wr SET wr.WORK_LOG = json_transform(wr.WORK_LOG, 
+               SET '$.WORK_LOG[0].DATE' = SYSTIMESTAMP)
+WHERE wr.EMP_NO = 6;
+
+UPDATE APPROVAL_LINE SET approval =
+  json_transform(approval, SET '$.APPROVAL[0].reason' = SYSTIMESTAMP);
+
+UPDATE WORK_RECORD SET WORK_LOG =  json_transform(WORK_LOG,
+               SET '$.WORK_LOG[0].DATE' = 'aa') WHERE EMP_NO = 6;
+              
+ SELECT * FROM APPROVAL_LINE al ;	
+ 
+{"APPROVER":[{"EMP_NO":"3", "APPROVAL_ST":"승인", "REASON":"", "APPROVAL_DT":"2021/12/16 11:49"},
+         {"EMP_NO":"4","APPROVAL_ST":"승인", "REASON":"", "APPROVAL_DT":"2021/12/16 11:49"},
+         {"EMP_NO":"2","APPROVAL_ST":"반려", "REASON":"##항목 누락됨", "APPROVAL_DT":"2021/12/16 11:49"},
+         {"EMP_NO":"1","APPROVAL_ST":"", "REASON":"", "APPROVAL_DT": "2021/12/16 11:49"}]}
+         
+SELECT APP_LINE_NO ,empno, approval_st, reason, regdate
+  			FROM APPROVAL_LINE al, 
+	    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+	               COLUMNS (empno VARCHAR2(100) PATH '$.empno',
+	                        approval_st  VARCHAR(20) PATH '$.check',
+	                        reason  VARCHAR(200) PATH '$.reason',
+	                        regdate VARCHAR(200) PATH '$.regdate')) AS U
+	                        
+SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT
+FROM 
+ (
+  SELECT *
+  FROM NOTICE n
+  WHERE NOTICE_CHK = '회사'
+  ORDER BY notice_no DESC
+ )
+WHERE ROWNUM <= 5;
+
+SELECT * FROM WORK_RECORD wr ;
+
+
+
+SELECT wr.EMP_NO, e.EMP_NM
+FROM WORK_RECORD wr JOIN EMP e
+ON wr.EMP_NO = e.EMP_NO
+WHERE JSON_VALUE(WORK_LOG,'$.WORK_LOG[1].DATE') AS DT = '2021-12-20';
+
+SELECT * FROM WORK_RECORD wr ;
+
+SELECT wr.EMP_NO, e.EMP_NM, 
+	JSON_VALUE(WORK_LOG,'$.WORK_LOG.SD') AS ST,
+	JSON_VALUE(WORK_LOG,'$.WORK_LOG.ED') AS ET
+FROM WORK_RECORD wr JOIN EMP e
+ON wr.EMP_NO = e.EMP_NO 
+WHERE wr.EMP_NO = 6;
+
+UPDATE FORM SET TEMPLATE =
+	TO_CLOB('<table border="1px solid black" style="border-collapse: collapse; width: 1000px;"><tr style="height: 30px;"> <th style="background-color: #bbf3fa; width: 100px;">요일</th><th colspan="3" style="background-color: #bbf3fa;width: 300px;">업무명</th><th colspan="4" style="background-color: #bbf3fa; width: 400px;">업무내용</th></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">월</th><td rowspan="3" colspan="3" style="width: 400px;"></td>')||
+	TO_CLOB('<td rowspan="3" colspan="4" style="width: 500px;"></td></tr> <tr></tr><tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">화</th><td rowspan="3" colspan="3" style="width: 400px;"></td><td rowspan="3" colspan="4" style="width: 500px;"></td></tr><tr></tr> <tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">수</th><td rowspan="3" colspan="3" style="width: 400px;"></td><td rowspan="3" colspan="4" style="width: 500px;"></td></tr><tr></tr><tr></tr><tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">목</th><td rowspan="3" colspan="3" style="width: 400px;"></td><td rowspan="3" colspan="4" style="width: 500px;"></td></tr><tr></tr> <tr></tr> <tr style="height: 90px;"><th rowspan="3" style="width: 100px; text-align: center;">금</th><td rowspan="3" colspan="3" style="width: 400px;"></td><td rowspan="3" colspan="4" style="width: 500px;"></td> </tr><tr></tr><tr></tr><tr style="height: 30px;"><th colspan="4" style="background-color: #bbf3fa; width: 500px;">비고</th><th colspan="4" style="background-color: #bbf3fa;width: 500px;">차주 업무 계획</th></tr><tr style="height: 120px;"><td rowspan="4" colspan="4" style="width: 500px;"></td><td rowspan="4" colspan="4" style="width: 500px;"></td></tr></table>')
+WHERE FORM_NO = 9;
+
+INSERT INTO TABLE_NAME
+(
+COLUMN_MN
+)
+VALUES
+(
+#COLUMN_NAME#
+)
+
+
+--날짜별 출퇴근시간 조회 쿼리문
+SELECT wr.EMP_NO, e.EMP_NM, 
+JSON_VALUE(WORK_LOG,'$.WORK_LOG[1].DATE') AS DT,
+	JSON_VALUE(WORK_LOG,'$.WORK_LOG[1].ST') AS ST,
+	JSON_VALUE(WORK_LOG,'$.WORK_LOG[1].ET') AS ET
+FROM WORK_RECORD wr JOIN EMP e
+ON wr.EMP_NO = e.EMP_NO
+WHERE wr.EMP_NO = 6;
+
+--들어가야 하는 값의 형태
+{"WORK_LOG":[{"DATE":"2021-12-19","ST":"2021-12-19 08:59:57","ET":"2021-12-19 18:02:13"},{"DATE":"2021-12-20","ST":"2021-12-20 08:59:57","ET":"2021-12-20 18:02:13"}]}
+
+SELECT e.EMP_NO, e.EMP_NM, p.POSITION_NM, d.DEPT_NM, e.PHOTO
+			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
+							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = 3;
+							
+SELECT * FROM emp WHERE dept_no = 10;
+SELECT * FROM DEPARTMENT d ;
+
+SELECT *
+	FROM(
+		SELECT p.*, ROW_NUMBER () OVER (ORDER BY REGDATE DESC) RNUM
+			FROM PAGING p
+		)
+	WHERE RNUM BETWEEN 0 AND 3; 
+
+SELECT FORM_NO, FORM_NM, FORM_REG_DT, FORM_CLASS_NM
+	FROM(
+		SELECT f.*,fc.FORM_CLASS_NM, ROW_NUMBER () OVER (ORDER BY f.FORM_NO DESC) RNUM
+			FROM FORM f JOIN FORM_CLASSIFICATION fc
+			ON F.FORM_CLASS_NO = FC.FORM_CLASS_NO
+		)
+	WHERE RNUM BETWEEN 0 AND 3;
+	
+SELECT NVL(COUNT(*),0) FROM FORM;
+
+INSERT INTO FORM VALUES

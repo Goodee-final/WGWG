@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.main.MainDaoImpl">
+	
+	<select id="selectmainnotice" resultType="NoticeVo">
+		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_REG_DT
+			FROM 
+			 (
+			  SELECT *
+			  FROM NOTICE n
+			  WHERE NOTICE_CHK = '회사'
+			  ORDER BY notice_no DESC
+			 )
+			WHERE <![CDATA[ROWNUM <= 5]]>
+	</select>
+
+</mapper>
