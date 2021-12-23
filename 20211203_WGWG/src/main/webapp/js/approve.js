@@ -23,15 +23,14 @@ function detailMove(state){
 }
 
 //문서 제목으로 검색
-function search(active){
+function search(){
 	
-	$('#searchbtn').click(function(){
-
 	
 		$('#index').attr('value',0);
 		$('#pageStartNum').attr('value',1);
-		pagingAjax();
-	});
+		AppPaging();
+//		pageAjax();
+	
 }
 
 function detail(no){

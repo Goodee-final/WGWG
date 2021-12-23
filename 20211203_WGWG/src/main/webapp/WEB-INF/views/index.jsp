@@ -44,6 +44,10 @@
 
 		});
 		
+		$('#logo-image').click(function(){
+			$('#content').load('./main.do');
+		});
+		
 		
 	});
 
@@ -109,6 +113,9 @@ ul {
 	margin-left: 30px;
 }
 
+#logo-image:hover{
+	cursor: pointer;
+}
 
 .right {
 	color: white;
@@ -392,7 +399,7 @@ i {
 	<header class="header">
 		<div class="left">
 			<ul class="nav">
-				<li><div id="logo-image"></div></li>
+				<li><div id="logo-image" ></div></li>
 			</ul>
 		</div>
 		<div class="right">
@@ -426,7 +433,7 @@ i {
 					<li class="w3-bar-item w3-button" 
               value="">결재 진행함</li>
 					<li class="w3-bar-item w3-button" 
-              value="">결재 대기함</li>
+              value="./waitdoclist.do">결재 대기함</li>
 					<li class="w3-bar-item w3-button"
 						  value="./completedoc.do">결재 완료함</li>
 					<li class="w3-bar-item w3-button" 
@@ -509,6 +516,7 @@ i {
 		</ul>
 	</article>
 	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
+	
 		<div id="main-content">
 			<div id="main-content1">
 				<div class="main-loginemp">
@@ -548,6 +556,9 @@ i {
 				</div>
 			</div>
 		</div>
+
+
+
 	</section>
 
 	<footer class="footer">
