@@ -13,7 +13,6 @@
 
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="fullcalenda/js/addEvent.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
  <link rel="stylesheet" href="fullcalenda/css/main.css">
 
@@ -26,13 +25,17 @@
  $(function(){
 	 
 	 var eventModal = $('#reply');
-	 var modalTitle = $('.modal-title');
-     var editTitle = $('#edit-title');
-     var editStart = $('#edit-start');
-     var editEnd = $('#edit-end');
-     var editColortx = $('#edit-colortx');
-     var editColorbg = $('#edit-colorbg');
-     var editDesc = $('#edit-desc');
+	 	var modalTitle = $('.modal-title');
+	   	var editTitle = $('#edit-title');
+	   	var editStart = $('#edit-start');
+	    var editEnd = $('#edit-end');
+	    var editColortx = $('#edit-colortx');
+	    var editColorbg = $('#edit-colorbg');
+	    var editDesc = $('#edit-desc');
+	    var editid = $('#editid');
+	    
+	    var addBtnContainer = $('.modalBtnContainer-addEvent');
+	    var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
      
     
      
@@ -48,12 +51,13 @@ var request = $.ajax({
 			  console.log(value.description);
 			  events: ([
 			         {
-					  title: value.title,
+					   title: value.title,
 			           start: value.start,
 			           end: value.end,
 			           textColor:value.textColor,
 			           backgroundColor:value.backgroundColor,
-			           description:value.description		
+			           extendedProps:value.description,	
+			           id:value.id
 			  }]);
 		         
 		 });
@@ -62,17 +66,7 @@ var request = $.ajax({
 
 request.done(function(data) {
 	console.log(data);
-	var eventModal = $('#reply');
- 	var modalTitle = $('.modal-title');
-   	var editTitle = $('#edit-title');
-   	var editStart = $('#edit-start');
-    var editEnd = $('#edit-end');
-    var editColortx = $('#edit-colortx');
-    var editColorbg = $('#edit-colorbg');
-    var editDesc = $('#edit-desc');
-    
-    var addBtnContainer = $('.modalBtnContainer-addEvent');
-    var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
+	
     
 	var calendarEl = document.getElementById('calendar');
 	
@@ -95,7 +89,7 @@ request.done(function(data) {
       selectable: true, // 달력 일자 드래그 설정가능
       nowIndicator: true, // 현재 시간 마크
       dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-      showNonCurrentDates:false, // 다음달 이전달  캘린더에 안보이게 설정
+      //showNonCurrentDates:false, 달력에 3~4일씩 추가로 보이도록 설정
       locale: 'ko',
       
       
@@ -128,7 +122,7 @@ request.done(function(data) {
                  end: editEnd.val(),		                     
                  textColor: editColortx.val(),
                  backgroundColor: editColorbg.val(),
-                 description: editDesc.val(),
+                 description: editDesc.val()
              };
 
              if (eventData.start > eventData.end) {
@@ -172,7 +166,7 @@ request.done(function(data) {
         			location.href="./loadForm.do";
         		},
          		error : function() {
-         			alert("잘못된 요청입니다.");
+         			alert("등록에 실패하셨습니다.");
          		}
          	});
          });
@@ -200,17 +194,12 @@ request.done(function(data) {
       },*/
       eventClick: function(arg) { // 있는 일정 클릭시, 
     	 
-    	  $.each(data,function(key,value){	
-    		  
-    		  console.log(value.description);
-    	  })
-      		
-
       	    if (arg.event.end == null) {
       	        arg.event.end = arg.event.start;
       	    }
-          
-      	    
+      	  	     
+      		console.log(arg.event.extendedProps.description);
+          	
       	    modalTitle.html('일정 수정');
       	    editTitle.val(arg.event.title);
       	    console.log(arg.event.start);
@@ -223,18 +212,51 @@ request.done(function(data) {
       	    editColorbg.val(arg.event.backgroundColor).css('color', arg.event.backgroundColor);
       	 	console.log(arg.event.description);
       	 	console.log(typeof(data));
-      	    editDesc.val(arg.event.description);
-      	    
-      	    
+      	    editDesc.val(arg.event.extendedProps.description);
+      	    editid.val(arg.event.id);
+      	    console.log(arg.event.id);
+      	    console.log(editid.val());
       	    addBtnContainer.hide();
       	    modifyBtnContainer.show();
       	    eventModal.modal('show');
 
 			
-      		//calendar.on('beforeUpdateSchedule', function(event) {
-      		
-      		 
-      		//});
+      	   $('#updateEvent').on('click', function () {
+      		 if (editStart.val() > editEnd.val()) {
+                 alert('끝나는 날짜가 앞설 수 없습니다.');
+                 return false;
+             }
+
+             if (editTitle.val() === '') {
+                 alert('일정명은 필수입니다.')
+                 return false;
+             }
+             
+             eventModal.modal('hide');
+             $.ajax({
+            		url : "./calendarupdate.do",
+            		type : "post",
+            		dataType : "json",
+            		data :
+            		{
+            			"emp_no" : ${emp.emp_no},
+            			"title" : editTitle.val(),         			
+            			"start" : editStart.val(),
+            			"end" : editEnd.val(),
+            			"textColor": editColortx.val(),
+                        "backgroundColor": editColorbg.val(),
+                        "description": editDesc.val(),
+                        "no":editid.val()
+            		},
+           		success : function(msg){
+           			alert("일정 수정을 성공했습니다");
+           			location.href="./loadForm.do";
+           		},
+            		error : function() {
+            			alert("수정을 실패하셨습니다.");
+            		}
+            	});
+      	   });
     
       },
      
@@ -356,8 +378,9 @@ request.done(function(data) {
           
         </div>
           <form action="" method="post" id="calendarinsert" class="form-margin">
+          <input type="hidden" id="editid" name="editid">
          <div class="modal-body">
-                        
+                       
 
                         <div class="row">
                             <div class="col-xs-12">

@@ -179,10 +179,7 @@ public class NoticeController {
 				//저장 위치를 만듬
 				String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
 				//String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
-				System.out.println("*******"+requset.getSession().getServletContext());
 				
-				
-				System.out.println("*******"+path);
 				
 				//만약 저장위치가 없다면 저장위치만들기
 				File storage = new File(path);
@@ -248,7 +245,7 @@ public class NoticeController {
 		logger.info("noticeFiledownload다운로드 컨트롤러");
 		//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
 		//String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");  //상대경로
-		String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //
+		String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; // 신승혁
 		String notice_file_save_nm =request.getParameter("notice_file_save_nm");
 		String notice_file_nm =request.getParameter("notice_file_nm");
 		File file = new File(path+"\\"+notice_file_save_nm);

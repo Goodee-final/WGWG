@@ -50,7 +50,11 @@ public class ScheduleDaoImpl implements IScheduleDao {
 		logger.info("updateScheduleP 수정");
 		return sqlSession.update(NS+"updateScheduleP",vo);
 	}
-
+	@Override
+	public int updateScheduleC(ScheduleVO vo) {
+		logger.info("updateScheduleC 수정");
+		return sqlSession.update(NS+"updateScheduleC",vo);
+	}
 	@Override
 	public ScheduleVO getOnePerson(int schedule_no) {
 		logger.info("getOnePerson 상세보기");
@@ -80,6 +84,8 @@ public class ScheduleDaoImpl implements IScheduleDao {
 		logger.info("test(공유 수락한 사람들 목록에 표출");
 		return sqlSession.selectOne(NS+"test",schedule_no);
 	}
+
+	
 
 	
 

@@ -430,8 +430,9 @@ i {
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>일정관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button"
-						value="#"><a href="./loadForm.do">일정관리</a></li>
-					<li class="w3-bar-item w3-button" value="">일정관리</li>
+						value="#"><a href="./loadForm.do">개인일정</a></li>
+					<li class="w3-bar-item w3-button" 
+						value="#"><a href="./companyloadForm.do">회사일정</a></li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약관리
