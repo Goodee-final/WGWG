@@ -9,7 +9,8 @@
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <title>전자 서명 관리</title>
 <style type="text/css">
@@ -19,6 +20,18 @@ td {
 
 
 </style>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		
+		$('#move-btn1').click(function(){
+			$('#content').load('./signinsert.do');
+		});
+	});
+
+</script>
 </head>
 <body>
 
@@ -30,8 +43,7 @@ td {
 				<c:if test="${empty signList}">
 
 					<p style="margin-top: 50px;">등록된 전자서명이 없습니다.</p>
-					<button class="btn btn-primary" id="move-btn1"
-						onclick="location.href='./'">전자서명 등록</button>
+					<button class="btn btn-primary" id="move-btn1">전자서명 등록</button>
 				</c:if>
 
 				<c:if test="${!empty signList}">

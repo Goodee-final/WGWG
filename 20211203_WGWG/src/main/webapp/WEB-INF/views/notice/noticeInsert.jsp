@@ -25,8 +25,7 @@ $(document).ready(function() {
 <style type="text/css">
 	.content{
  		width: 1100px;
-		padding: 100px 30px;		
-		margin: 0 auto;
+		padding: 100px 30px;
  	}	
 	h2{
 		text-align: center;

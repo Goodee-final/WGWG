@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +69,16 @@ public class ApprovalController {
 		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
 		  
 		  Approval_Doc doc = new Approval_Doc();
-		  int empno = 1;
+		  int empno = (Integer)session.getAttribute("loginEmp");
 		  doc.setEmp_no(empno);
 //		doc.setApp_doc_st("완료");
-		   
+		  String active = "3";
+		  if(request.getParameter("active") == null) {
+			  active = "3";
+		  }else {
+			  active = request.getParameter("active");
+		  }
+		  
 	      logger.info("ApprovalController 전체글 조회 List");
 //	    List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(7);
 	      
@@ -81,15 +88,35 @@ public class ApprovalController {
 	               request.getParameter("listCnt"),
 	               request.getParameter("app_chk"),
 	               request.getParameter("searchKeyword"),
-	               request.getParameter("active")
+	               active
 	            );
 		doc.setPaging(paging);
 		List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(doc);
 		paging.setTotal(approvalServiceImpl.selectTotalPagingAll(doc));
 		
+		
+		if(active.equals("4")) {
+			doc.setApp_doc_st("진행");
+			doclists = approvalServiceImpl.selectListDocSt(doc);
+			paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+		}else if(active.equals("5")) {
+			doc.setApp_doc_st("완료");
+			doclists = approvalServiceImpl.selectListDocSt(doc);
+			paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+		}else if(active.equals("6")) {
+			doc.setApp_doc_st("반려");
+			doclists = approvalServiceImpl.selectListDocSt(doc);
+			paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+		
+		}else {
+			
+			paging.setTotal(approvalServiceImpl.selectTotalPagingAll(doc));
+			doc.setPaging(paging);
+		}
+		
 		System.out.println(paging);
 	      
-		model.addAttribute("paging",paging);
+		  model.addAttribute("paging",paging);
 	      model.addAttribute("doclists", doclists);
 	      
 	      session.setAttribute("loc", "./approval/mydoclist");
@@ -165,6 +192,7 @@ public class ApprovalController {
 	// 문서 상세 화면
 	@GetMapping(value = "/docdetail.do")
 	public String docdetail(Model model, HttpServletRequest req) {
+		int empno = (Integer)session.getAttribute("loginEmp");
 		int docno = Integer.parseInt(req.getParameter("docno"));
 		String docBox = req.getParameter("docBox");
 		logger.info("문서 상세 보기 화면");
@@ -208,7 +236,7 @@ public class ApprovalController {
 		}
 
 		// 서명 정보
-		List<Sign> signlist = signdao.selectSignList(1);
+		List<Sign> signlist = signdao.selectSignList(empno);
 
 		model.addAttribute("signlist", signlist);
 		model.addAttribute("empinfo", empinfo);
@@ -233,8 +261,10 @@ public class ApprovalController {
 		System.out.println("singno : " + signNo);
 		String signimg;
 		int docno = Integer.parseInt(req.getParameter("docNo"));
-		int empno = 2;
+		//int empno = 2;
 		System.out.println("사인 : "+signNo + "문서번호 : "+docno );
+		int empno = (Integer)session.getAttribute("loginEmp");
+
 		
 		System.out.println("sign번호 : " + signNo +" docNo는 " + docno);
 		boolean flag = false;
@@ -256,10 +286,11 @@ public class ApprovalController {
 
 		// 내 결재 대기 상태 n로 변경
 		Approval_Doc doc = approvalServiceImpl.selectOneDoc(docno);
+
 		System.out.println("doc: "+  doc);
-		Approval_line appline = doc.getAlvo();
+		//Approval_line appline = doc.getAlvo();
 		System.out.println("doc: " + doc);
-		System.out.println("appline: "+ appline);
+//		System.out.println("appline: "+ appline);
 //		System.out.println("applineNo " + appline.get);
 		int lineNo = approvalServiceImpl.selectOneDoc(docno).getApp_line_no();
 		System.out.println(doc.getApp_line_no());
@@ -267,6 +298,11 @@ public class ApprovalController {
 //		appline.setApp_line_no(doc.getApp_line_no());
 //		System.out.println("appline: "+ appline);
 		
+		Approval_line appline = approvalServiceImpl.selectLine(doc.getApp_line_no());
+		System.out.println("appline : " + appline);
+		
+		System.out.println("라인넘버 :: " + appline.getApp_line_no() + "!!!!");
+	
 		String jsonObj = appline.getApproval();
 		System.out.println("applineNo: "+ lineNo + "!!!!!!!!!!!!");
 		
@@ -395,9 +431,8 @@ public class ApprovalController {
 		String nowTime = format.format(date);
 
 		// 내 결재 대기 상태 n로 변경
-		Approval_line appline = approvalServiceImpl.selectOneDoc(docno).getAlvo();
 		int lineNo = approvalServiceImpl.selectOneDoc(docno).getApp_line_no();
-		appline.setApp_line_no(lineNo);
+		Approval_line appline = approvalServiceImpl.selectLine(lineNo);
 		
 		String jsonObj = appline.getApproval();
 		
@@ -488,7 +523,7 @@ public class ApprovalController {
 //		System.out.println(doc.getApp_doc_st());
 		approvalServiceImpl.updateDocSt(doc);
 
-		return "redirect:/";
+		return "redirect:/home.do";
 	}
 
 	// 완료 문서함
@@ -498,7 +533,7 @@ public class ApprovalController {
 
 		logger.info("완료 문서함");
 		Approval_Doc doc = new Approval_Doc();
-		int empno = 1;
+		int empno = (Integer)session.getAttribute("loginEmp");
 		doc.setEmp_no(empno);
 		doc.setApp_doc_st("완료");
 		String active;
@@ -561,7 +596,7 @@ public class ApprovalController {
 		approvalServiceImpl.updateDocSt(doc);
 		
 		
-		return "redirect:/";
+		return "redirect:/home.do";
 	}
 
 	@GetMapping(value = "/tempdoc.do")
@@ -569,7 +604,7 @@ public class ApprovalController {
 
 		logger.info("임시 문서함");
 		Approval_Doc doc = new Approval_Doc();
-		int empno = 1;
+		int empno = (Integer)session.getAttribute("loginEmp");
 		doc.setEmp_no(empno);
 		doc.setApp_doc_st("임시저장");
 		String active = "0";
@@ -608,7 +643,7 @@ public class ApprovalController {
 		
 		logger.info("참조 문서함");
 		Approval_Doc doc = new Approval_Doc();
-		int empno = 1;
+		int empno = (Integer)session.getAttribute("loginEmp");
 		doc.setEmp_no(empno);
 		doc.setApp_doc_st("참조");
 		String active = "0";
@@ -634,6 +669,38 @@ public class ApprovalController {
 		
 		session.setAttribute("loc", "./refdoclist.do");
 		return "/approval/refdoclist";
+	}
+	
+	@GetMapping(value="/waitdoclist.do")
+	public String waitdoclist(Model model, HttpServletRequest request) {
+		logger.info("대기 문서함");
+		Approval_Doc doc = new Approval_Doc();
+		int empno = (Integer)session.getAttribute("loginEmp");
+		doc.setEmp_no(empno);
+//		doc.setApp_doc_st("대기");
+		String active = "0";
+		
+		Approval_Page paging = new Approval_Page(
+	               request.getParameter("index"),
+	               request.getParameter("pageStartNum"),
+	               request.getParameter("listCnt"),
+	               request.getParameter("app_chk"),
+	               request.getParameter("searchKeyword"),
+	               request.getParameter("active")
+	            );
+		doc.setPaging(paging);
+		
+		
+		System.out.println(paging);
+		
+		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListWait(doc);
+		paging.setTotal(approvalServiceImpl.selectTotalPagingWait(doc));
+		model.addAttribute("doclist1", doclist1);
+		model.addAttribute("paging",paging);
+
+		
+		session.setAttribute("loc", "./waitdoclist.do");
+		return "/approval/waitdoclist";
 	}
 	
 	// 문서 상세 화면으로 이동"docno":no, "docBox":docBox
@@ -667,7 +734,7 @@ public class ApprovalController {
 		
 		logger.info("완료 문서함");
 		Approval_Doc doc = new Approval_Doc();
-		int empno = 1;
+		int empno = (Integer)session.getAttribute("loginEmp");
 		doc.setEmp_no(empno);
 		doc.setApp_doc_st("완료");
 		
@@ -700,14 +767,16 @@ public class ApprovalController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/pagingAjax.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/page.do", method = RequestMethod.POST)
 	public Map<String, Object> pagingAjax(HttpServletRequest request) {
-		String index = request.getParameter("index");
-		String pageStartNum = request.getParameter("pageStartNum");
-		String listCnt = request.getParameter("listCnt");
+		int index = Integer.parseInt( request.getParameter("index"));
+		int pageStartNum =Integer.parseInt( request.getParameter("pageStartNum"));
+		int listCnt = Integer.parseInt(request.getParameter("listCnt"));
 		String app_chk = request.getParameter("app_chk");
 		String searchKeyword = request.getParameter("searchKeyword");
 		String active = request.getParameter("active");
+		
+		Gson gson = new Gson();
 		
 	
 		System.out.println("ajax 전송 완료! ");
@@ -715,13 +784,80 @@ public class ApprovalController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		map.put("index", index);
-		map.put("pageStartNum", pageStartNum);
-		map.put("listCnt", listCnt);
-		map.put("app_chk", app_chk);
-		map.put("searchKeyword", searchKeyword);
-		map.put("active", active);
+		Approval_Doc doc = new Approval_Doc();
+		int empno = (Integer)session.getAttribute("loginEmp");
+		doc.setEmp_no(empno);
+//		doc.setApp_doc_st("완료");
+		   
+		                                                   ;
+                                                           
+	    logger.info("ApprovalController 전체글 조회 List");
+      
+	      Approval_Page paging = new Approval_Page(
+	               request.getParameter("index"),
+	               request.getParameter("pageStartNum"),
+	               request.getParameter("listCnt"),
+	               request.getParameter("app_chk"),
+	               request.getParameter("searchKeyword"),
+	               request.getParameter("active")
+	            );
+	      
+	    int pageCnt=  paging.getPageCnt();
+	    int total = paging.getTotal();
+	    
+	      
+		doc.setPaging(paging);
+		List<Approval_Doc> doclist = approvalServiceImpl.selectmyAllDoc(doc);
+		List<Approval_Doc> doclists = new ArrayList<Approval_Doc>();
+		paging.setTotal(approvalServiceImpl.selectTotalPagingAll(doc));
+
+		System.out.println(paging);
+	      
 		
+		if(active.equals("1")) {
+			doc.setApp_doc_st("완료");
+			doclists = approvalServiceImpl.selectListDocSt(doc);
+			paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+			
+		}else if(active.equals("2")) {
+			doc.setApp_doc_st("완료");
+			doclists = approvalServiceImpl.selectListDocStApp(doc);
+			paging.setTotal(approvalServiceImpl.selectTotalPagingApp(doc));
+		}
+		else if(active.equals("4")) {
+			doc.setApp_doc_st("진행");
+			doclists = approvalServiceImpl.selectListDocSt(doc);
+			paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+		}else if(active.equals("5")) {
+			doc.setApp_doc_st("완료");
+			doclists = approvalServiceImpl.selectListDocSt(doc);
+			paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+		}else if(active.equals("6")) {
+			doc.setApp_doc_st("반려");
+			doclists = approvalServiceImpl.selectListDocSt(doc);
+			paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+			paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+		}else {
+			doclists = doclist;
+		}
+	
+		int count = paging.getCount();
+		
+		String json = gson.toJson(paging);
+		
+	    map.put("doclists", doclists);
+	    map.put("paging", json);
+	    map.put("pageCnt", pageCnt);
+	    map.put("index", index);
+	    map.put("pageStartNum", pageStartNum);
+	    map.put("listCnt", listCnt);
+	    map.put("total", total);
+	    map.put("pageCnt", pageCnt);
+	    map.put("app_chk", app_chk);
+	    map.put("searchkeyword", searchKeyword);
+	    map.put("active", active);
+	    map.put("count", count);
+
 		return map;
 	}
 
