@@ -363,3 +363,28 @@ INSERT INTO FORM
 VALUES(30, 'clob테스트', SYSDATE, TO_CLOB('a')||TO_CLOB('b'), 5);
 
 SELECT * FROM form WHERE form_no = 30;
+
+-- 회의실 추가
+INSERT INTO ROOM
+(ROOM_NO, ROOM_NM)
+VALUES(1, '제1회의실');
+INSERT INTO ROOM
+(ROOM_NO, ROOM_NM)
+VALUES(2, '제2회의실');
+INSERT INTO ROOM
+(ROOM_NO, ROOM_NM)
+VALUES(3, '제3회의실');
+
+SELECT * FROM room;
+
+--예약내역 조회(서브쿼리 사용)
+SELECT res.RES_NO, ro.ROOM_NM, TO_CHAR(res.RES_DT, 'yyyy-mm-dd HH24:MI'), res.EMP_NO, res.RES_TITLE, 
+	(SELECT e.emp_nm FROM EMP e JOIN RESERVATION r ON e.EMP_NO = r.EMP_NO) 
+	FROM reservation res JOIN Room ro 
+	ON res.ROOM_NO = ro.ROOM_NO 
+	ORDER BY res_no desc;
+
+--예약 추가
+INSERT INTO RESERVATION
+(RES_NO, ROOM_NO, RES_DT, EMP_NO, RES_TITLE)
+VALUES(1, 1, TO_DATE('2021-12-28 09:00', 'yyyy-mm-dd HH24:MI'), 5, '사업계획발표');
