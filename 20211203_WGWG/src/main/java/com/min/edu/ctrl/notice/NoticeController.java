@@ -311,8 +311,8 @@ public class NoticeController {
 		fvo.setNotice_file_size(filesize);
 		fvo.setNotice_no(vo.getNotice_no());
 		System.out.println("****************"+vo);
-		service.updateNotice(vo);
 		service.deleteNoticeFile(vo.getNotice_no());
+		service.updateNotice(vo);		
 		service.updateFile(fvo);
 		
 			//물리적인 파일을 저장
