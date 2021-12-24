@@ -32,26 +32,31 @@ public class ApprovalServiceImpl implements IApprovalService {
 
 	@Override
 	public Approval_Doc selectOneDoc(int docno) {
+		// TODO Auto-generated method stub
 		return dao.selectOneDoc(docno);
 	}
 
 	@Override
 	public Emp selectEmpInfo(int empno) {
+		// TODO Auto-generated method stub
 		return dao.selectEmpInfo(empno);
 	}
 
 	@Override
 	public List<Emp> selectAllEmp() {
+		// TODO Auto-generated method stub
 		return dao.selectAllEmp();
 	}
 
 	@Override
 	public List<Department> selectAllDept() {
+		// TODO Auto-generated method stub
 		return dao.selectAllDept();
 	}
 	
 	@Override
 	public List<Position> selectAllPosition() {
+		// TODO Auto-generated method stub
 		return dao.selectAllPosition();
 	}
 	
@@ -76,8 +81,8 @@ public class ApprovalServiceImpl implements IApprovalService {
 	}
 
 	@Override
-	public List<Approval_Doc> selectListWait(Approver approver) {
-		return dao.selectListWait(approver);
+	public List<Approval_Doc> selectListWait(Approval_Doc doc) {
+		return dao.selectListWait(doc);
 	}
 
 	@Override
@@ -126,6 +131,19 @@ public class ApprovalServiceImpl implements IApprovalService {
 		
 		return dao.selectTotalPagingAll(doc);
 	}
+
+	@Override
+	public Approval_line selectLine(int appLineNo) {
+		return dao.selectLine(appLineNo);
+	}
+
+	@Override
+	public int selectTotalPagingWait(Approval_Doc doc) {
+		return dao.selectTotalPagingWait(doc);
+	}
+
+
+
 
 
 }

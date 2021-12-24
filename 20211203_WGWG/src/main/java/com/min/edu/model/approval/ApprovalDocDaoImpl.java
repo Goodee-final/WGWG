@@ -72,13 +72,13 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl selectAllPosition");
 		return sqlSession.selectList(NS + "selectAllPosition");
 	}
+
 	
 	@Override
 	public int insertDoc(Approval_Doc doc) {
 		logger.info("ApprovalDocDaoImpl insert");
 		return sqlSession.insert(NS + "insertDoc", doc);
 	}
-
 
 	@Override
 	public List<Approval_Doc> selectAllDocApp(int empno) {
@@ -100,10 +100,10 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	}
 
 	@Override
-	public List<Approval_Doc> selectListWait(Approver approver) {
+	public List<Approval_Doc> selectListWait(Approval_Doc doc) {
 		logger.info("ApprovalDocDaoImpl 결재대기 문서 조회 selectListWait");
 		
-		return sqlSession.selectList(NS+"selectListWait", approver);
+		return sqlSession.selectList(NS+"selectListWait", doc);
 	}
 
 	@Override
@@ -131,7 +131,6 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPaging");
 		return sqlSession.selectOne(NS+"selectTotalPaging", doc);
 	}
-
 
 	@Override
 	public int selectTotalPagingApp(Approval_Doc doc) {
@@ -161,6 +160,18 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	public int selectTotalPagingAll(Approval_Doc doc) {
 		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPagingAll");
 		return sqlSession.selectOne(NS+"selectTotalPagingAll", doc);
+	}
+
+	@Override
+	public Approval_line selectLine(int appLineNo) {
+		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPagingAll");
+		return sqlSession.selectOne(NS + "selectLineNo", appLineNo);
+	}
+
+	@Override
+	public int selectTotalPagingWait(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPagingWait");
+		return sqlSession.selectOne(NS+"selectTotalPagingWait",doc);
 	}
 
 }

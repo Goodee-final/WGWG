@@ -1,5 +1,7 @@
 package com.min.edu.vo.form;
 
+import java.util.List;
+
 public class Form {
 
 	private int form_no;

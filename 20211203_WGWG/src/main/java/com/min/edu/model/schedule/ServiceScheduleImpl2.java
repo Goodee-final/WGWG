@@ -11,12 +11,14 @@ import com.min.edu.vo.schedule.ScheduleVO;
 
 @Service
 public class ServiceScheduleImpl2 implements IServiceSchedule2 {
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private IScheduleDao dao;
 	@Override
 	public int insertScheduleP(ScheduleVO vo) {
-		
+		logger.info("insertSchedule{} \t",vo);
 		return dao.insertScheduleP(vo);
 	}
 
@@ -28,7 +30,7 @@ public class ServiceScheduleImpl2 implements IServiceSchedule2 {
 
 	@Override
 	public List<ScheduleVO> getAllPerList(int emp_no) {
-		
+		logger.info("ServiceScheduleImpl2에 getAllPerList{}",emp_no);
 		return dao.getAllPerList(emp_no);
 	}
 
