@@ -1,7 +1,6 @@
 package com.min.edu.model.schedule;
 
 import java.util.List;
-
 import com.min.edu.vo.schedule.ScheduleVO;
 
 public interface IServiceSchedule2 {

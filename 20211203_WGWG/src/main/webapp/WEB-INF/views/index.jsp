@@ -7,16 +7,36 @@
 <meta charset="UTF-8">
 <title>인덱스</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<script src="https://kit.fontawesome.com/d42fd504d6.js"
-	crossorigin="anonymous"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+<!-- include summernote css/js-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://kit.fontawesome.com/d42fd504d6.js"
+	crossorigin="anonymous"></script>
+
+
+<script
+	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
@@ -26,10 +46,17 @@
 
 <link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
 <link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
-
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+<!-- include summernote css/js-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 <script type="text/javascript">
 	
 	var loc =  "<%=session.getAttribute("loc") %>"
+	var cal =  "<%=session.getAttribute("cal") %>"
 
 	$(document).ready(function() {
 		console.log(loc);
@@ -46,6 +73,10 @@
 		
 			$("#content").load($(this).attr('value'));
 
+		});
+		
+		$('#logo-image').click(function(){
+			$('#content').load('./main.do');
 		});
 		
 		
@@ -113,6 +144,9 @@ ul {
 	margin-left: 30px;
 }
 
+#logo-image:hover{
+	cursor: pointer;
+}
 
 .right {
 	color: white;
@@ -393,10 +427,11 @@ i {
 </head>
 
 <body oncontextmenu="return false">
+
 	<header class="header">
 		<div class="left">
 			<ul class="nav">
-				<li><div id="logo-image"></div></li>
+				<li><div id="logo-image" ></div></li>
 			</ul>
 		</div>
 		<div class="right">
@@ -430,7 +465,7 @@ i {
 					<li class="w3-bar-item w3-button" 
               value="">결재 진행함</li>
 					<li class="w3-bar-item w3-button" 
-              value="">결재 대기함</li>
+              value="./waitdoclist.do">결재 대기함</li>
 					<li class="w3-bar-item w3-button"
 						  value="./completedoc.do">결재 완료함</li>
 					<li class="w3-bar-item w3-button" 
@@ -467,7 +502,7 @@ i {
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>일정관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button"
-						value="./loadForm.do">일정관리</li>
+						value="#"><a href="./loadForm.do">일정관리</a></li>
 					<li class="w3-bar-item w3-button" value="">일정관리</li>
 				</ul>
 			</li>
@@ -508,14 +543,16 @@ i {
 			<li class="w3-bar-item nav1"><i class="fas fa-id-badge"></i>부서관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
-						value="./insert_emp_form.do">부서조회 및 관리</li>
+						value="./deptList.do">부서조회 및 관리</li>
 				</ul></li>
 		</ul>
 	</article>
 	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
+
 		<div id="main-content">
 			<div id="main-content1">
 				<div class="main-loginemp">
+
 					<div id="emp-img"><img id="empphoto" src="./img/${emp.photo}"></div>
 					<div id="emp-info">
 						<span>${emp.emp_nm}</span><br>
@@ -551,6 +588,9 @@ i {
 				</div>
 			</div>
 		</div>
+
+
+
 	</section>
 
 	<footer class="footer">

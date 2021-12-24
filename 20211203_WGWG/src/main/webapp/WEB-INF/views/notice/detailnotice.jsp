@@ -9,15 +9,15 @@
 <title>글 상세보기</title>
 </head>
 <style>	
- 	.content{
- 		width: 500px;	
- 	}	
- 	#container{
+	#container{
 		width: 1100px;
-		padding: 100px 30px;
-		height: 500px;
-		margin: 20px auto;
+		padding: 100px 30px;	
 	}
+ 	.content{
+ 		width: 500px;
+ 		height: 300px;	
+ 	}	
+ 	
 	h2{
 		text-align: center;
 	}
