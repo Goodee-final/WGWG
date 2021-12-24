@@ -37,7 +37,7 @@
 			<p>사원번호 : ${newEmp_no}</p>
 			<p>비밀번호 : ${newEmp.pw}</p>
 		</div>
-		<button id="btn" class="btn" onclick="location.href='http://localhost:8096/20211203_WGWG'">메인으로</button>
+		<button id="btn" class="btn" onclick="location.href='./home.do'">메인으로</button>
 	</div>
 </body>
 </html>
