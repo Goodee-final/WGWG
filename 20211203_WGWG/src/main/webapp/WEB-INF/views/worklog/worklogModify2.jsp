@@ -1,21 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
+String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>업무일지 작성 화면</title>
-<!-- <script type="text/javascript" src="/worklogInsert.js"></script> -->
+<title>업무일지 수정 화면</title>
 <!-- SmartEditor를 사용하기 위해서 다음 js파일을 추가 (경로 확인) -->
-<script type="text/javascript" src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="<%=ctx %>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <!-- jQuery를 사용하기위해 jQuery라이브러리 추가 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+
 <script type="text/javascript">
 var oEditors = [];
-var template = '${template}';
 $(function(){
       nhn.husky.EZCreator.createInIFrame({
           oAppRef: oEditors,
@@ -30,7 +29,7 @@ $(function(){
               }
           }, 
           fOnAppLoad : function(){
-              oEditors.getById["ir1"].exec("PASTE_HTML", [template]);
+              oEditors.getById["ir1"].exec("PASTE_HTML", ["기존 DB에 저장된 내용을 에디터에 적용할 문구"]);
           },
           fCreator: "createSEditor2"
       });
@@ -47,29 +46,29 @@ $(function(){
 	margin: 0;
 	width: 1200px;
 	padding: 10px;
+	/* margin-left: 80px;
+	padding-left: 100px; */
 }
-h1 {
+h1{
 	text-align: center;
 }
 .editor {
-	width:100%;
+	margin-left: 73px;
+	margin-top: 30px;
 }
-#ir1 {
-	margin: auto;
-}
-.fgroup {
+.fgroup{
 	margin: 20px 0 20px 0;
-	display: inline;
-	width: 100%;
-	height: 30px;
+	display:inline;
+	width: 1200px;
+	height:30px;
 }
-/* .writer {
+#writer{
 	width: 85%;
-	height: 30px;
+	height:30px;
 	margin: 20px 10px 20px 10px;
-	float: left;
-} */
-#save {
+	float:left;
+}
+#save{
 	float: right;
 	width: 10%;
 	height: 30px;
@@ -80,38 +79,35 @@ h1 {
 	background-color: #073865;
 	margin: 20px 10px 20px 10px;
 }
-hr {
+hr{
 	margin: 10px;
 }
 </style>
 </head>
 <body>
 
-	<div class="container">
-	<h1>업무일지 작성 화면</h1>
-		<form action="./insertWL.do" method="post">
-			<input type="hidden" id="emp_no" name="emp_no" value="${emp.emp_no}">
-			<div class="wrap">
-				<br>
-				<div class="writer">
-					작성일은 등록하기 버튼을 누르면 자동으로 등록됩니다.
+
+<div class="container">
+<h1>업무일지 수정 화면</h1>
+	<form action="./insertWL.do" method="post">
+		<input type="hidden" id="emp_no" name="emp_no" value="${emp.emp_no}">
+		
+			<div class="fgroup">
+				<!-- <label class="control-label col-sm-2" for="emp_nm">작성자 </label> -->
+				<div id="writer">
+				작성자  ${emp.emp_nm}
+					<%-- <input type="text" class="form-control" id="emp_no" name="emp_no" value="${sessionScope.emp_no}"> --%>
 				</div>
-				<div class="fgroup">
-					<br>
-					<div class="writer">
-						작성자 : ${emp.emp_nm}
-					</div>
-					<input type="submit" id="save" value="등록하기" onclick="validateForm()">
-				</div>
-				<hr>	
+				<input type="submit" id="save" value="수정하기" onclick="validateForm()">
 			</div>
-			
+			<hr>
+		
 			<div class="editor">
-				<textarea rows="20" cols="135" id="ir1" name="worklog_content"></textarea>
+				<textarea rows="20" cols="135" id="ir1" name="worklog_content">${vo.worklog_content}</textarea>
 			</div>
-			
-		</form>
-	</div>
+	
+	</form>
+</div>
 
 </body>
 </html>
