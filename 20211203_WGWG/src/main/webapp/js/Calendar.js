@@ -202,10 +202,9 @@ $(document).ready(function () {
 		success : function(msg){
 			console.log(msg);
 			$.each(msg,function(key,value){
-				console.log(msg);
 				   cal.createSchedules([
 			         {
-				 	   id: value.empno,
+				 		id: value.empno,
 			           calendarId: '1',
 			           title: value.scheduletitle,
 			           category: value.allday,

@@ -19,8 +19,10 @@
 		
 		detailMove(state);
 		
-		search();
+// 		search();
 	});
+	
+
 </script>
 
 <style>
@@ -73,15 +75,35 @@ th, td {
 	<div class="container">
 		<h1>개인 문서함</h1>
 		<br>
-		
+	
 		<ul class="nav nav-pills" style="height:18px;">
- 			<li class="active" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>
-			<li><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>
-			<li><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>
-			<li><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>
+ 			<c:if test="${paging.active  == 3}">
+ 			<li id="li1"  val="3" class="active" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>		
+		</c:if>
+		<c:if test="${paging.active  != 3}">
+ 			<li id="li1"  val="3" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>		
+		</c:if>
+		<c:if test="${paging.active  == 4}">
+			<li id="li2" val="4" class="active"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>		
+		</c:if>
+		<c:if test="${paging.active  != 4}">
+			<li id="li2" val="4"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>		
+		</c:if>
+		<c:if test="${paging.active  == 5}">
+			<li id="li3" val="5" class="active"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>		
+		</c:if>
+		<c:if test="${paging.active  != 5}">
+			<li id="li3" val="5"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>		
+		</c:if>
+		<c:if test="${paging.active  == 6}">
+			<li id="li4" val="6" class="active"><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>		
+		</c:if>
+		<c:if test="${paging.active  != 6}">
+			<li id="li4" val="6"><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>		
+		</c:if>
 			<div id="search">
 			<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title" value="${paging.searchkeyword}">
-			<input type="submit" id="searchbtn" value="검색">
+			<input type="button" id="searchbtn"value="검색" onclick="search();">
 			</div>
 		</ul>
 		

@@ -22,16 +22,14 @@ public interface IApprovalDocDao {
 	public Approval_Doc selectOneDoc(int docno);
 	//기안할 때 작성자 정보 출력
     public Emp selectEmpInfo(int empno);
-    //public Emp selectAppLine(int app_line_no);
-    //상신
-    public int insertDoc(Approval_Doc doc);
 
 	
 	//결재라인
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();
 	public List<Position> selectAllPosition();
-
+	//상신
+    public int insertDoc(Approval_Doc doc);
 	
 	//결재자
 	public List<Approval_Doc> selectAllDocApp(int empno);
@@ -40,7 +38,7 @@ public interface IApprovalDocDao {
 	//문서 상태에 따른 검색(상신자)
 	public List<Approval_Doc> selectListDocSt(Approval_Doc doc);
 	//결재대기함
-	public List<Approval_Doc> selectListWait(Approver approver);
+	public List<Approval_Doc> selectListWait(Approval_Doc doc);
 	//참조대기함
 	public List<Approval_Doc> selectListRef(Approval_Doc doc);
 
@@ -58,7 +56,11 @@ public interface IApprovalDocDao {
 	public int selectTotalPagingApp(Approval_Doc doc);
 	public int selectTotalPagingRef(Approval_Doc doc);
 	public int selectTotalPagingAll(Approval_Doc doc);
+	public int selectTotalPagingWait(Approval_Doc doc);
 	
 	//결재자 서명 리스트
 	public List<Approver> selectSignList(int appLineNo);
+	
+	//결재라인 조회
+	public Approval_line selectLine(int appLineNo);
 }

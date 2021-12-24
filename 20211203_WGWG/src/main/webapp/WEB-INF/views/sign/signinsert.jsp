@@ -68,7 +68,7 @@
 
 		$("#uploadBtn").on("click",function(e){
 			
-			
+				$('#content').load('./signlist.do');
 				$("#input_img").html(cloneObj.html());
 			
 		});	

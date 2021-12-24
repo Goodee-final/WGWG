@@ -16,6 +16,7 @@ public interface IWorkLogService {
 	public WorkLog selectDetailWorkLog(int worklog_no);
 
 	public List<WorkLog> searchWorkLog(String searchWord);
+	public List<WorkLog> searchByDate(Map<String, Object> map);
 	
 	public int insertWorkLog(WorkLog workLog);
 
@@ -26,7 +27,7 @@ public interface IWorkLogService {
 //	public int deleteWorkLog(Map<String, String[]> worklog_nos);
 	
 	//
-	public List<Department> selectAllDept();
+//	public Emp selectEmpDP(int emp_no);
 	public Emp selectEmpNo(int emp_no);
 
 }
