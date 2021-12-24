@@ -8,12 +8,13 @@ import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
 
 public interface IApprovalService {
 
   //전체 문서목록 조회
-	public List<Approval_Doc> selectmyAllDoc(int empno);
+	public List<Approval_Doc> selectmyAllDoc(Approval_Doc doc);
   //제목으로 검색
 	public List<Approval_Doc> searchdoclist(String title, int empno);
 	//문서 상세
@@ -23,6 +24,9 @@ public interface IApprovalService {
   //결재라인
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();
+	public List<Position> selectAllPosition();
+	//상신
+    public int insertDoc(Approval_Doc doc);
   
 	//결재자
 	public List<Approval_Doc> selectAllDocApp(int empno);
@@ -32,6 +36,8 @@ public interface IApprovalService {
 	public List<Approval_Doc> selectListDocSt(Approval_Doc doc);
 	//결재대기함
 	public List<Approval_Doc> selectListWait(Approver approver);
+	//참조대기함
+	public List<Approval_Doc> selectListRef(Approval_Doc doc);
 
 	//문서 상태 업데이트
 	public int updateDocSt(Approval_Doc doc);
@@ -43,4 +49,10 @@ public interface IApprovalService {
 	public List<Approval_Doc> selectDocPaging(Approval_Doc doc);
 	//리스트갯수
 	public int selectTotalPaging(Approval_Doc doc);
+	public int selectTotalPagingApp(Approval_Doc doc);
+	public int selectTotalPagingRef(Approval_Doc doc);
+	public int selectTotalPagingAll(Approval_Doc doc);
+	
+	//결재자 서명 리스트
+	public List<Approver> selectSignList(int appLineNo);
 }

@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.min.edu.vo.emp.Department;
+import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.worklog.WorkLog;
 
 @Repository
@@ -40,8 +42,16 @@ public class WorkLogDaoImpl implements IWorkLogDao {
 
 	@Override
 	public List<WorkLog> searchWorkLog(String searchWord) {
-		logger.info("WorkLogDaoImpl searchWorkLog 업무일지 검색");
+		logger.info("WorkLogDaoImpl searchWorkLog 업무일지 검색 - 작성자, 내용");
 		return sqlSession.selectList(NS + "searchWorkLog", searchWord);
+	}
+
+	@Override
+	public List<WorkLog> searchByDate(Map<String, Object> map) {
+		logger.info("WorkLogDaoImpl searchByDate 업무일지 검색 - 기간");
+		logger.info("searchByDate MAP : " + map);
+		
+		return sqlSession.selectList(NS + "searchByDate", map);
 	}
 
 	@Override
@@ -56,16 +66,28 @@ public class WorkLogDaoImpl implements IWorkLogDao {
 		return sqlSession.update(NS + "updateWorkLogContent", workLog);
 	}
 
-	@Override
-	public int updateWorkLogDelflag(Map<String, String[]> worklog_nos) {
-		logger.info("WorkLogDaoImpl selectAllDeptWorkLog 델플래그 상태 변경");
-		return sqlSession.update(NS + "updateWorkLogDelflag", worklog_nos);
-	}
+//	@Override
+//	public int updateWorkLogDelflag(Map<String, String[]> worklog_nos) {
+//		logger.info("WorkLogDaoImpl selectAllDeptWorkLog 델플래그 상태 변경");
+//		return sqlSession.update(NS + "updateWorkLogDelflag", worklog_nos);
+//	}
+//
+//	@Override
+//	public int deleteWorkLog(Map<String, String[]> worklog_nos) {
+//		logger.info("WorkLogDaoImpl selectAllDeptWorkLog 업무일지 완전 삭제");
+//		return sqlSession.delete(NS + "deleteWorkLog", worklog_nos);
+//	}
+
+//	@Override
+//	public Emp selectEmpDP(int emp_no) {
+//		logger.info("selectEmpDP 본인 부서번호까지 정보 다 가져오기");
+//		return sqlSession.selectOne(NS+"selectEmpDP");
+//	}
 
 	@Override
-	public int deleteWorkLog(Map<String, String[]> worklog_nos) {
-		logger.info("WorkLogDaoImpl selectAllDeptWorkLog 업무일지 완전 삭제");
-		return sqlSession.delete(NS + "deleteWorkLog", worklog_nos);
+	public Emp selectEmpNo(int emp_no) {
+		logger.info("emp_no 고르기 {}", emp_no);
+		return sqlSession.selectOne(NS + "selectEmpNo", emp_no);
 	}
 
 }

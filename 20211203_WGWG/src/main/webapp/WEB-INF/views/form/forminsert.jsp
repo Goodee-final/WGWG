@@ -14,6 +14,61 @@
 <!-- jQuery를 사용하기위해 jQuery라이브러리 추가 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
 
+
+<style>
+	#backbtn {
+		width: 150px;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid #ddd;
+		background-color: #073865;
+		margin-top: 20px;
+		color: white;
+		
+	}
+	#save {
+		width: 100px;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid #ddd;
+		background-color: #073865;
+		margin-top: 20px;
+		margin-left: 750px;
+		color: white;
+	}
+	#formcselect{
+		width: 150px;
+		height: 35px;
+		border: 1px solid #ccc;
+		margin-bottom: 10px;
+	}
+	#title{
+		width: 935px;
+		height: 40px;
+		margin-bottom: 20px;
+	}
+	
+</style>
+</head>
+<body>
+	<div class="container">
+		<h1 class="title">양식 등록</h1>
+		<form id="frm" action="./insertform.do" method="post" >
+			양식분류 <select name="formclassification" id="formcselect">
+				<option>양식분류선택</option>
+				<c:forEach items="${fclist}" var="list">
+					<option value="${list.form_class_no}">${list.form_class_nm}</option>
+				</c:forEach>
+			</select>
+			<br>	
+	        양식제목 <input type="text" id="title" name="title"/>
+	        <textarea rows="20" cols="135" id="ir1" name="content"></textarea>
+			<p class="count"><span>0</span> / 40000</p>
+			<input id="save" type="submit" value="저장">
+			<input type="button" id="backbtn" onclick="location.href='./formlist.do'" value="목록으로 돌아가기">
+		</form>
+	</div>
+</body>
 <script type="text/javascript">
 var oEditors = [];
 $(function(){
@@ -44,62 +99,28 @@ $(function(){
       $("#save").click(function(){
           oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
           var formclassification = $("select[name=formclassification]").val();
+          var data = data.replace(/[<][^>]*[>]/g, '');
           $("#frm").submit();
-      });    
+      });
+      
+      //양식 등록 시 문자수 지정
+      setTimeout(function(){
+    	  var ctnarea = document.querySelector("iframe").contentWindow.document.querySelector("iframe").contentWindow.document.querySelector(".se2_inputarea");
+    	  ctnarea.addEventListener("keyup", function(e){
+    		  var text = this.innerHTML;
+    		  text = text.replace(/<br>/ig, "");
+    		  text = text.replace(/&nbsp;/ig, "");
+    		  text = text.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+    		  
+    		  var len = text.length;
+    		  document.querySelector(".count span").innerHTML = len;
+    		  
+    		  if(len > 40000){
+    			  alert("최대 40000 byte까지 입력 가능합니다.");
+    		  }
+    	  });
+      }, 1000)
 });
+
 </script>
-<style>
-	#backbtn {
-		width: 150px;
-		height: 35px;
-		border-radius: 5px;
-		border: 1px solid #ddd;
-		background-color: #073865;
-		margin-top: 20px;
-		color: white;
-		
-	}
-	#savebtn {
-		width: 100px;
-		height: 35px;
-		border-radius: 5px;
-		border: 1px solid #ddd;
-		background-color: #073865;
-		margin-top: 20px;
-		margin-left: 800px;
-		color: white;
-	}
-</style>
-</head>
-<body>
-	<div class="container">
-		<h1 class="title">양식 등록</h1>
-		<form id="frm" action="./insertform.do" method="post" >
-		<table class="editor">
-			<tr>
-				<td>문서분류</td>
-				<td>
-					<select name="formclassification">
-						<c:forEach items="${fclist}" var="list">
-							<option value="${list.form_class_no}">${list.form_class_nm}</option>
-						</c:forEach>
-					</select>
-				</td>
-			<tr>
-	        <tr>
-	            <td>제목</td>
-	            <td><input type="text" id="title" name="title" style="width:650px"/></td>
-	        </tr>
-	        <tr>
-	            <td>내용</td>
-	            <td>
-	                <textarea rows="20" cols="40" id="ir1" name="content" style="width:650px; height:350px; "></textarea>
-	            </td>
-	        </tr>
-		</table>
-		<input id="save" type="submit" value="저장">
-		<input type="button" id="backbtn" onclick="location.href='./formlist.do'" value="목록으로 돌아가기">
-		</form>
-	</div>
-</body>
 </html>

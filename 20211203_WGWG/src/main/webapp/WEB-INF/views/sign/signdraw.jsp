@@ -106,7 +106,7 @@ canvas {
 				</div>
 				<div class="signature-pad--footer">
 						<div data-action="clear">
-							<i style='font-size:24px; ' class='fas'>&#xf01e;</i>
+							<i style='font-size:24px; color: black; ' class='fas'>&#xf01e;</i>
 						</div>
 				</div>
 			</div>

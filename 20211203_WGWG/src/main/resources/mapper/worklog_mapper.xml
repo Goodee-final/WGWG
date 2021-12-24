@@ -9,6 +9,8 @@
 		<result property="worklog_content" column="WORKLOG_CONTENT"/>
 		<result property="worklog_delflag" column="WORKLOG_DELFLAG"/>
 		<result property="emp_no" column="EMP_NO"/>
+		<result property="worklog_title" column="WORKLOG_TITLE"/>
+		
 		<collection property="emp" resultMap="EmpVo"/>
 		<collection property="position" resultMap="PositionVo"/>
 	</resultMap>
@@ -16,6 +18,7 @@
 	<resultMap type="com.min.edu.vo.emp.Emp" id="EmpVo">
 		<result property="emp_no" column="EMP_NO"/>
 		<result property="emp_nm" column="EMP_NM"/>
+		<result property="position_no" column="POSITION_NO"/>
 		<result property="dept_no" column="DEPT_NO"/>
 	</resultMap>
 	
@@ -23,11 +26,10 @@
 		<result property="position_no" column="POSITION_NO"/>
 		<result property="position_nm" column="POSITION_NM"/>
 	</resultMap>
-
+	
 	<!-- 부서별 조회 -->
 	<select id="selectAllDeptWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM , e.DEPT_NO , p.POSITION_NM 
-
 			FROM WORKLOG w
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO 
@@ -43,7 +45,6 @@
 	<select id="selectAllMyWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM , p.POSITION_NM 
 			FROM WORKLOG w
-
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO 
 			LEFT JOIN "POSITION" p 
@@ -54,14 +55,19 @@
 	
 	<!-- 상세보기 -->
 	<select id="selectDetailWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
-		SELECT * FROM WORKLOG w 
+		SELECT w.*, e.EMP_NM , e.DEPT_NO , p.POSITION_NM 
+			FROM WORKLOG w
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO 
+			LEFT JOIN "POSITION" p 
+			ON e.POSITION_NO = p.POSITION_NO
 			WHERE WORKLOG_NO = #{worklog_no}
 	</select>
 	
-	<!-- 작성자이름 or 제목에 해당하는 글자로 검색 -->
+	<!-- 작성자이름 or 내용에 해당하는 글자로 검색 -->
 
 <!-- 	<select id="searchWorkLog" parameterType="java.util.Map" resultMap="worklogVo"> -->
-	<select id="searchWorkLog" parameterType="java.lang.String" resultMap="worklogVo">
+	<select id="searchWorkLog" parameterType="java.util.Map" resultMap="worklogVo">
 		<!-- SELECT w.*, e.EMP_NM, d.DEPT_NM 
 
 			FROM WORKLOG w 
@@ -81,38 +87,91 @@
 				OR UPPER(w.WORKLOG_CONTENT) LIKE UPPER('%'||#{searchWord}||'%')
 	</select>
 	
+	<!-- 업무일지 날짜로 검색 -->
+	<select id="searchByDate" parameterType="java.lang.String" resultMap="worklogVo">
+		<![CDATA[
+		SELECT w.*, e.EMP_NM, d.DEPT_NM 
+			FROM WORKLOG w 
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO
+			LEFT JOIN DEPARTMENT d 
+			ON e.DEPT_NO = d.DEPT_NO
+			WHERE TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') >= #{startDate}
+			AND TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') <= #{endDate}
+			ORDER BY WORKLOG_REG_DT DESC
+			]]>
+	</select>
+	
 	<!-- 업무일지 작성 -->
 	<insert id="insertWorkLog" parameterType="worklogVo">
 		INSERT INTO WORKLOG
-			(WORKLOG_NO, WORKLOG_CONTENT, WORKLOG_DELFLAG, EMP_NO)
+			(WORKLOG_NO, WORKLOG_CONTENT, EMP_NO)
 			VALUES(WORKLOG_SEQ.NEXTVAL, #{worklog_content}, #{emp_no})
 	</insert>
 	
 	<!-- 업무일지 내용 수정 -->
 	<update id="updateWorkLogContent" parameterType="worklogVo">
 		UPDATE WORKLOG
-			SET WORKLOG_MODIFY_DT=SYSDATE, WORKLOG_CONTENT=#{new_worklog_content}
+			SET WORKLOG_MODIFY_DT=SYSDATE, WORKLOG_CONTENT=#{worklog_content}
 			WHERE WORKLOG_NO=#{worklog_no}
 	</update>
 	
 	<!-- 업무일지 DELFLAG 수정 -->
-	<update id="updateWorkLogDelflag" parameterType="java.util.Map">
+	<!-- <update id="updateWorkLogDelflag" parameterType="java.util.Map">
 		UPDATE WORKLOG
 			SET WORKLOG_DELFLAG='Y'
 			WHERE WORKLOG_NO IN
 			<foreach collection="worklog_nos" item="worklog_no" open="(" separator="," close=")">
 				#{worklog_no}
 			</foreach>
-	</update>
+	</update> -->
 	
 	<!-- 업무일지 완전 삭제 -->
-	<delete id="deleteWorkLog" parameterType="java.util.Map">
+	<!-- <delete id="deleteWorkLog" parameterType="java.util.Map">
 		DELETE FROM WORKLOG w 
 			WHERE WORKLOG_NO IN
 			<foreach collection="worklog_nos" item="worklog_no" open="(" separator="," close=")">
 				#{worklog_no}
 			</foreach>
-	</delete>
+	</delete> -->
+
+	<!-- 업무일지 조회할 때 로그인한 사람의 부서번호랑 부서번호 리스트 중에 비교? -->
+	<!-- <resultMap type="com.min.edu.vo.emp.Emp" id="dpEmpVo">
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="emp_nm" column="EMP_NM"/>
+		<result property="position_no" column="POSITION_NO"/>
+		<result property="dept_no" column="DEPT_NO"/>
+		<result property="dVo.dept_nm" column="DEPT_NM"/>
+		<result property="pVo.position_nm" column="POSITION_NM"/>
+	</resultMap>
+	<select id="selectOneDept" parameterType="java.lang.Integer" resultType="deptVo">
+		SELECT e.*, d.*
+			FROM EMP e 
+			LEFT JOIN DEPARTMENT d 
+			ON e.DEPT_NO = d.DEPT_NO 
+			WHERE e.EMP_NO = #{emp_no}
+	</select>
+	<select id="selectEmpDP" parameterType="java.lang.Integer" resultMap="dpEmpVo">
+		SELECT e.*, p.POSITION_NM, d.DEPT_NM
+			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
+							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = #{emp_no}
+	</select> -->
+
+	<!-- emp_no 가져오기 -->
+	<resultMap type="com.min.edu.vo.emp.Emp" id="EmpDeptVo">
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="emp_nm" column="EMP_NM"/>
+		<result property="position_no" column="POSITION_NO"/>
+		<result property="dept_no" column="DEPT_NO"/>
+		<result property="dVo.dept_nm" column="DEPT_NM"/>
+	</resultMap>
+	<select id="selectEmpNo" parameterType="java.lang.Integer" resultMap="EmpDeptVo">
+		SELECT * FROM EMP e
+		LEFT JOIN Department d
+		ON e.dept_no = d.dept_no
+		WHERE e.EMP_NO = #{emp_no}
+	</select>
+
 
 </mapper>
 

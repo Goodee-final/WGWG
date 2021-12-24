@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.min.edu.vo.form.Form;
 import com.min.edu.vo.form.FormClassification;
+import com.min.edu.vo.paging.PagingDto;
 @Repository
 public class FormDaoImpl implements IFormDao {
 
@@ -59,6 +60,18 @@ public class FormDaoImpl implements IFormDao {
 	public List<Form> selectForm() {
 		logger.info("가져올 수 있는 양식 목록");
 		return sqlSession.selectList(NS+"selectForm");
+	}
+
+	@Override
+	public List<Form> selectPaging(PagingDto paging) {
+		logger.info("페이징 처리하기");
+		return sqlSession.selectList(NS+"selectPaging", paging);
+	}
+
+	@Override
+	public int selectTotalPaging() {
+		logger.info("전체 글 갯수 확인하기");
+		return sqlSession.selectOne(NS+"selectTotalPaging");
 	}
 
 }

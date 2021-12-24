@@ -18,7 +18,7 @@ public class Approval_Page {
 	//ㅎㅇㅎㅇ
 	private String app_chk;
 	private String searchkeyword;
-	private String chk;
+	private String active;
 	
 	{
 		logger.info("============ PagingDto 초기화 블럭 실행 시간 {} ============", new Date());
@@ -30,12 +30,22 @@ public class Approval_Page {
 	
 
 	
+	public String getActive() {
+		return active;
+	}
+
+
+	public void setActive(String active) {
+		this.active = active;
+	}
+
+
 	public Approval_Page() {
 		
 	}
 
 	
-	public Approval_Page(String index, String pageStartNum, String listCnt,String app_chk,String searchkeyword) {
+	public Approval_Page(String index, String pageStartNum, String listCnt,String app_chk,String searchkeyword, String active) {
 		logger.info("============ PagingDto 생성자 호출 실행 시간 {} ============", new Date());
 		// view에서 전달 받은 parameter는 "" or null 객체로 판단하면
 		// index의 초기값 0일 수 있음 하지만 parameter로 객체로 받을 경우 0과 값이 없음을 구분하기 편해짐
@@ -53,6 +63,9 @@ public class Approval_Page {
 		}
 		if(searchkeyword  != null) {
 			this.searchkeyword =searchkeyword;
+		}
+		if(active  != null) {
+			this.active =active;
 		}
 	}
 	public int getStart() {
@@ -179,10 +192,25 @@ public class Approval_Page {
 		this.searchkeyword = searchkeyword;
 	}
 
+	
+
+	public Approval_Page(int pageCnt, int index, int pageStartNum, int listCnt, int total, String app_chk,
+			String searchkeyword, String active) {
+		super();
+		this.pageCnt = pageCnt;
+		this.index = index;
+		this.pageStartNum = pageStartNum;
+		this.listCnt = listCnt;
+		this.total = total;
+		this.app_chk = app_chk;
+		this.searchkeyword = searchkeyword;
+		this.active = active;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Approve_Page [logger=" + logger + ", pageCnt=" + pageCnt + ", index=" + index + ", pageStartNum="
-				+ pageStartNum + ", listCnt=" + listCnt + ", total=" + total + ", app_chk=" + app_chk + "]";
+				+ pageStartNum + ", listCnt=" + listCnt + ", total=" + total + ", app_chk=" + app_chk + ", active=" + active + "]";
 	}
 }
