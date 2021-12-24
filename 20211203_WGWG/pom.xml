@@ -243,6 +243,7 @@
 			<version>1.6.2</version>
 		</dependency>
 
+		<!-- jackson-databind가 jackson-core, jackson-annotation 에 의존성이 있으므로 jackson-databind 만 추가 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
