@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+{"resources":{"Scripts/Script_ysy.sql":{"sql-editor-data-source-id":"oracle_thin-17dc0d63d90-2bcc0d0df6023875","default-datasource":"oracle_thin-17dc0d63d90-2bcc0d0df6023875","default-schema":"C##WG"}}}
+=======
+<<<<<<< HEAD
 {"resources":{"Scripts/Script_jsh.sql":{"sql-editor-data-source-id":"oracle_thin-17dc0d63d90-2bcc0d0df6023875","default-datasource":"oracle_thin-17dc0d63d90-2bcc0d0df6023875","default-schema":"C##WG"}}}
 =======
 
@@ -6,3 +9,4 @@
 {"resources":{"Scripts/Script_odw.sql":{"sql-editor-data-source-id":"oracle_thin-17dd6e7da41-291a2c62919b894e","default-datasource":"oracle_thin-17dd6e7da41-291a2c62919b894e","default-schema":"C##WG"}}}
 
 >>>>>>> branch 'main' of https://github.com/sunne090/WGWG.git
+>>>>>>> branch 'main' of https://github.com/YoonSu12/WGWG.git

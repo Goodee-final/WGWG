@@ -37,6 +37,11 @@ public class WorkLogServiceImpl implements IWorkLogService {
 	}
 
 	@Override
+	public List<WorkLog> searchByDate(Map<String, Object> map) {
+		return dao.searchByDate(map);
+	}
+
+	@Override
 	public int insertWorkLog(WorkLog workLog) {
 		return dao.insertWorkLog(workLog);
 	}
@@ -56,10 +61,10 @@ public class WorkLogServiceImpl implements IWorkLogService {
 //		return dao.deleteWorkLog(worklog_nos);
 //	}
 
-	@Override
-	public List<Department> selectAllDept() {
-		return dao.selectAllDept();
-	}
+//	@Override
+//	public Emp selectEmpDP(int emp_no){
+//		return dao.selectEmpDP(emp_no);
+//	}
 
 	@Override
 	public Emp selectEmpNo(int emp_no) {
