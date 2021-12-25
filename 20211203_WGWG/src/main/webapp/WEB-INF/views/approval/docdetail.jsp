@@ -2,6 +2,16 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<!-- <!-- include libraries(jQuery, bootstrap) --> -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+
+
+<script src="https://kit.fontawesome.com/d42fd504d6.js"
+	crossorigin="anonymous"></script>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -139,6 +149,37 @@ th {
 #doccontents{
 	margin-top: 20px;
 }
+
+.icon-ref{
+	color: black;
+	
+	width: 50px;
+	height: 50px;
+	background-color: black;
+}
+
+#icon-ref{
+	color: orange;
+	
+	
+}
+
+.icon-box{
+	display: flex;
+	justify-content:space-evenly;
+	align-items: center;
+}
+
+.icon-box1{
+	display: flex;
+	flex-direction: column;	
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-footer{
+	margin-top: 20px;
+}
 </style>
 <body>
 
@@ -232,30 +273,63 @@ th {
 	</div>
 
 		<c:if test="${docBox == '참조'}">
-			<button class="btn" id="btn-ref">피드백</button>
-			
+		<div id="nextbtn">	
+			<button class="btn" id="btn-ref1">피드백</button>
+		</div>
 			<!-- 피드백 Modal창 -->
-			<div class="modal fade" id="myModal2" role="dialog">
-				<div class="modal-dialog">
+			<div class="modal fade" id="myModal3" role="dialog">
+			<div class="modal-dialog">
 
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">피드백</h4>
-						</div>
-						<div class="modal-body">
-	
-							
-	
-						</div>
-						<div class="modal-footer">
-							<button id="reasonSave" type="button" class="btn btn-default" data-dismiss="modal">저장</button>
-						</div>
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">피드백</h4>
 					</div>
-	
+					<div class="modal-body">
+				
+						<div class="icon-box">
+									
+							<div class="icon-box1">
+								<i class="far fa-tired fa-3x" class="icon-ref" id="icon-ref" style="color: red"></i> 
+								<input type="radio" name="ref" value="fa-tired"/>
+								</div>		
+					
+							<div class="icon-box1">
+								<i class="far fa-frown-open fa-3x" class="icon-ref" id="icon-ref" style="color: orange"></i> 
+								<input type="radio" name="ref" value="fa-frown-open"/>
+								</div>		
+						
+							
+							<div class="icon-box1">
+								<i class="far fa-meh fa-3x" class="icon-ref" id="icon-ref" style="color:#fff44f"></i>
+								<input type="radio" name="ref" value="fa-meh"/>
+								
+							</div>
+							<div class="icon-box1">
+								<i class="far fa-smile fa-3x" class="icon-ref" id="icon-ref" style="color:#90ee90"></i> 
+								<input type="radio" name="ref" value="fa-smile"/>
+							</div>		
+
+							<div class="icon-box1">
+								<i class="far fa-grin-beam fa-3x" class="icon-ref" id="icon-ref" style="color: green"></i>			
+								<input type="radio" name="ref" value="fa-grin-beam"/>						
+							</div>		
+
+								
+							
+							
+							
+						
+					</div>
+					<div class="modal-footer">
+						<button id="feedbackSave" type="button" class="btn btn-default" data-dismiss="modal">저장</button>
+					</div>
 				</div>
+
 			</div>
+		</div>
+		</div>
 		</c:if>
 		
 		<c:if test="${docBox == '결재대기'}">
@@ -368,6 +442,13 @@ th {
 
 <script>
 	$(document).ready(function() {
+		
+		
+		$("#btn-ref1").click(function(e) {
+			e.preventDefault();
+			$("#myModal3").modal();
+		});
+
 		$("#btn-approve").click(function(e) {
 			e.preventDefault();
 			$("#myModal1").modal();
@@ -427,10 +508,38 @@ th {
 			console.log(reason);
 			location.href="./docReturn.do?reason="+reason+"&docNo="+${detaildoc.app_doc_no};
 		});
+
+		$("#feedbackSave").click(function(){
+			
+			var feedback = $(":input:radio[name=search_type]:checked").val();
+
+			var sendData = {"feedback":feedback, "docNo":${detaildoc.app_doc_no}}
+			<!-- fa-tired, fa-frown-open, fa-meh, fa-smile, fa-grin-beam  -->
+			$.ajax({
+				type:"post",
+				url:"./feedback.do",
+				data:sendData,
+				success:function(data){
+					var tired = data["fa-tired"];
+					var frown-open = data["frown-open"];
+					var meh = data["meh"];
+					var smile = data['smile'];
+					var grin-beam = data['grim-beam'];
+					console.log('tired : ' + tired + 'frown-open : ' + frown-open + 'meh : ' + meh +'smile : ' + smile +'grin-beam : ' + grin-beam );
+		
+		$('#btn-update').click(function(){
+			
+		});
 		
 		$("#btn-delete").click(function(){
-			alert("문서를 삭제하게")
-			location.href="./docDelte.do?docNo="+${detaildoc.app_doc_no};
+			if(confirm("정말 삭제하시겠습니까??")){
+				location.href="./docDelte.do?docno="+${detaildoc.app_doc_no};
+				alert('삭제되었습니다.');
+			}else{
+				
+			}
+
+		
 		});
 		
 	});

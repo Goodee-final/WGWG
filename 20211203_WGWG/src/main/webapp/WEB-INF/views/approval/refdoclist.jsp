@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./js/approve.js" ></script> 
+<script type="text/javascript" src="./js/approve.js?ver=1" ></script> 
 <script type="text/javascript" src="./js/paging.js" ></script> 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -73,6 +73,7 @@ th, td {
 	<div class="container">
 		<h1>참조 문서함</h1>
 		<br>
+		<a href="./docdetail.do">ff</a>
 <!-- 		<form action="./mydoclist.do" method="post"> -->
 			<ul class="nav nav-pills" style="height: 18px;">
 				<li class="active"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">참조</a></li>

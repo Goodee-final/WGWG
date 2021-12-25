@@ -40,6 +40,7 @@ import com.min.edu.vo.approval.Approval_Doc;
 import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.approval.Approver;
+import com.min.edu.vo.approval.Reference;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Position;
@@ -156,6 +157,7 @@ public class ApprovalController {
 	   @PostMapping(value="/docinsert.do")
 	   public String docapproval(Model model, @RequestParam String app_doc_title, @RequestParam String app_doc_content, @RequestParam String form_num) {
 	      logger.info("ApprovalController 기안하기 문서 작성");
+	      System.out.println("form_num : " + form_num);
 	      int form_no = Integer.parseInt(form_num);
 	      Approval_Doc doc = new Approval_Doc(app_doc_title, app_doc_content, form_no);
 	      approvalServiceImpl.insertDoc(doc);
@@ -573,6 +575,7 @@ public class ApprovalController {
 	
 	@GetMapping(value="/docDelte.do")
 	public String docDelete(HttpServletRequest req) {
+		System.out.println(req.getParameter("docno"));
 		int docno = Integer.parseInt(req.getParameter("docno"));
 		
 		Approval_Doc doc = new Approval_Doc();
@@ -847,6 +850,27 @@ public class ApprovalController {
 	}
 
 	
+	@RequestMapping(value="/feedback.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public Map<String, Object> feedback(HttpServletRequest req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String docno = req.getParameter("docNo");
+		String feedback = req.getParameter("feedback");
+		int empno = (Integer)session.getAttribute("loginEmp");
+	
+		
+		Reference ref = new Reference(docno, empno, feedback);
+		approvalServiceImpl.updatefeedback(ref);
+	
+		List<Map<String, Object>> feedList = approvalServiceImpl.selectfeedback(Integer.parseInt(docno));
+		for (Map<String, Object> map2 : feedList) {
+			String feedIcon = (String)map2.get("feedback");
+			int cnt = (Integer)map2.get("cnt");
+			map.put(feedIcon, cnt);
+		}
+		
+		return map;
+	}
 	
 //	   @PostMapping("/replyBoard.do")
 //	   public String replyBoard(Answerboard_VO vo, HttpSession session) {
