@@ -88,6 +88,25 @@ public class Approval_Page {
 	}
 
 
+	public int getCount() {
+		int temp = total - listCnt*(pageStartNum-1); // 35 - 5*(6-1) =>10;
+		int min = temp/listCnt; //10/5 2
+		int count =0;
+		
+		if(temp%listCnt !=0) {
+			min++;
+		}
+		
+		if(temp <= listCnt) {
+			count = pageStartNum;
+		}else if(min <= pageCnt) {
+			count =min+pageStartNum-1;
+		}else {
+			count = pageCnt+pageStartNum-1;
+		}
+		return count;
+	}
+
 	public int getPageLastNum() {
 		logger.info("============ PagingDto getPageLastNum 호출 실행 시간 {} ============", new Date());
 		//전체개수 - 출력리스트 *(시작번호-1)
@@ -159,10 +178,6 @@ public class Approval_Page {
 		this.total = total;
 	}
 
-	
-	public String getapp_chk() {
-		return app_chk;
-	}
 
 	public void setapp_chk(String app_chk) {
 		this.app_chk = app_chk;

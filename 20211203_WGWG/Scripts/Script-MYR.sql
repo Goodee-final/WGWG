@@ -14,7 +14,9 @@ INSERT INTO "C##WG".NOTIFICATION
 (NOTIFICATION_NO, NOTIFICATION_CHK, APP_DOC_NO)
 VALUES(0, '', 0);
 
-CREATE SEQUENCE APP_DOC_SEQ;
+CREATE SEQUENCE APP_DOC_SEQ START WITH 202;
+DROP SEQUENCE APP_DOC_SEQ;
+CREATE SEQUENCE APP_LINE_SEQ START WITH 17;
 
 --결재문서함 selectAll
 SELECT a.APP_DOC_NO, a.APP_DOC_ST, TO_CHAR(a.APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, a.APP_DOC_TITLE, a.EMP_NO, f.FORM_NM
@@ -77,7 +79,7 @@ SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting
                         WHERE al.APP_LINE_NO = 6;
                        
                        
-SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting
+SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting, signimg
 	  			FROM APPROVAL_LINE al, 
 		    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
 		               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no',
@@ -85,7 +87,7 @@ SELECT APP_LINE_NO, EMP_NO, APPROVAL_ST, REASON, APPROVAL_DT, waiting
 		                        REASON  VARCHAR(200) PATH '$.reason',
 		                        APPROVAL_DT VARCHAR(200) PATH '$.approval_dt',
 		                        waiting INTEGER PATH '$.waiting',
-		                       	signimg INTEGER PATH '$.signimg')) WHERE APP_LINE_NO = 1;
+		                       	signimg INTEGER PATH '$.signimg'));
 
 SELECT EMP_NO
 	FROM APPROVAL_LINE al, 

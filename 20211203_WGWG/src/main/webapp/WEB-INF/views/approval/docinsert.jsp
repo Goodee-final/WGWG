@@ -1,19 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
-    String ctx = request.getContextPath();    //콘텍스트명 얻어오기.
+String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 %>
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
+<fmt:formatDate value="${now}" pattern="yyyyMM" var="docnum" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>기안하기</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script type="text/javascript" src="./js/insertDoc.js" ></script> 
-<script type="text/javascript" src="<%=ctx %>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script type="text/javascript" src="./js/insertDoc.js"></script>
+<script type="text/javascript"
+	src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <style type="text/css">
 .docinfo {
@@ -53,7 +60,7 @@ th {
 	width: 80px;
 }
 
-#empnm{
+#empnm {
 	width: 80px;
 }
 
@@ -167,12 +174,12 @@ th {
 	text-align: center;
 }
 
-.addbtn{
+.addbtn {
 	width: 60%;
 	margin-top: 40px;
 }
 
-.removebtn{
+.removebtn {
 	width: 60%;
 	margin-bottom: 10px;
 }
@@ -191,15 +198,14 @@ th {
 	height: 30px;
 }
 
-#boxtitle{
+#boxtitle {
 	font-size: 1.5rem;
 	padding: 5px;
 	border-bottom: 1px solid silver;
 }
-
 </style>
 <body>
-   
+
 	<form action="./docinsert.do" method="post">
 		<div class="container">
 			<h1>기안하기</h1>
@@ -211,28 +217,21 @@ th {
 					<c:forEach var="form" items="${formList}">
 						<option value="${form.form_no}">${form.form_nm}</option>
 					</c:forEach>
-				</select>
-				<input type="text" name="form_num" value="" hidden="hidden">
+				</select> 
+				<input type="text" name="form_num" value="">
 				<button type="button" id="lineselect" class="bttn" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
+				<input type="text" hidden="hidden" value="" name="app_line_no">
 			</div>
-			
+
 			<div>
-				<table class="docinfo" >
+				<table class="docinfo" id="docinfotable">
 					<tr>
 						<th>문서번호</th>
-						<td>20211212</td>
-						<th id="liner">결재자</th>
-						<th id="liner">결재자</th>
-						<th id="liner">결재자</th>
-						<th id="liner">결재자</th>
+						<td>년월+시퀀스</td>
 					</tr>
 					<tr>
 						<th>작성일자</th>
-						<td>2021-12-15</td>
-						<td rowspan=2 id="sign"><img src="./img/sign/sponge.png" width=60 height=60></td>
-						<td rowspan=2 id="sign"><img src="./img/sign/sponge.png" width=60 height=60></td>
-						<td rowspan=2 id="sign"><img src="./img/sign/sponge.png" width=60 height=60></td>
-						<td rowspan=2 id="sign"><img src="./img/sign/sponge.png" width=60 height=60></td>
+						<td><c:out value="${today}"/></td>
 					</tr>
 					<tr>
 						<th>부서</th>
@@ -240,11 +239,7 @@ th {
 					</tr>
 					<tr>
 						<th>작성자</th>
-						<td>${empinfo.emp_nm} ${empinfo.pVo.position_nm}</td>
-						<td id="empnm0">이름</td>
-						<td id="empnm1">이름</td>
-						<td id="empnm2">이름</td>
-						<td id="empnm3">이름</td>
+						<td>${empinfo.emp_nm}${empinfo.pVo.position_nm}<input type="text" name="emp_no" value="${empinfo.emp_no}" hidden="hidden"></td>
 					</tr>
 					<tr>
 						<th>참조</th>
@@ -252,88 +247,94 @@ th {
 					</tr>
 					<tr>
 						<th>제목</th>
-						<td colspan=5><input id="title" name="app_doc_title" type="text" placeholder="제목을 입력해주세요" /></td>
+						<td colspan=5><input id="title" name="app_doc_title"
+							type="text" placeholder="제목을 입력해주세요" /></td>
 					</tr>
 				</table>
 			</div>
 			<div class="editor">
-			<textarea rows="20" cols="135" id="ir1" name="app_doc_content"></textarea>
+				<textarea rows="20" cols="135" id="ir1" name="app_doc_content"></textarea>
 			</div>
 			<div id="nextbtn">
-				<button type="button" class="bttn"  onclick="">임시저장</button>
-				<input type="submit" class="bttn" id="save" value="상신"/>
+				<button type="button" class="bttn" onclick="">임시저장</button>
+				<button type="submit" class="bttn" id="save" >상신</button>
 				<button type="button" class="bttn" onclick="stopdoc()">기안취소</button>
 			</div>
 		</div>
 	</form>
-		
-		<div class="modal" tabindex="-1" id="approverline" role="dialog" data-backdrop="static">
-      		<div class="modal-dialog">
 
-         <!-- Modal content-->
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">결재라인 지정</h4>
-            </div>
+	<div class="modal" tabindex="-1" id="approverline" role="dialog"
+		data-backdrop="static">
+		<div class="modal-dialog">
 
-            <div class="modal-body">
-            <div id="modalwrap">
-            <div id="find">검색 : <input type="text" id="plugins4_q" value="" class="input"></div>
-               <div id="modalcontent">
-               
-                  <div id="jstree">
-                     <!-- in this example the tree is populated from inline HTML -->
-                     <ul>
-                        <c:forEach var="deptline" items="${deptlists}">
-                           <li>${deptline.dept_nm}
-                              <ul>
-                                 <c:forEach var="plists" items="${plists}">
-                                       <li>${plists.position_nm}
-                                       	  <ul>
-                                       	  <c:forEach var="empline" items="${emplists}">
-                                       	  <c:if test="${plists.position_nm eq empline.pVo.position_nm && deptline.dept_no eq empline.dept_no}">
-                                       	  	<li>${empline.emp_nm}<input type="text" value="${empline.emp_no}" hidden="hidden"/></li>
-                                       	  </c:if>
-                                       	  </c:forEach>
-                                       	  </ul>
-                                       </li>
-                                 </c:forEach>
-                              </ul>
-                           </li>
-                        </c:forEach>
-                     </ul>
-                  </div>
-               </div>
-               <div id="selected">
-					<button class="addbtn" id="addline">▷</button>
-					<button class="removebtn" id="removeline">◁</button>
-					<button class="addbtn" id="addref">▷</button>
-					<button class="removebtn" id="removeref">◁</button>
-			   </div>
-               <div id="linebox">
-                  <p id="boxtitle">결재자</p>
-                  <div id="line"></div>
-               </div>
-               <div id="refbox">
-                  <p id="boxtitle">참조인</p>
-                  <div id="ref"></div>
-               </div>
-            </div>
-           </div>
-            <div class="modal-footer">
-               <input type="submit" class="btn btn-success" value="등록" onclick="submitLine()" />
-               <input type="reset" class="btn btn-default" value="초기화" onclick="resetLine()"/>
-               <button type="button" id="close" class="btn btn-default" data-dismiss="modal">취소</button>
-            </div>
-         </div>
-    </div>
- </div>
-	
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">결재라인 지정</h4>
+				</div>
+
+				<div class="modal-body">
+					<div id="modalwrap">
+						<div id="find">
+							검색 : <input type="text" id="plugins4_q" value="" class="input">
+						</div>
+						<div id="modalcontent">
+
+							<div id="jstree">
+								<!-- in this example the tree is populated from inline HTML -->
+								<ul>
+									<c:forEach var="deptline" items="${deptlists}">
+										<li>${deptline.dept_nm}
+											<ul>
+												<c:forEach var="plists" items="${plists}">
+													<li>${plists.position_nm}
+														<ul>
+															<c:forEach var="empline" items="${emplists}">
+																<c:if
+																	test="${plists.position_nm eq empline.pVo.position_nm && deptline.dept_no eq empline.dept_no}">
+																	<li>${empline.emp_nm}<input type="text"
+																		value="${empline.emp_no}" hidden="hidden" /></li>
+																</c:if>
+															</c:forEach>
+														</ul>
+													</li>
+												</c:forEach>
+											</ul>
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+						<div id="selected">
+							<button class="addbtn" id="addline">▷</button>
+							<button class="removebtn" id="removeline">◁</button>
+							<button class="addbtn" id="addref">▷</button>
+							<button class="removebtn" id="removeref">◁</button>
+						</div>
+						<div id="linebox">
+							<p id="boxtitle">결재자</p>
+							<div id="line"></div>
+						</div>
+						<div id="refbox">
+							<p id="boxtitle">참조인</p>
+							<div id="ref"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-success" value="등록"
+						onclick="submitLine()" /> <input type="reset"
+						class="btn btn-default" value="초기화" onclick="resetLine()" />
+					<button type="button" id="close" class="btn btn-default"
+						data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
 	<script>
-
-	var arr = []; 
 	
 	$(function () { 
 		$('#jstree').jstree({ "plugins": ["search"] }); 
@@ -354,6 +355,8 @@ th {
  	var cntref = 0;
  	var divvv = "";
  	var apprline = "";
+ 	var idarr = []; 
+	var nmarr = [];
 	
 	$('#jstree').bind('select_node.jstree', function(event, data){
 		var a = $('#jstree').jstree('get_selected',true);
@@ -400,6 +403,16 @@ th {
 		var myDiv = document.getElementById(divvv);
 		var parent = myDiv.parentElement; // 부모 객체 알아내기 
 		parent.removeChild(myDiv); // 부모로부터 myDiv 객체 떼어내기
+/* 		for(var i=idarr.length; i>0; i--){
+			idarr = idarr.filter(function(item) {
+			    return item !== idarr[i];
+			});
+			nmarr = nmarr.filter(function(item) {
+			    return item !== nmarr[i];
+			});
+		} */
+/* 		idarr.splice(cntline, 1);
+		nmarr.splice(cntline, 1); */
 		cntline--;
 		console.log(cntline);
 	});
@@ -441,14 +454,32 @@ th {
 	});
 	
 	
+	
 	function submitLine(){
-		var jbText = $('#lineDiv1').text();
-		console.log(jbText);
-
+		
+/* 		for(var i=idarr.length; i>0; i--){
+			idarr.pop();
+			nmarr.pop();
+			
+			var erth = document.getElementById('liner');
+			console.log(erth);
+			var ertd1 = document.getElementById('sign');
+			var ertd2 = document.getElementById('empnm');
+			erth.remove();
+			console.log(erth);
+			ertd1.remove();
+			ertd2.remove();
+		}
+		console.log(idarr);
+		console.log(nmarr); */
+		
+		
 		for(var i = 0; i < 4; i++){
 			if(document.getElementById('lineDiv'+i) != null){
 				var lineid = document.getElementById('lineDiv'+i).innerHTML.split('"');
-				arr[i] = lineid[3];
+				idarr[i] = lineid[3];
+				var jbText = $('#lineDiv'+i).text();
+				nmarr[i] = jbText;
 			}
 		}
 /* 		var line1 = document.getElementById('lineDiv1').innerHTML; 
@@ -481,19 +512,62 @@ th {
             url : "appline.do",// 컨트롤러에서 대기중인 URL 주소이다.
             dataType : "json",
             data : {
-            	"arr":arr
+            	"arr":idarr
             },
-            success : function(data){ 
-                console.log(data);
+            success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+                console.log(res);
+               	var linenoooo = res;
+               	$("input[name=app_line_no]").attr("value", linenoooo);
+            },
+            error : function(){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                alert("통신 실패.")
             }
         });
 		
-		$('#approverline').modal('hide');
+		for (var i = 0; i < nmarr.length; i++) {
+		    
+		    var th = document.createElement("th"); // td엘리먼트 생성 <td></td>
+		    th.setAttribute("id","liner");
+			  var td1 = document.createElement("td"); // <td></td>
+			  td1.setAttribute("id","sign");
+			  td1.setAttribute("rowspan","2");
+			  
+			  var td2 = document.createElement("td"); // <td></td>
+			  td2.setAttribute("id","empnm");
+			  
+			  //td에 값넣기위해서 innerHTML사용
+			  th.innerHTML = "결재자";
+			  td1.innerHTML = "이미지";
+			  td2.innerHTML = nmarr[i];
+			  
+			  //td를 tr에 삽입 -> td를 tr의 자식요소로 만들어야한다.
+			  /* tr_obj.appendChild(td_obj1);
+			  tr_obj.appendChild(td_obj2);
+			  tr_obj.appendChild(td_obj3);
+			   */
+			   
+			  //원하는 테이블의 원하는 장소에 자식요소로 만들기.
+			  var table = document.getElementById("docinfotable"); //테이블의 아이디를 이용
+			  
+			  //3번째 자식 요소를 얻어내서 추가해야한다.(tbody를 3번째로 만들어 놓음)
+			  var tr1 = table.children[0].children[0];
+			  var tr2 = table.children[0].children[1];
+			  var tr3 = table.children[0].children[3];
+			  //여기에 값넣기.
+
+			  tr1.appendChild(th);
+			  tr2.appendChild(td1);
+			  tr3.appendChild(td2);
+		    
+		}
+		
+		$('#approverline').modal('hide'); 
+		
 	}
 	
 	</script>
-   
-   <script type="text/javascript">
+
+	<script type="text/javascript">
   
 	  $(function(){
 		  $('#formList').change(function(){
@@ -542,11 +616,11 @@ th {
          $("#save").click(function(){
              oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
              var content = document.getElementById("ir1").value;
-             var data = data.replace(/[<][^>]*[>]/g, '');
-             console.log(data);
+             //var data = data.replace(/[<][^>]*[>]/g, '');
+             //console.log(data);
              var form_no = $('#formList option:selected').val();
-             $('input[name=form_num]').attr('value', form_no);
              console.log(form_no);
+             $("input[name=form_num]").attr("value", form_no);
              $("#frm").submit();
          });
    });

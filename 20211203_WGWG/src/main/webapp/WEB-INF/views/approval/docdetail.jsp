@@ -13,8 +13,6 @@
 /* 	display: flex; */
 /* 	flex-direction: column; */
 
-
-	
 }
 
 .docinfo {
@@ -45,11 +43,17 @@ th {
 }
 
 #sign {
+	width: 80px;
 	text-align: center;
 }
 
-#line {
-	font-size: 1.1rem;
+#liner {
+	text-align: center;
+	font-size: 1.3rem;
+	width: 80px;
+}
+
+#empnm {
 	width: 80px;
 }
 
@@ -145,32 +149,6 @@ th {
 	<div class="container">
 		<h1>결재문서상세보기</h1>
 		<h1>${docBox}</h1>
-		<table>
-		<tr>
-		<c:forEach var="app" items="${appInfo}" varStatus="status">
-		
-			<td style="width: 77px; height: 77px;">
-				<c:if test="${approver[status.index].signimg != null}" >
-					<img src="img/sign/${approver[status.index].signimg}" style="width: 60px; height: 60px;">				
-				</c:if>
-			</td>
-		</c:forEach>
-			</tr>
-			<tr>
-			<c:forEach var="app" items="${appInfo}" varStatus="status">
-				
-				<td>
-					<c:if test="${appInfo[status.index].emp_nm != null }">
-						<p>${appInfo[status.index].pVo.position_nm}<br>
-						${appInfo[status.index].emp_nm }</p>
-					</c:if>
-				</td>
-			</c:forEach>
-			</tr>
-		</table>
-<%-- 		<c:forEach var="app" items="approver"> --%>
-<%-- 			<img src="img/sign/${app.signimg}" style="width: 75px; height: 75px;"> --%>
-<%-- 		</c:forEach> --%>
 		
 		<hr>
 		<div id="doccont">
@@ -183,16 +161,19 @@ th {
 				<tr>
 					<th>문서번호</th>
 					<td>년월+${detaildoc.app_doc_no}</td>
-					<c:forEach var="approver" items="${appline}">
-						<th id="line">결재자</th>
-					</c:forEach>
-				</tr>
+						<c:forEach var="app" items="${appInfo}" varStatus="status">
+							<td id="liner">결재자</td>
+						</c:forEach>
+					</tr>
 				<tr>
 					<th>작성일자</th>
 					<td>${detaildoc.app_doc_reg_dt}</td>
-					<c:forEach var="approver" items="${appline}">
-						<td rowspan=2 id="sign"><img src="./img/sign/sponge.png"
-							width=60 height=60></td>
+					<c:forEach var="app" items="${appInfo}" varStatus="status">
+						<td rowspan=2 id="sign">
+						<c:if test="${approver[status.index].signimg != null}" >
+						<img src="img/sign/${approver[status.index].signimg}" style="width: 60px; height: 60px;">				
+						</c:if>
+						</td>
 					</c:forEach>
 				</tr>
 				<tr>
@@ -202,8 +183,12 @@ th {
 				<tr>
 					<th>작성자</th>
 					<td>${empinfo.emp_nm}${empinfo.pVo.position_nm}</td>
-					<c:forEach var="approver" items="${appline}">
-						<td id="sign">John</td>
+					<c:forEach var="app" items="${appInfo}" varStatus="status">
+						<td rowspan=2>
+						<c:if test="${appInfo[status.index].emp_nm != null }">
+						<p>${appInfo[status.index].pVo.position_nm}<br>${appInfo[status.index].emp_nm }</p>
+						</c:if>
+						</td>
 					</c:forEach>
 				</tr>
 				<tr>
@@ -231,7 +216,7 @@ th {
 		
 	</div>
 
-		<c:if test="${docSt == '참조'}">
+		<c:if test="${docBox == '참조'}">
 			<button class="btn" id="btn-ref">피드백</button>
 			
 			<!-- 피드백 Modal창 -->
@@ -258,7 +243,7 @@ th {
 			</div>
 		</c:if>
 		
-		<%-- 			<c:if test="${docSt == '결재대기'}"> --%>
+		<c:if test="${docBox == '결재대기'}">
 		<div id="nextbtn">	
 			<button class="btn" id="btn-approve" class="btn-app">승인</button>
 			<button class="btn" id="btn-return" class="btn-app">반려</button>
@@ -336,13 +321,9 @@ th {
 
 			</div>
 		</div>
-		<%-- 			</c:if> --%>
+		</c:if>
 		
 		
-		
-		<%-- 			<c:if test="${docSt == '개인' & detaildoc.app_doc_st == '대기'} "> --%>
-
-		<%-- 			</c:if> --%>
 	
 	
 		<div id="Box">
@@ -354,7 +335,7 @@ th {
 		</c:if>
 		
 		
-		<c:if test="${docBox eq '개인'}">
+		<c:if test="${docBox eq '개인대기'}">
 			<div id="nextbtn">
 				<button class="btn" onclick="location.href='./appline.do'">기안취소</button>
 			</div>
@@ -362,6 +343,7 @@ th {
 		</div>
 
 	</div>
+
 
 
 

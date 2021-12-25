@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.min.edu.vo.schedule.ScheduleVO;
 
+
 public interface IScheduleDao {
 	//개인일정 등록
 	public int insertScheduleP(ScheduleVO vo);

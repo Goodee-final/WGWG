@@ -11,6 +11,7 @@ public class WorkLog {
 	private String worklog_content;
 	private String worklog_delflag;
 	private int emp_no;
+	private String worklog_title;
 
 	private Emp emp;
 	private Position position;
@@ -19,17 +20,18 @@ public class WorkLog {
 	public String toString() {
 		return "WorkLog [worklog_no=" + worklog_no + ", worklog_reg_dt=" + worklog_reg_dt + ", worklog_modify_dt="
 				+ worklog_modify_dt + ", worklog_content=" + worklog_content + ", worklog_delflag=" + worklog_delflag
-				+ ", emp_no=" + emp_no + ", emp=" + emp + ", position=" + position + "]";
+				+ ", emp_no=" + emp_no + ", worklog_title=" + worklog_title + ", emp=" + emp + ", position=" + position
+				+ "]";
 	}
 
 	public WorkLog() {
 		super();
 	}
 
-	public WorkLog(String worklog_content, int emp_no) {
+	public WorkLog(int worklog_no, String worklog_content) {
 		super();
+		this.worklog_no = worklog_no;
 		this.worklog_content = worklog_content;
-		this.emp_no = emp_no;
 	}
 
 	public int getWorklog_no() {
@@ -78,6 +80,14 @@ public class WorkLog {
 
 	public void setEmp_no(int emp_no) {
 		this.emp_no = emp_no;
+	}
+
+	public String getWorklog_title() {
+		return worklog_title;
+	}
+
+	public void setWorklog_title(String worklog_title) {
+		this.worklog_title = worklog_title;
 	}
 
 	public Emp getEmp() {

@@ -25,10 +25,12 @@ public class Approval_Doc {
 		super();
 	}
 	
-	public Approval_Doc(String app_doc_title, String app_doc_content, int form_no) {
+	public Approval_Doc(String app_doc_title, String app_doc_content, int app_line_no, int emp_no, int form_no) {
 		super();
 		this.app_doc_title = app_doc_title;
 		this.app_doc_content = app_doc_content;
+		this.app_line_no = app_line_no;
+		this.emp_no = emp_no;
 		this.form_no = form_no;
 	}
 
@@ -220,8 +222,12 @@ public class Approval_Doc {
 	@Override
 	public String toString() {
 		return "Approval_Doc [app_doc_no=" + app_doc_no + ", app_doc_st=" + app_doc_st + ", app_doc_reg_dt="
-				+ app_doc_reg_dt + ", app_doc_title=" + app_doc_title + ", emp_no=" + emp_no + ", form_no=" + form_no
-				+ "]";
+				+ app_doc_reg_dt + ", app_doc_title=" + app_doc_title + ", ref_emp_no=" + ref_emp_no
+				+ ", app_doc_content=" + app_doc_content + ", app_line_no=" + app_line_no + ", app_file_no="
+				+ app_file_no + ", emp_no=" + emp_no + ", form_no=" + form_no + ", paging=" + paging + ", fvo=" + fvo
+				+ ", alvo=" + alvo + "]";
 	}
+
+	
 	
 }
