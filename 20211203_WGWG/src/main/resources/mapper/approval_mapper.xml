@@ -334,4 +334,25 @@ SELECT NVL(count(*),0) from(SELECT *
 			APPROVAL_LINE al WHERE APP_LINE_NO = #{app_line_no}
    </select>
    
+   <insert id="insertRef" parameterType="com.min.edu.vo.approval.Reference">
+   	INSERT INTO REFERENCE
+	(APP_DOC_NO, EMP_NO)
+	VALUES(#{app_doc_no}, #{emp_no})
+   	
+   </insert>
+   
+   <update id="updatefeedback" parameterType="com.min.edu.vo.approval.Reference" >
+   		UPDATE REFERENCE
+		SET FEEDBACK=#{feedback}
+		WHERE APP_DOC_NO=#{app_doc_no} AND EMP_NO=#{emp_no}
+   </update>
+   
+   
+   <select id="selectfeedback" resultType="map">
+	   	SELECT FEEDBACK ,count(FEEDBACK) cnt 
+			FROM REFERENCE r 
+				WHERE APP_DOC_NO = #{app_doc_no}
+				GROUP BY FEEDBACK 
+				HAVING COUNT(FEEDBACK) > 0 
+   </select>
 </mapper>

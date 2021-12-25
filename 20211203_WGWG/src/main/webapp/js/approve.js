@@ -6,7 +6,7 @@ function detailAjax(no, docBox) {
 	var sendData = { "docno": no, "docBox": docBox }
 
 	$("#content").load("./docdetail.do?docno=" + no + "&docBox=" + docBox);
-
+//	$(location).attr('href',"./docdetail.do?docno=" + no + "&docBox=" + docBox);
 }
 
 

@@ -63,7 +63,7 @@ public class UploadController {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out =  response.getWriter();
 			session.removeAttribute("loc");
-			session.setAttribute("loc", "./signlist.do");
+			session.setAttribute("loc", "./signinsert.do");
 			out.println("<script>alert('이미지 파일을 선택해 주세요'); location.href='./home.do'</script>");
 			out.flush();
 			return null;
