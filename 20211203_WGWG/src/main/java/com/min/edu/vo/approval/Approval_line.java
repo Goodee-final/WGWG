@@ -14,4 +14,11 @@ public class Approval_line {
 	private int app_line_no;
 	private String approval;
 	private String bookmark;
+	
+	
+	public Approval_line(String approval) {
+		super();
+		this.approval = approval;
+	}
+	
 }

@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 %>
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
+<fmt:formatDate value="${now}" pattern="yyyyMM" var="docnum" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -213,20 +217,21 @@ th {
 					<c:forEach var="form" items="${formList}">
 						<option value="${form.form_no}">${form.form_nm}</option>
 					</c:forEach>
-				</select> <input type="text" name="form_num" value="" hidden="hidden">
-				<button type="button" id="lineselect" class="bttn"
-					data-toggle="modal" data-target="#approverline">결재라인 지정</button>
+				</select> 
+				<input type="text" name="form_num" value="">
+				<button type="button" id="lineselect" class="bttn" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
+				<input type="text" hidden="hidden" value="" name="app_line_no">
 			</div>
 
 			<div>
 				<table class="docinfo" id="docinfotable">
 					<tr>
 						<th>문서번호</th>
-						<td>20211212</td>
+						<td>년월+시퀀스</td>
 					</tr>
 					<tr>
 						<th>작성일자</th>
-						<td>2021-12-15</td>
+						<td><c:out value="${today}"/></td>
 					</tr>
 					<tr>
 						<th>부서</th>
@@ -234,7 +239,7 @@ th {
 					</tr>
 					<tr>
 						<th>작성자</th>
-						<td>${empinfo.emp_nm}${empinfo.pVo.position_nm}</td>
+						<td>${empinfo.emp_nm}${empinfo.pVo.position_nm}<input type="text" name="emp_no" value="${empinfo.emp_no}" hidden="hidden"></td>
 					</tr>
 					<tr>
 						<th>참조</th>
@@ -252,7 +257,7 @@ th {
 			</div>
 			<div id="nextbtn">
 				<button type="button" class="bttn" onclick="">임시저장</button>
-				<input type="submit" class="bttn" id="save" value="상신" />
+				<button type="submit" class="bttn" id="save" >상신</button>
 				<button type="button" class="bttn" onclick="stopdoc()">기안취소</button>
 			</div>
 		</div>
@@ -505,8 +510,13 @@ th {
             data : {
             	"arr":idarr
             },
-            success : function(data){ 
-                console.log(data);
+            success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+                console.log(res);
+               	var linenoooo = res;
+               	$("input[name=app_line_no]").attr("value", linenoooo);
+            },
+            error : function(){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                alert("통신 실패.")
             }
         });
 		
@@ -602,11 +612,11 @@ th {
          $("#save").click(function(){
              oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
              var content = document.getElementById("ir1").value;
-             var data = data.replace(/[<][^>]*[>]/g, '');
-             console.log(data);
+             //var data = data.replace(/[<][^>]*[>]/g, '');
+             //console.log(data);
              var form_no = $('#formList option:selected').val();
-             $('input[name=form_num]').attr('value', form_no);
              console.log(form_no);
+             $("input[name=form_num]").attr("value", form_no);
              $("#frm").submit();
          });
    });

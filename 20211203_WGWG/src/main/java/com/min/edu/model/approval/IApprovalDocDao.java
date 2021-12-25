@@ -25,6 +25,7 @@ public interface IApprovalDocDao {
     //public Emp selectAppLine(int app_line_no);
     //상신
     public int insertDoc(Approval_Doc doc);
+    public int insertappline(Approval_line appline);
 
 	
 	//결재라인
@@ -48,7 +49,7 @@ public interface IApprovalDocDao {
 	//문서 상태 업데이트
 	public int updateDocSt(Approval_Doc doc);
 	
-	//결재자 정보 없데이트
+	//결재자 정보 업데이트
 	public int updateApproval(Approval_line line);
 	
 	//페이징

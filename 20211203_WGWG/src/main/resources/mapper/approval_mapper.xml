@@ -58,7 +58,7 @@
    </select>	
 	
 	<select id="selectmyAllDoc" parameterMap="DocPaging" resultType="DocVo">
-		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
+		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MI') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
 			FROM (
 				SELECT ROWNUM RN, A.* 
 					FROM (
@@ -73,7 +73,7 @@
 
 
 	<select id="selectOneDoc" parameterType="java.lang.Integer" resultMap="DocDetailVo">
-		SELECT a.APP_DOC_NO, a.APP_DOC_ST, TO_CHAR(a.APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, 
+		SELECT a.APP_DOC_NO, a.APP_DOC_ST, TO_CHAR(a.APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MI') APP_DOC_REG_DT, 
 				a.APP_DOC_TITLE, a.EMP_NO, f.FORM_NM, a.REF_EMP_NO, a.APP_DOC_CONTENT, al.APPROVAL, al.APP_LINE_NO
 			FROM APPROVAL_DOCUMENT a INNER JOIN FORM f ON a.FORM_NO = f.FORM_NO
 									 LEFT OUTER JOIN APPROVAL_LINE al ON a.APP_LINE_NO = al.APP_LINE_NO where a.APP_DOC_NO = #{app_doc_no}
@@ -87,7 +87,7 @@
 	</select>
 	
 	<select id="searchdoclist" parameterType="java.lang.String" resultType="DocVo">
-	SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
+	SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MI') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
 			FROM "C##WG".APPROVAL_DOCUMENT WHERE EMP_NO=1 AND LOWER(APP_DOC_TITLE) LIKE LOWER('%'||#{title}||'%') ORDER BY APP_DOC_NO DESC
 	</select>
 	
@@ -116,14 +116,19 @@
 	<insert id="insertDoc" parameterType="DocVo">
 		INSERT INTO "C##WG".APPROVAL_DOCUMENT
 			(APP_DOC_NO, APP_DOC_ST, APP_DOC_REG_DT, APP_DOC_TITLE, REF_EMP_NO, APP_DOC_CONTENT, APP_LINE_NO, APP_FILE_NO, EMP_NO, FORM_NO)
-		VALUES(APP_DOC_SEQ.NEXTVAL, '진행', sysdate, #{app_doc_title}, '1,2', #{app_doc_content}, 1, null, 7, #{form_no})
+		VALUES(APP_DOC_SEQ.NEXTVAL, '진행', sysdate, #{app_doc_title}, '', #{app_doc_content}, #{app_line_no}, null, #{emp_no}, #{form_no})
 	</insert>
 	
+	<insert id="insertappline" parameterType="LineVo" useGeneratedKeys="true" keyColumn="APP_LINE_NO" keyProperty="app_line_no">
+		INSERT INTO APPROVAL_LINE
+			(APP_LINE_NO, APPROVAL, BOOKMARK)
+		VALUES(APP_LINE_SEQ.NEXTVAL, #{approval}, '')
+	</insert>
 	
 	
 	<!--결재자 문서 selectALL    -->
 	<select id="selectAllDocApproval" resultType="DocVo">
-	SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO 
+	SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MI') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO 
 		FROM APPROVAL_DOCUMENT ad 
 			WHERE APP_LINE_NO IN (
 				SELECT APP_LINE_NO 
@@ -140,7 +145,7 @@
 	
 	<!-- 문서 상태에 따른 검색(상신자)-->
 	<select id="selectListDocSt" parameterMap="DocPaging" resultType="DocVo">
-		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO 
+		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MI') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO 
 			FROM (
 				SELECT ROWNUM RN, A.*
 					FROM	(
@@ -210,7 +215,7 @@
 	</update>
 	
 	<!-- 결재자 JSON 정보 업데이트 -->
-	<update id="updateApproval" parameterType="com.min.edu.vo.approval.Approval_line">
+	<update id="updateApproval" parameterType="LineVo">
 		UPDATE APPROVAL_LINE 
 		SET APPROVAL = #{approval}
 		WHERE APP_LINE_NO = #{app_line_no}
@@ -261,7 +266,7 @@
    <select id="selectListRef" parameterMap="DocPaging" resultType="DocVo">
    	SELECT ROWNUM RN, A.*
 					FROM(
-					SELECT  APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH:MM') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO FROM 
+					SELECT  APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MI') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO FROM 
 						APPROVAL_DOCUMENT ad
 							WHERE ad.APP_DOC_NO IN (SELECT r.APP_DOC_NO FROM REFERENCE r WHERE r.EMP_NO = #{emp_no})
 							<if test="paging.searchkeyword != null and paging.searchkeyword != ''">
@@ -285,7 +290,7 @@
 		)
   </select>
    
-   <select id="selectSignList" resultType="com.min.edu.vo.approval.Approver">
+   <select id="selectSignList" resultType="ApproverVo">
    		SELECT emp_no, approval_st, approval_dt, reason, waiting, signimg
 	FROM APPROVAL_LINE al, 
 		JSON_TABLE(al.APPROVAL, '$.APPROVAL[*]'
