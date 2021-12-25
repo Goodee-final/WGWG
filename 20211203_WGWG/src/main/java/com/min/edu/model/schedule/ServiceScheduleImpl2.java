@@ -70,14 +70,14 @@ public class ServiceScheduleImpl2 implements IServiceSchedule2 {
 	}
 	@Override
 	public int deleteScheduleP(int schedule_no) {
-		// TODO Auto-generated method stub
-		return 0;
+		logger.info("ServiceScheduleImpl2에 일정 삭제 deleteScheduleP{}",schedule_no);
+		return dao.deleteScheduleP(schedule_no);
 	}
 
 	@Override
 	public int deleteScheduleC(int schedule_no) {
-		// TODO Auto-generated method stub
-		return 0;
+		logger.info("ServiceScheduleImpl2에 일정 삭제 deleteScheduleC{}",schedule_no);
+		return dao.deleteScheduleC(schedule_no);
 	}
 
 	@Override

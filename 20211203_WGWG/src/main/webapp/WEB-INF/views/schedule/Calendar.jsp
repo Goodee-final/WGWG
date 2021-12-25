@@ -94,18 +94,14 @@ request.done(function(data) {
       
       
       //드래그로 이벤트발생
-      select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+      select: function(msg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
     	  
-    	  var starts=new Date(arg.start);
     	 
     	  modalTitle.html('일정 등록');
-      	  console.log(arg);
-      	  console.log(arg.startStr);
-      	  console.log(arg.endStr); 
       	    
           editTitle.val('');
-          editStart.val(dateFormat(arg.start));
-          editEnd.val(dateFormat2(arg.end));
+          editStart.val(dateFormat(msg.start));
+          editEnd.val(dateFormat2(msg.end));
           editColortx.val();
           editColorbg.val();
           editDesc.val('');
@@ -163,8 +159,18 @@ request.done(function(data) {
          		},
         		success : function(msg){
         			alert("일정 등록에 성공했습니다");
-        			location.href="./loadForm.do";
+        			/*  calendar.addEvent({         				
+        			   title: msg.title,
+  			           start: msg.start,
+  			           end: msg.end,
+  			           textColor:msg.textColor,
+  			           backgroundColor:msg.backgroundColor,
+  			           extendedProps:msg.description,	
+  			           id:msg.id
+        			});  */   
+        			$('#content').load("./loadForm.do"); 
         		},
+        		
          		error : function() {
          			alert("등록에 실패하셨습니다.");
          		}
@@ -175,14 +181,14 @@ request.done(function(data) {
 
       /*
     	//일정 등록	
-    	  dateClick: function (arg) {
+    	  dateClick: function (msg) {
       	  	modalTitle.html('일정 등록');
       	  	
       	    
       	    
           editTitle.val('');
-          editStart.val(dateFormat(arg.start));
-          editEnd.val(dateFormat(arg.end));
+          editStart.val(dateFormat(msg.start));
+          editEnd.val(dateFormat(msg.end));
       	    editType.val('');
       	    editDesc.val('');
       	    editColor.val('');
@@ -192,29 +198,29 @@ request.done(function(data) {
       	    eventModal.modal('show');
     	
       },*/
-      eventClick: function(arg) { // 있는 일정 클릭시, 
+      eventClick: function(msg) { // 있는 일정 클릭시, 
     	 
-      	    if (arg.event.end == null) {
-      	        arg.event.end = arg.event.start;
+      	    if (msg.event.end == null) {
+      	        msg.event.end = msg.event.start;
       	    }
       	  	     
-      		console.log(arg.event.extendedProps.description);
+      		console.log(msg.event.extendedProps.description);
           	
       	    modalTitle.html('일정 수정');
-      	    editTitle.val(arg.event.title);
-      	    console.log(arg.event.start);
-      	    console.log(arg.event.end);
-      	  	editStart.val(dateFormat3(arg.event.start));
-      	    editEnd.val(dateFormat3(arg.event.end));
-      		console.log(arg.event.textColor);
-      	 	console.log(arg.event.backgroundColor);
-      	    editColortx.val(arg.event.textColor).css('color', arg.event.textColor);
-      	    editColorbg.val(arg.event.backgroundColor).css('color', arg.event.backgroundColor);
-      	 	console.log(arg.event.description);
+      	    editTitle.val(msg.event.title);
+      	    console.log(msg.event.start);
+      	    console.log(msg.event.end);
+      	  	editStart.val(dateFormat3(msg.event.start));
+      	    editEnd.val(dateFormat3(msg.event.end));
+      		console.log(msg.event.textColor);
+      	 	console.log(msg.event.backgroundColor);
+      	    editColortx.val(msg.event.textColor).css('color', msg.event.textColor);
+      	    editColorbg.val(msg.event.backgroundColor).css('color', msg.event.backgroundColor);
+      	 	console.log(msg.event.description);
       	 	console.log(typeof(data));
-      	    editDesc.val(arg.event.extendedProps.description);
-      	    editid.val(arg.event.id);
-      	    console.log(arg.event.id);
+      	    editDesc.val(msg.event.extendedProps.description);
+      	    editid.val(msg.event.id);
+      	    console.log(msg.event.id);
       	    console.log(editid.val());
       	    addBtnContainer.hide();
       	    modifyBtnContainer.show();
@@ -250,14 +256,37 @@ request.done(function(data) {
             		},
            		success : function(msg){
            			alert("일정 수정을 성공했습니다");
-           			location.href="./loadForm.do";
+           			$('#content').load("./loadForm.do"); 
            		},
             		error : function() {
             			alert("수정을 실패하셨습니다.");
             		}
             	});
       	   });
-    
+    		
+      	  $('#deleteEvent').on('click', function () {
+      	    
+      	    eventModal.modal('hide');
+
+      	    //삭제시
+      	    $.ajax({
+      	    	url : "./calendardelete.do",
+        		type : "post",
+        		dataType : "json",
+        		data :
+        		{
+        			"no":editid.val()
+        		},
+      	        success: function (msg) {
+      	            alert('일정이 삭제되었습니다.');
+      	            $('#content').load("./loadForm.do");
+      	        },
+      	      	error : function() {
+      			alert("일정삭제를 실패하셨습니다.");
+      		}
+      	    });
+
+      	});
       },
      
     	 
@@ -325,7 +354,7 @@ request.done(function(data) {
 
 	     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
 	} 
- 
+
  /* 
  function datetimelocalcha(date) {
      let month = date.getMonth() +1;

@@ -214,7 +214,6 @@ public class NoticeController {
 		}
 		
 		
-		
 		return "redirect:/noticeList.do";
 		
 	}

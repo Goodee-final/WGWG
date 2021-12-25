@@ -165,7 +165,7 @@ request.done(function(data) {
          		},
         		success : function(msg){
         			alert("회사일정 등록에 성공했습니다");
-        			location.href="./companyloadForm.do";
+        			$('#content').load("./companyloadForm.do"); 
         		},
          		error : function() {
          			alert("회사일정 등록에 실패하셨습니다.");
@@ -253,13 +253,38 @@ request.done(function(data) {
             		},
            		success : function(msg){
            			alert("회사일정 수정을 성공했습니다");
-           			location.href="./companyloadForm.do";
+           			$('#content').load("./companyloadForm.do"); 
            		},
             		error : function() {
             			alert("회사일정 수정을 실패하셨습니다.");
             		}
             	});
       	   });
+      	   
+      	 $('#deleteEvent').on('click', function () {
+       	    
+       	    eventModal.modal('hide');
+
+       	    //삭제시
+       	    $.ajax({
+       	    	url : "./calendardelete.do",
+         		type : "post",
+         		dataType : "json",
+         		data :
+         		{
+         			"no":editid.val(),
+         			"chk":"회사"
+         		},
+       	        success: function (msg) {
+       	            alert('일정이 삭제되었습니다.');
+       	            $('#content').load("./companyloadForm.do");
+       	        },
+       	      	error : function() {
+       			alert("일정삭제를 실패하셨습니다.");
+       		}
+       	    });
+
+       	});
     
       },
      

@@ -1,22 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>인덱스</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<script src="https://kit.fontawesome.com/d42fd504d6.js"
-	crossorigin="anonymous"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 
 <!-- include libraries(jQuery, bootstrap) -->
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
@@ -30,6 +29,19 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
 
+<script src="https://kit.fontawesome.com/d42fd504d6.js"
+	crossorigin="anonymous"></script>
+
+
+<script
+	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+<link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
+<link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
 
 <script type="text/javascript">
 	
@@ -51,6 +63,10 @@
 		
 			$("#content").load($(this).attr('value'));
 
+		});
+		
+		$('#logo-image').click(function(){
+			$('#content').load('./main.do');
 		});
 		
 		
@@ -79,19 +95,22 @@ html, body {
 	padding: 0;
 }
 
-a {
-	text-decoration: none;
-	width: max-content;
-	height: max-content;
-}
+/* a {
+   text-decoration: none; 
+   width: max-content; 
+   height: max-content;  
+   color: black; 
+   cursor: pointer; 
+}  */
+
 
 ul {
 	list-style: none;
 }
 
 .header {
-	display: block;
-	max-width: 1600px;
+	display: inline-block;
+	width: 100%;
 	height: 80px;
 	margin: 0 auto;
 	padding: 0;
@@ -116,17 +135,12 @@ ul {
 	margin-left: 30px;
 }
 
-.nav li {
-	float: left;
-}
-
-.left {
-	float: left;
+#logo-image:hover{
+	cursor: pointer;
 }
 
 .right {
 	color: white;
-	float: right;
 }
 
 .right .nav{
@@ -137,6 +151,7 @@ ul {
 
 .right .nav li {
 	margin-left: 15px;
+	display: inline-block;
 }
 
 .nav-icon {
@@ -317,18 +332,14 @@ i {
 }
 .main-loginemp {
 	width: 550px;
-	height: 150px;
-	background-color: yellow;
-}
-#empnm{
-	
-}
-#emppo{
-
+	height: 200px;
+	display: inline-flex;
+	padding:15px;
+	border: 1px solid #ccc;
 }
 .main-calendar {
 	width:550px;
-	height: 350px;
+	height: 300px;
 	background-color: pink;
 	margin-top: 30px;
 }
@@ -336,13 +347,71 @@ i {
 .main-notice{
 	width: 550px;
 	height: 250px;
-	background-color: blue;
 }
 .main-approval {
 	width: 550px;
 	height: 250px;
 	background-color: green;
 	margin-top: 30px;
+}
+
+#emp-img {
+	width: 150px;
+	height: 160px;
+}
+#emp-info {
+	width: 400px;
+	height: 150px;
+	padding: 30px;
+}
+#emp-info span:first-child{
+	font-size: 1.8em !important;
+}
+
+#emp-info span:nth-child(1),#emp-info span:nth-child(2){
+	font-size: 1.5em !important;
+}
+
+#emp-info button{
+	width: 130px;
+	height: 35px;
+	border-radius: 5px;
+	border:none;
+	font-size: 1.1em;
+}
+
+#on{
+	background-color: #073865;
+	color: white;
+	margin-top: 10px;
+	margin-right: 20px;
+	
+}
+#notili{
+	width: 550px;
+	height: 220px;
+	border-collapse: collapse;
+	border-top: 2px solid #ccc;
+	border-bottom: 2px solid #ccc;
+}
+#notili th {
+	text-align: center;
+	border-bottom: 2px solid #ccc;
+	height: 40px;
+	font-weight: normal;
+}
+#notili td {
+	text-align: center;
+}
+#allno{
+	font-size: 1.3em;
+}
+#moreno {
+	margin-left: 380px;
+}
+#empphoto{
+	width:150px;
+	height: 160px;
 }
 </style>
 
@@ -353,7 +422,7 @@ i {
 	<header class="header">
 		<div class="left">
 			<ul class="nav">
-				<li><div id="logo-image"></div></li>
+				<li><div id="logo-image" ></div></li>
 			</ul>
 		</div>
 		<div class="right">
@@ -387,7 +456,7 @@ i {
 					<li class="w3-bar-item w3-button" 
               value="">결재 진행함</li>
 					<li class="w3-bar-item w3-button" 
-              value="">결재 대기함</li>
+              value="./waitdoclist.do">결재 대기함</li>
 					<li class="w3-bar-item w3-button"
 						  value="./completedoc.do">결재 완료함</li>
 					<li class="w3-bar-item w3-button" 
@@ -412,66 +481,77 @@ i {
 		
 				</ul>
 			</li>
-			
-      
-			<li class="w3-bar-item nav1"><i class="fas fa-business-time"></i>근태관리
-				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="./workrecord.do">근태관리</li>
-					<li class="w3-bar-item w3-button" value="">근태관리</li>
-				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="fas fa-thumbtack"></i> 공지사항
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button"
 						value="./noticeList.do">공지사항</li>
 					<li class="w3-bar-item w3-button" value="">공지사항</li>
-				</ul></li>
+				</ul>
+			</li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>일정관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button"
-						value="#"><a href="./loadForm.do">개인일정</a></li>
+						value="./loadForm.do">개인일정</li>
 					<li class="w3-bar-item w3-button" 
-						value="#"><a href="./companyloadForm.do">회사일정</a></li>
+						value="./companyloadForm.do">회사일정</li>
 				</ul></li>
 
-			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약관리
+			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="">예약관리</li>
-					<li class="w3-bar-item w3-button" value="">예약관리</li>
+					<li class="w3-bar-item w3-button" value="./reservation.do">예약하기</li>
+					<li class="w3-bar-item w3-button" value="./reservationist.do">예약목록</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i>업무일지
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button" value="./worklogInsert.do">업무일지 작성</li>
 					<li class="w3-bar-item w3-button" value="./worklogList.do">업무일지 조회</li>
-				</ul></li>
+				</ul>
+			</li>
 
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>채팅
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button" value="">채팅</li>
 					<li class="w3-bar-item w3-button" value="">채팅</li>
 				</ul></li>
-			<li class="w3-bar-item nav1"><i class="fas fa-file"></i>양식함
-				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="./formlist.do">양식목록</li>
-					<li class="w3-bar-item w3-button" value="./forminsert.do">양식등록</li>
-				</ul></li>
+			<c:if test="${emp.dept_no eq 10}">
+				<li class="w3-bar-item nav1"><i class="fas fa-file"></i>양식함
+					<ul class="nav-flyout">
+						<li class="w3-bar-item w3-button" value="./formlist.do">양식목록</li>
+						<li class="w3-bar-item w3-button" value="./forminsert.do">양식등록</li>
+					</ul>
+				</li>
+			</c:if>
+			
 			<li class="w3-bar-item nav1"><i class="fas fa-users"></i>사원관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
 						value="./insert_emp_form.do">사원등록</li>
+					<li class="w3-bar-item w3-button "value="./empList.do">사원조회</li>
+				</ul></li>
+			<li class="w3-bar-item nav1"><i class="fas fa-id-badge"></i>부서관리
+				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
-						value="">사원조회</li>
+						value="./deptList.do">부서조회 및 관리</li>
 				</ul></li>
 		</ul>
 	</article>
 	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
 
-	<!--  -->
 		<div id="main-content">
 			<div id="main-content1">
 				<div class="main-loginemp">
+
+					<div id="emp-img"><img id="empphoto" src="./img/${emp.photo}"></div>
+					<div id="emp-info">
+						<span>${emp.emp_nm}</span><br>
+						<span>${emp.dVo.dept_nm}</span>
+						<span>${emp.pVo.position_nm}</span><br>
+						<!-- <button type="button" id="on">출근하기</button>
+						<button type="button" id="off">퇴근하기</button> -->
+					</div>
 				</div>
 				<div class="main-calendar">
 					달력
@@ -479,13 +559,29 @@ i {
 			</div>
 			<div id="main-content2">
 				<div class="main-notice">
-					공지사항
+				<span id="allno">전체공지사항</span>
+				<span id="moreno"><a href="./noticeList.do">더보기</a></span>
+					<table id="notili">
+						<tbody>
+							<c:forEach var="notice" items="${noticeList}">
+								<tr>
+									<td>${notice.notice_no}</td>
+									<td><a href="./detailnotice.do?notice_no=${notice.notice_no}">${notice.notice_title}</a></td>
+									<td>등록일: ${notice.notice_reg_dt}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					
 				</div>
 				<div class="main-approval">
 					결재
 				</div>
 			</div>
 		</div>
+
+
+
 	</section>
 
 	<footer class="footer">

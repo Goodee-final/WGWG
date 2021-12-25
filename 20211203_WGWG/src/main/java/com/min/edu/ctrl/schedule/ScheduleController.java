@@ -1,10 +1,7 @@
 package com.min.edu.ctrl.schedule;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,10 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.min.edu.model.notice.INoticeService;
@@ -38,6 +33,9 @@ public class ScheduleController {
 	@Autowired
 	private INoticeService notservice;
 	
+	@Autowired
+	private HttpSession session;
+	
 	@RequestMapping(value="/loadForm.do",method = RequestMethod.GET)
 	public String calendarForm(HttpSession session) {
 		logger.info("****NoticeController에 paging접속*****");
@@ -46,13 +44,14 @@ public class ScheduleController {
 		Emp emp = notservice.selectEList(emp_no);
 		logger.info("emp테이블에서 가져온 리스트의 값{}",emp);
 		session.setAttribute("emp", emp);
+		session.setAttribute("loc","./loadForm.do");
 		return "schedule/Calendar";
 	}
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/calendarlist.do",method = {RequestMethod.POST,RequestMethod.GET} ,produces = "application/text; charset=utf8")
 	@ResponseBody	
-	public String calendarlist (Model model,HttpSession session,int emp_no) {
+	public String calendarlist (Model model,int emp_no) {
 		//logger.info("************calendarlis 컨트롤러");		
 		//logger.info("************calendarlis 컨트롤러{}",map.get("schedule_no"));	
 		//List<ScheduleVO> lists = service.getAllPerList(Integer.parseInt(String.valueOf(map.get("schedule_no"))));
@@ -97,6 +96,7 @@ public class ScheduleController {
 		return jlist.toString();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/calendarsave.do",method = RequestMethod.POST, produces = "applicaton/text; charset=UTF-8;")
 	@ResponseBody
 	public String save(ScheduleVO vo,int emp_no, String title,String start, String end,String textColor,String backgroundColor,String description,String chk) throws ParseException, java.text.ParseException {
@@ -126,7 +126,14 @@ public class ScheduleController {
 		
 		if(cnt>0) {
 			JSONObject json = new JSONObject();		
-
+			json.put("title", vo.getSchedule_title());
+			json.put("start", vo.getSchedule_startday());
+			json.put("end", vo.getSchedule_endday()); 							
+			json.put("textColor", vo.getSchedule_tx_color());				
+			json.put("backgroundColor", vo.getSchedule_bg_color());
+			json.put("description", vo.getSchedule_content()); 				
+			json.put("id", vo.getSchedule_no());	
+			logger.info(vo.getSchedule_content());   
 			return json.toString();
 		}else {
 			return null;
@@ -172,6 +179,32 @@ public class ScheduleController {
 		}
 		
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/calendardelete.do",method = RequestMethod.POST)
+	@ResponseBody
+	public String calendardelete(int no,String chk) {
+		int cnt = 0;
+		System.out.println(no);
+		
+		if(chk != null) {			
+			cnt = service.deleteScheduleC(no);
+		}else {
+			cnt = service.deleteScheduleP(no);
+		}
+		
+		System.out.println(cnt+"***************************************");
+		
+		if(cnt>0) {
+			JSONObject jObj = new JSONObject();
+						
+			return jObj.toString();
+		}else {
+			return null;
+		}
+		
+	}
+	
 	@GetMapping(value="/companyloadForm.do")
 	public String companyloadForm(HttpSession session){
 		logger.info("****NoticeController에 paging접속*****");
