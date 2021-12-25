@@ -502,6 +502,10 @@ th {
 		arr[2] = line3id[3];
 		arr[3] = line4id[3]; */
 
+		for (var i = 0; i < arr.length; i++) {
+		    console.log(arr[i]+" ");
+		    //empnm+i.innerHTML = arr[i];
+		}
 		
 		$.ajax({
             type : "post",  

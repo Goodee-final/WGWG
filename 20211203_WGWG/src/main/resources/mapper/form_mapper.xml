@@ -36,13 +36,17 @@
 	SELECT F.FORM_NO, F.FORM_NM, F.FORM_REG_DT, F.TEMPLATE, FC.FORM_CLASS_NM 
 		FROM FORM f JOIN FORM_CLASSIFICATION fc 
 		ON F.FORM_CLASS_NO = FC.FORM_CLASS_NO
-		WHERE FORM_NO = ${form_no}
+		WHERE FORM_NO = #{form_no}
 </select>
 
-<insert id="insertForm" parameterType="formDto">
+<insert id="insertForm" parameterType="java.util.Map">
 	INSERT INTO FORM
 		(FORM_NO, FORM_NM, FORM_REG_DT, TEMPLATE, FORM_CLASS_NO)
-			VALUES(FORM_SEQ.NEXTVAL, #{form_nm}, sysdate, #{template}, #{form_class_no})
+			VALUES(FORM_SEQ.NEXTVAL, #{form_nm}, sysdate, 
+		<foreach item="item" collection="template" separator="||">
+			TO_CLOB(#{item})
+		</foreach>
+			,#{form_class_no})
 </insert>
 
 <select id="searchForm" parameterType="java.lang.String" resultMap="FormJoinVo">
@@ -56,7 +60,7 @@
 <select id="selectTemplate" parameterType="java.lang.Integer" resultType="java.lang.String">
 	SELECT TEMPLATE 
 		FROM FORM
-		WHERE FORM_NO = ${forn_no}
+		WHERE FORM_NO = #{forn_no}
 </select>
 
 <select id="selectForm" resultType="formDto">
@@ -75,5 +79,24 @@
 
 <select id="selectTotalPaging" resultType="java.lang.Integer">
 	 SELECT NVL(COUNT(*),0) FROM FORM
+</select>
+
+<select id="searchPaging" parameterType="java.util.Map" resultMap="FormJoinVo">
+	SELECT FORM_NO, FORM_NM, FORM_REG_DT, FORM_CLASS_NM
+	FROM(
+		SELECT f.*,fc.FORM_CLASS_NM, ROW_NUMBER () OVER (ORDER BY f.FORM_NO DESC) RNUM
+			FROM FORM f JOIN FORM_CLASSIFICATION fc
+			ON F.FORM_CLASS_NO = FC.FORM_CLASS_NO
+			WHERE LOWER(f.FORM_NM) LIKE LOWER('%'||#{formtitle}||'%')
+			ORDER BY FORM_NO DESC 
+		)
+	WHERE RNUM BETWEEN #{start} AND #{last}
+</select>
+
+<select id="searchTotalPaging" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(*),0) 
+		FROM FORM
+		WHERE LOWER(FORM_NM) LIKE LOWER('%'||#{formtitle}||'%')
+		ORDER BY FORM_NO DESC
 </select>
 </mapper>

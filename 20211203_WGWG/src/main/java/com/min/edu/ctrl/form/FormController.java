@@ -1,6 +1,9 @@
 package com.min.edu.ctrl.form;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +48,7 @@ public class FormController {
 	
 	  	model.addAttribute("formList", formList);
 	  	model.addAttribute("paging", paging);
-	logger.info("페이징 DTO 값: {}", paging.toString());
+	  	logger.info("페이징 DTO 값: {}", paging.toString());
 		return "/form/formlist";
 	}
 	
@@ -54,7 +57,6 @@ public class FormController {
 		logger.info("양식 상세화면 이동");
 		logger.info("전달받은 양식번호 {}", form_no);
 		Form selectForm = service.selectFormDetail(form_no);
-		String loc = "/formdetail.do";
 		model.addAttribute("selectForm",selectForm);
 		return "/form/formdetail";
 	}
@@ -70,24 +72,56 @@ public class FormController {
 	
 	@RequestMapping(value="/insertform.do", method=RequestMethod.POST)
 	public String formInsert(@RequestParam String content, @RequestParam int formclassification, @RequestParam String title) {
-		System.out.println(content);
-		System.out.println(formclassification);
-		System.out.println(title);
-		System.out.println(content.length());
-		Form form = new Form(title, content, formclassification);
-		int cnt = service.insertForm(form);
-//		if(cnt > 0) {
-//			return "/formlist.do";
+		logger.info("양식내용 {}", content);
+		logger.info("양식사이즈 {}", content.length());
+		
+		List<String> longtemp = new ArrayList<String>();
+		int cnt =  content.length()/3500;
+		if(content.length()%3500 != 0) {
+			cnt ++;
+		}
+//		System.out.println(cnt);
+		int i;
+		for (i = 0; i < cnt-1; i++) {
+			longtemp.add(content.substring(i*3500, (i+1)*3500)) ;
+		}
+		
+//		System.out.println(template.size());
+		longtemp.add(content.substring(i*3500)) ;
+//		System.out.println(words.size());
+//		for (String s : words) {
+//			System.out.println(s.length());
 //		}
-		return "redirect:/formlist.do";
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("form_nm", title);
+		map.put("form_class_no", formclassification);
+		map.put("template", longtemp);
+		
+		int insert = service.insertForm(map);
+		if(insert > 0) {
+			return "redirect:/formlist.do";
+		} else {
+			return "redirect:/insertform.do";
+		}
 	}
 	
 	@RequestMapping(value="/formsearch.do", method=RequestMethod.POST)
-	public String formSearch(String formtitle, Model model) {
+	public String formSearch(@RequestParam String formtitle, Model model, HttpServletRequest req) {
 		System.out.println(formtitle);
-		List<Form> formList = service.searchFormList(formtitle);
+		PagingDto paging = new PagingDto(
+				req.getParameter("index"), 
+				req.getParameter("pageStartNum"),
+				req.getParameter("listCnt")
+				);
+		paging.setTotal(service.searchTotalPaging(formtitle));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("formtitle",formtitle);
+		map.put("start", paging.getPageStartNum());
+		map.put("last",paging.getListCnt());
+		List<Form> formList = service.searchPaging(map);
 		model.addAttribute("formList",formList);
-		return "redirect:/formlist.do";
+		model.addAttribute("paging", paging);
+		return "/form/formlist";
 	}
 	
 	@RequestMapping(value="/formselect.do", method=RequestMethod.GET, produces ="application/text; charset=UTF-8")

@@ -216,7 +216,7 @@ th {
 		
 	</div>
 
-		<c:if test="${docSt == '참조'}">
+		<c:if test="${docBox == '참조'}">
 			<button class="btn" id="btn-ref">피드백</button>
 			
 			<!-- 피드백 Modal창 -->
@@ -243,7 +243,7 @@ th {
 			</div>
 		</c:if>
 		
-		<%-- 			<c:if test="${docSt == '결재대기'}"> --%>
+		<c:if test="${docBox == '결재대기'}">
 		<div id="nextbtn">	
 			<button class="btn" id="btn-approve" class="btn-app">승인</button>
 			<button class="btn" id="btn-return" class="btn-app">반려</button>
@@ -321,13 +321,9 @@ th {
 
 			</div>
 		</div>
-		<%-- 			</c:if> --%>
+		</c:if>
 		
 		
-		
-		<%-- 			<c:if test="${docSt == '개인' & detaildoc.app_doc_st == '대기'} "> --%>
-
-		<%-- 			</c:if> --%>
 	
 	
 		<div id="Box">
@@ -339,7 +335,7 @@ th {
 		</c:if>
 		
 		
-		<c:if test="${docBox eq '개인'}">
+		<c:if test="${docBox eq '개인대기'}">
 			<div id="nextbtn">
 				<button class="btn" onclick="location.href='./appline.do'">기안취소</button>
 			</div>
@@ -347,6 +343,7 @@ th {
 		</div>
 
 	</div>
+
 
 
 
