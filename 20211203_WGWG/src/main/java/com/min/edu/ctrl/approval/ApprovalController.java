@@ -65,8 +65,6 @@ public class ApprovalController {
 	   
 	   @RequestMapping(value="/mydoclist.do", method = {RequestMethod.GET, RequestMethod.POST})
 	   public String doclist(Model model, HttpServletRequest request) {
-		  //session.setAttribute("userid", "USER25");
-		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
 		  
 		  Approval_Doc doc = new Approval_Doc();
 		  int empno = (Integer)session.getAttribute("loginEmp");
@@ -80,7 +78,6 @@ public class ApprovalController {
 		  }
 		  
 	      logger.info("ApprovalController 전체글 조회 List");
-//	    List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(7);
 	      
 	      Approval_Page paging = new Approval_Page(
 	               request.getParameter("index"),
@@ -139,7 +136,8 @@ public class ApprovalController {
 	   @GetMapping(value="/docinsert.do")
 	   public String docinsert(Model model) {
 	      logger.info("ApprovalController 기안하기 문서 작성");
-	      Emp empinfo = approvalServiceImpl.selectEmpInfo(7);
+	      int empno = (Integer)session.getAttribute("loginEmp");
+	      Emp empinfo = approvalServiceImpl.selectEmpInfo(empno);
 	      model.addAttribute("empinfo", empinfo);
 	      List<Department> deptlists = approvalServiceImpl.selectAllDept();
 	      List<Emp> emplists = approvalServiceImpl.selectAllEmp();
@@ -153,27 +151,73 @@ public class ApprovalController {
 	      return "/approval/docinsert";
 	   }
 	   
-	   @PostMapping(value="/docinsert.do")
-	   public String docapproval(Model model, @RequestParam String app_doc_title, @RequestParam String app_doc_content, @RequestParam String form_num) {
-	      logger.info("ApprovalController 기안하기 문서 작성");
-	      int form_no = Integer.parseInt(form_num);
-	      Approval_Doc doc = new Approval_Doc(app_doc_title, app_doc_content, form_no);
-	      approvalServiceImpl.insertDoc(doc);
-	      System.out.println("문서"+doc);
-	      return "/approval/mydoclist";
-	   }
-	   
 	   @PostMapping(value="/appline.do")
 	   @ResponseBody
-	   public String appline(@RequestParam(value="arr[]")List<String> arr, Model model) {
+	   public int appline(@RequestParam(value="arr[]") int[] arr, Model model) {
 	      logger.info("ApprovalController 결재라인 등록");
-	      List<String> appline = arr;
-	      System.out.println(appline);
-	      model.addAttribute("appline", appline);
-	      return "redirect:/approval/docinsert";
+	      int[] applinenum = arr;
+	      System.out.println(applinenum);
+	      model.addAttribute("appline", applinenum);
+	      
+
+			Gson gson = new Gson();
+
+			Approver approver = null;
+			
+			String approval = "{\"APPROVAL\":[";
+			String appJson = null;
+			
+			for (int i = 0; i < applinenum.length; i++) {
+
+				if(i == 0) {
+					approver = new Approver(applinenum[i], // 결재자 회원번호
+							"", // 승인 여부
+							"", // 반려 사유
+							"", // 결재일
+							"y", // 대기 여부
+							"");
+				}else {
+					approver = new Approver(applinenum[i], // 결재자 회원번호
+							"", // 승인 여부
+							"", // 반려 사유
+							"", // 결재일
+							"n", // 대기 여부
+							"");
+				}
+				
+				appJson = gson.toJson(approver);
+				System.out.println(appJson);
+				
+				if(i != applinenum.length-1) {
+					approval += appJson + ",";
+				}
+			}
+			
+			// 마지막 결재자일시
+			approval += appJson + "]}";
+
+			Approval_line appline = new Approval_line(approval);
+			
+			//결재라인 등록
+			int applineno = approvalServiceImpl.insertappline(appline);
+	      
+	      return applineno;
 	   }
 	   
-	  
+	   @PostMapping(value="/docinsert.do")
+	   public String docapproval(Model model, HttpServletRequest req, @RequestParam String form_num) {
+	      logger.info("ApprovalController 기안하기 문서 작성");
+	      int form_no = Integer.parseInt(form_num);
+	      int app_line_no = Integer.parseInt(req.getParameter("app_line_no"));
+	      String app_doc_title = req.getParameter("app_doc_title");
+	      String app_doc_content = req.getParameter("app_doc_content");
+	      int emp_no = Integer.parseInt(req.getParameter("emp_no"));
+	      Approval_Doc doc = new Approval_Doc(app_doc_title, app_doc_content, app_line_no, emp_no, form_no);
+	      approvalServiceImpl.insertDoc(doc);
+	      System.out.println("문서"+doc);
+	      return "redirect:/mydoclist.do";
+	   }
+	   
 
 	@Autowired
 	ISignDao signdao;
@@ -223,17 +267,22 @@ public class ApprovalController {
 		String ref = detaildoc.getRef_emp_no();
 		System.out.println(ref);
 
-		String[] str = ref.split(",");
-		List<String> reflist = null;
+		String[] str = null;
+		
+		if(ref!=null) {
+			str = ref.split(",");
+			
+			for (int i = 0; i < str.length; i++) {
+				System.out.println("i번째 문자: " + str[i]);
 
-		for (int i = 0; i < str.length; i++) {
-			System.out.println("i번째 문자: " + str[i]);
-
-			Emp emp = approvalServiceImpl.selectEmpInfo(Integer.parseInt(str[i]));
-			String name = emp.getEmp_nm();
-			System.out.println("회원번호: " + str[i] + ", 회원이름 : " + name);
-			str[i] = name;
+				Emp emp = approvalServiceImpl.selectEmpInfo(Integer.parseInt(str[i]));
+				String name = emp.getEmp_nm();
+				System.out.println("회원번호: " + str[i] + ", 회원이름 : " + name);
+				str[i] = name;
+			}
 		}
+		
+		List<String> reflist = null;
 
 		// 서명 정보
 		List<Sign> signlist = signdao.selectSignList(empno);
@@ -271,7 +320,7 @@ public class ApprovalController {
 
 		// 현재시간
 		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:MI");
 		String nowTime = format.format(date);
 
 		
@@ -427,7 +476,7 @@ public class ApprovalController {
 
 		// 현재시간
 		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:MI");
 		String nowTime = format.format(date);
 
 		// 내 결재 대기 상태 n로 변경
