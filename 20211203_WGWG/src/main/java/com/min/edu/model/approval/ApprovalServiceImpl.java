@@ -67,6 +67,11 @@ public class ApprovalServiceImpl implements IApprovalService {
 	}
 	
 	@Override
+	public int insertappline(Approval_line appline) {
+		return dao.insertappline(appline);
+	}
+	
+	@Override
 	public List<Approval_Doc> selectAllDocApp(int empno) {
 		return dao.selectAllDocApp(empno);
 	}
@@ -158,6 +163,8 @@ public class ApprovalServiceImpl implements IApprovalService {
 	public List<Map<String, Object>> selectfeedback(int docno) {
 		return dao.selectfeedback(docno);
 	}
+
+
 
 
 

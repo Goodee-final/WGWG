@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>결재문서 상세화면</title>
-</head>
+
 <style type="text/css">
 .container{
 /* 	display: flex; */
@@ -143,6 +143,21 @@ th {
 #doccontents{
 	margin-top: 20px;
 }
+
+.icon-box{
+	display: flex;
+	justify-content:space-evenly;
+	align-items: center;
+}
+.icon-box1{
+	display: flex;
+	flex-direction: column;	
+	justify-content: center;
+	align-items: center;
+}
+.ref-modal{
+	margin-top: 20px;
+}
 </style>
 <body>
 
@@ -151,7 +166,7 @@ th {
 		<h1>${docBox}</h1>
 		
 		<hr>
-		<div id="doccont">
+		<div id="doccont"></div>
 		<div id="formnm">
 			<label id="formname">${detaildoc.fvo.form_nm}</label>
 		</div>
@@ -211,16 +226,21 @@ th {
 		</div>
 
 		<div id="doccontents">
-			${detaildoc.app_doc_content}
+		<div class="editor">
+				<textarea rows="20" cols="135" id="ir1" name="app_doc_content">${detaildoc.app_doc_content}</textarea>
+			</div>
+		
 		</div>
 		
 	</div>
 
 		<c:if test="${docBox == '참조'}">
-			<button class="btn" id="btn-ref">피드백</button>
+		<div id="nextbtn">	
+			<button class="btn" id="btn-ref" class="btn-ref">피드백</button>
+		</div>
 			
 			<!-- 피드백 Modal창 -->
-			<div class="modal fade" id="myModal2" role="dialog">
+			<div class="modal fade" id="myModal3" role="dialog">
 				<div class="modal-dialog">
 
 					<!-- Modal content-->
@@ -230,15 +250,53 @@ th {
 							<h4 class="modal-title">피드백</h4>
 						</div>
 						<div class="modal-body">
-	
-							
-	
+
+							<div class="icon-box">
+
+								<div class="icon-box1">
+									<i class="far fa-tired fa-3x" class="icon-ref" id="icon-ref"
+										style="color: red"></i> <input type="radio" name="ref"
+										value="fa-tired" />
+								</div>
+
+								<div class="icon-box1">
+									<i class="far fa-frown-open fa-3x" class="icon-ref"
+										id="icon-ref" style="color: orange"></i> <input type="radio"
+										name="ref" value="fa-frown-open" />
+								</div>
+
+
+								<div class="icon-box1">
+									<i class="far fa-meh fa-3x" class="icon-ref" id="icon-ref"
+										style="color: #fff44f"></i> <input type="radio" name="ref"
+										value="fa-meh" />
+
+								</div>
+								<div class="icon-box1">
+									<i class="far fa-smile fa-3x" class="icon-ref" id="icon-ref"
+										style="color: #90ee90"></i> <input type="radio" name="ref"
+										value="fa-smile" />
+								</div>
+
+								<div class="icon-box1">
+									<i class="far fa-grin-beam fa-3x" class="icon-ref"
+										id="icon-ref" style="color: green"></i> <input type="radio"
+										name="ref" value="fa-grin-beam" />
+								</div>
+
+
+
+
+
+
+							</div>
 						</div>
-						<div class="modal-footer">
-							<button id="reasonSave" type="button" class="btn btn-default" data-dismiss="modal">저장</button>
+						<div class="modal-footer ref-modal">
+							<button id="feedbackSave" type="button" class="btn btn-default"
+								data-dismiss="modal">저장</button>
 						</div>
+
 					</div>
-	
 				</div>
 			</div>
 		</c:if>
@@ -329,7 +387,7 @@ th {
 		<div id="Box">
 		<c:if test="${docBox eq '임시저장'}">
 			<div id="nextbtn">
-				<button class="btn" onclick="location.href='./appline.do'">수정</button>
+				<button class="btn" id="btn-update" >수정/재상신</button>
 				<button id="btn-delete" class="btn" >삭제</button>
 			</div>
 		</c:if>
@@ -353,6 +411,11 @@ th {
 
 <script>
 	$(document).ready(function() {
+		$("#btn-ref").click(function(e) {
+			e.preventDefault();
+			$("#myModal3").modal();
+		});
+		
 		$("#btn-approve").click(function(e) {
 			e.preventDefault();
 			$("#myModal1").modal();
@@ -413,11 +476,37 @@ th {
 			location.href="./docReturn.do?reason="+reason+"&docNo="+${detaildoc.app_doc_no};
 		});
 		
+		$("#feedbackSave").click(function(){
+			
+			var feedback = $(":input:radio[name=search_type]:checked").val();
+			var sendData = {"feedback":feedback, "docNo":${detaildoc.app_doc_no}}
+				$.ajax({
+				type:"post",
+				url:"./feedback.do",
+				data:sendData,
+				success:function(data){
+					var tired = data["fa-tired"];
+					var frown_open = data["frown-open"];
+					var meh = data["meh"];
+					var smile = data['smile'];
+					var grin_beam = data['grim-beam'];
+					console.log('tired : ' + tired + 'frown-open : ' + frown_open + 'meh : ' + meh +'smile : ' + smile +'grin-beam : ' + grin_beam );
+				}
+			});
+		});
+		
+		$('#btn-update').click(function(){
+			$('#content').load('./updateForm.do?docno=' + ${detaildoc.app_doc_no});
+		});
+		
 		$("#btn-delete").click(function(){
 			alert("문서를 삭제하게")
 			location.href="./docDelte.do?docNo="+${detaildoc.app_doc_no};
 		});
 		
 	});
+	
+	
+
 </script>
 </html>
