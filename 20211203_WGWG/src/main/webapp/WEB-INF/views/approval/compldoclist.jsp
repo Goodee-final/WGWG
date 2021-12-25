@@ -9,8 +9,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
-<link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
 <script type="text/javascript" src="./js/approve.js" ></script> 
 <script type="text/javascript" src="./js/paging.js"></script>
 <script type="text/javascript">
@@ -28,6 +26,26 @@
 		detailMove(state);
 		
 // 		search();
+
+		$('.tog').click(function(){
+			var active =  $('.active').attr('val');
+			var tog = $(this).attr('val');
+			
+			var app_chk = $('#app_chk').val();
+			var searchKeyword = $('#searchKeyword').val();
+			var index = $('#index').val();
+			console.log('index: '+index);
+			var pageStartNum = $('#pageStartNum').val();
+			var listCnt = $('#listCnt').val();
+			
+			
+			if(tog != active){
+				active = tog;
+				index = 0;
+			}
+			
+			$('#content').load('./completedoc.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);
+		});
 
 	});
 	
@@ -91,8 +109,8 @@ th, td {
 			<c:if test="${paging.active != '2'}">
 			<ul class="nav nav-pills" id="active" style="height: 18px;">
 			
-				<li class="active" val="1"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">상신</a></li>
-				<li val="2"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">송신</a></li>			
+				<li class="active tog" val="1"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">상신</a></li>
+				<li val="2" class="tog"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">송신</a></li>			
 			
 			<div id="search">
 					<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title" value="${paging.searchkeyword}"> 
@@ -164,8 +182,8 @@ th, td {
 			<c:if test="${paging.active == '2'}">
 			<ul class="nav nav-pills" id="active" style="height: 18px;">
 			
-				<li val="1"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">상신</a></li>
-				<li class="active" val="2"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">송신</a></li>			
+				<li val="1" class="tog"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">상신</a></li>
+				<li class="active tog" val="2"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">송신</a></li>			
 			
 				<div id="search">
 					<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title" value="${paging.searchkeyword}"> 

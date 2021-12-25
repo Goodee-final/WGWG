@@ -13,6 +13,7 @@ import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
+import com.min.edu.vo.approval.Reference;
 
 @Service
 public class ApprovalServiceImpl implements IApprovalService {
@@ -146,5 +147,27 @@ public class ApprovalServiceImpl implements IApprovalService {
 	public int selectTotalPagingWait(Approval_Doc doc) {
 		return dao.selectTotalPagingWait(doc);
 	}
-  
+
+
+	@Override
+	public int updatefeedback(Reference ref) {
+		return dao.updatefeedback(ref);
+	}
+
+	@Override
+	public int insertRef(Reference ref) {
+		return dao.insertRef(ref);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectfeedback(int docno) {
+		return dao.selectfeedback(docno);
+	}
+
+
+
+
+
+
+
 }

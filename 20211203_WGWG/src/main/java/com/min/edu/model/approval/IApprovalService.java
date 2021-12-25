@@ -10,6 +10,7 @@ import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
+import com.min.edu.vo.approval.Reference;
 
 public interface IApprovalService {
 
@@ -61,4 +62,14 @@ public interface IApprovalService {
 
 	//결재라인 조회
 	public Approval_line selectLine(int appLineNo);
+
+	//참조자 업데이트
+	public int updatefeedback(Reference ref);
+	//참조자 입력
+	public int insertRef(Reference ref);
+	//피드백 조회
+	public List<Map<String, Object>> selectfeedback(int docno);
 }
+
+
+

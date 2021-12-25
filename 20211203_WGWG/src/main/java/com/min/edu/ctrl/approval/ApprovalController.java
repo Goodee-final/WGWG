@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -40,6 +40,7 @@ import com.min.edu.vo.approval.Approval_Doc;
 import com.min.edu.vo.approval.Approval_Page;
 import com.min.edu.vo.approval.Approval_line;
 import com.min.edu.vo.approval.Approver;
+import com.min.edu.vo.approval.Reference;
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Position;
@@ -65,6 +66,8 @@ public class ApprovalController {
 	   
 	   @RequestMapping(value="/mydoclist.do", method = {RequestMethod.GET, RequestMethod.POST})
 	   public String doclist(Model model, HttpServletRequest request) {
+		  //session.setAttribute("userid", "USER25");
+		  //session.setMaxInactiveInterval(120);  //세션이 저장되는 시간(초)
 		  
 		  Approval_Doc doc = new Approval_Doc();
 		  int empno = (Integer)session.getAttribute("loginEmp");
@@ -155,8 +158,9 @@ public class ApprovalController {
 	   @ResponseBody
 	   public int appline(@RequestParam(value="arr[]") int[] arr, Model model) {
 	      logger.info("ApprovalController 결재라인 등록");
+	      System.out.println("ajax 전달값 : " + arr);
 	      int[] applinenum = arr;
-	      System.out.println(applinenum);
+	      System.out.println("applinenum : "+applinenum);
 	      model.addAttribute("appline", applinenum);
 	      
 
@@ -207,6 +211,7 @@ public class ApprovalController {
 	   @PostMapping(value="/docinsert.do")
 	   public String docapproval(Model model, HttpServletRequest req, @RequestParam String form_num) {
 	      logger.info("ApprovalController 기안하기 문서 작성");
+	      System.out.println("form_num : " + form_num);
 	      int form_no = Integer.parseInt(form_num);
 	      int app_line_no = Integer.parseInt(req.getParameter("app_line_no"));
 	      String app_doc_title = req.getParameter("app_doc_title");
@@ -217,6 +222,8 @@ public class ApprovalController {
 	      System.out.println("문서"+doc);
 	      return "redirect:/mydoclist.do";
 	   }
+	   
+	   
 	   
 
 	@Autowired
@@ -634,9 +641,10 @@ public class ApprovalController {
 		return "/approval/compldoclist";
 	}
 	
-	
+	// 문서 삭제
 	@GetMapping(value="/docDelte.do")
 	public String docDelete(HttpServletRequest req) {
+		System.out.println(req.getParameter("docno"));
 		int docno = Integer.parseInt(req.getParameter("docno"));
 		
 		Approval_Doc doc = new Approval_Doc();
@@ -648,6 +656,7 @@ public class ApprovalController {
 		return "redirect:/home.do";
 	}
 
+	//임시저장 문서함
 	@GetMapping(value = "/tempdoc.do")
 	public String tmepdoc(Model model, HttpServletRequest request) {
 
@@ -911,6 +920,98 @@ public class ApprovalController {
 	}
 
 	
+	@RequestMapping(value="/feedback.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public Map<String, Object> feedback(HttpServletRequest req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String docno = req.getParameter("docNo");
+		String feedback = req.getParameter("feedback");
+		int empno = (Integer)session.getAttribute("loginEmp");
+	
+		
+		Reference ref = new Reference(docno, empno, feedback);
+		approvalServiceImpl.updatefeedback(ref);
+	
+		List<Map<String, Object>> feedList = approvalServiceImpl.selectfeedback(Integer.parseInt(docno));
+		for (Map<String, Object> map2 : feedList) {
+			String feedIcon = (String)map2.get("feedback");
+			int cnt = (Integer)map2.get("cnt");
+			map.put(feedIcon, cnt);
+		}
+		
+		return map;
+	}
+	
+	@RequestMapping(value="/updateForm.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String updateForm(Model model, HttpServletRequest req) {
+		   logger.info("ApprovalController 기안하기 문서 작성");
+	      int empno = (Integer)session.getAttribute("loginEmp");
+	      Emp empinfo = approvalServiceImpl.selectEmpInfo(empno);
+	      model.addAttribute("empinfo", empinfo);
+	      List<Department> deptlists = approvalServiceImpl.selectAllDept();
+	      List<Emp> emplists = approvalServiceImpl.selectAllEmp();
+	      List<Position> plists = approvalServiceImpl.selectAllPosition();
+
+	     
+			int docno = Integer.parseInt(req.getParameter("docno"));
+		
+			logger.info("문서 상세 보기 화면");
+			System.out.println("문서번호: " + docno);
+
+			// 문서번호로 상세보기
+			Approval_Doc detaildoc = approvalServiceImpl.selectOneDoc(docno);
+
+			System.out.println(detaildoc);
+			System.out.println("form 이름 : " + detaildoc.getFvo().getForm_nm());
+			System.out.println(detaildoc.getFvo().getForm_no());
+
+			//결재자 정보
+			System.out.println("라인넘버: " + detaildoc.getApp_line_no());
+			List<Approver> approver = approvalServiceImpl.selectSignList(detaildoc.getApp_line_no());
+			System.out.println(approver);
+			
+			List<Emp> appInfo = new ArrayList<Emp>();
+			for (Approver app : approver) {
+				appInfo.add(approvalServiceImpl.selectEmpInfo(app.getEmp_no()));
+			}
+		
+			// 참조인 배열
+			String ref = detaildoc.getRef_emp_no();
+			System.out.println(ref);
+
+			String[] str = null;
+			
+			if(ref!=null) {
+				str = ref.split(",");
+				
+				for (int i = 0; i < str.length; i++) {
+					System.out.println("i번째 문자: " + str[i]);
+
+					Emp emp = approvalServiceImpl.selectEmpInfo(Integer.parseInt(str[i]));
+					String name = emp.getEmp_nm();
+					System.out.println("회원번호: " + str[i] + ", 회원이름 : " + name);
+					str[i] = name;
+				}
+			}
+			
+			List<String> reflist = null;
+
+			// 서명 정보
+			List<Sign> signlist = signdao.selectSignList(empno);
+
+			model.addAttribute("signlist", signlist);
+			model.addAttribute("empinfo", empinfo);
+			model.addAttribute("refName", str);
+			model.addAttribute("detaildoc", detaildoc);
+			model.addAttribute("deptlists", deptlists);
+	      	model.addAttribute("plists", plists);
+	      	model.addAttribute("emplists", emplists);
+			model.addAttribute("approver",approver);
+			model.addAttribute("appInfo",appInfo);
+			session.setAttribute("loc", "./updateForm.do?docno=" + docno);
+		
+	      return "/approval/updateForm";
+	}
 	
 //	   @PostMapping("/replyBoard.do")
 //	   public String replyBoard(Answerboard_VO vo, HttpSession session) {
