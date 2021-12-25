@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.department.DeptDaoImpl">
+
+	<select id="selectDeptAll" resultType="java.util.List">
+		SELECT DEPT_NO ,DEPT_NM 
+	   FROM DEPARTMENT d
+	</select>
+	
+	<insert id="insertDept" parameterType="java.lang.String">
+		INSERT INTO DEPARTMENT (DEPT_NO,DEPT_NM) 
+						VALUES (DEPT_NO_SEQ.NEXTVAL,#{dept_nm})
+	</insert>
+	
+	<update id="updateDept" parameterType="deptVo">
+		UPDATE DEPARTMENT
+   			SET DEPT_NM=#{dept_nm}
+   			WHERE DEPT_NO=#{dept_no}
+	</update>
+	
+	<select id="selectDeptByNo" resultType="deptVo">
+		SELECT DEPT_NO, DEPT_NM
+			FROM DEPARTMENT d 
+				WHERE DEPT_NO = #{dept_no}
+	</select>
+</mapper>

@@ -134,7 +134,6 @@ function AppPaging() {
 
 }
 
-
 function noticepagingAjax() {
 	
 	var notice_chk = $('#notice_chk').val();
@@ -168,7 +167,7 @@ function noticepagingAjax() {
 function frmPaging() {  
 	console.log("도착");
 
-  if(document.getElementById("notice_chk")){
+   	if(document.getElementById("notice_chk")){
 
  	  noticepagingAjax();
 	}else if(document.getElementById('emppaging')){
@@ -190,7 +189,7 @@ function nchk(){
 	console.log("체크");
 	document.getElementById("index").value=0;
 	document.getElementById("pageStartNum").value=1;
-	document.getElementById("listCnt").value=document.getElementById("listCount").value		
+	document.getElementById("listCount").value=document.getElementById("listCount").value		
 	document.getElementById("notice_chk").value=document.getElementById("notice_chk").value		
 	document.getElementById("searchKeyword").value=document.getElementById("searchKeyword").value
 	console.log(document.getElementById("notice_chk").value);

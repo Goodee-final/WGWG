@@ -77,8 +77,16 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	
 	@Override
 	public int insertDoc(Approval_Doc doc) {
-		logger.info("ApprovalDocDaoImpl insert");
+		logger.info("ApprovalDocDaoImpl insert 문서");
 		return sqlSession.insert(NS + "insertDoc", doc);
+	}
+	
+	@Override
+	public int insertappline(Approval_line appline) {
+		logger.info("ApprovalDocDaoImpl insertappline 결재라인 등록");
+		this.sqlSession.insert(NS + "insertappline", appline);
+		return appline.getApp_line_no();
+		//return sqlSession.insert(NS + "insertappline", appline);
 	}
 
 	@Override

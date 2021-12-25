@@ -76,6 +76,8 @@ function pageLast(num, total, listNum, pageCnt){
 	frmPaging();
 	
 }
+
+
 </script>
 <style>
 	.formList {
