@@ -24,10 +24,10 @@
 <!-- include summernote css/js-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script> -->
 
 <script src="https://kit.fontawesome.com/d42fd504d6.js"
 	crossorigin="anonymous"></script>
@@ -42,7 +42,13 @@
 
 <link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
 <link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
-
+<!-- <!-- include libraries(jQuery, bootstrap) --> -->
+<!-- <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> -->
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>  -->
+<!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>  -->
+<!-- <!-- include summernote css/js--> -->
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet"> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script> -->
 <script type="text/javascript">
 	
 	var loc =  "<%=session.getAttribute("loc") %>"
@@ -72,17 +78,6 @@
 		
 	});
 
-function noEvent() {
-    if (event.keyCode == 116) {
-        event.keyCode= 2;
-        return false;
-    }
-    else if(event.ctrlKey && (event.keyCode==78 || event.keyCode == 82))
-    {
-        return false;
-    }
-}
-document.onkeydown = noEvent;
 
 </script>
 
@@ -533,7 +528,7 @@ i {
 			<li class="w3-bar-item nav1"><i class="fas fa-id-badge"></i>부서관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
-						value="./insert_emp_form.do">부서조회 및 관리</li>
+						value="./deptList.do">부서조회 및 관리</li>
 				</ul></li>
 		</ul>
 	</article>
@@ -551,8 +546,6 @@ i {
 						<!-- <button type="button" id="on">출근하기</button>
 						<button type="button" id="off">퇴근하기</button> -->
 					</div>
-					<span id="empnm">이름</span><span id="emppo">사원</span>
-
 				</div>
 				<div class="main-calendar">
 					달력
