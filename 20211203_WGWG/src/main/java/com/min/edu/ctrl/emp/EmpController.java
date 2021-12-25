@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
@@ -39,59 +41,51 @@ public class EmpController {
 	}
 	
 	@RequestMapping(value="/insert_emp.do",method=RequestMethod.POST)
-	public String upload_img(UploadFile uploadFile, HttpServletRequest request, HttpServletRequest req) {
-		//파일 받아오기
+	public String upload_img(UploadFile uploadFile, HttpServletRequest request, HttpServletRequest req, MultipartFile mfile) {
+		//파일 서버에 업로드
 		MultipartFile file = uploadFile.getFile();
 		System.out.println("#####"+file);
-		
+				
 		String fileName = file.getOriginalFilename();
 		System.out.println("#####"+fileName);
-		
+				
 		String orgFileExtension = fileName.substring(fileName.lastIndexOf("."));
-        String reName = UUID.randomUUID().toString().replaceAll("-", "")+orgFileExtension;
-		
-		//물리적인 파일을 저장한다
-		//파일을 서버(절대경로/상대경로) IO로 업로드
-		//문서 타입이 뭔지 모르는 상태임. InputStream은 다 0101로 쪼갠다
-		InputStream inputStream = null; //초기화
+		String reName = UUID.randomUUID().toString().replaceAll("-", "")+orgFileExtension;
+				
+		InputStream inputStream = null;
 		OutputStream outputStream = null;
-		
+		OutputStream serverOutputStream = null;
+				
 		try {
-			//1. 파일을 읽는다 : file.getInputStream() - 파일만 읽음
 			inputStream = file.getInputStream();
-			
-			//2. 저장 위치를 만든다(없으면 만들어주고 있으면 사용.)
-			String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
-			System.out.println("#####"+request.getSession().getServletContext());
-			System.out.println("##### 실제 업로드 될 경로 : "+path);
-			
-			//만약 저장 위치가 없다면?
-			File storage = new File(path);
+					
+			String serverPath = WebUtils.getRealPath(request.getSession().getServletContext(), "/img/emp");
+			String path = "C:\\Users\\ttiat\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\img\\emp";
+			//System.out.println("#####"+request.getSession().getServletContext());
+			logger.info("##### 실제 업로드 될 경로 : "+serverPath);
+			File storage = new File(serverPath);
 			if(!storage.exists()) {
 				storage.mkdirs();
 			}
 			
-			//저장할 파일이 없다면 만들어 주고 override한다.
-			//파일이 있어야 저장이 된다
-			String filePath = path+"/"+reName;
-			
-			File newfile = new File(path+"/"+reName);
-			if(!newfile.exists()) {
-				newfile.createNewFile();
+			File projectImg = new File(path);
+			if(!projectImg.exists()) {
+				projectImg.mkdirs();
 			}
 			
-			//파일을 쓸 위치를 지정한다
-			outputStream = new FileOutputStream(newfile);
-			
-			//3. 파일을 쓴다
+			String serverFilePath = serverPath+"/"+reName;
+			String projectFilePath = path+"/"+reName;
+				
+			serverOutputStream = new FileOutputStream(serverFilePath);
+			outputStream = new FileOutputStream(projectFilePath);
+					
 			int read = 0;
 			byte[] n = new byte[(int)file.getSize()];
 			while((read=inputStream.read(n)) != -1) {
 				outputStream.write(n,0,read);
+				serverOutputStream.write(n,0,read);
 			}
-			
-			
-		
+					
 			String name = req.getParameter("name"); 
 			String pw = req.getParameter("pw");
 			int dept = Integer.parseInt(req.getParameter("dept")); 
@@ -105,7 +99,7 @@ public class EmpController {
 			 
 			emp.setEmp_nm(name); 
 			emp.setPw(pw);
-			emp.setPhoto(filePath); 
+			emp.setPhoto(reName); 
 			emp.setBirth(birth);
 			emp.setDept_no(dept);
 			emp.setHiredate(hiredate); 
@@ -128,6 +122,7 @@ public class EmpController {
 			try {
 				inputStream.close();
 				outputStream.close();
+				serverOutputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -152,13 +147,17 @@ public class EmpController {
 		List<Emp> lists = service.selectPaging(paging);
 		
 		model.addAttribute("empList",lists);
-		for (Emp emp : lists) {
-			System.out.println("부서명 : "+emp.getdVo().getDept_nm());
-			System.out.println("직급명 : "+emp.getpVo().getPosition_nm());
-		}
 		model.addAttribute("paging",paging);
 		logger.info("페이징 DTO 값 : {}",paging.toString());
 		System.out.println(lists.toString());
 		return "emp/empList";
+	}
+	
+	@GetMapping(value="/updateEmpForm.do")
+	public String updateEmpForm(HttpServletRequest req) {
+		logger.info("EmpController 사원목록에서 상세정보페이지 이동");
+		String emp_no = req.getParameter("emp_no");
+		logger.info("Empcontroller 사원목록에서 받은 emp_no : ",emp_no);
+		return "emp/updateEmpForm";
 	}
 }

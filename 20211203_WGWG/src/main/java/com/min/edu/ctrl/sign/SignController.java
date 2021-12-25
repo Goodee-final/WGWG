@@ -52,7 +52,7 @@ public class SignController {
 	@RequestMapping(value = "/signlist.do", method = RequestMethod.GET)
 	public String signList(Model model) {
 		session.setAttribute("loc", "./signlist.do");
-		int empno = 1;
+		int empno = (Integer)session.getAttribute("loginEmp");
 		logger.info("signlist로 이동");
 
 		// 로그인된 회원의 전자서명 리스트 조회
@@ -100,7 +100,7 @@ public class SignController {
 		dao.deleteSign(sign.getSign_no());
 
 		session.setAttribute("loc", "./signlist.do");
-		return "redirect:/";
+		return "redirect:/home.do";
 		
 	}
 	

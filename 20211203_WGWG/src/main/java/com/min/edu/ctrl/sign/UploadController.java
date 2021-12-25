@@ -9,6 +9,7 @@ import java.net.http.HttpHeaders;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -61,7 +62,9 @@ public class UploadController {
 		if(file == null || file.isEmpty()) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out =  response.getWriter();
-			out.println("<script>alert('이미지 파일을 선택해 주세요'); location.href='./'</script>");
+			session.removeAttribute("loc");
+			session.setAttribute("loc", "./signlist.do");
+			out.println("<script>alert('이미지 파일을 선택해 주세요'); location.href='./home.do'</script>");
 			out.flush();
 			return null;
 		}
@@ -71,12 +74,12 @@ public class UploadController {
 		
 
 		//로그인한 회원 번호 select하기
-		int empno = 1;
+		int empno = (Integer)session.getAttribute("loginEmp");
 		Sign sign = new Sign(empno, saveName, Long.toString(file.getSize()));
 		signdao.insertSign(sign);
 		
 		session.setAttribute("loc", "./signlist.do");
-		return "redirect:/";
+		return "redirect:/home.do";
 	}
 
 	private String uploadFile(MultipartFile file) throws Exception {

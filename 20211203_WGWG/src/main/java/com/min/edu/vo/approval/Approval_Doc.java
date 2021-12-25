@@ -222,8 +222,12 @@ public class Approval_Doc {
 	@Override
 	public String toString() {
 		return "Approval_Doc [app_doc_no=" + app_doc_no + ", app_doc_st=" + app_doc_st + ", app_doc_reg_dt="
-				+ app_doc_reg_dt + ", app_doc_title=" + app_doc_title + ", emp_no=" + emp_no + ", form_no=" + form_no
-				+ "]";
+				+ app_doc_reg_dt + ", app_doc_title=" + app_doc_title + ", ref_emp_no=" + ref_emp_no
+				+ ", app_doc_content=" + app_doc_content + ", app_line_no=" + app_line_no + ", app_file_no="
+				+ app_file_no + ", emp_no=" + emp_no + ", form_no=" + form_no + ", paging=" + paging + ", fvo=" + fvo
+				+ ", alvo=" + alvo + "]";
 	}
+
+	
 	
 }
