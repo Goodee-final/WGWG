@@ -13,14 +13,10 @@ String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 <head>
 <meta charset="UTF-8">
 <title>기안하기</title>
-
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script type="text/javascript" src="./js/insertDoc.js"></script>
-<script type="text/javascript"
-	src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <style type="text/css">
 .docinfo {
@@ -263,8 +259,7 @@ th {
 		</div>
 	</form>
 
-	<div class="modal" tabindex="-1" id="approverline" role="dialog"
-		data-backdrop="static">
+	<div class="modal" tabindex="-1" id="approverline" role="dialog" data-backdrop="static">
 		<div class="modal-dialog">
 
 			<!-- Modal content-->
@@ -333,7 +328,6 @@ th {
 		</div>
 	</div>
 
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
 	<script>
 	
 	$(function () { 
@@ -502,10 +496,6 @@ th {
 		arr[2] = line3id[3];
 		arr[3] = line4id[3]; */
 
-		for (var i = 0; i < arr.length; i++) {
-		    console.log(arr[i]+" ");
-		    //empnm+i.innerHTML = arr[i];
-		}
 		
 		$.ajax({
             type : "post",  
