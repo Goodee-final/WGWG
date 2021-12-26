@@ -13,10 +13,14 @@ String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 <head>
 <meta charset="UTF-8">
 <title>기안하기</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script type="text/javascript" src="./js/insertDoc.js"></script>
-<script type="text/javascript" src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript"
+	src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <style type="text/css">
 .docinfo {
@@ -202,19 +206,17 @@ th {
 </style>
 <body>
 
-	<form action="./docinsert.do" method="post">
+	
 		<div class="container">
-			<h1>기안하기</h1>
-			<p>결재문서 작성하기</p>
-			<hr>
+			
+			<div id="formnm">
+			<label id="formname">${detaildoc.fvo.form_nm}</label>
+			</div>
+		
+			
 			<div>
-				<select id="formList" name="formList">
-					<option value="">양식 선택하기</option>
-					<c:forEach var="form" items="${formList}">
-						<option value="${form.form_no}">${form.form_nm}</option>
-					</c:forEach>
-				</select> 
-				<input type="text" name="form_num" value="">
+				
+				
 				<button type="button" id="lineselect" class="bttn" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
 				<input type="text" hidden="hidden" value="" name="app_line_no">
 			</div>
@@ -223,19 +225,38 @@ th {
 				<table class="docinfo" id="docinfotable">
 					<tr id="tr1">
 						<th>문서번호</th>
-						<td  id="AppDocNo">년월+시퀀스</td>
+						<td id="AppDocNo">년월+${detaildoc.app_doc_no}</td>
+						<c:forEach var="app" items="${appInfo}" varStatus="status">
+							<td id="liner">결재자</td>
+						</c:forEach>
+					</tr>
 					</tr>
 					<tr id="tr2">
 						<th>작성일자</th>
-						<td><c:out value="${today}"/></td>
+					<td id="AppDocRegDt">${detaildoc.app_doc_reg_dt}</td>
+					<c:forEach var="app" items="${appInfo}" varStatus="status">
+						<td rowspan=2 id="sign">
+						<c:if test="${approver[status.index].signimg != null}" >
+						<img src="img/sign/${approver[status.index].signimg}" style="width: 60px; height: 60px;">				
+						</c:if>
+						</td>
+					</c:forEach>
 					</tr>
 					<tr>
 						<th>부서</th>
-						<td id="AppDocRegDt">${empinfo.dVo.dept_nm}</td>
+						<td>${empinfo.dVo.dept_nm}</td>
 					</tr>
+				
 					<tr id="tr3">
-						<th>작성자</th>
-						<td id="EmpNM">${empinfo.emp_nm}${empinfo.pVo.position_nm}<input type="text" name="emp_no" value="${empinfo.emp_no}" hidden="hidden"></td>
+							<th>작성자</th>
+					<td id="EmpNM">${empinfo.emp_nm}${empinfo.pVo.position_nm}</td>
+					<c:forEach var="app" items="${appInfo}" varStatus="status">
+						<td rowspan=2>
+						<c:if test="${appInfo[status.index].emp_nm != null }">
+						<p>${appInfo[status.index].pVo.position_nm}<br>${appInfo[status.index].emp_nm }</p>
+						</c:if>
+						</td>
+					</c:forEach>
 					</tr>
 					<tr>
 						<th>참조</th>
@@ -243,23 +264,25 @@ th {
 					</tr>
 					<tr>
 						<th>제목</th>
-						<td colspan=5><input id="title" name="app_doc_title"
-							type="text" placeholder="제목을 입력해주세요" /></td>
+						<td colspan=5>${detaildoc.app_doc_title}</td>
 					</tr>
 				</table>
 			</div>
 			<div class="editor">
-				<textarea rows="20" cols="135" id="ir1" name="app_doc_content"></textarea>
+				<textarea rows="20" cols="135" id="ir1" name="app_doc_content">${detaildoc.app_doc_content} </textarea>
 			</div>
+		
 			<div id="nextbtn">
 				<button type="button" class="bttn" onclick="">임시저장</button>
-				<button type="submit" class="bttn" id="save" >상신</button>
-				<button type="button" class="bttn" onclick="stopdoc()">기안취소</button>
+				<button type="submit" class="bttn" id="save" >재상신</button>
 			</div>
+			
 		</div>
-	</form>
+		
 
-	<div class="modal" tabindex="-1" id="approverline" role="dialog" data-backdrop="static">
+
+	<div class="modal" tabindex="-1" id="approverline" role="dialog"
+		data-backdrop="static">
 		<div class="modal-dialog">
 
 			<!-- Modal content-->
@@ -318,9 +341,8 @@ th {
 					</div>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-success" data-dismiss="modal" value="등록"
-						onclick="submitLine()" /> <input type="reset"
-						class="btn btn-default" value="초기화" onclick="resetLine()" />
+					<input type="button" id="lineSaveBtn" class="btn btn-success" value="등록" data-dismiss="modal" onclick="submitLine()" />
+					 <input type="reset" class="btn btn-default" value="초기화" onclick="resetLine()" />
 					<button type="button" id="close" class="btn btn-default"
 						data-dismiss="modal">취소</button>
 				</div>
@@ -328,6 +350,7 @@ th {
 		</div>
 	</div>
 
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
 	<script>
 	
 	$(function () { 
@@ -372,7 +395,7 @@ th {
 		console.log(newappdiv);
 		var line = document.getElementById("line"); // <p "id=p"> 태그의 DOM 객체 찾기 
 		line.appendChild(newappdiv);
-		console.log(cntline);
+		console.log("cntline: " + cntline);
 	});
 	
 	$(document).ready(function(){ 
@@ -450,59 +473,27 @@ th {
 	
 	
 	function submitLine(){
-		
-		var idarr = [];
+		var idarr = []; 
 		var nmarr = [];
 		
 		var docno = $('#AppDocNo').text();
 		var regdate =$('#AppDocRegDt').text();
 		var empinfo = $('#EmpNM').text();
-/* 		for(var i=idarr.length; i>0; i--){
-			idarr.pop();
-			nmarr.pop();
-			
-			var erth = document.getElementById('liner');
-			console.log(erth);
-			var ertd1 = document.getElementById('sign');
-			var ertd2 = document.getElementById('empnm');
-			erth.remove();
-			console.log(erth);
-			ertd1.remove();
-			ertd2.remove();
-		}
-		console.log(idarr);
-		console.log(nmarr); */
-		
 		
 		for(var i = 0; i < 4; i++){
 			if(document.getElementById('lineDiv'+i) != null){
 				var lineid = document.getElementById('lineDiv'+i).innerHTML.split('"');
 				idarr[i] = lineid[3];
+				console.log("lineid : " + idarr[i])
 				var jbText = $('#lineDiv'+i).text();
 				nmarr[i] = jbText;
+				console.log('nmarr[i] : ' + nmarr[i]);
 			}
 		}
-/* 		var line1 = document.getElementById('lineDiv1').innerHTML; 
-		var line1id = line1.split('"');
-		console.log(line1id[3]);
-		var line2 = document.getElementById('lineDiv2').innerHTML;
-		var line2id = line2.split('"');
-		console.log(line2id[3]);
-		var line3 = document.getElementById('lineDiv3').innerHTML;
-		var line3id = line3.split('"');
-		console.log(line3id[3]);
-		var line4 = document.getElementById('lineDiv4').innerHTML;
-		var line4id = line4.split('"');
-		console.log(line4id[3]);
-		console.log(line1);
-		console.log(jbText);
+		console.log("idarr: "+idarr);
 
-		arr[0] = line1id[3];
-		arr[1] = line2id[3];
-		arr[2] = line3id[3];
-		arr[3] = line4id[3]; */
+		
 
-		console.log("idarr:" + idarr);
 		$.ajax({
             type : "post",  
             url : "appline.do",// 컨트롤러에서 대기중인 URL 주소이다.
@@ -520,7 +511,7 @@ th {
         		var varhtml3 = "";
                	
         		varhtml1 += "<th>문서번호</th>                                               ";
-        		varhtml1 += "<td id='AppDocNo'>년월 문서번호</td>                           ";
+        		varhtml1 += "<td id='AppDocNo'>년월+"+docno+"</td>                           ";
         	                                                                   
         		varhtml2 += "<th>작성일자</th>                                      ";
         		varhtml2 += "<td id='AppDocRegDt'>"+regdate+"</td>                   ";
@@ -545,6 +536,7 @@ th {
                 alert("통신 실패.")
             }
         });
+		
 		
 // 		$('#approverline').modal('hide'); 
 		

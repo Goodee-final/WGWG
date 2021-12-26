@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.min.edu.model.form.IFormService;
 import com.min.edu.model.worklog.IWorkLogService;
-import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.worklog.WorkLog;
 
@@ -32,22 +31,22 @@ public class WorkLogController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private IWorkLogService workLogService;
+	private HttpSession session;
 
-	public int emp_no = 9;
-//	public int dept_no = 90;
+	@Autowired
+	private IWorkLogService workLogService;
 
 	@Autowired
 	private IFormService formService;
 
 	@RequestMapping(value = "/worklogList.do", method = RequestMethod.GET)
-//	public String worklogList(Model model,@RequestParam int emp_no,@RequestParam int dept_no) {
 	public String worklogList(Model model) {
 		logger.info("WorkLogController worklogList 리스트 화면");
 		logger.info("업무일지 조회 페이지로 이동");
 
-		int emp_no = 9;
 		Emp emp = null;
+		int emp_no = (Integer) session.getAttribute("loginEmp");
+
 		emp = workLogService.selectEmpNo(emp_no);
 		logger.info("emp selectEmpNo(emp_no) : ", emp.toString());
 
@@ -68,68 +67,16 @@ public class WorkLogController {
 		return "/worklog/worklogList";
 	}
 
-//	@RequestMapping(value = "/worklogList.do", method = RequestMethod.GET)
-//	public String worklogList(Model model) {
-//		Emp e = null;
-//		e = workLogService.selectEmpDP(emp_no);
-//		logger.info("worklogList의 selectedEmpNo : {}", emp_no);
-//		logger.info("e : {}", e);
-//		model.addAttribute("emp", e);
-//		int dept_no = e.getDept_no();
-//		
-//		logger.info("전달받은 부서 번호 {}", dept_no);
-//		
-//		//
-////		logger.info("WorkLogController worklogList 리스트 화면");
-////		logger.info("업무일지 조회 페이지로 이동");
-////		model.addAttribute("emp_no", emp_no);
-////		logger.info("전달받은 개인 번호 {}", emp_no);
-//
-//		List<WorkLog> worklogmylist = workLogService.selectAllMyWorkLog(emp_no);
-//		model.addAttribute("worklogmylist", worklogmylist);
-//
-//		List<WorkLog> worklogdeptlist = workLogService.selectAllDeptWorkLog(dept_no);
-//		model.addAttribute("worklogdeptlist", worklogdeptlist);
-//
-//		return "./worklog/worklogList";
-//	}
-
-	// worklogList.jsp 에서 사용할 메소드
-	/*
-	 * @RequestMapping(value="/worklogList.do", method=RequestMethod.GET) public
-	 * String worklogList() { logger.info("WorkLogController worklogList");
-	 * logger.info("업무일지 조회 페이지로 이동"); return "./worklog/worklogList"; }
-	 * 
-	 * @RequestMapping(value = "/worklogMyList.do", method=RequestMethod.POST)
-	 * public String worklogMyList(Model model, int emp_no) {
-	 * logger.info("WorkLogController worklogList 리스트 화면");
-	 * 
-	 * model.addAttribute("emp_no", emp_no); logger.info("전달받은 개인 번호 {}", emp_no);
-	 * List<WorkLog> worklogmylist = workLogService.selectAllMyWorkLog(emp_no);
-	 * model.addAttribute("worklogmylist", worklogmylist);
-	 * 
-	 * return "./worklog/worklogList"; }
-	 * 
-	 * @RequestMapping(value = "/worklogDeptList.do", method=RequestMethod.POST)
-	 * public String worklogDeptList(Model model, int dept_no) {
-	 * logger.info("WorkLogController worklogList 리스트 화면");
-	 * logger.info("전달받은 부서 번호 {}", dept_no);
-	 * 
-	 * model.addAttribute("dept_no", dept_no); List<WorkLog> worklogdeptlist =
-	 * workLogService.selectAllDeptWorkLog(dept_no);
-	 * model.addAttribute("worklogdeptlist", worklogdeptlist);
-	 * 
-	 * return "./worklog/worklogList"; }
-	 */
-
 	@RequestMapping(value = "/worklogDetail.do", method = RequestMethod.GET)
-//	public String worklogDetail(Model model, @RequestParam("no") int worklog_no) {
 	public String worklogDetail(Model model, @RequestParam int worklog_no) {
-
 		logger.info("WorkLogController worklogDetail 상세 조회 화면");
 		logger.info("전달받은 업무일지 번호 {}", worklog_no);
 		WorkLog selectWorklog = workLogService.selectDetailWorkLog(worklog_no);
 		model.addAttribute("selectWorklog", selectWorklog);
+
+//		int emp_no = (Integer) session.getAttribute("loginEmp");
+		
+		
 		return "/worklog/worklogDetail";
 	}
 
@@ -147,24 +94,28 @@ public class WorkLogController {
 //		return mav;
 //	}
 
+	@RequestMapping(value = "/worklogSearchList.do", method = RequestMethod.GET)
+	public String search() {
+		logger.info("worklogSearchList 이동");
+		return "/worklog/worklogSearchList";
+	}
+
 	@RequestMapping(value = "/searchWorkLog.do", method = RequestMethod.POST)
 	public String searchWorkLog(Model model, @RequestParam String searchWord) {
 		logger.info("WorkLogController searchWorkLog 검색");
 		logger.info("#######전달받은 검색어 {}", searchWord);
-//		logger.info("#######전달받은 기간 검색어 : " + startDate + ", " + endDate);
 		List<WorkLog> wordList = workLogService.searchWorkLog(searchWord);
-		model.addAttribute("wordList", wordList);
+		model.addAttribute("searchList", wordList);
 
-//		날짜 쿼리 만든 거 스크립트 파일에 있으니까 매퍼 만들고 다오랑 서비스 만들어서 연결해놓기
-//		그리고 model.addAttribute 하기
-
-		return "/worklog/worklogList";
+		return "/worklog/worklogSearchList";
+//		return "redirect:/worklogList.do";
 	}
 
 	@RequestMapping(value = "/searchByDate.do", method = RequestMethod.POST)
 	public String searchByDate(Model model, @RequestParam Map<String, Object> map) {
 		logger.info("WorkLogController searchWorkLog 검색");
 
+//		put 할 필요 없음, 자동 매핑이라
 //		map.put("startDate", "startDate");
 //		map.put("endDate", "endDate");
 
@@ -172,31 +123,30 @@ public class WorkLogController {
 		logger.info("#######전달받은 기간 검색어 startDate : " + map.get("startDate"));
 		logger.info("#######전달받은 기간 검색어 endDate : " + map.get("endDate"));
 
-		String sd = (String) map.get("startDate");
-		String[] arrSD = sd.split("-");
-		for (String s : arrSD) {
-			System.out.println(s);}
-		String startDate = arrSD[0]+arrSD[1]+arrSD[2];
-		logger.info("####### startDate : " + startDate);
-		model.addAttribute("startDate", startDate);
-		
-		String ed = (String) map.get("endDate");
-		String[] arrED = ed.split("-");
-		for (String e : arrED) {
-			System.out.println(e);}
-		String endDate = arrED[0]+arrED[1]+arrED[2];
-		logger.info("####### endDate : " + endDate);
-		model.addAttribute("endDate", endDate);
-		
-		
+//		worklogList에서 datepicker 형식 yy-mm-dd 로 주고 여기서 문자열로 yymmdd하고 싶은데
+//		여기서 바꿔봤자 쿼리 문에 들어갈 때 다시 yy-mm-dd로 돼서 포기,,
+//		String sd = (String) map.get("startDate");
+//		String[] arrSD = sd.split("-");
+//		for (String s : arrSD) {
+//			System.out.println(s);}
+//		String startDate = arrSD[0]+arrSD[1]+arrSD[2];
+//		logger.info("####### startDate : " + startDate);
+//		model.addAttribute("startDate", startDate);
+//		
+//		String ed = (String) map.get("endDate");
+//		String[] arrED = ed.split("-");
+//		for (String e : arrED) {
+//			System.out.println(e);}
+//		String endDate = arrED[0]+arrED[1]+arrED[2];
+//		logger.info("####### endDate : " + endDate);
 //		model.addAttribute("endDate", endDate);
-	List<WorkLog> dateList = new ArrayList<WorkLog>();
-	dateList=workLogService.searchByDate(map);
-//		List<WorkLog> dateList = new ArrayList<WorkLog>();
-//		dateList.add(map)
-//		WorkLog worklog
-//		map.put(null, dateList)
-	model.addAttribute("dateList",dateList);return"/worklog/worklogList";
+
+		List<WorkLog> dateList = new ArrayList<WorkLog>();
+		dateList = workLogService.searchByDate(map);
+		model.addAttribute("searchList", dateList);
+
+		return "/worklog/worklogSearchList";
+//		return "redirect:/worklogList.do";
 	}
 
 	@RequestMapping(value = "/worklogInsert.do", method = RequestMethod.GET)
@@ -207,18 +157,16 @@ public class WorkLogController {
 		model.addAttribute("template", template);
 		logger.info("insertWorkLogForm template.toString() : {}", template.toString());
 
-		Emp e = workLogService.selectEmpNo(emp_no);
+		Emp emp = null;
+		int emp_no = (Integer) session.getAttribute("loginEmp");
+		emp = workLogService.selectEmpNo(emp_no);
+
 		logger.info("insertWorkLogForm의 selectedEmpNo : {}", emp_no);
-		logger.info("e : {}", e);
-		model.addAttribute("emp", e);
+		logger.info("emp : {}", emp);
+		model.addAttribute("emp", emp);
 
 		return "/worklog/worklogInsert";
 	}
-
-//	@RequestMapping(value = "/insertWL.do", method = RequestMethod.POST)
-//	public String insertWorkLog(@RequestParam String worklog_content, @RequestParam int emp_no,
-//			HttpServletResponse resp) throws IOException {
-//		WorkLog worklog = new WorkLog(worklog_content, emp_no);
 
 	@RequestMapping(value = "/insertWL.do", method = RequestMethod.POST)
 	public String insertWorkLog(WorkLog worklog, HttpServletResponse resp) throws IOException {
@@ -238,16 +186,11 @@ public class WorkLogController {
 			out.println("<script>alert('새글 입력 실패'); location.href='worklogList.do';</script>");
 			out.flush();
 			logger.info("업무일지 새글 작성 실패!!");
-//			return "./worklog/worklogList.do";
 			return null;
 		}
-
 	}
 
 	// updateWorkLogContent(WorkLog workLog)
-//	@RequestMapping(value = "/worklogModifyForm.do", method = RequestMethod.GET)
-//	public ModelAndView worklogModifyForm(@RequestParam int worklog_no, @RequestParam String worklog_content,
-//			HttpServletResponse resp) {
 	@RequestMapping(value = "/worklogModifyForm.do", method = RequestMethod.GET)
 	public ModelAndView worklogModifyForm(@RequestParam int worklog_no, HttpServletResponse resp) {
 		logger.info("WorkLogController 수정 worklogDetail -> worklogModify:{}", worklog_no);
