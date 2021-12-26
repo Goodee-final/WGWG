@@ -378,13 +378,40 @@ VALUES(3, '제3회의실');
 SELECT * FROM room;
 
 --예약내역 조회(서브쿼리 사용)
-SELECT res.RES_NO, ro.ROOM_NM, TO_CHAR(res.RES_DT, 'yyyy-mm-dd HH24:MI'), res.EMP_NO, res.RES_TITLE, 
-	(SELECT e.emp_nm FROM EMP e JOIN RESERVATION r ON e.EMP_NO = r.EMP_NO) 
-	FROM reservation res JOIN Room ro 
-	ON res.ROOM_NO = ro.ROOM_NO 
+SELECT res.RES_NO, ro.ROOM_NM, TO_CHAR(res.RES_DT, 'yyyy-mm-dd HH24:MI:SS') AS RES_TIME, res.RES_TITLE, e.emp_nm, res.ROOM_NO 
+	FROM RESERVATION res JOIN ROOM ro 
+	ON res.ROOM_NO = ro.ROOM_NO
+	JOIN EMP e ON res.EMP_NO = e.EMP_NO 
+	WHERE res.ROOM_NO = 1
 	ORDER BY res_no desc;
+
 
 --예약 추가
 INSERT INTO RESERVATION
-(RES_NO, ROOM_NO, RES_DT, EMP_NO, RES_TITLE)
-VALUES(1, 1, TO_DATE('2021-12-28 09:00', 'yyyy-mm-dd HH24:MI'), 5, '사업계획발표');
+(RES_NO, ROOM_NO, RES_DT, RES_ET, EMP_NO, RES_TITLE)
+VALUES(1, 1, TO_DATE('2021-12-28 09:00', 'yyyy-mm-dd HH24:MI'),TO_DATE('2021-12-28 10:30', 'yyyy-mm-dd HH24:MI'), 5, '사업계획발표');
+
+INSERT INTO RESERVATION
+(RES_NO, ROOM_NO, RES_DT, RES_ET, EMP_NO, RES_TITLE)
+VALUES(2, 1, TO_DATE('2021-12-28 11:00', 'yyyy-mm-dd HH24:MI'),TO_DATE('2021-12-28 12:30', 'yyyy-mm-dd HH24:MI'), 2, '거래처미팅');
+
+DELETE FROM reservation;
+SELECT * FROM RESERVATION;
+SELECT res.RES_NO, ro.ROOM_NM, TO_CHAR(res.RES_DT, 'yyyy-mm-dd HH24:MI') AS RES_DT, res.RES_TITLE, e.EMP_NM FROM RESERVATION res JOIN ROOM ro ON res.ROOM_NO = ro.ROOM_NO JOIN EMP e ON res.EMP_NO = e.EMP_NO WHERE res.ROOM_NO = 1 ORDER BY RES_NO DESC;
+
+INSERT INTO CHAT
+(CHAT_ROOM, CHAT_MEMBER, CHAT_MESSAGE)
+VALUES('{"CHAT_ROOM" : [{"ROOM_ID" : "1", "ROOM_NAME" : "룸1"}]}',
+'{"CHAT_MEMBER" :  [{"EMP_NO" : "2", "CHAT_ST" : "0", "ENTRANCE_TIME" : "'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'", "RECENT_ENTRANCE_TIME" : "" }, 
+         {"EMP_NO" : "4", "CHAT_ST" : "0", "ENTRANCE_TIME" : "'||to_char(CURRENT_TIMESTAMP, 'yyyy-mm-dd HH24:MI:SS')||'", "RECENT_ENTRANCE_TIME" : "" }]}', 
+      '{"CHAT_MESSAGE" :  [{"CHAT_CONTENT" : "안녕!", "SEND_TIME" : "", "SENDER" : 3, "READER" : 1}]}'
+);
+
+SELECT * FROM chat;
+
+SELECT * FROM APPROVAL_DOCUMENT ad ORDER BY APP_DOC_REG_DT ;
+
+
+INSERT INTO RESERVATION
+(RES_NO, ROOM_NO, RES_DT, RES_ET, EMP_NO, RES_TITLE)
+VALUES(3, 2, TO_DATE('2021-12-29 11:00', 'yyyy-mm-dd HH24:MI'),TO_DATE('2021-12-29 13:30', 'yyyy-mm-dd HH24:MI'), 5, '출장 결과보고');

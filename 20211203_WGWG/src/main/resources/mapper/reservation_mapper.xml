@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.reservation.ReservationDaoImpl">
+
+<resultMap type="com.min.edu.vo.reservation.Reservation" id="reservationAll">
+	<result property="res_no" column="RES_NO"/>
+	<result property="room_no" column="ROOM_NO"/>
+	<result property="rDto.room_nm" column="ROOM_NM"/>
+	<result property="res_dt" column="RES_DT"/>
+	<result property="res_et" column="RES_ET"/>
+	<result property="res_title" column="RES_TITLE"/>
+	<result property="eDto.emp_nm" column="EMP_NM"/>
+</resultMap>
+
+<!-- 회의실 별 예약목록 조회하기 -->
+<select id="selectReservationByRoomno" parameterType="java.lang.Integer" resultMap="reservationAll">
+	SELECT res.RES_NO, ro.ROOM_NM, TO_CHAR(res.RES_DT, 'yyyy-mm-dd HH24:MI:SS') RES_DT, TO_CHAR(res.RES_ET, 'yyyy-mm-dd HH24:MI:SS') RES_ET, res.RES_TITLE, e.EMP_NM 
+		FROM RESERVATION res JOIN ROOM ro 
+		ON res.ROOM_NO = ro.ROOM_NO
+		JOIN EMP e 
+		ON res.EMP_NO = e.EMP_NO 
+		WHERE res.ROOM_NO = #{room_no}
+		ORDER BY RES_NO desc
+</select>
+
+<select id="selectRoomAll" resultType="RoomDto">
+	SELECT ROOM_NO, ROOM_NM FROM ROOM
+</select>
+</mapper>

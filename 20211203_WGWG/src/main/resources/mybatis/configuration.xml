@@ -23,6 +23,9 @@
 	<typeAlias type="com.min.edu.vo.worklog.WorkLog" alias="worklogVo"/>
 	
 	<typeAlias type="com.min.edu.vo.approval.Approver" alias="ApproverVo"/>
+	
+	<typeAlias type="com.min.edu.vo.reservation.Room" alias="RoomDto"/>
+	<typeAlias type="com.min.edu.vo.reservation.Reservation" alias="ReservationDto"/>
 </typeAliases>
 	
 <!-- 
@@ -35,6 +38,7 @@
 	<mapper resource="mapper/form_mapper.xml"/>
   	<mapper resource="mapper/workrecord_mapper.xml"/>
   	<mapper resource="mapper/main_mapper.xml"/>
+  	<mapper resource="mapper/reservation_mapper.xml"/>
 	<mapper resource="mapper/schedule.xml"/>
 	<mapper resource="mapper/notice.xml"/>
   
