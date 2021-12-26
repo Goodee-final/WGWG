@@ -20,6 +20,30 @@
 		detailMove(state);
 		
 // 		search();
+
+		$('.tog').click(function(){
+			var active =  $('.active').attr('val');
+			var tog = $(this).attr('val');
+			
+			var app_chk = $('#app_chk').val();
+			var searchKeyword = $('#searchKeyword').val();
+			var index = $('#index').val();
+			var pageStartNum = $('#pageStartNum').val();
+			var listCnt = $('#listCnt').val();
+
+			
+			console.log('active : ' + active);
+			console.log('tog : ' + tog);
+			
+			if(tog != active){
+				active = tog;
+				index = 0;
+			}
+			
+			
+			
+			$('#content').load('./mydoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);
+		});
 	});
 	
 
@@ -78,28 +102,28 @@ th, td {
 	
 		<ul class="nav nav-pills" style="height:18px;">
  			<c:if test="${paging.active  == 3}">
- 			<li id="li1"  val="3" class="active" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>		
+ 			<li id="li1"  val="3" class="active tog" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>		
 		</c:if>
 		<c:if test="${paging.active  != 3}">
- 			<li id="li1"  val="3" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>		
+ 			<li id="li1"  val="3" class="tog"><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>		
 		</c:if>
 		<c:if test="${paging.active  == 4}">
-			<li id="li2" val="4" class="active"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>		
+			<li id="li2" val="4" class="active tog"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>		
 		</c:if>
 		<c:if test="${paging.active  != 4}">
-			<li id="li2" val="4"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>		
+			<li id="li2" val="4" class="tog"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>		
 		</c:if>
 		<c:if test="${paging.active  == 5}">
-			<li id="li3" val="5" class="active"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>		
+			<li id="li3" val="5" class="active tog"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>		
 		</c:if>
 		<c:if test="${paging.active  != 5}">
-			<li id="li3" val="5"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>		
+			<li id="li3" val="5" class="tog"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>		
 		</c:if>
 		<c:if test="${paging.active  == 6}">
-			<li id="li4" val="6" class="active"><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>		
+			<li id="li4" val="6" class="active tog"><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>		
 		</c:if>
 		<c:if test="${paging.active  != 6}">
-			<li id="li4" val="6"><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>		
+			<li id="li4" val="6" class="tog"><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>		
 		</c:if>
 			<div id="search">
 			<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title" value="${paging.searchkeyword}">
