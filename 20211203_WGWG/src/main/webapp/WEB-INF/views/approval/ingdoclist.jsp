@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>개인 문서함</title>
+<title>결재 진행함</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -15,7 +15,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		var state = '개인';
+		var state = '진행';
 		
 		detailMove(state);
 		
@@ -40,15 +40,12 @@
 				index = 0;
 			}
 			
-			
-			
-			$('#content').load('./mydoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);
+						
+			$('#content').load('./ingdoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);
 		});
 	});
 	
-
 </script>
-
 <style>
 
 .container{
@@ -97,70 +94,23 @@ th, td {
 </head>
 <body>
 	<div class="container">
-		<h1>개인 문서함</h1>
+		<h1 id="appChk" value="진행1" val="진행2">진행 문서함</h1>
 		<br>
 	
-		<ul class="nav nav-pills" style="height:18px;">
- 		<c:if test="${paging.active  == 3}">
- 			<li id="li1"  val="3" class="active tog" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>		
-		</c:if>
-		<c:if test="${paging.active  != 3}">
- 			<li id="li1"  val="3" class="tog"><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>		
-		</c:if>
-		<c:if test="${paging.active  == 4}">
-			<li id="li2" val="4" class="active tog"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>		
-		</c:if>
-		<c:if test="${paging.active  != 4}">
-			<li id="li2" val="4" class="tog"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">진행</a></li>		
-		</c:if>
-		<c:if test="${paging.active  == 5}">
-			<li id="li3" val="5" class="active tog"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>		
-		</c:if>
-		<c:if test="${paging.active  != 5}">
-			<li id="li3" val="5" class="tog"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">완료</a></li>		
-		</c:if>
-		<c:if test="${paging.active  == 6}">
-			<li id="li4" val="6" class="active tog"><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>		
-		</c:if>
-		<c:if test="${paging.active  != 6}">
-			<li id="li4" val="6" class="tog"><a data-toggle="pill" href="#menu3" style="font-size: 0.8rem;">반려</a></li>		
-		</c:if>
+			<ul class="nav nav-pills" id="active" style="height: 18px;">
+			
+				<li class="active tog" val="1"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">상신</a></li>
+				<li val="2" class="tog"><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">송신</a></li>			
+			
 			<div id="search">
-			<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title" value="${paging.searchkeyword}">
-			<input type="button" id="searchbtn"value="검색" onclick="search();">
-			</div>
-		</ul>
+					<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title" value="${paging.searchkeyword}"> 
+					<input type="button" id="searchbtn"value="검색" onclick="search();">
+				</div>
+			</ul>
 		
 		<hr>
-		<div class="tab-content" style="margin-top: 20px;">
-			<div id="all" class="tab-pane in active">
-					<table class="table table-hover">
-						<thead style="text-align:center">
-							<tr style="text-align:center">
-								<th>문서번호</th>
-								<th>문서제목</th>
-								<th>양식</th>
-								<th>참조</th>
-								<th>상태</th>
-								<th>기안일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="doc" items="${doclists}" varStatus="status">
-								<tr style="text-align:center">
-									<td>${doc.app_doc_no}</td>
-									<td>${doc.app_doc_title}</td>
-									<td>${doc.form_no}</td>
-									<td>${doc.ref_emp_no}</td>
-									<td>${doc.app_doc_st}</td>
-									<td>${doc.app_doc_reg_dt}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-				
-			<div id="menu1" class="tab-pane">
+		<div class="tab-content" style="margin-top: 20px;">			
+			<div id="menu1" class="tab-pane in active">
 				<table class="table table-hover">
 						<thead>
 							<tr>
@@ -202,35 +152,7 @@ th, td {
 						</thead>
 						<tbody>
 							<c:forEach var="doc" items="${doclists}" varStatus="status">
-							<c:if test="${doc.app_doc_st eq '완료'}">
-								<tr>
-									<td>${doc.app_doc_no}</td>
-									<td>${doc.app_doc_title}</td>
-									<td>${doc.form_no}</td>
-									<td>${doc.ref_emp_no}</td>
-									<td>${doc.app_doc_st}</td>
-									<td>${doc.app_doc_reg_dt}</td>
-								</tr>
-							</c:if>
-							</c:forEach>
-						</tbody>
-					</table>
-			</div>
-			<div id="menu3" class="tab-pane">
-				<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>문서번호</th>
-								<th>문서제목</th>
-								<th>양식</th>
-								<th>참조</th>
-								<th>상태</th>
-								<th>기안일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="doc" items="${doclists}" varStatus="status">
-							<c:if test="${doc.app_doc_st eq '반려'}">
+							<c:if test="${doc.app_doc_st eq '진행'}">
 								<tr>
 									<td>${doc.app_doc_no}</td>
 									<td>${doc.app_doc_title}</td>
@@ -246,15 +168,13 @@ th, td {
 			</div>
 		</div>
 		
-		
-			
 			<div class="test">
 				<!-- paging 처리 관련 값 -->
 				<input type="hidden" name="index" id="index" value="${paging.index}">
 				<input type="hidden" name="pageStartNum" id="pageStartNum"
 					value="${paging.pageStartNum}"> <input type="hidden"
 					name="listCnt" id="listCnt" value="${paging.listCnt}">
-					<input type="hidden" name="app_chk" id="app_chk" value="개인"/>
+					<input type="hidden" name="app_chk" id="app_chk" value="진행"/>
 
 				<div class="center">
 

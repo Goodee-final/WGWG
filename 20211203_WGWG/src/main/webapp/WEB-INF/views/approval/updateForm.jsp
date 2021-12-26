@@ -13,14 +13,10 @@ String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 <head>
 <meta charset="UTF-8">
 <title>기안하기</title>
-
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script type="text/javascript" src="./js/insertDoc.js"></script>
-<script type="text/javascript"
-	src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <style type="text/css">
 .docinfo {
@@ -65,7 +61,7 @@ th {
 }
 
 #nextbtn {
-	margin-left: 200px;
+	margin-left: 285px;
 }
 
 .bttn {
@@ -92,9 +88,7 @@ th {
 }
 
 #formname {
-	justify-content: space-between;
 	font-size: 3rem;
-	margin-left: 150px;
 }
 
 #lineselect {
@@ -203,6 +197,17 @@ th {
 	padding: 5px;
 	border-bottom: 1px solid silver;
 }
+
+.docheader{
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#formnm{
+	margin: 0 auto;
+	width: 1000px;
+	text-align: center;
+}
 </style>
 <body>
 
@@ -212,11 +217,7 @@ th {
 			<div id="formnm">
 			<label id="formname">${detaildoc.fvo.form_nm}</label>
 			</div>
-		
-			
-			<div>
-				
-				
+			<div class="docheader">
 				<button type="button" id="lineselect" class="bttn" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
 				<input type="text" hidden="hidden" value="" name="app_line_no">
 			</div>
