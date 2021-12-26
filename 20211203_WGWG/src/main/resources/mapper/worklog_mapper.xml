@@ -41,7 +41,6 @@
 	<!-- 세션에서 로그인한 정보 받아와서 DEPT_NO 비교히는 거 추가해야 함 -->
 	
 	<!-- 개인별 조회 -->
-
 	<select id="selectAllMyWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
 		SELECT w.*, e.EMP_NM , p.POSITION_NM 
 			FROM WORKLOG w
@@ -65,31 +64,30 @@
 	</select>
 	
 	<!-- 작성자이름 or 내용에 해당하는 글자로 검색 -->
-
-<!-- 	<select id="searchWorkLog" parameterType="java.util.Map" resultMap="worklogVo"> -->
 	<select id="searchWorkLog" parameterType="java.util.Map" resultMap="worklogVo">
-		<!-- SELECT w.*, e.EMP_NM, d.DEPT_NM 
-
-			FROM WORKLOG w 
-			LEFT JOIN EMP e 
-			ON w.EMP_NO = e.EMP_NO
-			LEFT JOIN DEPARTMENT d 
-			ON e.DEPT_NO = d.DEPT_NO
-			WHERE UPPER(e.EMP_NM) LIKE UPPER('%'||#{emp_nm}||'%')
-			OR UPPER(w.WORKLOG_CONTENT) LIKE UPPER('%'||#{worklog_content}||'%') -->
-			SELECT w.*, e.EMP_NM, d.DEPT_NM 
+			<!-- SELECT w.*, e.EMP_NM, d.DEPT_NM 
 				FROM WORKLOG w 
 				LEFT JOIN EMP e 
 				ON w.EMP_NO = e.EMP_NO
 				LEFT JOIN DEPARTMENT d 
 				ON e.DEPT_NO = d.DEPT_NO
 				WHERE UPPER(e.EMP_NM) LIKE UPPER('%'||#{searchWord}||'%')
-				OR UPPER(w.WORKLOG_CONTENT) LIKE UPPER('%'||#{searchWord}||'%')
+				OR UPPER(w.WORKLOG_CONTENT) LIKE UPPER('%'||#{searchWord}||'%') 
+				ORDER BY WORKLOG_REG_DT DESC -->
+				SELECT w.*, e.EMP_NM , p.POSITION_NM 
+					FROM WORKLOG w
+					LEFT JOIN EMP e 
+					ON w.EMP_NO = e.EMP_NO 
+					LEFT JOIN "POSITION" p 
+					ON e.POSITION_NO = p.POSITION_NO
+					WHERE UPPER(e.EMP_NM) LIKE UPPER('%'||#{searchWord}||'%')
+					OR UPPER(w.WORKLOG_CONTENT) LIKE UPPER('%'||#{searchWord}||'%')
+					ORDER BY WORKLOG_REG_DT DESC
 	</select>
 	
 	<!-- 업무일지 날짜로 검색 -->
 	<select id="searchByDate" parameterType="java.lang.String" resultMap="worklogVo">
-		<![CDATA[
+		<!-- <![CDATA[
 		SELECT w.*, e.EMP_NM, d.DEPT_NM 
 			FROM WORKLOG w 
 			LEFT JOIN EMP e 
@@ -99,7 +97,18 @@
 			WHERE TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') >= #{startDate}
 			AND TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') <= #{endDate}
 			ORDER BY WORKLOG_REG_DT DESC
-			]]>
+			]]> -->
+		<![CDATA[
+		SELECT w.*, e.EMP_NM, p.POSITION_NM 
+			FROM WORKLOG w
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO 
+			LEFT JOIN "POSITION" p 
+			ON e.POSITION_NO = p.POSITION_NO
+			WHERE TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') >= #{startDate}
+			AND TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') <= #{endDate}
+			ORDER BY WORKLOG_REG_DT DESC
+		]]>
 	</select>
 	
 	<!-- 업무일지 작성 -->
@@ -171,7 +180,6 @@
 		ON e.dept_no = d.dept_no
 		WHERE e.EMP_NO = #{emp_no}
 	</select>
-
 
 </mapper>
 

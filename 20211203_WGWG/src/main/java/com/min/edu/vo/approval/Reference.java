@@ -9,16 +9,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Approval_line {
-
-	private int app_line_no;
-	private String approval;
-	private String bookmark;
+public class Reference {
 	
-	
-	public Approval_line(String approval) {
-		super();
-		this.approval = approval;
-	}
-	
+	private String app_doc_no;
+	private int emp_no;
+	private String feedback;
 }
