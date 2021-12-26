@@ -179,10 +179,7 @@ public class NoticeController {
 				//저장 위치를 만듬
 				String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
 				//String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
-				System.out.println("*******"+requset.getSession().getServletContext());
 				
-				
-				System.out.println("*******"+path);
 				
 				//만약 저장위치가 없다면 저장위치만들기
 				File storage = new File(path);
@@ -217,7 +214,6 @@ public class NoticeController {
 		}
 		
 		
-		
 		return "redirect:/noticeList.do";
 		
 	}
@@ -248,7 +244,7 @@ public class NoticeController {
 		logger.info("noticeFiledownload다운로드 컨트롤러");
 		//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
 		//String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");  //상대경로
-		String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //
+		String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; // 신승혁
 		String notice_file_save_nm =request.getParameter("notice_file_save_nm");
 		String notice_file_nm =request.getParameter("notice_file_nm");
 		File file = new File(path+"\\"+notice_file_save_nm);
@@ -268,7 +264,7 @@ public class NoticeController {
 	}
 	
 	@GetMapping("/noticeupdate.do")
-	public String modify(@RequestParam("notice_no")int notice_no, Model model) {		
+	public String modify(int notice_no, Model model) {		
 		logger.info("컨트롤러에서 업데이트 jsp로 이동하는 form");
 		NoticeVO vo =  service.getBoard(notice_no);
 		  System.out.println("*****************"+vo);
@@ -372,7 +368,7 @@ public class NoticeController {
 	}
 	
 	@GetMapping("/noticedelete.do")
-	public String delete(@RequestParam("notice_no")int notice_no) {
+	public String delete(int notice_no) {
 		logger.info("NoticeController 삭제하는 컨트롤러");
 		service.deleteNF(notice_no);
 		session.setAttribute("loc","./noticeList.do");
