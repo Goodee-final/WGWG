@@ -433,7 +433,7 @@ i {
 	<!-- Sidebar -->
 	<!--  w3-light-grey -->
 	<article class="w3-sidebar w3-bar-block"
-		style="width: 180px; margin-top: 30px; background-color: white; border-right: 2px solid #EEEEEE;">
+		style="width: 180px; margin-top: 50px; background-color: white; border-right: 2px solid #EEEEEE;">
 		<ul>
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
 				<ul class="nav-flyout">
