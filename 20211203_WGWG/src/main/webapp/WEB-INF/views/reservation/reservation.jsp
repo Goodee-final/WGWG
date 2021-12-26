@@ -146,12 +146,11 @@ $(function () {
   <style>
     	#calendar {
     		width: 900px;
+    	}
+    	.content {
     		margin-top: 80px;
 			margin-left: 230px;
 			padding: 50px;
-    	}
-    	.content {
-    		margin: 20px;
     	}
     	a {
     		text-decoration: none !important;
@@ -197,13 +196,14 @@ $(function () {
       }
     </style>
   <body>
-  		<div>
+  		<div class="content">
   			<select name="roomselect" id="roomList">
   				<c:forEach var="room" items="${roomList}">
   					<option class="room_no" value="${room.room_no}">${room.room_nm}</option>
   				</c:forEach>
   			</select>
+  			<div id="calendar"></div>
   		</div>
-  		<div id="calendar"></div>
+  		
  </body>
  </html>

@@ -26,4 +26,10 @@
 <select id="selectRoomAll" resultType="RoomDto">
 	SELECT ROOM_NO, ROOM_NM FROM ROOM
 </select>
+
+<insert id="insertReservation" parameterType="ReservationDto">
+	INSERT INTO RESERVATION
+(RES_NO, ROOM_NO, RES_DT, RES_ET, EMP_NO, RES_TITLE)
+VALUES(RESERVATION_SEQ.NEXTVAL, #{room_no}, TO_DATE(#{res_dt}, 'yyyy-mm-dd HH24:MI'),TO_DATE(#{res_et}, 'yyyy-mm-dd HH24:MI'), #{emp_no}, #{res_title})
+</insert>
 </mapper>
