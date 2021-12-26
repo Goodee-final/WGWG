@@ -23,13 +23,36 @@
 		ORDER BY RES_NO desc
 </select>
 
+<!-- 모든 회의실 리스트 가져오기 -->
 <select id="selectRoomAll" resultType="RoomDto">
 	SELECT ROOM_NO, ROOM_NM FROM ROOM
 </select>
 
+<!-- 예약 등록하기 -->
 <insert id="insertReservation" parameterType="ReservationDto">
 	INSERT INTO RESERVATION
 (RES_NO, ROOM_NO, RES_DT, RES_ET, EMP_NO, RES_TITLE)
 VALUES(RESERVATION_SEQ.NEXTVAL, #{room_no}, TO_DATE(#{res_dt}, 'yyyy-mm-dd HH24:MI'),TO_DATE(#{res_et}, 'yyyy-mm-dd HH24:MI'), #{emp_no}, #{res_title})
 </insert>
+
+<!-- 사원별 예약목록 조회하기 -->
+<select id="selectResListByEmpno" parameterType="java.lang.Integer" resultMap="reservationAll" >
+SELECT res.RES_NO, ro.ROOM_NM, TO_CHAR(res.RES_DT, 'yyyy-mm-dd HH24:MI') RES_DT, TO_CHAR(res.RES_ET, 'yyyy-mm-dd HH24:MI') RES_ET, res.RES_TITLE, e.EMP_NM 
+		FROM RESERVATION res JOIN ROOM ro 
+		ON res.ROOM_NO = ro.ROOM_NO
+		JOIN EMP e ON res.EMP_NO = e.EMP_NO 
+		WHERE res.EMP_NO = #{emp_no}
+		ORDER BY RES_DT desc
+</select>
+
+<!-- 예약시간 비교하기(시작시간이 현재날짜보다 이전이거나 같은 경우 예약 취소 X -->
+<select id="selectRsvTime" parameterType="java.lang.Integer" resultType="java.lang.String">
+SELECT TO_CHAR(RES_DT, 'yyyy-mm-dd HH24:MI:SS') RES_DT FROM RESERVATION
+	WHERE RES_NO = #{res_no}
+</select>
+
+<!-- 예약 삭제 -->
+<delete id="deleteReservation" parameterType="java.lang.Integer">
+DELETE FROM RESERVATION WHERE RES_NO = #{res_no}
+</delete>
 </mapper>

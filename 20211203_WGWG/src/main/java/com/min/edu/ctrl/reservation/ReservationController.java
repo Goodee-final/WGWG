@@ -3,6 +3,7 @@ package com.min.edu.ctrl.reservation;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.min.edu.model.reservation.IReservationService;
 import com.min.edu.vo.reservation.Reservation;
@@ -45,5 +48,35 @@ public class ReservationController {
 		List<Reservation> rsvList = rsvService.selectReservationByRoomno(room_no);
 		model.addAttribute("rsvList", rsvList);
 		return "/../../ajax/rsvdate";
+	}
+	
+	@PostMapping(value ="/insertReservation.do")
+	public String insertReservation(HttpSession session, @RequestParam int room_no, @RequestParam String res_dt, @RequestParam String res_et, @RequestParam String res_title) {
+		int emp_no = (Integer)session.getAttribute("loginEmp");
+		Reservation rsv = new Reservation(res_title, res_dt, res_et, room_no, emp_no);
+		rsvService.insertReservation(rsv);
+		return "redirect:/reservation.do";
+	}
+	
+	@GetMapping(value ="/empReservationList.do")
+	public String selectResListByEmpno(HttpSession session, Model model) {
+		int emp_no = (Integer)session.getAttribute("loginEmp");
+		List<Reservation> rsvList = rsvService.selectResListByEmpno(emp_no);
+		model.addAttribute("rsvList", rsvList);
+		return "/reservation/reservationlist";
+	}
+	
+	@GetMapping(value="/timeChk.do")
+	@ResponseBody
+	public String selectTime(@RequestParam int res_no) {
+		String st = rsvService.selectRsvTime(res_no);
+		return st;
+	}
+	
+	@GetMapping(value="/delReservation.do")
+	public String deleteReservation(@RequestParam int res_no) {
+		int cnt = rsvService.deleteReservation(res_no);
+		return "redirect:/empReservationList.do";
+//		return "/reservation/reservationlist";
 	}
 }

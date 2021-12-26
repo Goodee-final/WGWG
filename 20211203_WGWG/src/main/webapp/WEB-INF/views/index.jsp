@@ -487,7 +487,7 @@ i {
 			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button" value="#"><a href="./reservation.do">예약하기</a></li>
-					<li class="w3-bar-item w3-button" value="./reservationist.do">예약목록</li>
+					<li class="w3-bar-item w3-button" value="./empReservationList.do">예약목록</li>
 				</ul></li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i>업무일지

@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js"></script>
     <!-- fullcalendar 언어 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js"></script>
+    <script class="cssdesk" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js" type="text/javascript"></script>
     <script>
 $(function () {
     	function XMLToString(oXML) {
@@ -42,7 +43,7 @@ $(function () {
           editable: false, // 수정 가능?
        	  selectMirror: true,
           selectable: true, // 달력 일자 드래그 설정가능
-          nowIndicator: true, // 현재 시간 마크
+          nowIndicator: false, // 현재 시간 마크
           dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
           locale: 'ko', // 한국어 설정
           hiddenDays: [ 0, 6 ],
@@ -50,18 +51,18 @@ $(function () {
              
            },
            datesSet: function(dateInfo){
+        	   $('#roomList').change(function(){
                calendar.removeAllEvents();
+               let room_no = $("select[name=roomselect]").val();
                 let url = "chkReservation.do";
-				let room_no = $("select[name=roomselect]").val();
-				console.log(room_no);
-				$.get(url, { "room_no": room_no }, function (data) {//회의실 번호 별 예약내역 확인(페이지 접속 시 확인 가능(default 1번))
+				$.get(url, { "room_no": room_no }, function (data) {//회의실 번호 별 예약내역 확인
                     var reservation = $(data).find("reservation");
                     if ($(reservation).length > 0) {
                         $(reservation).each(function (idx, item) {
                             var rsvtime = $(item).find("res_dt").text();
                             var rsvendtime = $(item).find("res_et").text();
                             var title = $(item).find("title").text();
-                            if (rsvtime != "") {
+                            if (rsvtime != "" && rsvendtime != "") {
                                 calendar.addEvent({
                                     title: title,
                                     start: rsvtime,
@@ -73,74 +74,54 @@ $(function () {
                         });
                     }
                 });
-				$('#roomList').change(function(){
-					calendar.removeAllEvents();
-					let room_no = $("select[name=roomselect]").val();
-					console.log(room_no);
-					$.get(url, { "room_no": room_no }, function (data) {//회의실 번호 별 예약내역 확인
-	                    var reservation = $(data).find("reservation");
-	                    if ($(reservation).length > 0) {
-	                        $(reservation).each(function (idx, item) {
-	                            var rsvtime = $(item).find("res_dt").text();
-	                            var rsvendtime = $(item).find("res_et").text();
-	                            var title = $(item).find("title").text();
-	                            if (rsvtime != "") {
-	                                calendar.addEvent({
-	                                    title: title,
-	                                    start: rsvtime,
-	                                    end: rsvendtime,
-	                                    classNames: ["rsv"],
-	                                    textColor: "black",
-	                                });
-	                            }
-	                        });
-	                    }
-	                });
-					
-				});
+        	   });
            },
+           selectOverlap: function(event) {
+        	   
+       	    return false;
+       	  },
            select: function(date){
-        	   console.log(date.startStr);
-        	   console.log(date.endStr);
-        	   var view = date.dayEl;
-        	   console.log(view);
-        	   if (
-                       $(view).hasClass("fc-day-sun") ||
-                       $(view).hasClass("weekend") ||
-                       $(view).hasClass("fc-day-sat")
-                   ) {
-                       alert("해당 시간은 신청할 수 없습니다.");
-                   } else {
-                	   $('.myModal').fadeIn();
-                	  var reason = prompt("사용 목적을 입력해주세요");
-                	  var date = {"st": date.startStr, "et":date.endStr, "reason": reason};
-                	  if(reason){
-                		  $.ajax({
-                  	        url:"rsv_input",
-                  	        type:'POST',
-                  	        data: date,
-                  	        success:function(data){
-                  	        	calendar.addEvent( {
-                  	        		title: reason, 
-                  	        		start: date.startStr,
-                  	        		end: date.endStr,
-                  	                textColor: "black",
-                  	                classNames: ["rsv"],
-                  	        	});
-                  	        },error:function(request,status,error){
-                  	          alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-                  	       },
-                  	    });
-                	  } else {
-                		  return false;
-                	  }
-                   }
+        	   var room_no = $("select[name=roomselect]").val();
+        	   if(room_no == 0){
+        		   alert("회의실을 선택해주세요");
+        		   return false;
+        	   } else {
+        		   console.log(date.startStr);
+            	   console.log(date.endStr);
+               	  var reason = prompt("사용 목적을 입력해주세요");
+                    	  if(reason){
+                    		  var rsvdate = {"room_no": room_no, "res_dt":  moment(date.startStr).format('YYYY-MM-DD HH:mm'), "res_et":moment(date.endStr).format('YYYY-MM-DD HH:mm'), "res_title": reason};
+                           	  
+                    		  $.ajax({
+                      	        url:"insertReservation.do",
+                      	        type:'POST',
+                      	        data: rsvdate,
+                      	        success:function(data){
+                      	        	console.log(data);
+                      	        	calendar.addEvent( {
+                      	        		title: reason, 
+                      	        		start: rsvdate.res_dt,
+                      	        		end: rsvdate.res_et,
+                      	                textColor: "black",
+                      	                classNames: ["rsv"],
+                      	                color: "#fff396",
+                      	        	});
+                      	        },error:function(request,status,error){
+                      	          alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+                      	       },
+                      	    });
+                    	  } else {
+                    		  alert("사용목적은 필수로 입력해야 합니다");
+                    		  return false;
+                    	  } 
+        	   }
+        	   
            }
         });
-        // 캘린더 랜더링
-        calendar.render();
-    });
-    
+
+//캘린더 렌더링
+calendar.render();
+});
     </script>
   </head>
   <style>
@@ -198,6 +179,7 @@ $(function () {
   <body>
   		<div class="content">
   			<select name="roomselect" id="roomList">
+  				<option class="room_no" value="0">회의실 선택하기</option>
   				<c:forEach var="room" items="${roomList}">
   					<option class="room_no" value="${room.room_no}">${room.room_nm}</option>
   				</c:forEach>
