@@ -25,10 +25,12 @@ public class Approval_Doc {
 		super();
 	}
 	
-	public Approval_Doc(String app_doc_title, String app_doc_content, int form_no) {
+	public Approval_Doc(String app_doc_title, String app_doc_content, int app_line_no, int emp_no, int form_no) {
 		super();
 		this.app_doc_title = app_doc_title;
 		this.app_doc_content = app_doc_content;
+		this.app_line_no = app_line_no;
+		this.emp_no = emp_no;
 		this.form_no = form_no;
 	}
 

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.chatting.ChatDaoImpl.">
+	
+	<resultMap type="com.min.edu.vo.chatting.ChatMember" id="chatMemEmpVo">
+		<result property="mem_no" column="MEM_NO"/>
+		<result property="chat_member_st" column="CHAT_MEMBER_ST"/>
+		<result property="chat_member_join_dt" column="CHAT_MEMBER_JOIN_DT"/>
+		<result property="emp_no" column="EMP_NO"/>
+		
+		<collection property="empVo" resultMap="empvo"/>
+		<collection property="deptVo" resultMap="deptVo"/>
+		<collection property="positionVo" resultMap="pVo"/>
+	</resultMap>
+	
+	<!-- chatJoinVo : EMP, DEPT, POSITION, CHATMEMBER, CHATROOM, CHATMESSAGE -->
+	<resultMap type="com.min.edu.vo.chatting.ChatMessage" id="chatJoinVo">
+		<result property="chat_message_no" column="CHAT_MESSAGE_NO"/>
+		<result property="chat_message_content" column="CHAT_MESSAGE_CONTENT"/>
+		<result property="chat_message_reg_dt" column="CHAT_MESSAGE_REG_DT"/>
+		<result property="mem_no" column="MEM_NO"/>
+		<result property="chat_room_no" column="CHAT_ROOM_NO"/>
+		
+		<collection property="cMemEmpVo" resultMap="chatMemEmpVo"/>
+		<collection property="cRoomVo" resultMap="ChatRoomVo"/>
+	</resultMap>
+	
+	<!-- 채팅방 생성 -->
+	<insert id="insertChatRoom" parameterType="ChatRoomVo">
+		INSERT INTO CHAT_ROOM
+			(CHAT_ROOM_NO, CHAT_ROOM_NM)
+		VALUES(CHAT_ROOM_SEQ.NEXTVAL, #{chat_room_nm})
+	</insert>
+	
+	<!-- 채팅방 이름 변경 -->
+	<update id="updateChatRoomNM" parameterType="ChatRoomVo">
+		UPDATE CHAT_ROOM
+			SET CHAT_ROOM_NM = #{chat_room_nm}
+		WHERE CHAT_ROOM_NO = #{chat_room_no}
+	</update>
+	
+	<!-- 채팅방 참여자 변경 => 갠톡인지 그룹톡인지 참여자 수 세려고..? -->
+	<!-- 아니면 조인한 거에서 참여자 이름 꺼내오는 김에 몇명인지도 셀까..? -->
+	<update id="updateChatRoomMem" parameterType="ChatRoomVo">
+		UPDATE CHAT_ROOM
+			SET CHAT_MEMBERS = #{chat_members}
+		WHERE CHAT_ROOM_NO = #{chat_room_no}
+	</update>
+	
+	<!-- 채팅방 생성된 후, 사람이 채팅멤버로 들어감 -->
+	<insert id="insertChatMem" parameterType="ChatMemberVo">
+		INSERT INTO CHAT_MEMBER
+					(MEM_NO, EMP_NO)
+		VALUES(CHAT_MEMBER_SEQ.NEXTVAL, #{emp_no})
+	</insert>
+	
+	<!-- 채팅방을 삭제했을 경우, 참여상태만 바꿔줌 -->
+	<update id="updateChatMemSt" parameterType="ChatMemberVo">
+		UPDATE CHAT_MEMBER 
+			SET CHAT_MEMBER_ST = 2
+		WHERE MEM_NO = #{mem_no}
+	</update>
+	
+	<!-- 채팅 메시지 생성 -->
+	<insert id="insertChatMsg" parameterType="ChatMessageVo">
+		INSERT INTO CHAT_MESSAGE
+			(CHAT_MESSAGE_NO, CHAT_MESSAGE_CONTENT, MEM_NO, CHAT_ROOM_NO)
+		VALUES(CHAT_MESSAGE_SEQ.NEXTVAL, #{chat_message_content}, #{mem_no}, #{chat_room_no})
+	</insert>
+	
+	<!-- 보낸사람 이름/사진/부서/직급 -->
+	<select id="selectChatEmp" parameterType="java.lang.Integer" resultMap="chatJoinVo">
+		SELECT * FROM CHAT_MEMBER cm 
+			LEFT JOIN EMP e 
+			ON cm.EMP_NO = e.EMP_NO 
+			LEFT JOIN DEPARTMENT d 
+			ON e.DEPT_NO = d.DEPT_NO 
+			LEFT JOIN "POSITION" p 
+			ON e.POSITION_NO = p.POSITION_NO 
+			WHERE cm.MEM_NO = #{mem_no}
+	</select>
+	
+	<!-- 보낸 사람 이름, 메시지 전송 시간, 내용 가져오기, 채팅방 참여자, 채팅방 이름 -->
+	<select id="selectChatRoomInfo" parameterType="java.lang.Integer" resultMap="chatJoinVo">
+		SELECT MESSAGE.*, MEM.*, ROOM.*
+			FROM CHAT_MESSAGE MESSAGE
+			LEFT JOIN CHAT_MEMBER MEM 
+			ON MESSAGE.MEM_NO = MEM.MEM_NO
+			LEFT JOIN CHAT_ROOM ROOM 
+			ON MESSAGE.CHAT_ROOM_NO = ROOM.CHAT_ROOM_NO 
+			WHERE ROOM.CHAT_ROOM_NO = #{chat_room_no}
+			ORDER BY MESSAGE.CHAT_MESSAGE_REG_DT DESC
+	</select>
+	
+	<!-- 한 사람이 속해있는 모든 채팅방 목록 -->
+	<select id="selectChatList" parameterType="java.lang.Integer" resultMap="chatJoinVo">
+		SELECT MESSAGE.*, MEM.*, ROOM.*, E.*
+			FROM CHAT_MESSAGE MESSAGE
+			LEFT JOIN CHAT_MEMBER MEM 
+			ON MESSAGE.MEM_NO = MEM.MEM_NO
+			LEFT JOIN EMP E 
+			ON MEM.EMP_NO = E.EMP_NO 
+			LEFT JOIN CHAT_ROOM ROOM 
+			ON MESSAGE.CHAT_ROOM_NO = ROOM.CHAT_ROOM_NO 
+			WHERE E.EMP_NO = #{emp_no}
+			ORDER BY MESSAGE.CHAT_MESSAGE_REG_DT DESC
+	</select>
+	
+	<!-- 채팅방 이름, 가장 최근의 메시지 내용 -->
+	<select id="selectChatListInfo" parameterType="java.lang.Integer" resultMap="chatJoinVo">
+		SELECT * FROM CHAT_MESSAGE 
+			WHERE CHAT_MESSAGE_NO = 
+			(SELECT MAX(CHAT_MESSAGE_NO) FROM CHAT_MESSAGE WHERE CHAT_ROOM_NO  = #{chat_room_no})
+	</select>
+	
+	
+</mapper>

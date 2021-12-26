@@ -8,7 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>업무일지 작성 화면</title>
-<!-- <script type="text/javascript" src="/worklogInsert.js"></script> -->
 <!-- SmartEditor를 사용하기 위해서 다음 js파일을 추가 (경로 확인) -->
 <script type="text/javascript" src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <!-- jQuery를 사용하기위해 jQuery라이브러리 추가 -->
