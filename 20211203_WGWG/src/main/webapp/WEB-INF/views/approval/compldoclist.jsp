@@ -103,8 +103,6 @@ th, td {
 		<h1 id="appChk" value="완료1" val="완료2">완료 문서함</h1>
 		
 		<br>
-<!-- 		<form action="./mydoclist.do" method="post"> -->
-			
 			
 			<c:if test="${paging.active != '2'}">
 			<ul class="nav nav-pills" id="active" style="height: 18px;">
