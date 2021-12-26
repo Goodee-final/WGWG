@@ -433,7 +433,7 @@ i {
 		<div class="right">
 			<ul class="nav">
 				<li>
-					<div class="nav-icon" id="mypage-img"></div>
+					<div class="nav-icon" id="mypage-img" onclick="location.href='./chkPWForm.do'"></div>
 				</li>
 				<li>
 					<div class="nav-icon" id="alert-img"></div>

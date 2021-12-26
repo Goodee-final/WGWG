@@ -61,4 +61,24 @@ public class EmpServiceImpl implements IEmpService {
 		return dao.selectTotalPaging();
 	}
 
+	@Override
+	public Emp selectEmpByNo(int emp_no) {
+		return dao.selectEmpByNo(emp_no);
+	}
+
+	@Override
+	public int updateEmp(Emp emp) {
+		return dao.updateEmp(emp);
+	}
+
+	@Override
+	public String getSessionPW(int emp_no) {
+		return dao.getSessionPW(emp_no);
+	}
+
+	@Override
+	public Emp selectMyPage(int emp_no) {
+		return dao.selectMyPage(emp_no);
+	}
+
 }

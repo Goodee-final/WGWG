@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Emp_Page;
-import com.min.edu.vo.paging.PageVO;
 
 @Repository
 public class EmpDaoImpl implements IEmpDao {
@@ -71,6 +70,27 @@ public class EmpDaoImpl implements IEmpDao {
 	@Override
 	public int selectTotalPaging() {
 		return sqlSession.selectOne(NS+"selectTotalPaging");
+	}
+
+	@Override
+	public Emp selectEmpByNo(int emp_no) {
+		return sqlSession.selectOne(NS+"selectEmpByNo",emp_no);
+	}
+
+	@Override
+	public int updateEmp(Emp emp) {
+		logger.info("EmpDaoImpl updateEmp : {}",emp);
+		return sqlSession.update(NS+"updateEmp",emp);
+	}
+
+	@Override
+	public String getSessionPW(int emp_no) {
+		return sqlSession.selectOne(NS+"getSessionPW",emp_no);
+	}
+
+	@Override
+	public Emp selectMyPage(int emp_no) {
+		return sqlSession.selectOne(NS+"selectMyPage",emp_no);
 	}
 
 	

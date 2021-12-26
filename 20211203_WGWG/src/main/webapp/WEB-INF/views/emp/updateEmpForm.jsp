@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,77 +51,115 @@
 		color: black;
 		width: 80px;
 	}
-	#imginfo{
-		margin-top: 20px;
-	}
-	#imginfo p{
-		font-size: 12px;
-	}
 </style>
 <script type="text/javascript">
+$(document).ready(function(){
+
+	  $("#selectDept option").each(function(){
+	   if($(this).val()=="${selectedEmp.dept_no}"){
+	     $(this).attr("selected","selected");
+	   }
+	});
+	  
+	$("#selectPosition option").each(function(){
+		 if($(this).val()=="${selectedEmp.position_no}"){
+		   $(this).attr("selected","selected");
+		 }
+	});
+	  
+	$("#selectWork_st option").each(function(){
+		 if($(this).val()=="${selectedEmp.work_st}"){
+		   $(this).attr("selected","selected");
+		 }
+	});
+
+});
 	$("#toListbtn").click(function(){
-		//$("#content").load("./empList.do");
+		$("#content").load("./empList.do");
   	});
+	
+	$("#submit_btn").click(function(){
+		
+		if($("#selectWork_st").val()=="퇴직"){
+			var answer = confirm("근무상태가 퇴직으로 선택되었습니다.\n 수정 후 되돌릴 수 없습니다.\n 이어서 진행하시겠습니까?");
+			if(!answer){
+				alert("취소되었습니다.");
+				return false;
+			}else{
+				var result = confirm("수정하시겠습니까?");
+				if(!result){
+					alert("취소되었습니다.");
+				}else{
+					alert("수정되었습니다.");
+					$("#content").load("./empList.do");
+				}
+				return true;
+			}
+			
+		}
+		
+		var result = confirm("수정하시겠습니까?");
+		if(!result){
+			alert("취소되었습니다.");
+		}else{
+			alert("수정되었습니다.");
+			$("#content").load("./empList.do");
+		}
+		
+		
+		
+	});
 </script>
 </head>
 <body>
-	상세조회페이지
-	<form:form action="./insert_emp.do" method="post" enctype="multipart/form-data" modelAttribute="uploadFile">
+	<form:form action="./updateEmp.do" method="post">
 	<div id="maindiv" class="container">
 	
 	<div class="div_right">
 		<div id="imgdiv">
-			<img alt="이미지" src="" id="thumbnail">
+			<img alt="이미지" src="./img/emp/${selectedEmp.photo}" id="thumbnail">
 		</div>
-		<input type="file" id="file" name='file'/>
-		<div id="imginfo">
-			<p>※사진 규격은 3cm x 4cm를 권장합니다.</p>
-			<p>※png,jpg 확장자 파일만 업로드가 가능합니다.</p>
-			<p>※10MB 이하의 파일만 업로드가 가능합니다.</p>
-		</div>
+		<label for="emp_no">사원번호:</label>
+		<input type="text" name="emp_no" id="emp_no" class="form-control" value="${selectedEmp.emp_no}" readonly><br>
 		<label>부서:</label>
-		<select name="dept" class="form-control">
-				<option value="10">사업지원팀</option>
-				<option value="20">개발팀</option>
-				<option value="30">인사팀</option>
-				<option value="40">총무팀</option>
-				<option value="50">영업1팀</option>
-				<option value="60">영업2팀</option>
-				<option value="70">마케팅팀</option>
-				<option value="80">기획팀</option>
-				<option value="90">보안팀</option>
-			</select><br>
-		<label for="name">이름:</label>
-		<input type="text" name="name" id="name" class="form-control"><br>
+		<select name="dept_no" id="selectDept" class="form-control">
+			<c:forEach var="deptList" items="${deptList}">
+				<option value="${deptList.dept_no}">${deptList.dept_nm}</option>
+			</c:forEach>
+		</select><br>
+		<label for="emp_nm">이름:</label>
+		<input type="text" name="emp_nm" id="emp_nm" class="form-control" value="${selectedEmp.emp_nm}"><br>
 	</div>
 	<div class="div_left">
 		
-		<label for="birth">생년월일:</label>
-		<input type="date" name="birth" id="birth" class="form-control"><br>
+		<label for="birth" >생년월일:</label>
+		<fmt:parseDate value="${selectedEmp.birth}" var="dateFmt" pattern="yyyy-mm-dd"/>
+		<fmt:formatDate value="${dateFmt}" var="birthdate" pattern="yyyy-mm-dd"/>
+		<input type="text" value="${birthdate}" class="form-control" readonly><br>
 		<label for="hiredate">입사년도:</label>
-		<input type="date" name="hiredate" id="hiredate" class="form-control"><br>
+		<fmt:parseDate value="${selectedEmp.hiredate}" var="hiredateFmt" pattern="yyyy-mm-dd"/>
+		<fmt:formatDate value="${hiredateFmt}" var="hire" pattern="yyyy-mm-dd"/>
+		<input type="text" name="hiredate" id="hiredate" class="form-control" value="${hire}" readonly><br>
 		<label for="address">주소:</label>
-		<input type="text" name="address" id="address" class="form-control"><br>
+		<input type="text" name="address" id="address" class="form-control" value="${selectedEmp.address}" readonly><br>
 		<label>직급:</label>
-		<select name="position" class="form-control">
-				<option value="1">사원</option>
-				<option value="2">대리</option>
-				<option value="3">과장</option>
-				<option value="4">팀장</option>
-				<option value="5">대표</option>
-			</select><br>
+		<select name="position_no" id="selectPosition" class="form-control">
+			<c:forEach var="positionList" items="${positionList}">
+				<option value="${positionList.position_no}">${positionList.position_nm}</option>
+			</c:forEach>
+		</select><br>
 		<label for="tel">전화번호:</label>
-		<input type="tel" id="tel" name="tel" class="form-control"><br>
+		<input type="tel" id="tel" name="tel" class="form-control" value="${selectedEmp.tel}" readonly><br>
 		<label for="work_st">근무상태:</label>
-		<select name="work_st" id="work_st" class="form-control">
+		<select name="work_st" id="selectWork_st" class="form-control">
 				<option value="재직">재직</option>
 				<option value="휴직">휴직</option>
 				<option value="퇴직">퇴직</option>
 			</select><br>
 		<label for="email">이메일:</label>
-		<input type="email" id="email" name="email" class="form-control"><br>
+		<input type="email" id="email" name="email" class="form-control" value="${selectedEmp.email}" readonly><br>
 		<input type="submit" value="수정하기" class="btn" id="submit_btn">
-		<input type='button' value="목록으로" class ="btn" id='toListbtn' onclick="location.href='./home.do'">
+		<input type='button' value="목록으로" class ="btn" id="toListbtn">
 	</div>
 	</div>
 	</form:form>

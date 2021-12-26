@@ -72,13 +72,20 @@ public class Emp {
 		this.position_no = position_no;
 		this.dept_no = dept_no;
 	}
-	
-	
 
 	public Emp(int emp_no,String pw) {
 		super();
 		this.emp_no = emp_no;
 		this.pw = pw;
+	}
+
+	public Emp(int emp_no,String emp_nm, String work_st, int position_no, int dept_no) {
+		super();
+		this.emp_no = emp_no;
+		this.emp_nm = emp_nm;
+		this.work_st = work_st;
+		this.position_no = position_no;
+		this.dept_no = dept_no;
 	}
 
 	@Override
