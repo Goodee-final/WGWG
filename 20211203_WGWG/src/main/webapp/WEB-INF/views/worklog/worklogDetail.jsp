@@ -120,7 +120,11 @@ p{
 <body>
 	<div class="container">
 		<h1>업무일지 상세조회</h1>
-<!-- 		<button id="btn" onclick="location.href='./worklogList.do'">목록 가기</button> -->		<input class="btn" type="button" value="글수정하기" onclick="location.href='./worklogModifyForm.do?worklog_no=${selectWorklog.worklog_no}'">
+<!-- 		<button id="btn" onclick="location.href='./worklogList.do'">목록 가기</button> -->		
+<%-- <c:if test="${loginEmp.emp_no == selectWorklog.emp_no}"> 
+		<input class="btn" type="button" value="글수정하기" 
+		onclick="location.href='./worklogModifyForm.do?worklog_no=${selectWorklog.worklog_no}'">
+</c:if>	 --%>
 		<button type="button" class="btn" data-toggle="modal" data-target="#reply">댓글 달기</button>
 		<input type="button" class="btn" value="전체글목록" onclick="history.back(-1)">	
 		<table class="table table-hover">
@@ -152,13 +156,9 @@ p{
 			
 			<form action="#" method="post" name="frm">
 			<input type="hidden" id="worklog_no" name="worklog_no">
+			<input type="hidden" id="emp_no" name="emp_no">
 			<div style="text-align: center;">
-				<%-- <c:if test="${sessionScope.emp_no eq vo.emp_no}">
-					<input class="btn" type="button" value="글삭제" onclick="location.href='./worklogDelete.do?no=${vo.worklog_no}'">
-					<input class="btn" type="button" value="글수정" onclick="location.href='./worklogModifyForm.do?no=${vo.worklog_no}'">
-				</c:if> --%>
-				<c:if test="${sessionScope.emp_no eq selectWorklog.emp_no}">
-					<input class="btn" type="button" value="글삭제" onclick="location.href='./worklogDelete.do?worklog_no=${selectWorklog.worklog_no}'">
+				<c:if test="${loginEmp eq selectWorklog.emp_no}">
 					<input class="btn" type="button" value="글수정" onclick="location.href='./worklogModifyForm.do?worklog_no=${selectWorklog.worklog_no}'">
 				</c:if>
 								

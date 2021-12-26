@@ -495,8 +495,8 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>채팅
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="">채팅</li>
-					<li class="w3-bar-item w3-button" value="">채팅</li>
+					<li class="w3-bar-item w3-button" value="./chatOpen.do">채팅 시작</li>
+					<!-- <li class="w3-bar-item w3-button" value="./socketOpen.do">채팅 시작</li> -->
 				</ul></li>
 			<c:if test="${emp.dept_no eq 10}">
 				<li class="w3-bar-item nav1"><i class="fas fa-file"></i>양식함
