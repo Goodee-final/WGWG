@@ -18,14 +18,14 @@ public class ServiceScheduleImpl2 implements IServiceSchedule2 {
 	private IScheduleDao dao;
 	@Override
 	public int insertScheduleP(ScheduleVO vo) {
-		logger.info("insertSchedule{} \t",vo);
+		logger.info("insertScheduleP{} \t",vo);
 		return dao.insertScheduleP(vo);
 	}
 
 	@Override
 	public int insertScheduleC(ScheduleVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		logger.info("insertScheduleC{} \t",vo);
+		return dao.insertScheduleC(vo);
 	}
 
 	@Override
@@ -36,8 +36,8 @@ public class ServiceScheduleImpl2 implements IServiceSchedule2 {
 
 	@Override
 	public List<ScheduleVO> getAllComList() {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("ServiceScheduleImpl2에 getAllComList");
+		return dao.getAllComList();
 	}
 
 	@Override
@@ -60,20 +60,24 @@ public class ServiceScheduleImpl2 implements IServiceSchedule2 {
 
 	@Override
 	public int updateScheduleP(ScheduleVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		logger.info("ServiceScheduleImpl2에 개인일정 수정 updateScheduleP{}",vo);
+		return dao.updateScheduleP(vo);
 	}
-
+	@Override
+	public int updateScheduleC(ScheduleVO vo) {
+		logger.info("ServiceScheduleImpl2에 회사일정 수정 updateScheduleC{}",vo);
+		return dao.updateScheduleC(vo);
+	}
 	@Override
 	public int deleteScheduleP(int schedule_no) {
-		// TODO Auto-generated method stub
-		return 0;
+		logger.info("ServiceScheduleImpl2에 일정 삭제 deleteScheduleP{}",schedule_no);
+		return dao.deleteScheduleP(schedule_no);
 	}
 
 	@Override
 	public int deleteScheduleC(int schedule_no) {
-		// TODO Auto-generated method stub
-		return 0;
+		logger.info("ServiceScheduleImpl2에 일정 삭제 deleteScheduleC{}",schedule_no);
+		return dao.deleteScheduleC(schedule_no);
 	}
 
 	@Override
@@ -81,5 +85,7 @@ public class ServiceScheduleImpl2 implements IServiceSchedule2 {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

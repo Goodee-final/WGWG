@@ -39,6 +39,13 @@
 <link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
 <link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
 
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+<!-- include summernote css/js-->
+ 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 
 <script type="text/javascript">
 	
@@ -82,13 +89,13 @@ html, body {
 	padding: 0;
 }
 
-a {
+/*a {
 	text-decoration: none;
 	width: max-content;
 	height: max-content;
 	color: black;
 	cursor: pointer;
-}
+}*/
 
 ul {
 	list-style: none;
@@ -479,8 +486,9 @@ i {
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>일정관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button"
-						value="#"><a href="./loadForm.do">일정관리</a></li>
-					<li class="w3-bar-item w3-button" value="">일정관리</li>
+						value="./loadForm.do">개인일정</li>
+					<li class="w3-bar-item w3-button" 
+						value="./companyloadForm.do">회사일정</li>
 				</ul>
 			</li>
 
