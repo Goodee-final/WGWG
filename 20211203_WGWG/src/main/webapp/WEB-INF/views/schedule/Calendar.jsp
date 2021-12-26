@@ -357,7 +357,7 @@ request.done(function(data) {
 
  /* 
  function datetimelocalcha(date) {
-     let month = date.getMonth() +1;
+     let month = date.getMonth() +1;s
      let day = date.getDate()-1;
      let hour = date.getHours();
      let minute = date.getMinutes();
