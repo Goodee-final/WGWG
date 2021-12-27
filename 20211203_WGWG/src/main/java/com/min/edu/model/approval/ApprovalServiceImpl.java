@@ -164,6 +164,11 @@ public class ApprovalServiceImpl implements IApprovalService {
 		return dao.selectfeedback(docno);
 	}
 
+	@Override
+	public int updateDoc(Approval_Doc doc) {
+		return dao.updateDoc(doc);
+	}
+
 
 
 

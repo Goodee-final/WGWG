@@ -500,8 +500,8 @@ th {
 		});
 		
 		$("#btn-delete").click(function(){
-			alert("문서를 삭제하게")
-			location.href="./docDelte.do?docNo="+${detaildoc.app_doc_no};
+		
+			location.href="./docDelte.do?docno="+${detaildoc.app_doc_no};
 		});
 		
 	});
