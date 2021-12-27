@@ -17,6 +17,15 @@ $("#toListbtn").click(function(){
 });
 
 $("#submit_btn").click(function(){
+	var name_value = $("input[name='dept_nm']").val().replace(/\s/gi, "");
+	
+	if(!name_value){
+		alert("부서명을 입력해주세요.");
+		$("input[name='dept_nm']").focus();
+		$("input[name='dept_nm']").val('');
+		return false;
+	}
+	
 	var result = confirm("등록하시겠습니까?");
 	if(!result){
 		alert("취소되었습니다.");
@@ -28,10 +37,8 @@ $("#submit_btn").click(function(){
 </script>
 </head>
 <body>
-<form:form action="./updateDept.do" method="post">
+<form:form action="./newDept.do" method="post">
 	<div id="maindiv" class="container">
-		<label for="dept_no">부서번호:</label>
-		<input type="text" name="dept_no" id="dept_no" class="form-control" value="${newDeptNo}" readonly><br>
 		<label for="dept_nm">부서명:</label>
 		<input type="text" name="dept_nm" id="dept_nm" class="form-control"><br>
 		<input type="submit" value="등록하기" class="btn" id="submit_btn">

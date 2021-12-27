@@ -136,13 +136,13 @@
 	
 	<update id="updateMyPage" parameterType="empvo">
 		UPDATE EMP
-			SET PHOTO=#{photo}, ADDRESS=#{address}, TEL=#{tel}, EMAIL =#{email}
+			SET PHOTO=#{photo}, PW=#{pw}, ADDRESS=#{address}, TEL=#{tel}, EMAIL =#{email}
 			WHERE EMP_NO=#{emp_no}
 	</update>
 	
 	<update id="updateMyPage_NoPhoto" parameterType="empvo">
 		UPDATE EMP
-			SET ADDRESS=#{address}, TEL=#{tel}, EMAIL =#{email}
+			SET ADDRESS=#{address}, PW=#{pw}, TEL=#{tel}, EMAIL =#{email}
 			WHERE EMP_NO=#{emp_no}
 	</update>
 </mapper>

@@ -41,7 +41,6 @@
 <script type="text/javascript">
 
 function setParentText(){
-	alert('setParentText()');
     var pwVal = $("#pw").val(); 
     var passwordVal = opener.$("#password").val();
     passwordVal = pwVal;
@@ -49,7 +48,6 @@ function setParentText(){
     $(opener.document).find("#password").val(pwVal);
 	window.close();
 
-//     opener.$("#password").text(pwVal);
 }
 $(document).ready(function(){
 	

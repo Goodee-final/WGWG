@@ -27,11 +27,8 @@
 	</select>
 	
 	<insert id="insertDept" parameterType="java.lang.String">
-		<selectKey keyProperty="dept_no" resultType="java.lang.Integer" order="BEFORE">
-			SELECT DEPT_NO_SEQ.NEXTVAL FROM DUAL
-		</selectKey>
 		INSERT INTO DEPARTMENT (DEPT_NO,DEPT_NM) 
-						VALUES (#{dept_no},#{dept_nm})
+						VALUES (DEPT_NO_SEQ.NEXTVAL,#{dept_nm})
 	</insert>
 	
 	<update id="updateDept" parameterType="deptVo">

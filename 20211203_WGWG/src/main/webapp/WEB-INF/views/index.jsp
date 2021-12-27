@@ -449,9 +449,6 @@ i {
 				<li>
 					<div class="nav-icon" id="logout-img" onclick="location.href='./logout.do'"></div>
 				</li>
-				<li>
-					<div class="nav-icon"><a href="./loginForm.do">로그인</a></div>
-				</li>
 			</ul>
 		</div>
 	</header>
@@ -537,18 +534,21 @@ i {
 					</ul>
 				</li>
 			</c:if>
-			
+			<c:if test="${emp.dept_no eq 30}">
 			<li class="w3-bar-item nav1"><i class="fas fa-users"></i>사원관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
 						value="./insert_emp_form.do">사원등록</li>
 					<li class="w3-bar-item w3-button "value="./empList.do">사원조회</li>
 				</ul></li>
+			</c:if>
+			<c:if test="${emp.dept_no eq 30}">
 			<li class="w3-bar-item nav1"><i class="fas fa-id-badge"></i>부서관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button "
 						value="./deptList.do">부서조회 및 관리</li>
 				</ul></li>
+			</c:if>
 		</ul>
 	</article>
 	<section id="content"style="margin-left: 230px; margin-top: 50px; padding: 50px;">
@@ -557,7 +557,7 @@ i {
 			<div id="main-content1">
 				<div class="main-loginemp">
 
-					<div id="emp-img"><img id="empphoto" src="./img/${emp.photo}"></div>
+					<div id="emp-img"><img id="empphoto" src="./img/emp/${emp.photo}"></div>
 					<div id="emp-info">
 						<span>${emp.emp_nm}</span><br>
 						<span>${emp.dVo.dept_nm}</span>

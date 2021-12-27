@@ -295,7 +295,6 @@ public class EmpController {
 
 	
 	@PostMapping(value="/updateMyPage.do")
-	@ResponseBody
 	public String updateMyPage(UploadFile uploadFile, HttpServletRequest req, MultipartFile mfile, HttpSession session) throws FileNotFoundException {
 		
 		String serverPath = WebUtils.getRealPath(req.getSession().getServletContext(), "/img/emp");
@@ -324,28 +323,16 @@ public class EmpController {
 			emp.setTel(tel);
 			emp.setEmail(email);
 			
-			service.updateEmp(emp);
+			service.updateMyPage_NoPhoto(emp);
+			session.setAttribute("loc", "./main.do");
 			return "redirect:/home.do";
+					
 			
 		//파일이 있다면
 		}else {
 			//기존 파일 삭제
-			String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
-
-			MediaType mType = MediaUtils.getMediaType(formatName);
-
-			if (mType != null) {
-
-//				String front = fileName.substring(0, 12);
-//				logger.info("확장자 뺀 파일명 : {}",front);
-//				String end = fileName.substring(14);
-//				logger.info("확장자 : {}",end);
-				new File(serverPath + photoName.replace('/', File.separatorChar)).delete();
-				new File(path + photoName.replace('/', File.separatorChar)).delete();
-			}
-
-			new File(serverPath + fileName.replace('/', File.separatorChar)).delete();
-			new File(path + fileName.replace('/', File.separatorChar)).delete();
+			new File(serverPath +'/'+ photoName).delete();
+			new File(path +'/'+ photoName).delete();
 			
 			//새로운 파일 업로드
 			String orgFileExtension = fileName.substring(fileName.lastIndexOf("."));
@@ -394,7 +381,7 @@ public class EmpController {
 				emp.setTel(tel);
 				emp.setEmail(email);
 				
-				service.updateEmp(emp);
+				service.updateMyPage(emp);
 				
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -407,8 +394,8 @@ public class EmpController {
 				e.printStackTrace();
 			}
 		}
-		
-		return "redirect:/home.do";
+			session.setAttribute("loc", "./main.do");
+			return "redirect:/home.do";
 		}
 	}
 }

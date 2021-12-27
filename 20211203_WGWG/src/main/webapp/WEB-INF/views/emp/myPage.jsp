@@ -105,7 +105,7 @@ function changePW(){
 
 $("#submit_btn").click(function(){
 	
-	var sendData = $("#form")[0];
+	/* var sendData = $("#form")[0];
 	var formData = new FormData(sendData);
 	
 	$.ajax({
@@ -117,11 +117,64 @@ $("#submit_btn").click(function(){
         processData : false,  
 		success: function(data) {
 			console.log("파일전송 성공");
-			//$('#content').load('./home.do');
+			$('#content').load('./home.do');
 		}
-	});
+	}); */
 	
+	//주소
+	var address_value = $("input[name='address']").val();
 	
+	if(!address_value){
+		alert("주소를 입력해주세요.");
+		$("input[name='address']").focus();
+		return false;
+	}
+	
+	//전화번호
+	var tel_value = $("input[name='tel']").val().replace(/\s/gi, "");
+	
+	if(!tel_value){
+		alert("연락처를 입력해주세요(010-0000-0000).");
+		$("input[name='tel']").focus();
+		$("input[name='tel']").val('');
+		return false;
+	}
+	
+	var regulTel = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/;
+	var regTelResult = regulTel.test(tel_value);
+	
+	if(!regTelResult){
+		alert("전화번호는 010-0000-0000 형식으로 입력해주세요.");
+		$("input[name='tel']").focus();
+		return false;
+	}
+	
+	//이메일
+	var email_value = $("input[name='email']").val().replace(/\s/gi, "");
+	
+	if(!email_value){
+		alert("이메일을 입력해주세요.");
+		$("input[name='email']").focus();
+		$("input[name='email']").val('');
+		return false;
+	}
+	
+	var regulEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]{2,3}/;
+	var regEmailResult = regulEmail.test(email_value);
+	
+	if(!regEmailResult){
+		alert("이메일을 형식에 맞게 입력해주세요.");
+		$("input[name='email']").focus();
+		return false;
+	}
+	
+	var result = confirm("수정하시겠습니까?")
+	if(!result){
+		alert("취소되었습니다.");
+		return false;
+	}else{
+		alert("수정되었습니다.");
+	}
 });
 </script>
 </head>

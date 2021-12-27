@@ -47,17 +47,21 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	
 	@RequestMapping(value="/login.do",method = RequestMethod.POST)
-	public String login(Emp emp,Model model,HttpSession session) throws IOException {
+	public String login(Emp emp,Model model,HttpSession session,HttpServletRequest req) throws IOException {
 		logger.info("LoginController @SessionAttribute 사용 {}",emp);
 		
 //		if(bindingResult.hasErrors()) {
 //			model.addAttribute("message","정보가 일치하지 않습니다.");
 //			return "emp/loginForm";
 //		}
+			Emp chkemp = service.selectEmpByNo(Integer.parseInt(req.getParameter("emp_no")));
 			Emp loginEmp = service.getLogin(emp);
 			logger.info("로그인 값{}",loginEmp);
 			if(loginEmp == null) {
 				model.addAttribute("message","정보가 일치하지 않습니다.");
+				return "emp/loginForm";
+			}else if(chkemp.getWork_st().equals("퇴직")) {
+				model.addAttribute("message","존재하지 않는 사용자입니다.");
 				return "emp/loginForm";
 			}
 			model.addAttribute("loginEmp",loginEmp);

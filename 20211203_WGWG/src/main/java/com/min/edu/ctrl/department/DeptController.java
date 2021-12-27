@@ -3,6 +3,7 @@ package com.min.edu.ctrl.department;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,23 +72,16 @@ public class DeptController {
 	
 	@GetMapping(value="/newDeptForm.do")
 	public String newDeptForm() {
-		dservice.insertDept(null);
 		return"dept/newDeptForm";
 	}
 	
 	@PostMapping(value="/newDept.do")
-	public String newDept(HttpServletRequest req) {
-		int newNo = dept.getDept_no();
-		logger.info("DeptController newDept 새 부서번호 : {}",newNo);
-		req.setAttribute("newDeptNo", newNo);
-		
+	public String newDept(HttpServletRequest req,HttpSession session) {
 		String newNm = req.getParameter("dept_nm");
-		dept.setDept_nm(newNm);
-		dept.setDept_no(newNo);
-		
-		//dservice.insertDept(dept_nm);
-		
-		return "dept/deptList";
+		logger.info("DeptController newDept 새로운 부서 이름 : {}",newNm);
+		dservice.insertDept(newNm);
+		session.setAttribute("loc", "./main.do");
+		return "redirect:/home.do";
 	}
 	
 	

@@ -17,6 +17,15 @@ $("#toListbtn").click(function(){
 });
 
 $("#submit_btn").click(function(){
+	var name_value = $("input[name='dept_nm']").val().replace(/\s/gi, "");
+	
+	if(!name_value){
+		alert("부서명을 입력해주세요.");
+		$("input[name='dept_nm']").focus();
+		$("input[name='dept_nm']").val('');
+		return false;
+	}
+	
 	var result = confirm("수정하시겠습니까?");
 	if(!result){
 		alert("취소되었습니다.");
