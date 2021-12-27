@@ -15,7 +15,6 @@
 <!-- include libraries(jQuery, bootstrap) -->
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-<!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>  -->
 
 <!-- include summernote css/js-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
@@ -25,8 +24,7 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script> -->
 <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script> -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
 
 <script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
 
@@ -39,12 +37,15 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js"></script> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js"></script> -->
 
-<!-- <link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" > -->
-<!-- <link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16"> -->
+<link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
+<link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
+  
+<link href="fullcalenda/lib/main.css" rel="stylesheet" />
+<script type="text/javascript" src="fullcalenda/lib/main.js"></script>
+<script type="text/javascript" src="fullcalenda/lib/locales-all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<link rel="stylesheet" href="fullcalenda/css/main.css">
 
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
 
 <script type="text/javascript">
 	

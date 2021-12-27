@@ -106,5 +106,10 @@ public class NoticeServiceImpl implements INoticeService{
 		return dao.selectEList(emp_no);
 	}
 
+	@Override
+	public Emp selectEmpDeptNm(int emp_no) {
+		return dao.selectEmpDeptNm(emp_no);
+	}
+
 	
 }
