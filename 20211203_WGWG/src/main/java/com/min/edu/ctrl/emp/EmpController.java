@@ -1,5 +1,6 @@
 package com.min.edu.ctrl.emp;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +26,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
+import com.min.edu.ctrl.sign.MediaUtils;
 import com.min.edu.model.department.IDeptService;
 import com.min.edu.model.emp.IEmpService;
 import com.min.edu.model.position.IPositionService;
@@ -35,6 +39,7 @@ import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Emp_Page;
 import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.emp.UploadFile;
+import com.min.edu.vo.sign.Sign;
 
 @Controller
 public class EmpController {
@@ -290,14 +295,121 @@ public class EmpController {
 
 	
 	@PostMapping(value="/updateMyPage.do")
-	public String updateMyPage(HttpServletRequest req) {
+	@ResponseBody
+	public String updateMyPage(UploadFile uploadFile, HttpServletRequest req, MultipartFile mfile, HttpSession session) throws FileNotFoundException {
 		
-		req.getParameter("password");
-		req.getParameter("address");
-		req.getParameter("tel");
-		req.getParameter("");
+		String serverPath = WebUtils.getRealPath(req.getSession().getServletContext(), "/img/emp");
+		String path = "C:\\Users\\ttiat\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\img\\emp";
+		
+		//DB에서 가져온 파일명
+		Emp emp = service.selectEmpByNo(Integer.parseInt(req.getParameter("empno")));
+		String photoName = emp.getPhoto();
+		logger.info("update file: " + photoName);
+		
+		MultipartFile file = uploadFile.getFile();
+		System.out.println("#####"+file);
+				
+		String fileName = file.getOriginalFilename();
+		System.out.println("#####"+fileName);
+		
+		//파일이 없다면
+		if(fileName == null || fileName == "") {
+			String pw = req.getParameter("password");
+			String addr = req.getParameter("address");
+			String tel = req.getParameter("tel");
+			String email = req.getParameter("email");
+			
+			emp.setPw(pw);
+			emp.setAddress(addr);
+			emp.setTel(tel);
+			emp.setEmail(email);
+			
+			service.updateEmp(emp);
+			return "redirect:/home.do";
+			
+		//파일이 있다면
+		}else {
+			//기존 파일 삭제
+			String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+			MediaType mType = MediaUtils.getMediaType(formatName);
+
+			if (mType != null) {
+
+//				String front = fileName.substring(0, 12);
+//				logger.info("확장자 뺀 파일명 : {}",front);
+//				String end = fileName.substring(14);
+//				logger.info("확장자 : {}",end);
+				new File(serverPath + photoName.replace('/', File.separatorChar)).delete();
+				new File(path + photoName.replace('/', File.separatorChar)).delete();
+			}
+
+			new File(serverPath + fileName.replace('/', File.separatorChar)).delete();
+			new File(path + fileName.replace('/', File.separatorChar)).delete();
+			
+			//새로운 파일 업로드
+			String orgFileExtension = fileName.substring(fileName.lastIndexOf("."));
+			String reName = UUID.randomUUID().toString().replaceAll("-", "")+orgFileExtension;
+					
+			InputStream inputStream = null;
+			OutputStream outputStream = null;
+			OutputStream serverOutputStream = null;
+					
+			try {
+					inputStream = file.getInputStream();
+							
+					logger.info("##### 실제 업로드 될 경로 : "+serverPath);
+					File storage = new File(serverPath);
+					if(!storage.exists()) {
+						storage.mkdirs();
+					}
+					
+					File projectImg = new File(path);
+					if(!projectImg.exists()) {
+						projectImg.mkdirs();
+					}
+					
+					String serverFilePath = serverPath+"/"+reName;
+					String projectFilePath = path+"/"+reName;
+						
+					serverOutputStream = new FileOutputStream(serverFilePath);
+					outputStream = new FileOutputStream(projectFilePath);
+							
+					int read = 0;
+					byte[] n = new byte[(int)file.getSize()];
+					while((read=inputStream.read(n)) != -1) {
+						outputStream.write(n,0,read);
+						serverOutputStream.write(n,0,read);
+				}
+			
+				 
+				String pw = req.getParameter("password");
+				String addr = req.getParameter("address");
+				String tel = req.getParameter("tel");
+				String email = req.getParameter("email");
+				
+				emp.setPhoto(reName);
+				emp.setPw(pw);
+				emp.setAddress(addr);
+				emp.setTel(tel);
+				emp.setEmail(email);
+				
+				service.updateEmp(emp);
+				
+		}catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				inputStream.close();
+				outputStream.close();
+				serverOutputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return "redirect:/home.do";
+		}
 	}
-	
-	
 }
+

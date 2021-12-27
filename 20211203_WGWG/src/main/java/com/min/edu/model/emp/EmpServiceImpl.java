@@ -86,4 +86,9 @@ public class EmpServiceImpl implements IEmpService {
 		return dao.updateMyPage(emp);
 	}
 
+	@Override
+	public int updateMyPage_NoPhoto(Emp emp) {
+		return dao.updateMyPage_NoPhoto(emp);
+	}
+
 }

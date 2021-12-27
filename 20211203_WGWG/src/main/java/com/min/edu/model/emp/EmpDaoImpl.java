@@ -98,5 +98,10 @@ public class EmpDaoImpl implements IEmpDao {
 		return sqlSession.update(NS+"updateMyPage",emp);
 	}
 
+	@Override
+	public int updateMyPage_NoPhoto(Emp emp) {
+		return sqlSession.update(NS+"updateMyPage_NoPhoto",emp);
+	}
+
 	
 }

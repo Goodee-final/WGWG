@@ -35,4 +35,6 @@ public interface IEmpService {
 	public Emp selectMyPage(int emp_no);
 	
 	public int updateMyPage(Emp emp);
+	
+	public int updateMyPage_NoPhoto(Emp emp);
 }

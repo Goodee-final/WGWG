@@ -48,6 +48,50 @@
 	}
 </style>
 <script type="text/javascript">
+$(document).ready(function(){
+	$("#file").change(function(e){
+		
+		let fileInput = $('#file');
+		let fileList = fileInput[0].files;
+		let fileObj = fileList[0];
+		
+		if(!fileCheck(fileObj.name, fileObj.size)){
+			return false;
+		}
+		
+		setImageFromFile(this, '#thumbnail');
+	});
+	let regex = new RegExp("(.*?)\.(jpg|png)$");
+	let maxSize = 10485760;
+
+	function fileCheck(fileName, fileSize){
+		
+		if(fileSize >= maxSize){
+			alert("파일 사이즈가 초과되었습니다.");
+			$("#file").val("");
+			return false;
+		}
+			  
+		if(!regex.test(fileName)){
+			alert("확장자가 jpg,png인 파일만 업로드할 수 있습니다.");
+			$("#file").val("");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function setImageFromFile(input, expression) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            $(expression).attr('src', e.target.result);
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+});	
+
 
 function changePW(){
 	
@@ -58,10 +102,31 @@ function changePW(){
 	var attr = "width=400px, height=450px";
 	window.open(url,title,attr);
 }
+
+$("#submit_btn").click(function(){
+	
+	var sendData = $("#form")[0];
+	var formData = new FormData(sendData);
+	
+	$.ajax({
+		url: "./updateMyPage.do", 
+		method: 'POST', 
+		data: formData, 
+		dataType:JSON,
+		contentType : false,
+        processData : false,  
+		success: function(data) {
+			console.log("파일전송 성공");
+			//$('#content').load('./home.do');
+		}
+	});
+	
+	
+});
 </script>
 </head>
 <body>
-<form:form action="./updateMyPage.do" method="post" enctype="multipart/form-data" modelAttribute="uploadFile">
+<form:form action="./updateMyPage.do" method="post" enctype="multipart/form-data" modelAttribute="uploadFile" id="form">
 	<div id="maindiv" class="container">
 	
 	<div class="div_right">
@@ -96,7 +161,7 @@ function changePW(){
 		<input type="tel" id="tel" name="tel" class="form-control" value="${selectedEmp.tel}"><br>
 		<label for="email">이메일:</label>
 		<input type="email" id="email" name="email" class="form-control" value="${selectedEmp.email}"><br>
-		<input type="submit" value="등록하기" class="btn" id="submit_btn">
+		<input type="submit" value="수정하기" class="btn" id="submit_btn">
 	</div>
 	</div>
 	</form:form>
