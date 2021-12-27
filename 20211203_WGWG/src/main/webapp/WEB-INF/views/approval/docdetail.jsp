@@ -1,19 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%
+String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>결재문서 상세화면</title>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script type="text/javascript" src="./js/insertDoc.js"></script>
+<script type="text/javascript" src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript">
+var oEditors = [];
+var template = '${template}';
+$(function(){
+      nhn.husky.EZCreator.createInIFrame({
+          oAppRef: oEditors,
+          elPlaceHolder: "ir1", 
+          sSkinURI: "./SE/SmartEditor2Skin.html",  
+          htParams : {
+              bUseToolbar : true,             
+              bUseVerticalResizer : true,     
+              bUseModeChanger : true,         
+              fOnBeforeUnload : function(){
+                   
+              }
+          }, 
+          fOnAppLoad : function(){
+              oEditors.getById["ir1"].exec("PASTE_HTML", [template]);
+          },
+          fCreator: "createSEditor2"
+      });
+      
+      //저장버튼 클릭시 form 전송
+      $("#save").click(function(){
+          oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+          $("#frm").submit();
+      });    
+});
+</script>
 <style type="text/css">
-.container{
-/* 	display: flex; */
-/* 	flex-direction: column; */
-
-}
 
 .docinfo {
 	margin: 0 auto;
@@ -166,7 +195,7 @@ th {
 		<h1>${docBox}</h1>
 		
 		<hr>
-		<div id="doccont"></div>
+		<div id="doccont">
 		<div id="formnm">
 			<label id="formname">${detaildoc.fvo.form_nm}</label>
 		</div>
@@ -226,10 +255,7 @@ th {
 		</div>
 
 		<div id="doccontents">
-		<div class="editor">
-				<textarea rows="20" cols="135" id="ir1" name="app_doc_content">${detaildoc.app_doc_content}</textarea>
-			</div>
-		
+				${detaildoc.app_doc_content}
 		</div>
 		
 	</div>

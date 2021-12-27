@@ -73,7 +73,6 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl selectAllPosition");
 		return sqlSession.selectList(NS + "selectAllPosition");
 	}
-
 	
 	@Override
 	public int insertDoc(Approval_Doc doc) {
@@ -86,7 +85,12 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl insertappline 결재라인 등록");
 		this.sqlSession.insert(NS + "insertappline", appline);
 		return appline.getApp_line_no();
-		//return sqlSession.insert(NS + "insertappline", appline);
+	}
+	
+	@Override
+	public List<Approval_Doc> selectListIng(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl selectListIng 결재대기함");
+		return sqlSession.selectList(NS+"selectListIng", doc);
 	}
 
 	@Override
@@ -111,7 +115,6 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	@Override
 	public List<Approval_Doc> selectListWait(Approval_Doc doc) {
 		logger.info("ApprovalDocDaoImpl 결재대기 문서 조회 selectListWait");
-		
 		return sqlSession.selectList(NS+"selectListWait", doc);
 	}
 
@@ -131,7 +134,6 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	@Override
 	public List<Approval_Doc> selectDocPaging(Approval_Doc doc) {
 		logger.info("ApprovalDocDaoImpl 페이징 처리 selectPaging");
-		
 		return sqlSession.selectList(NS+"selectDocPaging", doc);
 	}
 

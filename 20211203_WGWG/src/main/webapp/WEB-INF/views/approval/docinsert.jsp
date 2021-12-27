@@ -19,6 +19,7 @@ String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 <script type="text/javascript" src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <style type="text/css">
+
 .docinfo {
 	margin: 0 auto;
 	width: 1000px;
@@ -199,6 +200,12 @@ th {
 	padding: 5px;
 	border-bottom: 1px solid silver;
 }
+
+.docheader{
+	width: 1000px;
+	margin: 0 auto;
+}
+
 </style>
 <body>
 
@@ -207,44 +214,44 @@ th {
 			<h1>기안하기</h1>
 			<p>결재문서 작성하기</p>
 			<hr>
-			<div>
+			<div class="docheader">
 				<select id="formList" name="formList">
 					<option value="">양식 선택하기</option>
 					<c:forEach var="form" items="${formList}">
 						<option value="${form.form_no}">${form.form_nm}</option>
 					</c:forEach>
 				</select> 
-				<input type="text" name="form_num" value="">
+				<input type="text" name="form_num" value="" hidden="hidden">
 				<button type="button" id="lineselect" class="bttn" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
 				<input type="text" hidden="hidden" value="" name="app_line_no">
+				<input type="text" name="emp_no" value="${empinfo.emp_no}" hidden="hidden"/>
 			</div>
 
 			<div>
 				<table class="docinfo" id="docinfotable">
 					<tr id="tr1">
 						<th>문서번호</th>
-						<td  id="AppDocNo">년월+시퀀스</td>
+						<td id="AppDocNo">년월+시퀀스</td>
 					</tr>
 					<tr id="tr2">
 						<th>작성일자</th>
-						<td><c:out value="${today}"/></td>
+						<td id="AppDocRegDt"><c:out value="${today}"/></td>
 					</tr>
 					<tr>
 						<th>부서</th>
-						<td id="AppDocRegDt">${empinfo.dVo.dept_nm}</td>
+						<td>${empinfo.dVo.dept_nm}</td>
 					</tr>
 					<tr id="tr3">
 						<th>작성자</th>
-						<td id="EmpNM">${empinfo.emp_nm}${empinfo.pVo.position_nm}<input type="text" name="emp_no" value="${empinfo.emp_no}" hidden="hidden"></td>
+						<td id="EmpNM">${empinfo.emp_nm}${empinfo.pVo.position_nm}</td>
 					</tr>
 					<tr>
 						<th>참조</th>
-						<td colspan=5>John</td>
+						<td id="REFNM" colspan=5><input type="text" name="ref_emp_no" hidden="hidden"/></td>
 					</tr>
 					<tr>
 						<th>제목</th>
-						<td colspan=5><input id="title" name="app_doc_title"
-							type="text" placeholder="제목을 입력해주세요" /></td>
+						<td colspan=5><input id="title" name="app_doc_title" type="text" placeholder="제목을 입력해주세요" /></td>
 					</tr>
 				</table>
 			</div>
@@ -278,27 +285,26 @@ th {
 
 							<div id="jstree">
 								<!-- in this example the tree is populated from inline HTML -->
-								<ul>
-									<c:forEach var="deptline" items="${deptlists}">
-										<li>${deptline.dept_nm}
-											<ul>
-												<c:forEach var="plists" items="${plists}">
-													<li>${plists.position_nm}
-														<ul>
-															<c:forEach var="empline" items="${emplists}">
-																<c:if
-																	test="${plists.position_nm eq empline.pVo.position_nm && deptline.dept_no eq empline.dept_no}">
-																	<li>${empline.emp_nm}<input type="text"
-																		value="${empline.emp_no}" hidden="hidden" /></li>
-																</c:if>
-															</c:forEach>
-														</ul>
-													</li>
-												</c:forEach>
-											</ul>
-										</li>
-									</c:forEach>
-								</ul>
+									<ul>
+										<c:forEach var="deptline" items="${deptlists}">
+											<li id="${deptline.dept_no}">${deptline.dept_nm}
+												<ul>
+													<c:forEach var="plists" items="${plists}">
+														<li id="${deptline.dept_no}_${plists.position_no}">${plists.position_nm}
+															<ul>
+																<c:forEach var="empline" items="${emplists}">
+																	<c:if
+																		test="${plists.position_nm eq empline.pVo.position_nm && deptline.dept_no eq empline.dept_no}">
+																		<li id="${deptline.dept_no}_${plists.position_no}_${empline.emp_no}">${empline.emp_nm}<input type="text" value="${empline.emp_no}" hidden="hidden" /></li>
+																	</c:if>
+																</c:forEach>
+															</ul>
+														</li>
+													</c:forEach>
+												</ul>
+											</li>
+										</c:forEach>
+									</ul>
 							</div>
 						</div>
 						<div id="selected">
@@ -318,11 +324,9 @@ th {
 					</div>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-success" data-dismiss="modal" value="등록"
-						onclick="submitLine()" /> <input type="reset"
-						class="btn btn-default" value="초기화" onclick="resetLine()" />
-					<button type="button" id="close" class="btn btn-default"
-						data-dismiss="modal">취소</button>
+					<input type="submit" class="btn btn-success" data-dismiss="modal" value="등록" onclick="submitLine()" />
+					<input type="reset" class="btn btn-default" value="초기화" onclick="resetLine()" />
+					<button type="button" id="close" class="btn btn-default" data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>
@@ -352,13 +356,13 @@ th {
  	var apprline = "";
  	var idarr = []; 
 	var nmarr = [];
+	var refid = [];
+	var refnm = [];
 	
 	$('#jstree').bind('select_node.jstree', function(event, data){
 		var a = $('#jstree').jstree('get_selected',true);
 		empid = data.instance.get_node(data.selected).text;
-
 		console.log(a);
-		console.log(empid);
 	});
 	
 	
@@ -373,7 +377,29 @@ th {
 		console.log(newappdiv);
 		var line = document.getElementById("line"); // <p "id=p"> 태그의 DOM 객체 찾기 
 		line.appendChild(newappdiv);
-		console.log(cntline);
+		
+		if(cntline==4){
+			$("#jstree").jstree("close_all");
+			var node = $('#jstree').jstree(true).get_node('#').children_d;
+			$("#jstree").jstree("disable_node", node);
+		}
+		
+		var com = $('#jstree').jstree('get_selected',true)[0].parents[2];
+		var po = $('#jstree').jstree('get_selected',true)[0].parents[0].split('_')[1];
+		var node = $('#jstree').jstree(true).get_node(com).children;
+		
+		for(i=0; i<po; i++){
+			
+			for(g=0; g<node.length; g++){
+				var node2 = $('#jstree').jstree(true).get_node(node[g]).children[i];
+				var node3 = $('#jstree').jstree(true).get_node(node2).children;
+
+				$("#jstree").jstree("disable_node", node2);
+				$("#jstree").jstree("disable_node", node3);
+			}
+			
+		}
+		
 	});
 	
 	$(document).ready(function(){ 
@@ -398,18 +424,12 @@ th {
 		var myDiv = document.getElementById(divvv);
 		var parent = myDiv.parentElement; // 부모 객체 알아내기 
 		parent.removeChild(myDiv); // 부모로부터 myDiv 객체 떼어내기
-/* 		for(var i=idarr.length; i>0; i--){
-			idarr = idarr.filter(function(item) {
-			    return item !== idarr[i];
-			});
-			nmarr = nmarr.filter(function(item) {
-			    return item !== nmarr[i];
-			});
-		} */
-/* 		idarr.splice(cntline, 1);
-		nmarr.splice(cntline, 1); */
 		cntline--;
 		console.log(cntline);
+		if(cntline < 4){
+			var node = $('#jstree').jstree(true).get_node('#').children_d;
+			$("#jstree").jstree("enable_node", node);
+		}
 	});
 	
 	$("#addref").click(function(){
@@ -439,6 +459,9 @@ th {
 		$('#line div').remove();
 		$('#ref div').remove();
 		$("#jstree").jstree("close_all");
+		$("#jstree").jstree("deselect_all");
+		var node = $('#jstree').jstree(true).get_node('#').children_d;
+		$("#jstree").jstree("enable_node", node);
 		cntline = 0;
 		cntref = 0;
 	}
@@ -454,25 +477,12 @@ th {
 		
 		var idarr = [];
 		var nmarr = [];
+		var refid = [];
+		var refnm = [];
 		
 		var docno = $('#AppDocNo').text();
 		var regdate =$('#AppDocRegDt').text();
 		var empinfo = $('#EmpNM').text();
-/* 		for(var i=idarr.length; i>0; i--){
-			idarr.pop();
-			nmarr.pop();
-			
-			var erth = document.getElementById('liner');
-			console.log(erth);
-			var ertd1 = document.getElementById('sign');
-			var ertd2 = document.getElementById('empnm');
-			erth.remove();
-			console.log(erth);
-			ertd1.remove();
-			ertd2.remove();
-		}
-		console.log(idarr);
-		console.log(nmarr); */
 		
 		
 		for(var i = 0; i < 4; i++){
@@ -483,25 +493,15 @@ th {
 				nmarr[i] = jbText;
 			}
 		}
-/* 		var line1 = document.getElementById('lineDiv1').innerHTML; 
-		var line1id = line1.split('"');
-		console.log(line1id[3]);
-		var line2 = document.getElementById('lineDiv2').innerHTML;
-		var line2id = line2.split('"');
-		console.log(line2id[3]);
-		var line3 = document.getElementById('lineDiv3').innerHTML;
-		var line3id = line3.split('"');
-		console.log(line3id[3]);
-		var line4 = document.getElementById('lineDiv4').innerHTML;
-		var line4id = line4.split('"');
-		console.log(line4id[3]);
-		console.log(line1);
-		console.log(jbText);
-
-		arr[0] = line1id[3];
-		arr[1] = line2id[3];
-		arr[2] = line3id[3];
-		arr[3] = line4id[3]; */
+		
+/* 		for(var i = 0; i < 4; i++){
+			if(document.getElementById('lineDiv'+i) != null){
+				var lineid = document.getElementById('lineDiv'+i).innerHTML.split('"');
+				idarr[i] = lineid[3];
+				var jbText = $('#lineDiv'+i).text();
+				nmarr[i] = jbText;
+			}
+		} */
 
 		console.log("idarr:" + idarr);
 		$.ajax({
@@ -546,6 +546,8 @@ th {
                 alert("통신 실패.")
             }
         });
+		
+		//$("input[name=ref_emp_no]").attr("value", form_no);
 		
 // 		$('#approverline').modal('hide'); 
 		
@@ -604,15 +606,13 @@ th {
              var content = document.getElementById("ir1").value;
              //var data = data.replace(/[<][^>]*[>]/g, '');
              //console.log(data);
+
+             var form_no = $('#formList option:selected').val();
+             console.log(form_no);
+             $("input[name=form_num]").attr("value", form_no);
              
-             if(vali($("#testInput").val()){
-            	 alert('제목을 입력해주세요.');
-             }
-             
-//              var form_no = $('#formList option:selected').val();
-//              console.log(form_no);
-//              $("input[name=form_num]").attr("value", form_no);
-//              $("#frm").submit();
+             $("#frm").submit();
+
          });
    });
    </script>

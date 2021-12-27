@@ -14,21 +14,23 @@ import com.min.edu.vo.approval.Reference;
 
 public interface IApprovalService {
 
-  //전체 문서목록 조회
+	//전체 문서목록 조회
 	public List<Approval_Doc> selectmyAllDoc(Approval_Doc doc);
-  //제목으로 검색
+	//제목으로 검색
 	public List<Approval_Doc> searchdoclist(String title, int empno);
 	//문서 상세
 	public Approval_Doc selectOneDoc(int docno);
-  //기안하기 작성자 정보
+	//기안하기 작성자 정보
 	public Emp selectEmpInfo(int empno);
-  //결재라인
+	//결재라인
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();
 	public List<Position> selectAllPosition();
 	//상신
     public int insertDoc(Approval_Doc doc);
     public int insertappline(Approval_line appline);
+    //결재진행함
+  	public List<Approval_Doc> selectListIng(Approval_Doc doc);
   
 	//결재자
 	public List<Approval_Doc> selectAllDocApp(int empno);
