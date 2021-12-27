@@ -5,6 +5,7 @@
 <resultMap type="com.min.edu.vo.reservation.Reservation" id="reservationAll">
 	<result property="res_no" column="RES_NO"/>
 	<result property="room_no" column="ROOM_NO"/>
+	<result property="rDto.room_state" column="ROOM_STATE"/>
 	<result property="rDto.room_nm" column="ROOM_NM"/>
 	<result property="res_dt" column="RES_DT"/>
 	<result property="res_et" column="RES_ET"/>
@@ -25,7 +26,7 @@
 
 <!-- 모든 회의실 리스트 가져오기 -->
 <select id="selectRoomAll" resultType="RoomDto">
-	SELECT ROOM_NO, ROOM_NM FROM ROOM
+	SELECT ROOM_NO, ROOM_NM FROM ROOM WHERE ROOM_STATE = '사용'
 </select>
 
 <!-- 예약 등록하기 -->
@@ -55,4 +56,21 @@ SELECT TO_CHAR(RES_DT, 'yyyy-mm-dd HH24:MI:SS') RES_DT FROM RESERVATION
 <delete id="deleteReservation" parameterType="java.lang.Integer">
 DELETE FROM RESERVATION WHERE RES_NO = #{res_no}
 </delete>
+
+<!-- 회의실 목록 별 현재날짜보다 이후에 있는 예약 갯수 -->
+<select id="selectRsvCnt"  resultMap="reservationAll">
+SELECT r.room_no, r.room_nm, re.cnt, r.room_state 
+	FROM room r JOIN (SELECT room_no, count(*) cnt FROM reservation WHERE res_et > sysdate GROUP BY room_no) re
+	ON r.room_no = re.room_no
+</select>
+
+<!-- 회의실 추가하기 -->
+<insert id="insertRoom" parameterType="java.lang.String">
+INSERT INTO ROOM(ROOM_NO, ROOM_NM, ROOM_STATE) VALUES (ROOM_SEQ.NEXTVAL, #{room_nm}, '사용')
+</insert>
+
+<!-- 회의실 사용여부 변경하기 -->
+<update id="updateRoom" parameterType="RoomDto">
+UPDATE ROOM SET ROOM_STATE = #{room_state} WHERE ROOM_NO = #{room_no};
+</update>
 </mapper>
