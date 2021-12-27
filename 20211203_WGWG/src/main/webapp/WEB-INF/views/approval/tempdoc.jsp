@@ -5,23 +5,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>완료 문서함</title>
+<title>대기 문서함</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./js/approve.js" ></script> 
-<script type="text/javascript" src="./js/paging.js"></script>
+<script type="text/javascript" src="./js/paging.js" ></script> 
 <script type="text/javascript">
 	$(document).ready(function(){
-		
 		
 		var state = '임시저장';
 		
 		detailMove(state);
 		
 // 		search();
-				
-		
+
 	});
 </script>
 
@@ -53,12 +51,12 @@ th, td {
 	border: 1px solid #ddd
 }
 
-#searchKeyword{
+#inputsearch{
 	border: 1px solid #ddd;
 	font-size: 1.3rem;
 }
 
-#searchKeyword:focus {
+#inputsearch:focus {
 	outline:1px solid #073865;
 }
 
@@ -67,6 +65,7 @@ th, td {
 		width: 28%;
 	}
 	
+
 </style>
 </head>
 <body>
@@ -76,10 +75,10 @@ th, td {
 		<br>
 <!-- 		<form action="./mydoclist.do" method="post"> -->
 			<ul class="nav nav-pills" style="height: 18px;">
-				<li class="active"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">임시</a></li>
-				<li><a data-toggle="pill" href="#menu2" style="font-size: 0.8rem;">취소</a></li>
+				<li class="active"><a data-toggle="pill" href="#menu1" style="font-size: 0.8rem;">임시저장</a></li>
+				
 				<div id="search">
-					<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title"> 
+					<input type="text" placeholder="문서제목으로 검색" id="searchKeyword" name="title" value="${paging.searchkeyword}"> 
 					<input type="button" id="searchbtn"value="검색" onclick="search();">
 				</div>
 			</ul>
@@ -113,10 +112,9 @@ th, td {
 						</tbody>
 					</table>
 				</div>
-	
+			
 
 			</div>
-				
 			<div class="test">
 				<!-- paging 처리 관련 값 -->
 				<input type="hidden" name="index" id="index" value="${paging.index}">
