@@ -64,6 +64,17 @@ var request = $.ajax({
 	  } 
 });
 
+var doubleSubmitFlag = false;
+function doubleSubmitCheck(){
+    if(doubleSubmitFlag){
+        return doubleSubmitFlag;
+    }else{
+        doubleSubmitFlag = true;
+        return false;
+    }
+}
+
+
 request.done(function(data) {
 	console.log(data);
 	
@@ -158,6 +169,8 @@ request.done(function(data) {
                     "description": eventData.description
          		},
         		success : function(msg){
+        			 if(doubleSubmitCheck()) return;
+
         			alert("일정 등록에 성공했습니다");
         			/*  calendar.addEvent({         				
         			   title: msg.title,
@@ -255,6 +268,7 @@ request.done(function(data) {
                         "no":editid.val()
             		},
            		success : function(msg){
+           		    if(doubleSubmitCheck()) return;
            			alert("일정 수정을 성공했습니다");
            			$('#content').load("./loadForm.do"); 
            		},
@@ -384,12 +398,6 @@ request.done(function(data) {
      return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
 } */
 </script>
-<style>
-#calendar{
-   width:60%;
-   margin:20px auto;
-}
-</style>
 </head>
 <body>
 		
