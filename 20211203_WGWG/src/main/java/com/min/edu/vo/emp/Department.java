@@ -1,5 +1,8 @@
 package com.min.edu.vo.emp;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Department {
 
 	private int dept_no;

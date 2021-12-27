@@ -2,9 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.min.edu.model.department.DeptDaoImpl">
 
-	<select id="selectDeptAll" resultType="java.util.List">
-		SELECT DEPT_NO ,DEPT_NM 
-	   FROM DEPARTMENT d
+	<select id="selectAllDept" resultType="deptVo">
+		SELECT DEPT_NO ,DEPT_NM
+	   		FROM DEPARTMENT
+	</select>
+	
+	<select id="selectDeptPaging" parameterType="com.min.edu.vo.emp.Dept_Page" resultType="deptVo">
+		SELECT DEPT_NO ,DEPT_NM
+			FROM (
+				SELECT ROW_NUMBER() OVER(ORDER BY DEPT_NO) RNUM, d.*
+					FROM DEPARTMENT d 
+					<if test="searchWord != null">
+						WHERE DEPT_NM LIKE LOWER('%'||#{searchWord}||'%') ORDER BY DEPT_NO
+					</if>
+					)WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	
+	<select id="selectTotalDept" resultType="java.lang.Integer">
+		SELECT NVL(COUNT(*),0) FROM DEPARTMENT d
+		<if test="searchWord != null">
+			WHERE d.DEPT_NM LIKE LOWER('%'||#{searchWord}||'%')
+		</if>
+			
 	</select>
 	
 	<insert id="insertDept" parameterType="java.lang.String">
@@ -18,7 +37,7 @@
    			WHERE DEPT_NO=#{dept_no}
 	</update>
 	
-	<select id="selectDeptByNo" resultType="deptVo">
+	<select id="selectDeptByNo" parameterType="java.lang.Integer" resultType="deptVo">
 		SELECT DEPT_NO, DEPT_NM
 			FROM DEPARTMENT d 
 				WHERE DEPT_NO = #{dept_no}

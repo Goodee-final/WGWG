@@ -177,7 +177,11 @@ function frmPaging() {
 	}else if(document.getElementById('app_chk')){
    		AppPaging();
 //		pageAjax();
-	}	
+	}else if(document.getElementById('deptpaging')){
+		deptPaging();
+		console.log("dept도착");
+	}
+	
 	
 }
 //몇개씩 보여줄 것인지 
@@ -214,6 +218,21 @@ function empPaging(){
 	
    console.log("select Box : "+searchBy + "검색어 : " + searchWord + "index : "+index + "pageStartNum : "+pageStartNum+"listCnt"+listCnt );
    $('#content').load('./empList.do?searchWord=' + searchWord + '&searchBy=' + searchBy + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt);            
+}
+
+function deptListCnt(){
+	document.getElementById("index").value=0;
+	document.getElementById("pageStartNum").value=1;
+	deptPaging();
+}
+
+function deptPaging(){
+   var index = $('#index').val();
+   var pageStartNum = $('#pageStartNum').val();
+   var listCnt = $('#listCnt').val();
+   var searchWord = $('#searchWord').val();
+	
+   $('#content').load('./deptList.do?searchWord=' + searchWord + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt);            
 }
 
 function pageFirst() {
