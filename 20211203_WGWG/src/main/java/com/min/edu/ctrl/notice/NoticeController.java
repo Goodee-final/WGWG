@@ -62,6 +62,8 @@ public class NoticeController {
                request.getParameter("notice_chk"),
                request.getParameter("searchKeyword")
             );
+		
+		
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+ request.getParameter("searchKeyword"));
 		List<NoticeVO> lists = null;
 		String notice_chk = request.getParameter("notice_chk");
@@ -71,6 +73,10 @@ public class NoticeController {
 			notice_chk = "모두보기";
 			lists = service.selectPaging(paging);
 			
+			for (NoticeVO nvo1 : lists) {
+				nvo1.setEmp_nm(service.selectEList(nvo1.getEmp_no()).getEmp_nm());
+			}
+			
 			System.out.println("************************"+service.selectTotalPaging(paging));
     	  	paging.setTotal(service.selectTotalPaging(paging));
 	      	  
@@ -79,6 +85,9 @@ public class NoticeController {
 		}else {
 			logger.info("****chk가 있을때*****");
 			lists = service.selectNotchk(paging);	
+			for (NoticeVO nvo1 : lists) {
+				nvo1.setEmp_nm(service.selectEList(nvo1.getEmp_no()).getEmp_nm());
+			}
 			paging.setTotal(service.countNoticechk(paging));
 			logger.info("total총갯수는?@@@@@@@@@@@@22{}",paging.getTotal());
 			System.out.println("************************"+service.selectTotalPaging(paging));
@@ -117,15 +126,24 @@ public class NoticeController {
 	}
 	
 	@GetMapping(value="/noticeInsertForm.do")
-	public String noticeInsertForm() {		
+	public String noticeInsertForm(Model model) {		
 		logger.info("NoticeController에 noticeInsertForm");
+		int emp_no = (int) session.getAttribute("loginEmp");
+		Emp emp = service.selectEmpDeptNm(emp_no);		
+		model.addAttribute("emp", emp);
+	
 		session.setAttribute("loc","./noticeInsertForm.do");		
 		return "notice/noticeInsert";
 	}
 	
 	@GetMapping(value="/noticeInsertFormCompany.do")
-	public String noticeInsertFormCompany() {		
-		logger.info("NoticeController에 noticeInsertForm");
+	public String noticeInsertFormCompany(Model model) {		
+		logger.info("NoticeController에 noticeInsertFormCompany");
+		int emp_no = (int) session.getAttribute("loginEmp");
+		Emp emp = service.selectEmpDeptNm(emp_no);		
+		model.addAttribute("emp", emp);
+		
+		session.setAttribute("loc","./noticeInsertFormCompany.do");
 		return "notice/noticeInsertFormCompany";
 	}
 	
@@ -213,22 +231,24 @@ public class NoticeController {
 			}		
 		}
 		
-		
-		return "redirect:/noticeList.do";
+		session.setAttribute("loc","./noticeList.do");
+		return "redirect:/home.do";
 		
 	}
 	@RequestMapping(value ="/detailnotice.do" , method = RequestMethod.GET)
-	public String viewDetail(Model model, 
-	                        @RequestParam("notice_no")int notice_no) {
+	public String viewDetail(Model model,int notice_no) {
 		logger.info("viewDetail 상세보기 컨트롤러");
 	  NoticeVO vo =  service.getBoard(notice_no);
+	
 	  System.out.println("*****************"+vo);
 	  
 	  if(vo == null) {
 		  vo = service.detailNotice(notice_no);
+		  vo.setEmp_nm(service.selectEList(vo.getEmp_no()).getEmp_nm());
 		  model.addAttribute("vo",vo);
 		  logger.info("************NULL?상세정보"+vo);
 	  }else {
+		  vo.setEmp_nm(service.selectEList(vo.getEmp_no()).getEmp_nm());
 		  model.addAttribute("vo",vo);
 		  logger.info("************상세정보"+vo);
 	  }
@@ -271,9 +291,11 @@ public class NoticeController {
 		  
 		  if(vo == null) {
 			  vo = service.detailNotice(notice_no);
+			  vo.setEmp_nm(service.selectEList(vo.getEmp_no()).getEmp_nm());
 			  model.addAttribute("vo",vo);
 			  logger.info("************NULL업데이트쪽상세정보"+vo);
 		  }else {
+			  vo.setEmp_nm(service.selectEList(vo.getEmp_no()).getEmp_nm());
 			  model.addAttribute("vo",vo);
 			  logger.info("************업데이트쪽상세정보"+vo);
 		  }
@@ -363,8 +385,8 @@ public class NoticeController {
 		}
 		
 		
-		//session.setAttribute("loc","./detailnotice.do?notice_no="+vo.getNotice_no());
-		return "redirect:/detailnotice.do?notice_no="+ vo.getNotice_no();
+		session.setAttribute("loc","./detailnotice.do?notice_no="+vo.getNotice_no());
+		return "redirect:/home.do";
 	}
 	
 	@GetMapping("/noticedelete.do")
