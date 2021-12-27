@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,6 +113,7 @@ public class ApprovalController {
 
 		System.out.println(paging);
 
+
 		model.addAttribute("paging", paging);
 		model.addAttribute("doclists", doclists);
 
@@ -170,6 +172,7 @@ public class ApprovalController {
 						"", // 결재일
 						"n", // 대기 여부
 						"");
+
 			}
 
 			appJson = gson.toJson(approver);
@@ -585,6 +588,18 @@ public class ApprovalController {
 			System.out.println("paging 마지막 번호: " + paging.getTotal());
 		}
 
+		
+		
+		for (Approval_Doc Doc1 : doclist1) {
+			Doc1.setEmp_nm(approvalServiceImpl.selectEmpInfo(Doc1.getEmp_no()).getEmp_nm());
+			System.out.println(approvalServiceImpl.selectEmpInfo(Doc1.getEmp_no()).getEmp_nm());
+		}	
+		for (Approval_Doc Doc2 : doclist2) {
+			Doc2.setEmp_nm(approvalServiceImpl.selectEmpInfo(Doc2.getEmp_no()).getEmp_nm());
+			System.out.println(approvalServiceImpl.selectEmpInfo(Doc2.getEmp_no()).getEmp_nm());
+		}	
+
+
 		model.addAttribute("doclist1", doclist1);
 		model.addAttribute("doclist2", doclist2);
 		model.addAttribute("paging", paging);
@@ -593,6 +608,61 @@ public class ApprovalController {
 
 		return "/approval/compldoclist";
 	}
+
+	
+	
+	
+	@RequestMapping(value="/progdoclist.do", method= {RequestMethod.POST, RequestMethod.GET})
+	public String progdoclist(Model model, HttpServletRequest request) {
+
+		  
+		  Approval_Doc doc = new Approval_Doc();
+		  int empno = (Integer)session.getAttribute("loginEmp");
+		  doc.setEmp_no(empno);
+
+		  String active = "7";
+		  if(request.getParameter("active") == null) {
+			  active = "7";
+		  }else {
+			  active = request.getParameter("active");
+		  }
+		  
+	      logger.info("ApprovalController 진행 상태글 조회 List");
+	      
+	      Approval_Page paging = new Approval_Page(
+	               request.getParameter("index"),
+	               request.getParameter("pageStartNum"),
+	               request.getParameter("listCnt"),
+	               request.getParameter("app_chk"),
+	               request.getParameter("searchKeyword"),
+	               active
+	            );
+		doc.setPaging(paging);
+		List<Approval_Doc> doclists = approvalServiceImpl.selectmyAllDoc(doc);
+		paging.setTotal(approvalServiceImpl.selectTotalPagingAll(doc));
+		
+		doc.setApp_doc_st("진행");
+		
+		if(active.equals("7")) {
+			doclists = approvalServiceImpl.selectListDocSt(doc);
+			paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+		}else if(active.equals("8")) {
+			
+			doclists = approvalServiceImpl.selectListDocStApp(doc);
+			
+			paging.setTotal(approvalServiceImpl.selectTotalPagingApp(doc));
+		}
+		
+		System.out.println(paging);
+	      
+		  model.addAttribute("paging",paging);
+	      model.addAttribute("doclists", doclists);
+	      
+	      session.setAttribute("loc", "./approval/progdoclist");
+	      
+	      return "/approval/progdoclist";
+	}
+	
 
 	// 문서 삭제
 	@GetMapping(value = "/docDelte.do")
@@ -660,6 +730,11 @@ public class ApprovalController {
 
 		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListRef(doc);
 		paging.setTotal(approvalServiceImpl.selectTotalPagingApp(doc));
+		for (Approval_Doc Doc1 : doclist1) {
+			Doc1.setEmp_nm(approvalServiceImpl.selectEmpInfo(Doc1.getEmp_no()).getEmp_nm());
+			System.out.println(approvalServiceImpl.selectEmpInfo(Doc1.getEmp_no()).getEmp_nm());
+		}	
+		
 		model.addAttribute("doclist1", doclist1);
 		model.addAttribute("paging", paging);
 
@@ -684,6 +759,11 @@ public class ApprovalController {
 		System.out.println(paging);
 
 		List<Approval_Doc> doclist1 = approvalServiceImpl.selectListWait(doc);
+		for (Approval_Doc Doc1 : doclist1) {
+			Doc1.setEmp_nm(approvalServiceImpl.selectEmpInfo(Doc1.getEmp_no()).getEmp_nm());
+			System.out.println(approvalServiceImpl.selectEmpInfo(Doc1.getEmp_no()).getEmp_nm());
+		}	
+		
 		paging.setTotal(approvalServiceImpl.selectTotalPagingWait(doc));
 		model.addAttribute("doclist1", doclist1);
 		model.addAttribute("paging", paging);
@@ -931,5 +1011,34 @@ public class ApprovalController {
 
 		return "/approval/updateForm";
 	}
+
+	
+	@RequestMapping(value="/updateDoc.do", method = {RequestMethod.POST})
+	public String updateDoc(HttpServletRequest req) {
+		
+		 logger.info("ApprovalController 기안하기 문서 작성");
+	    
+	      int app_line_no = Integer.parseInt(req.getParameter("app_line_no"));
+	      String app_doc_title = req.getParameter("app_doc_title");
+	      String app_doc_content = req.getParameter("app_doc_content");
+	  	  int docno = Integer.parseInt(req.getParameter("docno"));
+	  	  //String refNo = req.getParameter("refNo");
+	  	  String refNo = "1,2,3";
+	      
+	      String appState = req.getParameter("appState");
+	      
+	      Approval_Doc doc = new Approval_Doc();
+	      doc.setApp_doc_content(app_doc_content);
+	      doc.setApp_doc_no(docno);
+	      doc.setApp_line_no(app_line_no);
+	      doc.setRef_emp_no(refNo);
+	      doc.setApp_doc_st(appState);
+	      approvalServiceImpl.updateDoc(doc);
+	      System.out.println("문서"+doc);
+	      
+		session.setAttribute("loc", "./mydoclist.do");
+		return "redirect:/home.do";
+	}
+	
 
 }

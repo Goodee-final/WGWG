@@ -32,20 +32,16 @@
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js"></script>
+<!-- <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css" rel="stylesheet"/> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js"></script> -->
 
-<link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
-<link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
+<!-- <link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" > -->
+<!-- <link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16"> -->
 
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
-<!-- include summernote css/js-->
- 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 
 <script type="text/javascript">
 	
@@ -447,7 +443,9 @@ i {
 					<li class="w3-bar-item w3-button" 
               value="./docinsert.do">기안하기</li>
 					<li class="w3-bar-item w3-button" 
-              value="./ingdoclist.do">결재 진행함</li>
+
+              value="./progdoclist.do">결재 진행함</li>
+
 					<li class="w3-bar-item w3-button" 
               value="./waitdoclist.do">결재 대기함</li>
 					<li class="w3-bar-item w3-button"

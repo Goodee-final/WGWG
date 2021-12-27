@@ -130,6 +130,8 @@ function AppPaging() {
 //		alert('안녕');
 		console.log('왜 이동을 안하는가');
 		$('#content').load('./waitdoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);		
+	}else if(app_chk == '진행'){
+		$('#content').load('./progdoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);		
 	}
 
 }

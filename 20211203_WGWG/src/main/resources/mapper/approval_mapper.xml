@@ -62,6 +62,9 @@
 							SELECT *
 							FROM APPROVAL_DOCUMENT ad 
 							WHERE EMP_NO = #{emp_no}	
+							<if test="paging.searchkeyword != null and paging.searchkeyword != ''">
+			 					AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
+			 				</if> 
 							ORDER BY app_doc_no DESC 
 							) A
 					)
@@ -370,4 +373,10 @@ SELECT NVL(count(*),0) from(SELECT *
 				GROUP BY FEEDBACK 
 				HAVING COUNT(FEEDBACK) > 0 
    </select>
+   
+      <update id="updateDoc" parameterType="DocVo">
+   	UPDATE APPROVAL_DOCUMENT
+		SET APP_DOC_ST=#{app_doc_st}, APP_DOC_REG_DT=sysdate, REF_EMP_NO=#{ref_emp_no}, APP_DOC_CONTENT=#{app_doc_content}, APP_LINE_NO=#{app_line_no}
+		WHERE APP_DOC_NO=#{app_doc_no}
+   </update>
 </mapper>

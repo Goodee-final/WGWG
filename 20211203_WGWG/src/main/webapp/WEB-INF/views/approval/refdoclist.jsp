@@ -103,7 +103,7 @@ th, td {
 									<c:set var="docno" value="${doc.app_doc_no}" />
 									<td>${doc.app_doc_title}</td>
 									<td>${doc.form_no}</td>
-									<td>${doc.emp_no}</td>
+									<td>${doc.emp_nm}</td>
 									<td>${doc.app_doc_st}</td>
 									<td>${doc.app_doc_reg_dt}</td>
 								</tr>

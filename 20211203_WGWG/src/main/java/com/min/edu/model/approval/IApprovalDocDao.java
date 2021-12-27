@@ -46,7 +46,8 @@ public interface IApprovalDocDao {
 	//참조대기함
 	public List<Approval_Doc> selectListRef(Approval_Doc doc);
 
-	
+	//문서 내용 및 결재라인 수정
+	public int updateDoc(Approval_Doc doc);
 	//문서 상태 업데이트
 	public int updateDocSt(Approval_Doc doc);
 	
