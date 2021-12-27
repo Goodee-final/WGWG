@@ -16,6 +16,7 @@ import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
+import com.min.edu.vo.approval.Reference;
 
 
 @Repository
@@ -72,12 +73,24 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		logger.info("ApprovalDocDaoImpl selectAllPosition");
 		return sqlSession.selectList(NS + "selectAllPosition");
 	}
-
 	
 	@Override
 	public int insertDoc(Approval_Doc doc) {
-		logger.info("ApprovalDocDaoImpl insert");
+		logger.info("ApprovalDocDaoImpl insert 문서");
 		return sqlSession.insert(NS + "insertDoc", doc);
+	}
+	
+	@Override
+	public int insertappline(Approval_line appline) {
+		logger.info("ApprovalDocDaoImpl insertappline 결재라인 등록");
+		this.sqlSession.insert(NS + "insertappline", appline);
+		return appline.getApp_line_no();
+	}
+	
+	@Override
+	public List<Approval_Doc> selectListIng(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl selectListIng 결재대기함");
+		return sqlSession.selectList(NS+"selectListIng", doc);
 	}
 
 	@Override
@@ -102,7 +115,6 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	@Override
 	public List<Approval_Doc> selectListWait(Approval_Doc doc) {
 		logger.info("ApprovalDocDaoImpl 결재대기 문서 조회 selectListWait");
-		
 		return sqlSession.selectList(NS+"selectListWait", doc);
 	}
 
@@ -122,7 +134,6 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	@Override
 	public List<Approval_Doc> selectDocPaging(Approval_Doc doc) {
 		logger.info("ApprovalDocDaoImpl 페이징 처리 selectPaging");
-		
 		return sqlSession.selectList(NS+"selectDocPaging", doc);
 	}
 
@@ -172,6 +183,30 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 	public int selectTotalPagingWait(Approval_Doc doc) {
 		logger.info("ApprovalDocDaoImpl 페이징 처리 selectTotalPagingWait");
 		return sqlSession.selectOne(NS+"selectTotalPagingWait",doc);
+	}
+
+	@Override
+	public int updatefeedback(Reference ref) {
+		logger.info("ApprovalDocDaoImpl 참조자 업데이트 updatefeedback");
+		return sqlSession.selectOne(NS+"updatefeedback",ref);
+	}
+
+	@Override
+	public int insertRef(Reference ref) {
+		logger.info("ApprovalDocDaoImpl 참조자 입력 insertRef");		
+		return sqlSession.insert(NS+"insertRef", ref);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectfeedback(int docno) {
+		logger.info("ApprovalDocDaoImpl 피드백 검색 selectfeedback");		
+		return sqlSession.selectList(NS+"selectfeedback", docno);
+	}
+
+	@Override
+	public int updateDoc(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 문서 내용 및 결재라인 수정 updateDoc");
+		return sqlSession.update(NS+"updateDoc", doc);
 	}
 
 }

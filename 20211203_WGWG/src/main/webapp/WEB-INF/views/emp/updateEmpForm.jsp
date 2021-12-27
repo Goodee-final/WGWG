@@ -103,7 +103,6 @@ $(document).ready(function(){
 			alert("취소되었습니다.");
 		}else{
 			alert("수정되었습니다.");
-// 			$("#content").load("./empList.do");
 		}
 		
 		

@@ -44,7 +44,7 @@
 <div class="content">
       <div id="select">
          <span>
-            <select class="btn btn-primary" id="listCount" name="listCount"   onchange="nchk()">
+            <select class="btn btn-primary" id="listCnt" name="listCnt" onchange="nchk()">
                <option value="5"
                   <c:if test="${paging.listCnt == 5}">selected</c:if>>5줄 보기</option>
                <option value="10"

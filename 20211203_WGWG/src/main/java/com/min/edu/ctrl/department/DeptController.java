@@ -28,7 +28,6 @@ public class DeptController {
 	@Autowired
 	private IDeptService dservice;
 	
-	//./deptList.do
 	@GetMapping(value="/deptList.do")
 	public String selectAllDept(Model model,HttpServletRequest req) {
 		logger.info("DeptController selectAllDept 부서 전체 목록화면 이동");

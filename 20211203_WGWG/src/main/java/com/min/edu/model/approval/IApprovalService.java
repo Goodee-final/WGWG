@@ -10,23 +10,27 @@ import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Position;
 import com.min.edu.vo.approval.Approver;
+import com.min.edu.vo.approval.Reference;
 
 public interface IApprovalService {
 
-  //전체 문서목록 조회
+	//전체 문서목록 조회
 	public List<Approval_Doc> selectmyAllDoc(Approval_Doc doc);
-  //제목으로 검색
+	//제목으로 검색
 	public List<Approval_Doc> searchdoclist(String title, int empno);
 	//문서 상세
 	public Approval_Doc selectOneDoc(int docno);
-  //기안하기 작성자 정보
+	//기안하기 작성자 정보
 	public Emp selectEmpInfo(int empno);
-  //결재라인
+	//결재라인
 	public List<Emp> selectAllEmp();
 	public List<Department> selectAllDept();
 	public List<Position> selectAllPosition();
 	//상신
     public int insertDoc(Approval_Doc doc);
+    public int insertappline(Approval_line appline);
+    //결재진행함
+  	public List<Approval_Doc> selectListIng(Approval_Doc doc);
   
 	//결재자
 	public List<Approval_Doc> selectAllDocApp(int empno);
@@ -42,7 +46,9 @@ public interface IApprovalService {
 	//문서 상태 업데이트
 	public int updateDocSt(Approval_Doc doc);
 	
-	//결재자 정보 없데이트
+	//문서 내용 및 결재라인 수정
+	public int updateDoc(Approval_Doc doc);
+	//결재자 정보 업데이트
 	public int updateApproval(Approval_line line);
 	
 	//페이징
@@ -60,4 +66,14 @@ public interface IApprovalService {
 
 	//결재라인 조회
 	public Approval_line selectLine(int appLineNo);
+
+	//참조자 업데이트
+	public int updatefeedback(Reference ref);
+	//참조자 입력
+	public int insertRef(Reference ref);
+	//피드백 조회
+	public List<Map<String, Object>> selectfeedback(int docno);
 }
+
+
+

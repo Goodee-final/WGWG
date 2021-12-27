@@ -23,7 +23,7 @@ public interface IScheduleDao {
 	//개인일정 수정
 	public int updateScheduleP(ScheduleVO vo);
 	//회사일정 수정
-	
+	public int updateScheduleC(ScheduleVO vo);
 	
 	
 	//개인일정 삭제

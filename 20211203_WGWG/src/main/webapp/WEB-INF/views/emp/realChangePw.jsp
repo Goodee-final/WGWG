@@ -97,7 +97,7 @@ $("#send").click(function(){
 	setParentText();
 	
 	
-});
+	});
 });
 
 </script>

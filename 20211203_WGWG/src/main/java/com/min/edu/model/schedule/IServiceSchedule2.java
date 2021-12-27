@@ -21,6 +21,7 @@ public interface IServiceSchedule2 {
 		//개인일정 수정
 		public int updateScheduleP(ScheduleVO vo);
 		//회사일정 수정
+		public int updateScheduleC(ScheduleVO vo);
 		
 		
 		

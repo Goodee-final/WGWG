@@ -7,48 +7,45 @@
 <meta charset="UTF-8">
 <title>인덱스</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <!-- include libraries(jQuery, bootstrap) -->
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
 <!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>  -->
+
 <!-- include summernote css/js-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script> -->
+<!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 
 <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script> -->
 
-<script src="https://kit.fontawesome.com/d42fd504d6.js"
-	crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
 
-
-<script
-	src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
 
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
-<link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
-<link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
-<!-- include libraries(jQuery, bootstrap) -->
+<!-- <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css" rel="stylesheet"/> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js"></script> -->
+
+<!-- <link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" > -->
+<!-- <link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16"> -->
+
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-<!-- include summernote css/js-->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+
 <script type="text/javascript">
 	
 	var loc =  "<%=session.getAttribute("loc") %>"
@@ -86,17 +83,7 @@
 		
 	});
 
-function noEvent() {
-    if (event.keyCode == 116) {
-        event.keyCode= 2;
-        return false;
-    }
-    else if(event.ctrlKey && (event.keyCode==78 || event.keyCode == 82))
-    {
-        return false;
-    }
-}
-document.onkeydown = noEvent;
+
 
 </script>
 
@@ -109,13 +96,13 @@ html, body {
 	padding: 0;
 }
 
-a {
+/*a {
 	text-decoration: none;
 	width: max-content;
 	height: max-content;
 	color: black;
 	cursor: pointer;
-}
+}*/
 
 ul {
 	list-style: none;
@@ -308,7 +295,7 @@ i {
 }
 
 .footer {
-    width: 1420px;
+    width: 100%;
     height: 200px;
     margin-left: 180px;
     background-color: #f1f1f1;
@@ -457,14 +444,16 @@ i {
 	<!-- Sidebar -->
 	<!--  w3-light-grey -->
 	<article class="w3-sidebar w3-bar-block"
-		style="width: 180px; margin-top: 30px; background-color: white; border-right: 2px solid #EEEEEE;">
+		style="width: 180px; margin-top: 50px; background-color: white; border-right: 2px solid #EEEEEE;">
 		<ul>
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button" 
               value="./docinsert.do">기안하기</li>
 					<li class="w3-bar-item w3-button" 
-              value="">결재 진행함</li>
+
+              value="./progdoclist.do">결재 진행함</li>
+
 					<li class="w3-bar-item w3-button" 
               value="./waitdoclist.do">결재 대기함</li>
 					<li class="w3-bar-item w3-button"
@@ -503,14 +492,15 @@ i {
 			<li class="w3-bar-item nav1"><i class="far fa-calendar"></i>일정관리
 				<ul class="nav-flyout">
 					<li class="w3-bar-item w3-button"
-						value="#"><a href="./loadForm.do">일정관리</a></li>
-					<li class="w3-bar-item w3-button" value="">일정관리</li>
+						value="./loadForm.do">개인일정</li>
+					<li class="w3-bar-item w3-button" 
+						value="./companyloadForm.do">회사일정</li>
 				</ul>
 			</li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="./reservation.do">예약하기</li>
+					<li class="w3-bar-item w3-button" value="#"><a href="./reservation.do">예약하기</a></li>
 					<li class="w3-bar-item w3-button" value="./reservationist.do">예약목록</li>
 				</ul></li>
 
@@ -523,8 +513,8 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>채팅
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="">채팅</li>
-					<li class="w3-bar-item w3-button" value="">채팅</li>
+					<li class="w3-bar-item w3-button" value="./chatOpen.do">채팅 시작</li>
+					<!-- <li class="w3-bar-item w3-button" value="./socketOpen.do">채팅 시작</li> -->
 				</ul></li>
 			<c:if test="${emp.dept_no eq 10}">
 				<li class="w3-bar-item nav1"><i class="fas fa-file"></i>양식함
