@@ -81,4 +81,9 @@ public class EmpServiceImpl implements IEmpService {
 		return dao.selectMyPage(emp_no);
 	}
 
+	@Override
+	public int updateMyPage(Emp emp) {
+		return dao.updateMyPage(emp);
+	}
+
 }

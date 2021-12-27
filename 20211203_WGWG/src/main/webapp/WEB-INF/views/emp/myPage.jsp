@@ -50,6 +50,9 @@
 <script type="text/javascript">
 
 function changePW(){
+	
+	window.name = "myPage";
+	
 	var url = "./changePwForm.do";
 	var title = "비밀번호 변경";
 	var attr = "width=400px, height=450px";
@@ -58,7 +61,7 @@ function changePW(){
 </script>
 </head>
 <body>
-<form:form action="#" method="post" enctype="multipart/form-data" modelAttribute="uploadFile">
+<form:form action="./updateMyPage.do" method="post" enctype="multipart/form-data" modelAttribute="uploadFile">
 	<div id="maindiv" class="container">
 	
 	<div class="div_right">

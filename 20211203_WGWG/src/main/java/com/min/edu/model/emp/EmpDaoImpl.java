@@ -93,5 +93,10 @@ public class EmpDaoImpl implements IEmpDao {
 		return sqlSession.selectOne(NS+"selectMyPage",emp_no);
 	}
 
+	@Override
+	public int updateMyPage(Emp emp) {
+		return sqlSession.update(NS+"updateMyPage",emp);
+	}
+
 	
 }

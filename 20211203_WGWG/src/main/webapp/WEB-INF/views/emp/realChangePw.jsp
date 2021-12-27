@@ -39,11 +39,28 @@
 	}
 </style>
 <script type="text/javascript">
+
+function setParentText(){
+	alert('setParentText()');
+    var pwVal = $("#pw").val(); 
+    var passwordVal = opener.$("#password").val();
+    passwordVal = pwVal;
+    console.log("변경된 pw : "+passwordVal);
+    $(opener.document).find("#password").val(pwVal);
+	window.close();
+
+//     opener.$("#password").text(pwVal);
+}
+$(document).ready(function(){
+	
 $("#send").click(function(){
+	
 	var pw_value = $("#pw").val().replace(/\s/gi, "");
 	console.log(pw_value);
+	
 	var pwChk_value = $("#pwChk").val().replace(/\s/gi, "");
 	console.log(pwChk_value);
+	
 	//비밀번호 유효성 검사
 	var regulPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
 	var regResult = regulPw.test(pw_value);
@@ -67,8 +84,6 @@ $("#send").click(function(){
 		$("#pw").focus();
 	}
 	
-	
-	
 	if(!pw_value){
 		alert("비밀번호를 입력해주세요.")
 		$("#pwChkSpan").html("");
@@ -81,14 +96,16 @@ $("#send").click(function(){
 		return false;
 	}
 	
-	opener.$("#pw").val() = $("#password").val();
-	window.open('','_self').close(); 
+	setParentText();
+	
+	
 });
+});
+
 </script>
 </head>
 <body>
 	<div id="container">
-		<form action="./realChangePw.do" method="post">
 			<div class="form-group">
 			<div id="info">
 				<p>새로운 비밀번호를 입력해주세요.</p><br>
@@ -100,9 +117,9 @@ $("#send").click(function(){
 			</div>
 			<span id="pwChkSpan"></span>
 			<div id="btns">
-				<input type="submit" id="send" class="btn" value="변경하기">
+				<input type="button" id="send" class="btn" value="변경하기">
+				<input type="button" id="cancle" class="btn" onclick="window.close()" value="취소">
 			</div>
-		</form>
 	</div>
 </body>
 </html>

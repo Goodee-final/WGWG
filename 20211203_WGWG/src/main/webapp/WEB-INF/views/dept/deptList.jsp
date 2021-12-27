@@ -31,11 +31,11 @@ $(".selectRow").click(function(){
 	console.log(deptnoVal);
 	
 	$("#content").load("./updateDeptForm.do?dept_no="+deptnoVal);
-	});
+});
 	
-	$("#newDept").click(function(){
-		$("#content").load("./newDeptForm.do);
-	});
+$("#newDepartment").click(function(){
+	$("#content").load("./newDeptForm.do");
+});
 </script>
 </head>
 <body>
@@ -59,7 +59,7 @@ $(".selectRow").click(function(){
     </c:forEach>
     </tbody>
   </table>
-  <button class="btn" id="newDept" name="newDept">부서 등록</button>
+  <button class="btn" id="newDepartment">부서 등록</button>
   <input type="hidden" name="index" id="index" value="${paging.index}"><br>
   <input type="hidden" name="pageStartNum" id="pageStartNum" value="${paging.pageStartNum}"><br>
   <input type="hidden" name="listCnt" id="listCnt" value="${paging.listCnt}">

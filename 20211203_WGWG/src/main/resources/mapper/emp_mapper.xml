@@ -133,4 +133,10 @@
 			SET EMP_NM=#{emp_nm}, WORK_ST=#{work_st}, POSITION_NO=#{position_no}, DEPT_NO=#{dept_no}
 			WHERE EMP_NO=#{emp_no}
 	</update>
+	
+	<update id="updateMyPage" parameterType="empvo">
+		UPDATE EMP
+			SET PHOTO=#{photo}, ADDRESS=#{address}, TEL=#{tel}, EMAIL =#{email}
+			WHERE EMP_NO=#{emp_no}
+	</update>
 </mapper>

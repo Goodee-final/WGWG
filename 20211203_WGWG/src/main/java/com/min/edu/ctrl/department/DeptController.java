@@ -71,7 +71,8 @@ public class DeptController {
 	
 	@GetMapping(value="/newDeptForm.do")
 	public String newDeptForm() {
-		return"dept/newDeptForm.jsp";
+		dservice.insertDept(null);
+		return"dept/newDeptForm";
 	}
 	
 	@PostMapping(value="/newDept.do")
@@ -84,7 +85,7 @@ public class DeptController {
 		dept.setDept_nm(newNm);
 		dept.setDept_no(newNo);
 		
-		dservice.updateDept(dept);
+		//dservice.insertDept(dept_nm);
 		
 		return "dept/deptList";
 	}

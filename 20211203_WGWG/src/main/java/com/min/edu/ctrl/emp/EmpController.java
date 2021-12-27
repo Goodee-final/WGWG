@@ -89,7 +89,6 @@ public class EmpController {
 					
 			String serverPath = WebUtils.getRealPath(request.getSession().getServletContext(), "/img/emp");
 			String path = "C:\\Users\\ttiat\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\img\\emp";
-			//System.out.println("#####"+request.getSession().getServletContext());
 			logger.info("##### 실제 업로드 될 경로 : "+serverPath);
 			File storage = new File(serverPath);
 			if(!storage.exists()) {
@@ -206,7 +205,7 @@ public class EmpController {
 	}
 	
 	@PostMapping(value="/updateEmp.do")
-	public String updateEmp(HttpServletRequest req, Model model) {
+	public String updateEmp(HttpServletRequest req, Model model, HttpSession session) {
 		logger.info("Empcontroller updateEmp 인사팀 정보 수정");
 		int updateDept = Integer.parseInt(req.getParameter("dept_no"));
 		String updateEmp_nm = req.getParameter("emp_nm");
@@ -223,16 +222,13 @@ public class EmpController {
 		logger.info("Empcontroller updateEmp 인사팀 정보수정 : {}",emp);
 		
 		service.updateEmp(emp);
-		
+		session.setAttribute("loc", "./empList.do");
 		return "redirect:/home.do";
 		
 	}
 	
 	@GetMapping(value="/chkPWForm.do")
 	public String checkPWForm(HttpServletResponse resp) throws IOException {
-		resp.setContentType("text/html; charset=UTF-8;");
-		PrintWriter out = resp.getWriter();
-		out.println("<script>$('#content').load('./mypage.do');</script>");
 		return"emp/checkPW";
 	}
 	
@@ -246,14 +242,25 @@ public class EmpController {
 		String inputpw = req.getParameter("inputpw");
 		logger.info("Empcontroller 화면에서 받아온 비밀번호 : {}",inputpw);
 		if(getpw.equals(inputpw)) {
-			//해당 사원 정보
-			Emp selectedEmp = service.selectMyPage(emp_no);
-			logger.info("Empcontroller selectEmpByNo 선택된 사원 정보 : {}",selectedEmp);
-			req.setAttribute("selectedEmp", selectedEmp);
-			return "emp/myPage";
+			
+			session.setAttribute("loc", "./myPageForm.do");
+			return "redirect:/home.do";
 		}else{
+			req.setAttribute("message", "비밀번호를 확인해주세요.");
+			session.setAttribute("loc", "./chkPWForm.do");
 			return "redirect:/home.do";
 		}
+	}
+	
+	@GetMapping(value="/myPageForm.do")
+	public String myPageForm(HttpSession session,HttpServletRequest req) {
+		//해당 사원 정보
+		int emp_no = (int) session.getAttribute("loginEmp");
+		Emp selectedEmp = service.selectMyPage(emp_no);
+		logger.info("Empcontroller selectEmpByNo 선택된 사원 정보 : {}",selectedEmp);
+		req.setAttribute("selectedEmp", selectedEmp);
+		session.setAttribute("loc", "./myPageForm.do");
+		return "emp/myPage";
 	}
 	
 	@GetMapping(value="/myPageUpdate.do")
@@ -282,11 +289,14 @@ public class EmpController {
 	}
 
 	
-	@PostMapping(value="/realChangePw.do")
-	public String realChangePw(HttpServletRequest req) {
-		String newPw = req.getParameter("pw");
-		req.setAttribute("newPw", newPw);
-		return "emp/myPage";
+	@PostMapping(value="/updateMyPage.do")
+	public String updateMyPage(HttpServletRequest req) {
+		
+		req.getParameter("password");
+		req.getParameter("address");
+		req.getParameter("tel");
+		req.getParameter("");
+		return "redirect:/home.do";
 	}
 	
 	

@@ -30,6 +30,8 @@ public interface IEmpDao {
 	
 	public int updateEmp(Emp emp);
 	
+	public int updateMyPage(Emp emp);
+	
 	public String getSessionPW(int emp_no);
 	
 	public Emp selectMyPage(int emp_no);

@@ -255,6 +255,11 @@ UPDATE EMP
 SET EMP_NM=#{name}, WORK_ST=#{work_st}, POSITION_NO=#{position_no}, DEPT_NO=#{dept_no}
 WHERE EMP_NO=#{emp_no};
 
+--사원 마이페이지
+UPDATE EMP
+SET PHOTO=#{photo}, ADDRESS=#{address}, TEL=#{tel}, EMAIL =#{email}
+WHERE EMP_NO=#{emp_no};
+
 
 
 --비밀번호 확인(마이페이지,비밀번호 변경시)
