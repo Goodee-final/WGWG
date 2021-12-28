@@ -9,11 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.min.edu.model.approval.IApprovalService;
 import com.min.edu.model.emp.IEmpService;
 import com.min.edu.model.main.IMainService;
 import com.min.edu.model.worklog.IWorkLogService;
@@ -33,6 +31,7 @@ public class MainController {
    
    @Autowired
    private IWorkLogService workLogService;
+
    
    @RequestMapping(value="/home.do", method=RequestMethod.GET)
    public String home(Model model, HttpSession session) {
