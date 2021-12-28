@@ -195,8 +195,8 @@ public class NoticeController {
 				inputStream = file.getInputStream();  //파일을 읽어와서 10101001식으로 읽어온다. (while을 사용하면 다중파일 가능)
 				
 				//저장 위치를 만듬
-				String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
-				//String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
+				//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
+				String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
 				
 				
 				//만약 저장위치가 없다면 저장위치만들기
@@ -263,8 +263,8 @@ public class NoticeController {
 							) throws IOException {  //파일명
 		logger.info("noticeFiledownload다운로드 컨트롤러");
 		//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
-		//String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");  //상대경로
-		String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; // 신승혁
+		String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");  //상대경로
+		//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; // 신승혁
 		String notice_file_save_nm =request.getParameter("notice_file_save_nm");
 		String notice_file_nm =request.getParameter("notice_file_nm");
 		File file = new File(path+"\\"+notice_file_save_nm);
@@ -345,8 +345,8 @@ public class NoticeController {
 				inputStream = file.getInputStream();  //파일을 읽어와서 10101001식으로 읽어온다. (while을 사용하면 다중파일 가능)
 				
 				//저장 위치를 만듬
-				String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
-				//String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
+				//String path = "C:\\Users\\82102\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\storage"; //절대경로
+				String path = WebUtils.getRealPath(requset.getSession().getServletContext(), "/storage");
 				System.out.println("*******"+requset.getSession().getServletContext());
 				
 				

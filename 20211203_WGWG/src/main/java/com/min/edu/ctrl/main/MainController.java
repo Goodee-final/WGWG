@@ -30,7 +30,8 @@ public class MainController {
    private IMainService mainService;
    
    @Autowired
-      private IWorkLogService workLogService;
+   private IWorkLogService workLogService;
+
    
    @RequestMapping(value="/home.do", method=RequestMethod.GET)
    public String home(Model model, HttpSession session) {
