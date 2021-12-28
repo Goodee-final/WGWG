@@ -108,7 +108,7 @@ public class LoginController {
 		String user = "odwtest123@gmail.com";
 		// gmail 계정
 
-		String password = "test9999!";
+		String password = "비밀번호";
 		// gmail 패스워드
 
 		String RandomPw = service.getRandomPw();
