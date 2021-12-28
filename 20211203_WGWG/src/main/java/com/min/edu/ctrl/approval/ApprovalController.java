@@ -330,24 +330,11 @@ public class ApprovalController {
 		// 내 결재 대기 상태 n로 변경
 		Approval_Doc doc = approvalServiceImpl.selectOneDoc(docno);
 
-		System.out.println("doc: " + doc);
-		// Approval_line appline = doc.getAlvo();
-		System.out.println("doc: " + doc);
-//		System.out.println("appline: "+ appline);
-//		System.out.println("applineNo " + appline.get);
 		int lineNo = approvalServiceImpl.selectOneDoc(docno).getApp_line_no();
-		System.out.println(doc.getApp_line_no());
-//		appline.setApp_line_no(1);
-//		appline.setApp_line_no(doc.getApp_line_no());
-//		System.out.println("appline: "+ appline);
 
 		Approval_line appline = approvalServiceImpl.selectLine(doc.getApp_line_no());
-		System.out.println("appline : " + appline);
-
-		System.out.println("라인넘버 :: " + appline.getApp_line_no() + "!!!!");
 
 		String jsonObj = appline.getApproval();
-		System.out.println("applineNo: " + lineNo + "!!!!!!!!!!!!");
 
 		Gson gson = new Gson();
 
@@ -418,14 +405,12 @@ public class ApprovalController {
 			// 마지막 결재자일시
 			if (i == dataCNT - 1) {
 				approval += appJson + "]}";
-
 				appline.setApproval(approval);
 				System.out.println("업데이트 된 결재자 리스트 : " + appline.getApproval());
 			} else {
 				approval += appJson + ",";
 				System.out.println();
 				System.out.println("변경후: " + approval);
-
 			}
 
 			System.out.println();
