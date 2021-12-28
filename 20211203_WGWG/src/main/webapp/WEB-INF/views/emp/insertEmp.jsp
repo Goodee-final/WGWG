@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +35,7 @@ $(document).ready(function(){
 		}
 			  
 		if(!regex.test(fileName)){
-			alert("jpg,png확장자 파일만 업로드할 수 있습니다.");
+			alert("확장자가 jpg,png인 파일만 업로드할 수 있습니다.");
 			$("#file").val("");
 			return false;
 		}
@@ -56,6 +57,11 @@ $(document).ready(function(){
 
 //유효성 검사
 $("#submit_btn").click(function(){
+	
+	if($("#selectDept").val()=="none"){
+		alert("부서를 선택해주세요.");
+		return false;
+	}
 	
 	//이름
 	var name_value = $("input[name='name']").val().replace(/\s/gi, "");
@@ -210,17 +216,12 @@ $("#submit_btn").click(function(){
 			<p>※10MB 이하의 파일만 업로드가 가능합니다.</p>
 		</div>
 		<label>부서:</label>
-		<select name="dept" class="form-control">
-				<option value="10">사업지원팀</option>
-				<option value="20">개발팀</option>
-				<option value="30">인사팀</option>
-				<option value="40">총무팀</option>
-				<option value="50">영업1팀</option>
-				<option value="60">영업2팀</option>
-				<option value="70">마케팅팀</option>
-				<option value="80">기획팀</option>
-				<option value="90">보안팀</option>
-			</select><br>
+		<select name="dept" id="selectDept" class="form-control">
+			<option value="none" selected>선택해주세요</option>
+			<c:forEach var="deptList" items="${deptList}">
+				<option value="${deptList.dept_no}">${deptList.dept_nm}</option>
+			</c:forEach>
+		</select><br>
 		<label for="name">이름:</label>
 		<input type="text" name="name" id="name" class="form-control"><br>
 	</div>
@@ -234,12 +235,10 @@ $("#submit_btn").click(function(){
 		<input type="text" name="address" id="address" class="form-control"><br>
 		<label>직급:</label>
 		<select name="position" class="form-control">
-				<option value="1">사원</option>
-				<option value="2">대리</option>
-				<option value="3">과장</option>
-				<option value="4">팀장</option>
-				<option value="5">대표</option>
-			</select><br>
+			<c:forEach var="positionList" items="${positionList}">
+				<option value="${positionList.position_no}">${positionList.position_nm}</option>
+			</c:forEach>
+		</select><br>
 		<label for="tel">전화번호:</label>
 		<input type="tel" id="tel" name="tel" class="form-control"><br>
 		<label for="work_st">근무상태:</label>

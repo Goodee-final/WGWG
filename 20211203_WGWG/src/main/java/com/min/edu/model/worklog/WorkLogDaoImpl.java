@@ -90,4 +90,34 @@ public class WorkLogDaoImpl implements IWorkLogDao {
 		return sqlSession.selectOne(NS + "selectEmpNo", emp_no);
 	}
 
+	@Override
+	public List<WorkLog> worklogDeptPaging(int dept_no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<WorkLog> worklogMyPaging(int emp_no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int worklogTotalPaging() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<WorkLog> worklogSWordPaging(String searchWord) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int searchTotalPaging(String formtitle) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

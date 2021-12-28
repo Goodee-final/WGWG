@@ -39,4 +39,6 @@ public interface INoticeDao {
 	
 	//emp테이블 리스트
 	public Emp selectEList(int emp_no);
+	//emp테이블 , dept테이블 조인해서 부서이름 가져오기
+	public Emp selectEmpDeptNm(int emp_no);
 }

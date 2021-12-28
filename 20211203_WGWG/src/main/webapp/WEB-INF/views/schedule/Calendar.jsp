@@ -5,18 +5,13 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Insert title heres</title>
+<title>개인일정</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="fullcalenda/lib/main.css" rel="stylesheet" />
 <script type="text/javascript" src="fullcalenda/lib/main.js"></script>
 <script type="text/javascript" src="fullcalenda/lib/locales-all.min.js"></script>
 
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
- <link rel="stylesheet" href="fullcalenda/css/main.css">
-
- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> 
  
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -63,6 +58,17 @@ var request = $.ajax({
 		 });
 	  } 
 });
+
+var doubleSubmitFlag = false;
+function doubleSubmitCheck(){
+    if(doubleSubmitFlag){
+        return doubleSubmitFlag;
+    }else{
+        doubleSubmitFlag = true;
+        return false;
+    }
+}
+
 
 request.done(function(data) {
 	console.log(data);
@@ -158,6 +164,8 @@ request.done(function(data) {
                     "description": eventData.description
          		},
         		success : function(msg){
+        			 if(doubleSubmitCheck()) return;
+
         			alert("일정 등록에 성공했습니다");
         			/*  calendar.addEvent({         				
         			   title: msg.title,
@@ -255,6 +263,7 @@ request.done(function(data) {
                         "no":editid.val()
             		},
            		success : function(msg){
+           		    if(doubleSubmitCheck()) return;
            			alert("일정 수정을 성공했습니다");
            			$('#content').load("./loadForm.do"); 
            		},
@@ -300,21 +309,7 @@ request.done(function(data) {
 });
     
 
- 
-
- 
-	$("#updateEvent").click(function(e){
-		e.preventDefault();
-		console.log($("#edit-start").val());
-	})	  
-  	  
-/* function frm() {  
-		
-	   	if(document.getElementById('calendarinsert')){
-	 	document.getElementById('calendarinsert').submit();
-		
-		}
-	}	*/	
+	
  function dateFormat(date) {
 	 let month = date.getMonth() +1;
      let day = date.getDate();
@@ -355,41 +350,8 @@ request.done(function(data) {
 	     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
 	} 
 
- /* 
- function datetimelocalcha(date) {
-     let month = date.getMonth() +1;
-     let day = date.getDate()-1;
-     let hour = date.getHours();
-     let minute = date.getMinutes();
-
-     month = month >= 10 ? month : '0' + month;
-     day = day >= 10 ? day : '0' + day;
-     hour = hour >= 10 ? hour : '0' + hour;
-     minute = minute >= 10 ? minute : '0' + minute;
-
-     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
-}
- function datetimelocalsum(date) {
-	 console.log(date);
-     let month = date.getMonth() + 1;
-     let day = date.getDate()+1;
-     let hour = date.getHours();
-     let minute = date.getMinutes();
-
-     month = month >= 10 ? month : '0' + month;
-     day = day >= 10 ? day : '0' + day;
-     hour = hour >= 10 ? hour : '0' + hour;
-     minute = minute >= 10 ? minute : '0' + minute;
-
-     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
-} */
+ 
 </script>
-<style>
-#calendar{
-   width:60%;
-   margin:20px auto;
-}
-</style>
 </head>
 <body>
 		

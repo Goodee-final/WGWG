@@ -15,8 +15,6 @@
 
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"/>
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-<!-- <script type="text/javascript" src="./js/worklogSearch.js"></script> -->
 
 <style>
 .container {
@@ -89,10 +87,18 @@ th, td {
 	display: none;
 }
 </style>
-</head>
 
 
 <script type="text/javascript">
+$(document).ready(function(){
+	   $('tr').click(function(){
+	      var no = $(this).children().first().text();
+	      console.log(no);
+	      $('#content').load('./worklogDetail.do?worklog_no='+no);
+	   });
+	})
+
+
 	jQuery.browser = {};
 	$(function() {
 		jQuery.browser.msie = false;
@@ -181,7 +187,80 @@ jQuery('#selectBox').change(function() {
 	}
 });
 </script>
+<script type="text/javascript">
 
+function frmPaging(){
+	document.getElementById('frmPaging').submit();
+}
+
+function listCnt(){
+	document.getElementById('index').value=0;
+	document.getElementById('pageStartNum').value=1;
+	document.getElementById('listCnt').value = document.getElementById('listCount').value;
+	
+	frmPaging();
+}
+
+function pageFirst(){
+	var index = document.getElementById('index');
+	var pageStartNum = document.getElementById('pageStartNum');
+	index.value = 0;
+	pageStartNum.value = 1;
+	frmPaging();
+}
+
+function pagePre(num, pageCnt){ //num: 출력할 페이지의 시작번호, pageCnt: 출력할 페이지 번호 갯수
+	if(0 < num - pageCnt){
+		num -= pageCnt;
+		var index = document.getElementById('index');
+		var pageStartNum = document.getElementById('pageStartNum');
+		pageStartNum.value=num;
+		index.value = num - 1;
+	}
+	frmPaging();
+}
+
+function pageIndex(idx){
+	var index = document.getElementById('index');
+	index.value=idx-1;
+	frmPaging();
+}
+
+function pageNext(num, total, listNum, pageCnt){ //num: 출력할 페이지의 시작번호, total: 리스트의 총갯수, listNum:출력할 리스트의 갯수, pageCnt: 출력할 페이지번호 갯수
+	var index = Math.ceil(total/listNum);
+	var max = Math.ceil(index/pageCnt);
+	
+	if(max*pageCnt > num+pageCnt){
+		num += pageCnt;
+		var index = document.getElementById('index');
+		var pageStartNum = document.getElementById('pageStartNum');
+		
+		pageStartNum.value=num;
+		index.value = num-1;
+	}
+	frmPaging();
+}
+
+function pageLast(num, total, listNum, pageCnt){
+	var index = Math.ceil(total/listNum);
+	var max = Math.ceil(index/pageCnt);
+	
+	while(max*pageCnt > num+pageCnt){
+		num += pageCnt;
+	}
+		var index = document.getElementById('index');
+		var pageStartNum = document.getElementById('pageStartNum');
+		
+		pageStartNum.value=num;
+		index.value = num-1;
+	
+	frmPaging();
+	
+}
+
+
+</script>
+</head>
 <body>
 
 	<div class="container">
@@ -199,7 +278,6 @@ jQuery('#selectBox').change(function() {
 					placeholder="작성자나 내용을 입력해주세요.">
 				<input type="submit" value="검색" id="search_btn">
 			</div>
-			${wordList}
 		</form>
 
 		<form action="./searchByDate.do" method="post">
@@ -208,7 +286,6 @@ jQuery('#selectBox').change(function() {
 				종료일 : <input type="text" id="ed" name="endDate" placeholder="종료일">
 				<input type="submit" value="검색" id="search_btn">
 			</div>
-			${dateList}
 		</form>
 
 
@@ -241,8 +318,8 @@ jQuery('#selectBox').change(function() {
 							<c:forEach var="my" items="${worklogmylist}" varStatus="status">
 								<tr style="text-align: center">
 									<td>${my.worklog_no}</td>
-									<td><a
-										href='./worklogDetail.do?worklog_no=${my.worklog_no}'>${my.worklog_title}</a>
+									<td><%-- <a
+										href='./worklogDetail.do?worklog_no=${my.worklog_no}'> --%>${my.worklog_title}<!-- </a> -->
 									</td>
 									<td>${my.emp.emp_nm}</td>
 									<td>${my.position.position_nm}</td>
@@ -271,8 +348,8 @@ jQuery('#selectBox').change(function() {
 								varStatus="status">
 								<tr>
 									<td>${dept.worklog_no}</td>
-									<td><a
-										href='./worklogDetail.do?worklog_no=${dept.worklog_no}'>${dept.worklog_title}</a>
+									<td>
+									<a href='./worklogDetail.do?worklog_no=${dept.worklog_no}'>${dept.worklog_title}</a>
 									</td>
 									<td>${dept.emp.emp_nm}</td>
 									<td>${dept.position.position_nm}</td>
@@ -282,7 +359,27 @@ jQuery('#selectBox').change(function() {
 							</c:forEach>
 						</tbody>
 					</table>
+					
+					
+		<input type="hidden" name="index" id="index" value="${paging.index}">
+		<input type="hidden" name="pageStartNum" id="pageStartNum" value="${paging.pageStartNum}">
+		<input type="hidden" name="listCnt" id="listCnt" value="${paging.listCnt}">
+		
+		<div class="center">
+			<ul class="pagination">
+				<li><a href="#" onclick="pageFirst()">&laquo;</a></li>
+				<li><a href="#" onclick="pagePre(${paging.pageStartNum},${paging.pageCnt})">&lsaquo;</a></li>
+				<!-- 페이지 번호 -->
+				<c:forEach var="i" begin="${paging.pageStartNum}" end="${paging.pageLastNum}" step="1">
+					<li><a onclick="pageIndex(${i})">${i}</a></li>
+				</c:forEach>
+				
+				
+				<li><a href="#" onclick="pageNext(${paging.pageStartNum},${paging.total},${paging.listCnt}, ${paging.pageCnt})">&rsaquo;</a></li>
+				<li><a href="#" onclick="pageLast(${paging.pageStartNum},${paging.total},${paging.listCnt}, ${paging.pageCnt})">&raquo;</a></li>
+			</ul>
 				</div>
+			</div>
 			</div>
 		</form>
 	</div>

@@ -19,6 +19,15 @@ public class Reservation {
 		
 	}
 
+	public Reservation(String res_title, String res_dt, String res_et, int room_no, int emp_no) {
+		super();
+		this.res_title = res_title;
+		this.res_dt = res_dt;
+		this.res_et = res_et;
+		this.room_no = room_no;
+		this.emp_no = emp_no;
+	}
+
 	public Reservation(int res_no, String res_title, String res_dt, int room_no, int emp_no) {
 		this.res_no = res_no;
 		this.res_title = res_title;

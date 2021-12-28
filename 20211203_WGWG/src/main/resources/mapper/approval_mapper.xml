@@ -62,6 +62,9 @@
 							SELECT *
 							FROM APPROVAL_DOCUMENT ad 
 							WHERE EMP_NO = #{emp_no}	
+							<if test="paging.searchkeyword != null and paging.searchkeyword != ''">
+			 					AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
+			 				</if> 
 							ORDER BY app_doc_no DESC 
 							) A
 					)
@@ -107,7 +110,7 @@
 	<insert id="insertDoc" parameterType="DocVo">
 		INSERT INTO "C##WG".APPROVAL_DOCUMENT
 			(APP_DOC_NO, APP_DOC_ST, APP_DOC_REG_DT, APP_DOC_TITLE, REF_EMP_NO, APP_DOC_CONTENT, APP_LINE_NO, APP_FILE_NO, EMP_NO, FORM_NO)
-		VALUES(APP_DOC_SEQ.NEXTVAL, '진행', sysdate, #{app_doc_title}, #{ref_emp_no}, #{app_doc_content}, #{app_line_no}, null, #{emp_no}, #{form_no})
+		VALUES(APP_DOC_SEQ.NEXTVAL, #{app_doc_st}, sysdate, #{app_doc_title}, #{ref_emp_no}, #{app_doc_content}, #{app_line_no}, null, #{emp_no}, #{form_no})
 	</insert>
 	
 	<insert id="insertappline" parameterType="LineVo" useGeneratedKeys="true" keyColumn="APP_LINE_NO" keyProperty="app_line_no">
@@ -354,4 +357,10 @@ SELECT NVL(count(*),0) from(SELECT *
 				GROUP BY FEEDBACK 
 				HAVING COUNT(FEEDBACK) > 0 
    </select>
+   
+      <update id="updateDoc" parameterType="DocVo">
+   	UPDATE APPROVAL_DOCUMENT
+		SET APP_DOC_ST=#{app_doc_st}, APP_DOC_REG_DT=sysdate, REF_EMP_NO=#{ref_emp_no}, APP_DOC_CONTENT=#{app_doc_content}, APP_LINE_NO=#{app_line_no}
+		WHERE APP_DOC_NO=#{app_doc_no}
+   </update>
 </mapper>
