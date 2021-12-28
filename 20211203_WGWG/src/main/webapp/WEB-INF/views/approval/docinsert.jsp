@@ -260,7 +260,7 @@ th {
 			</div>
 			<div id="nextbtn">
 				<button type="button" class="bttn" id="tempSave">임시저장</button>
-				<button type="submit" class="bttn" id="save" >상신</button>
+				<button type="button" class="bttn" id="save" >상신</button>
 				<button type="button" class="bttn" onclick="stopdoc()">기안취소</button>
 				<input type="hidden" name="doc_state" id="doc_state" value="">
 			</div>
@@ -620,7 +620,7 @@ th {
 	             $("input[name=form_num]").attr("value", form_no);
 	             $("#doc_state").attr("value","상신");
 	             
-	             $("#frm").submit();
+	             $("#frmDoc").submit();
              	 alert('결재문서가 상신 되었습니다.');
              }
              
