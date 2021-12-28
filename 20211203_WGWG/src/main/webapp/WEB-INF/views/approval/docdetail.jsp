@@ -17,6 +17,7 @@ String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 var oEditors = [];
 var template = '${template}';
 $(function(){
+	if($('#ir1').length > 0){
       nhn.husky.EZCreator.createInIFrame({
           oAppRef: oEditors,
           elPlaceHolder: "ir1", 
@@ -39,7 +40,8 @@ $(function(){
       $("#save").click(function(){
           oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
           $("#frm").submit();
-      });    
+      });  
+	}
 });
 </script>
 <style type="text/css">
