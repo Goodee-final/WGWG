@@ -65,14 +65,9 @@
 
 	<!-- 웹소켓 연결을 위한 bean 등록 -->
 	<!-- handler : 호출 이름 -->
-	<!-- <websocket:handlers> <websocket:mapping handler="webSocketChat.do" 
-		path="/webSocketChat.do" /> </websocket:handlers> -->
-	<!-- <websocket:handlers> <websocket:mapping handler="wsChat.do" path="/wsChat.do" 
-		/> </websocket:handlers> -->
-
 	<websocket:handlers>
-		<websocket:mapping handler="wsChat.do"
-			path="/wsChat.do" />
+		<websocket:mapping handler="webSocketChat.do"
+			path="/webSocketChat.do" />
 		<websocket:handshake-interceptors>
 			<beans:bean
 				class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>

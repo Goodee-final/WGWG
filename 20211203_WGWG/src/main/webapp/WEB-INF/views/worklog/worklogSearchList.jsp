@@ -1,4 +1,4 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -80,97 +80,6 @@ th, td {
 }
 </style>
 </head>
-
-<!-- <script type="text/javascript">
-	jQuery.browser = {};
-	$(function() {
-		jQuery.browser.msie = false;
-		jQuery.browser.version = 0;
-		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
-			jQuery.browser.msie = true;
-			jQuery.browser.version = RegExp.$1;
-		}
-	});
-
-	$(document).ready(function() {
-				$(function() {
-				/* $.datepicker.setDefaults($.datepicker.regional['ko']); */
-				$("#sd")
-						.datepicker(
-								{
-									language: 'ko',
-									changeMonth : true,
-									changeYear : true,
-									nextText : '다음 달',
-									prevText : '이전 달',
-									dayNames : [ '일요일', '월요일', '화요일', '수요일',
-											'목요일', '금요일', '토요일' ],
-									dayNamesMin : [ '일', '월', '화', '수', '목',
-											'금', '토' ],
-									monthNamesShort : [ '01월', '02월', '03월', '04월',
-										'05월', '06월', '07월', '08월', '09월',
-										'10월', '11월', '12월' ],
-									monthNames : [ '01월', '02월', '03월', '04월',
-										'05월', '06월', '07월', '08월', '09월',
-										'10월', '11월', '12월' ],
-									dateFormat : "yymmdd",
-									maxDate : 0, // 선택할수있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
-									onClose : function(selectedDate) {
-										//시작일(startDate) datepicker가 닫힐때
-										//종료일(endDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-										$("#ed").datepicker("option",
-												"minDate", selectedDate);
-									}
-								});
-				$("#ed")
-						.datepicker(
-								{
-									language: 'ko',
-									changeMonth : true,
-									changeYear : true,
-									nextText : '다음 달',
-									prevText : '이전 달',
-									dayNames : [ '일요일', '월요일', '화요일', '수요일',
-											'목요일', '금요일', '토요일' ],
-									dayNamesMin : [ '일', '월', '화', '수', '목',
-											'금', '토' ],
-									monthNamesShort : [ '01월', '02월', '03월', '04월',
-											'05월', '06월', '07월', '08월', '09월',
-											'10월', '11월', '12월' ],
-									monthNames : [ '01월', '02월', '03월', '04월',
-										'05월', '06월', '07월', '08월', '09월',
-										'10월', '11월', '12월' ],
-									dateFormat : "yymmdd",
-									maxDate : 0, // 선택할수있는 최대날짜, ( 0 : 오늘 이후 날짜 선택 불가)
-									// showMonthAfterYear: true,	// true : 년 월  false : 월 년 순으로 보여줌
-									onClose : function(selectedDate) {
-										// 종료일(endDate) datepicker가 닫힐때
-										// 시작일(startDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 시작일로 지정
-										$("#sd").datepicker("option",
-												"maxDate", selectedDate);
-									}
-								});
-				});
-});
-</script>
-<script type="text/javascript">
-jQuery('#selectBox').change(function() {
-	var state = jQuery('#selectBox option:selected').val();
-	console.log('state : ' + state);
-	if (state == 'option1') {
-		jQuery('#layer1').show();
-		jQuery('#layer2').hide();
-	} else if (state == 'option2') {
-		jQuery('#layer1').hide();
-		jQuery('#layer2').show();
-	}
-	else {
-		jQuery('#layer1').show();
-		jQuery('#layer2').hide();
-	}
-});
-</script> -->
-
 <body>
 
 	<div class="container">
@@ -182,6 +91,7 @@ jQuery('#selectBox').change(function() {
 			<hr>
 			<div class="tab-content" style="margin-top: 20px;">
 				<div id="my" class="tab-pane in active">
+				<c:if test="${!empty searchList}">
 					<table class="table table-hover">
 						<thead style="text-align: center">
 							<tr style="text-align: center">
@@ -195,6 +105,7 @@ jQuery('#selectBox').change(function() {
 						</thead>
 						<tbody>
 							<c:forEach var="search" items="${searchList}" varStatus="status">
+								<c:if test="${emp.dept_no eq search.emp.dept_no}">
 								<tr style="text-align: center">
 									<td>${search.worklog_no}</td>
 									<td><a
@@ -205,9 +116,15 @@ jQuery('#selectBox').change(function() {
 									<td>${search.worklog_reg_dt}</td>
 									<td>${search.worklog_modify_dt}</td>
 								</tr>
+								</c:if>
+								
 							</c:forEach>
 						</tbody>
 					</table>
+					</c:if>
+					<c:if test="${empty searchList}">
+						조회 결과가 없습니다.
+					</c:if>
 				</div>
 			</div>
 		</form>

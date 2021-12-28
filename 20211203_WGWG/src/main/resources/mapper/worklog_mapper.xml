@@ -38,7 +38,6 @@
 			WHERE e.DEPT_NO = #{dept_no}
 			ORDER BY w.WORKLOG_NO DESC
 	</select>
-	<!-- 세션에서 로그인한 정보 받아와서 DEPT_NO 비교히는 거 추가해야 함 -->
 	
 	<!-- 개인별 조회 -->
 	<select id="selectAllMyWorkLog" parameterType="java.lang.Integer" resultMap="worklogVo">
@@ -64,17 +63,8 @@
 	</select>
 	
 	<!-- 작성자이름 or 내용에 해당하는 글자로 검색 -->
-	<select id="searchWorkLog" parameterType="java.util.Map" resultMap="worklogVo">
-			<!-- SELECT w.*, e.EMP_NM, d.DEPT_NM 
-				FROM WORKLOG w 
-				LEFT JOIN EMP e 
-				ON w.EMP_NO = e.EMP_NO
-				LEFT JOIN DEPARTMENT d 
-				ON e.DEPT_NO = d.DEPT_NO
-				WHERE UPPER(e.EMP_NM) LIKE UPPER('%'||#{searchWord}||'%')
-				OR UPPER(w.WORKLOG_CONTENT) LIKE UPPER('%'||#{searchWord}||'%') 
-				ORDER BY WORKLOG_REG_DT DESC -->
-				SELECT w.*, e.EMP_NM , p.POSITION_NM 
+	<select id="searchWorkLog" parameterType="java.lang.String" resultMap="worklogVo">
+				SELECT w.*, e.* , p.POSITION_NM 
 					FROM WORKLOG w
 					LEFT JOIN EMP e 
 					ON w.EMP_NO = e.EMP_NO 
@@ -86,20 +76,9 @@
 	</select>
 	
 	<!-- 업무일지 날짜로 검색 -->
-	<select id="searchByDate" parameterType="java.lang.String" resultMap="worklogVo">
-		<!-- <![CDATA[
-		SELECT w.*, e.EMP_NM, d.DEPT_NM 
-			FROM WORKLOG w 
-			LEFT JOIN EMP e 
-			ON w.EMP_NO = e.EMP_NO
-			LEFT JOIN DEPARTMENT d 
-			ON e.DEPT_NO = d.DEPT_NO
-			WHERE TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') >= #{startDate}
-			AND TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') <= #{endDate}
-			ORDER BY WORKLOG_REG_DT DESC
-			]]> -->
+	<select id="searchByDate" parameterType="java.util.Map" resultMap="worklogVo">
 		<![CDATA[
-		SELECT w.*, e.EMP_NM, p.POSITION_NM 
+		SELECT w.*, e.*, p.POSITION_NM 
 			FROM WORKLOG w
 			LEFT JOIN EMP e 
 			ON w.EMP_NO = e.EMP_NO 
@@ -144,42 +123,95 @@
 			</foreach>
 	</delete> -->
 
-	<!-- 업무일지 조회할 때 로그인한 사람의 부서번호랑 부서번호 리스트 중에 비교? -->
-	<!-- <resultMap type="com.min.edu.vo.emp.Emp" id="dpEmpVo">
+	<!-- emp_no 가져오기 -->
+	<resultMap type="com.min.edu.vo.emp.Emp" id="EmpDeptVo">
 		<result property="emp_no" column="EMP_NO"/>
 		<result property="emp_nm" column="EMP_NM"/>
+		<result property="photo" column="PHOTO"/>
 		<result property="position_no" column="POSITION_NO"/>
 		<result property="dept_no" column="DEPT_NO"/>
 		<result property="dVo.dept_nm" column="DEPT_NM"/>
 		<result property="pVo.position_nm" column="POSITION_NM"/>
 	</resultMap>
-	<select id="selectOneDept" parameterType="java.lang.Integer" resultType="deptVo">
-		SELECT e.*, d.*
-			FROM EMP e 
-			LEFT JOIN DEPARTMENT d 
-			ON e.DEPT_NO = d.DEPT_NO 
-			WHERE e.EMP_NO = #{emp_no}
-	</select>
-	<select id="selectEmpDP" parameterType="java.lang.Integer" resultMap="dpEmpVo">
-		SELECT e.*, p.POSITION_NM, d.DEPT_NM
-			FROM "C##WG".EMP e LEFT OUTER JOIN "C##WG".DEPARTMENT d ON e.DEPT_NO = d.DEPT_NO
-							   LEFT OUTER JOIN "C##WG".POSITION p ON e.POSITION_NO = p.POSITION_NO WHERE e.EMP_NO = #{emp_no}
-	</select> -->
-
-	<!-- emp_no 가져오기 -->
-	<resultMap type="com.min.edu.vo.emp.Emp" id="EmpDeptVo">
-		<result property="emp_no" column="EMP_NO"/>
-		<result property="emp_nm" column="EMP_NM"/>
-		<result property="position_no" column="POSITION_NO"/>
-		<result property="dept_no" column="DEPT_NO"/>
-		<result property="dVo.dept_nm" column="DEPT_NM"/>
-	</resultMap>
 	<select id="selectEmpNo" parameterType="java.lang.Integer" resultMap="EmpDeptVo">
 		SELECT * FROM EMP e
-		LEFT JOIN Department d
-		ON e.dept_no = d.dept_no
-		WHERE e.EMP_NO = #{emp_no}
+			LEFT JOIN Department d
+			ON e.dept_no = d.dept_no
+			LEFT JOIN "POSITION" p
+			ON e.position_no = p.position_no
+			WHERE e.EMP_NO = #{emp_no}
 	</select>
+
+
+<!-- 페이징 -->
+<select id="worklogDeptPaging" parameterType="java.lang.String" resultMap="worklogVo">
+	SELECT *
+	FROM(
+		SELECT w.*, e.EMP_NM , e.DEPT_NO , p.POSITION_NM , ROW_NUMBER () OVER (ORDER BY w.WORKLOG_NO DESC) RNUM
+			FROM WORKLOG w
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO 
+			LEFT JOIN "POSITION" p 
+			ON e.POSITION_NO = p.POSITION_NO
+			WHERE e.DEPT_NO = #{dept_no}
+		)
+	WHERE RNUM BETWEEN #{start} AND #{last} 
+</select>
+<select id="worklogMyPaging" parameterType="java.lang.String" resultMap="worklogVo">
+	SELECT *
+	FROM(
+		SELECT w.*, e.EMP_NM , p.POSITION_NM , ROW_NUMBER () OVER (ORDER BY w.WORKLOG_NO DESC) RNUM
+			FROM WORKLOG w
+			LEFT JOIN EMP e 
+			ON w.EMP_NO = e.EMP_NO 
+			LEFT JOIN "POSITION" p 
+			ON e.POSITION_NO = p.POSITION_NO
+			WHERE w.EMP_NO = #{emp_no}
+		)
+	WHERE RNUM BETWEEN #{start} AND #{last} 
+</select>
+
+<select id="worklogTotalPaging" resultType="java.lang.Integer">
+	 SELECT NVL(COUNT(*),0) FROM WORKLOG
+</select>
+
+<select id="worklogSWordPaging" parameterType="java.lang.String" resultMap="worklogVo">
+	SELECT *
+	FROM(
+		SELECT w.*, e.* , p.POSITION_NM , ROW_NUMBER () OVER (ORDER BY w.WORKLOG_NO DESC) RNUM
+					FROM WORKLOG w
+					LEFT JOIN EMP e 
+					ON w.EMP_NO = e.EMP_NO 
+					LEFT JOIN "POSITION" p 
+					ON e.POSITION_NO = p.POSITION_NO
+					WHERE UPPER(e.EMP_NM) LIKE UPPER('%'||#{searchWord}||'%')
+					OR UPPER(w.WORKLOG_CONTENT) LIKE UPPER('%'||#{searchWord}||'%')
+		)
+	WHERE RNUM BETWEEN #{start} AND #{last}
+</select>
+<select id="worklogSDatePaging" parameterType="java.util.Map" resultMap="worklogVo">
+	<![CDATA[
+		SELECT *
+		FROM(
+			SELECT w.*, e.*, p.POSITION_NM , ROW_NUMBER () OVER (ORDER BY w.WORKLOG_NO DESC) RNUM
+				FROM WORKLOG w
+				LEFT JOIN EMP e 
+				ON w.EMP_NO = e.EMP_NO 
+				LEFT JOIN "POSITION" p 
+				ON e.POSITION_NO = p.POSITION_NO
+				WHERE TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') >= #{startDate}
+				AND TO_CHAR(WORKLOG_REG_DT, 'YYYYMMDD') <= #{endDate}
+			)
+		WHERE RNUM BETWEEN #{start} AND #{last}
+	]]>
+</select>
+
+<!-- <select id="searchTotalPaging" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(*),0) 
+		FROM WORKLOG
+		WHERE LOWER(FORM_NM) LIKE LOWER('%'||#{formtitle}||'%')
+		ORDER BY FORM_NO DESC
+</select> -->
 
 </mapper>
 
