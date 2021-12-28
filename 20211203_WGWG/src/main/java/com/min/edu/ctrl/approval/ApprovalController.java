@@ -399,6 +399,7 @@ public class ApprovalController {
 				}
 			}
 
+			
 			String appJson = gson.toJson(approver);
 			System.out.println(appJson);
 
@@ -431,10 +432,7 @@ public class ApprovalController {
 
 			doc.setApp_doc_no(docno);
 			doc.setApp_doc_st("완료");
-//			System.out.println(doc.getApp_doc_no());
-//			System.out.println(doc.getApp_doc_st());
 			approvalServiceImpl.updateDocSt(doc);
-//			map.put("docBox", "완료");
 		}
 		map.put("docBox", "개인");
 		map.put("docno", docno);

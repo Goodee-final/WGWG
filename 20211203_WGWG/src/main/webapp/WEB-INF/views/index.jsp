@@ -1028,18 +1028,27 @@ i {
 					
 				</div>
 				<div class="main-approval">
-				<c:forEach items="${doclist1}" var="doc">
-				<div id="docSign">
+				<h4>전자결재</h4>
+				<hr>
+				<c:if test="${empty doclist1}">
+					진행중인 결재가 없습니다.
+				</c:if>
+				<c:if test="${!empty doclist1}">
+				<p>진행중</p>
+				
+						<c:forEach items="${doclist1}" var="doc">
+				<div id="docSign" class="docSign" value="${doc.app_doc_no}">
 					<div id="docSignImg">
-						<i class="fas fa-file-signature"></i>
+						<i id="Isign" class="fas fa-file-signature fa-3x"></i>
 					</div>
 					<div id="docSignInfo">
-						<p>${doc.app_doc_title }</p>
+						<h5><b>${doc.app_doc_title }</b></h5>
 						<p>${doc.emp_nm}</p>
 						<p>${doc.app_doc_reg_dt}</p>
 					</div>
 				</div>
-				</c:forEach>	
+				</c:forEach>
+				</c:if>
 				</div>
 			</div>
 		</div>
