@@ -298,7 +298,7 @@ public class EmpController {
 	public String updateMyPage(UploadFile uploadFile, HttpServletRequest req, MultipartFile mfile, HttpSession session) throws FileNotFoundException {
 		
 		String serverPath = WebUtils.getRealPath(req.getSession().getServletContext(), "/img/emp");
-		String path = "C:\\Users\\ttiat\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\img\\emp";
+		String path = "C:\\Users\\GDJ38\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\img\\emp";
 		
 		//DB에서 가져온 파일명
 		Emp emp = service.selectEmpByNo(Integer.parseInt(req.getParameter("empno")));
