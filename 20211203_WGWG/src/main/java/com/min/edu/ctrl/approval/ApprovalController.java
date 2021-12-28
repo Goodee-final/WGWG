@@ -117,7 +117,7 @@ public class ApprovalController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("doclists", doclists);
 
-		session.setAttribute("loc", "./approval/mydoclist");
+		session.setAttribute("loc", "./mydoclist.do");
 
 		return "/approval/mydoclist";
 	}
@@ -127,6 +127,7 @@ public class ApprovalController {
 		logger.info("ApprovalController 기안하기 문서 작성");
 		int empno = (Integer) session.getAttribute("loginEmp");
 		Emp empinfo = approvalServiceImpl.selectEmpInfo(empno);
+		
 		model.addAttribute("empinfo", empinfo);
 		List<Department> deptlists = approvalServiceImpl.selectAllDept();
 		List<Emp> emplists = approvalServiceImpl.selectAllEmp();
@@ -202,11 +203,20 @@ public class ApprovalController {
 		int app_line_no = Integer.parseInt(req.getParameter("app_line_no"));
 		String app_doc_title = req.getParameter("app_doc_title");
 		String app_doc_content = req.getParameter("app_doc_content");
+		String state = req.getParameter("doc_state");
 		int emp_no = Integer.parseInt(req.getParameter("emp_no"));
+		
 		Approval_Doc doc = new Approval_Doc(app_doc_title, app_doc_content, app_line_no, emp_no, form_no);
+		if(state.equals("임시저장")) {
+			doc.setApp_doc_st("임시저장");
+		}else {
+			doc.setApp_doc_st("진행");
+		}
+		
 		approvalServiceImpl.insertDoc(doc);
 		System.out.println("문서" + doc);
-		return "redirect:/";
+		session.setAttribute("loc", "");
+		return "redirect:/home.do";
 	}
 	
 	@GetMapping(value = "ingdoclist.do")
@@ -305,7 +315,7 @@ public class ApprovalController {
 
 		// 현재시간
 		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:MI");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:mm");
 		String nowTime = format.format(date);
 
 		// 라인에 싸인 정보 저장
@@ -453,10 +463,11 @@ public class ApprovalController {
 
 		int docno = Integer.parseInt(req.getParameter("docNo"));
 		String reason = req.getParameter("reason");
-
+		int empno = (Integer) session.getAttribute("loginEmp");
+		
 		// 현재시간
 		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:MI");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:mm");
 		String nowTime = format.format(date);
 
 		// 내 결재 대기 상태 n로 변경
@@ -488,7 +499,7 @@ public class ApprovalController {
 
 			// 1은 세션에 있는 회원 번호
 			// JSONARRAY에서 결재자 회원번호와 로그인한 회원번호 동일시
-			if (empJson1.getAsInt() == 2) {
+			if (empJson1.getAsInt() == empno) {
 
 				// APPROVAL[i].approval_st(승인여부) 값을 -> '반려'로 변경
 				approver = new Approver(empJson1.getAsInt(), // 결재자 회원번호

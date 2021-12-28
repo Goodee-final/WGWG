@@ -24,6 +24,7 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/img/**" location="/img/" />
 	<resources mapping="/fullcalenda/**" location="/fullcalenda/" />
+	<resources mapping="/js/**" location="/js/" />
 
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 

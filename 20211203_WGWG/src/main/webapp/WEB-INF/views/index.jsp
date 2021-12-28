@@ -39,17 +39,12 @@
 <link rel="shortcut icon" href="img/favicon2.ico" type="image/x-icon" >
 <link rel="icon" href="img/favicon2.ico" type="image/x-icon" sizes="16x16">
   
-  
-  
 <link href="fullcalenda/lib/main.css" rel="stylesheet" />
 <script type="text/javascript" src="fullcalenda/lib/main.js"></script>
 <script type="text/javascript" src="fullcalenda/lib/locales-all.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> 
  
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
  <script>
  $(function(){
 	 
@@ -397,11 +392,10 @@ request.done(function(data) {
 <script type="text/javascript">
 	
 	var loc =  "<%=session.getAttribute("loc") %>"
-	var cal =  "<%=session.getAttribute("cal") %>"
 
 	$(document).ready(function() {
 		console.log(loc);
-
+	
 		if (loc != "") {
 			$("#content").load(loc);
 		}else{
@@ -428,8 +422,23 @@ request.done(function(data) {
 			$('#content').load('./main.do');
 		});
 		
+	
+		$('#alert-img').popover({title: "<h6>결재 요청</h6>", container: 'body', 
+			content:	" <c:if test='${!empty doclist}'><c:forEach var='doc' items='${doclist}' varStatus='i'><div class='noticeDoc' value='${doc.app_doc_no}'><p id='pp'>${doc.emp_nm}에게서 새로운 결재요청이 왔습니다.</p><input type='hidden' value='${doc.app_doc_no}'> </div> <hr> </c:forEach></c:if>"
+    					, html: true, placement: "bottom"}); 
 		
 	});
+	
+	function docwait(){
+
+		$('.noticeDoc').click(function(){
+			var no =  $(this).find('input[type=hidden]').val();
+			console.log(no);
+			var state = '결재대기'
+		
+		$("#content").load("./docdetail.do?docno=" + no + "&docBox=" + state);
+		});
+	}	
 
 </script>
 <script type="text/javascript">
@@ -456,14 +465,29 @@ request.done(function(data) {
 
 <style>
 
+.noticeDoc:hover{ 
+	background-color: #eee; 
+	cursor: pointer; 
+} 
+
 /*header  */
 html, body {
+	
 	margin: 0;
 	padding: 0;
 }
 
 
-/* a {
+#id{
+	margin: 0px;
+}
+
+.popover{ 
+    max-width: 100%; /* Max Width of the popover (depending on the container!) */
+} 
+
+/*a {
+
 	text-decoration: none;
 	width: max-content;
 	height: max-content;
@@ -799,6 +823,8 @@ i {
 				</li>
 				<li>
 					<div class="nav-icon" id="alert-img"></div>
+<%-- 					<input type="hidden" name="emp_nm" id="doclist" value="${emp_nm}" hidden="hidden"/> --%>
+					
 				</li>
 				<li>
 					<div class="nav-icon" id="logout-img" onclick="location.href='./logout.do'"></div>
@@ -975,4 +1001,6 @@ i {
 			<p>상호명: GOODEE</p>
 		</div>
     </footer>
+    
+   
 </body>
