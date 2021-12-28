@@ -5,6 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	$(document).ready(function(){
+	   $('#backbtn').click(function(){
+	      $('#content').load('./formlist.do');
+	   });
+	})
+
+</script>
 <style>
 	.formDetail {
 		margin: 0 auto;
@@ -58,7 +66,7 @@
 				<td colspan="2">${selectForm.template}</td>
 			</tr>
 		</table>
-		<button id="backbtn" onclick="location.href='./formlist.do'">목록으로 돌아가기</button>
+		<button id="backbtn">목록으로 돌아가기</button>
 	</div>
 </body>
 </html>
