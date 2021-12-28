@@ -17,27 +17,7 @@
 		
 		console.log(empnoVal);
 		
-		location.href="./updateEmpForm.do?emp_no="+empnoVal;
-		
-		/*  $.ajax({
-			contentType:"application/json",
-			type:"get",
-			data:{
-				"emp_no":emp_no
-			},
-			url:"/updateEmpForm.do",
-			success:function(data){
-				console.log("send emp_no");
-			},
-			error:function(){
-				console.log("no emp_no");
-			}
-			
-		});
-		
-		$("#content").load("./updateEmpForm.do?emp_no="+emp_no);
-		console.log("updateEmpForm.do?emp_no="+emp_no); */ 
-		
+		$("#content").load("./updateEmpForm.do?emp_no="+empnoVal);
   	});
 </script>
 <style type="text/css">
@@ -53,7 +33,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div class="container">
+<div class="container" style="margin-left:50px;">
   <h2 id="emppaging">사원목록</h2>
   	<select name="searchBy" id="searchBy" class="form-control">
   	<c:if test="${paging.searchBy == '전체보기'}">
@@ -91,6 +71,7 @@
         <th>사원번호</th>
         <th>이름</th>
         <th>직급</th>
+        <th>근무상태</th>
       </tr>
     </thead>
     <tbody>
@@ -100,6 +81,7 @@
           <td>${empList.emp_no}</td>
           <td>${empList.emp_nm}</td>
           <td>${empList.pVo.position_nm}</td>
+          <td>${empList.work_st}</td>
         </tr>
     </c:forEach>
       

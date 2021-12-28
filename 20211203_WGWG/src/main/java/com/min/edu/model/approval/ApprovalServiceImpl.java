@@ -33,31 +33,26 @@ public class ApprovalServiceImpl implements IApprovalService {
 
 	@Override
 	public Approval_Doc selectOneDoc(int docno) {
-		// TODO Auto-generated method stub
 		return dao.selectOneDoc(docno);
 	}
 
 	@Override
 	public Emp selectEmpInfo(int empno) {
-		// TODO Auto-generated method stub
 		return dao.selectEmpInfo(empno);
 	}
 
 	@Override
 	public List<Emp> selectAllEmp() {
-		// TODO Auto-generated method stub
 		return dao.selectAllEmp();
 	}
 
 	@Override
 	public List<Department> selectAllDept() {
-		// TODO Auto-generated method stub
 		return dao.selectAllDept();
 	}
 	
 	@Override
 	public List<Position> selectAllPosition() {
-		// TODO Auto-generated method stub
 		return dao.selectAllPosition();
 	}
 	
@@ -69,6 +64,11 @@ public class ApprovalServiceImpl implements IApprovalService {
 	@Override
 	public int insertappline(Approval_line appline) {
 		return dao.insertappline(appline);
+	}
+	
+	@Override
+	public List<Approval_Doc> selectListIng(Approval_Doc doc) {
+		return dao.selectListIng(doc);
 	}
 	
 	@Override
@@ -164,10 +164,10 @@ public class ApprovalServiceImpl implements IApprovalService {
 		return dao.selectfeedback(docno);
 	}
 
-
-
-
-
+	@Override
+	public int updateDoc(Approval_Doc doc) {
+		return dao.updateDoc(doc);
+	}
 
 
 }

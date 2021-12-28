@@ -54,6 +54,8 @@
   
 	<mapper resource="mapper/emp_mapper.xml"/>
 	<mapper resource="mapper/emp_seq_mapper.xml"/>
+	<mapper resource="mapper/dept_mapper.xml"/>
+	<mapper resource="mapper/position_mapper.xml"/>
 	
 	<mapper resource="mapper/approval_mapper.xml"/>
 	

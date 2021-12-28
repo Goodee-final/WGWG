@@ -52,6 +52,11 @@
    			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO ORDER BY e.EMP_NO
 	</select>
 	
+	<select id="selectEmpByNo" parameterType="java.lang.Integer" resultType="empvo">
+		SELECT EMP_NO, PW, EMP_NM, EMAIL, PHOTO, ADDRESS, TEL, HIREDATE, BIRTH, POSITION_NO, DEPT_NO, WORK_ST
+			FROM EMP WHERE EMP_NO=#{emp_no}
+	</select>
+	
 	<select id="getLogin" parameterType="java.util.Map" resultType="empvo">
 		SELECT EMP_NO, EMP_NM, PW, 
 				EMAIL, PHOTO, ADDRESS, 
@@ -60,6 +65,13 @@
  			FROM EMP e 
  			WHERE EMP_NO=#{emp_no} AND PW=#{pw}
 	</select>
+	
+	<select id="selectMyPage" parameterType="java.lang.Integer" resultMap="selectAllMap">
+		SELECT e.EMP_NO, e.PW, e.EMP_NM ,e.EMAIL ,e.PHOTO ,e.ADDRESS ,e.TEL ,e.HIREDATE ,P.POSITION_NM,d.DEPT_NM,e.WORK_ST ,e.BIRTH
+   			FROM EMP e, DEPARTMENT d, "POSITION" p 
+   			WHERE e.DEPT_NO=d.DEPT_NO AND e.POSITION_NO = p.POSITION_NO AND EMP_NO =#{emp_no}
+	</select>
+	
 	
 	<select id="getRandomPw" resultType="java.lang.String">
 		SELECT DBMS_RANDOM.STRING('P', 8) FROM DUAL
@@ -75,8 +87,12 @@
 			WHERE EMP_NO=#{emp_no}
 	</update>
 	
+	<select id="getSessionPW" parameterType="java.lang.Integer" resultType="java.lang.String">
+		SELECT PW FROM EMP WHERE EMP_NO=#{emp_no}
+	</select>
+	
 	<select id="selectPaging" parameterType="com.min.edu.vo.emp.Emp_Page" resultMap="selectAllMap">
-	SELECT DEPT_NM, EMP_NO, EMP_NM, POSITION_NM 
+	SELECT DEPT_NM, EMP_NO, EMP_NM, POSITION_NM, WORK_ST 
 	FROM (
 		SELECT ROW_NUMBER() OVER(ORDER BY e.EMP_NO) RNUM, e.*,d.*,p.* 
 			FROM EMP e , DEPARTMENT d,"POSITION" p 
@@ -91,6 +107,7 @@
 			<if test="searchBy == '부서' and searchWord != null">
 				AND d.DEPT_NM LIKE LOWER('%'||#{searchWord}||'%')
 			</if>
+			AND e.WORK_ST IN ('재직','휴직')
 			ORDER BY e.EMP_NO
 				) WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
@@ -110,4 +127,22 @@
 			AND d.DEPT_NM LIKE LOWER('%'||#{paging.searchWord}||'%')
 		</if>
 	</select>
+	
+	<update id="updateEmp" parameterType="empvo">
+		UPDATE EMP
+			SET EMP_NM=#{emp_nm}, WORK_ST=#{work_st}, POSITION_NO=#{position_no}, DEPT_NO=#{dept_no}
+			WHERE EMP_NO=#{emp_no}
+	</update>
+	
+	<update id="updateMyPage" parameterType="empvo">
+		UPDATE EMP
+			SET PHOTO=#{photo}, PW=#{pw}, ADDRESS=#{address}, TEL=#{tel}, EMAIL =#{email}
+			WHERE EMP_NO=#{emp_no}
+	</update>
+	
+	<update id="updateMyPage_NoPhoto" parameterType="empvo">
+		UPDATE EMP
+			SET ADDRESS=#{address}, PW=#{pw}, TEL=#{tel}, EMAIL =#{email}
+			WHERE EMP_NO=#{emp_no}
+	</update>
 </mapper>
