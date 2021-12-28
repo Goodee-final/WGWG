@@ -41,21 +41,8 @@ var request = $.ajax({
   dataType: "json",
   data: {},
 	  success: function (msg) {
-		  console.log(msg);
-		  $.each(msg,function(key,value){	
-			  console.log(value.description);
-			  events: ([
-			         {
-					   title: value.title,
-			           start: value.start,
-			           end: value.end,
-			           textColor:value.textColor,
-			           backgroundColor:value.backgroundColor,
-			           extendedProps:value.description,	
-			           id:value.id
-			  }]);
-		         
-		 });
+		  console.log(msg);	
+		  console.log(typeof(msg));		  
 	  } 
 });
 
@@ -99,12 +86,9 @@ request.done(function(data) {
       locale: 'ko',
       
       
-      //드래그로 이벤트발생
+     
       select: function(msg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-    	  
-    	 
-    	  modalTitle.html('일정 등록');
-      	    
+    	  modalTitle.html('일정 등록');      	    
           editTitle.val('');
           editStart.val(dateFormat(msg.start));
           editEnd.val(dateFormat2(msg.end));
@@ -117,7 +101,6 @@ request.done(function(data) {
       	  eventModal.modal('show');
       	 
       	  $('#save-event').on('click', function () {
-
              var eventData = {		                    
                  title: editTitle.val(),
                  start: editStart.val(),
@@ -126,29 +109,16 @@ request.done(function(data) {
                  backgroundColor: editColorbg.val(),
                  description: editDesc.val()
              };
-
              if (eventData.start > eventData.end) {
                  alert('끝나는 날짜가 앞설 수 없습니다.');
                  return false;
              }
-
-             if (eventData.title === '') {
+             if (eventData.title.trim() == '') {
                  alert('일정명은 필수입니다.');
                  return false;
-             }
-
-             
-	                 
+             }     
              eventModal.modal('hide');
              
-             //새로운 일정 저장
-				console.log(${emp.emp_no});
-				console.log(eventData.title);
-				console.log(eventData.start);
-				console.log(eventData.end);
-				console.log(eventData.textColor);
-				console.log(eventData.backgroundColor);
-				console.log(eventData.description);
              $.ajax({
          		url : "./calendarsave.do",
          		type : "post",
@@ -165,17 +135,8 @@ request.done(function(data) {
          		},
         		success : function(msg){
         			 if(doubleSubmitCheck()) return;
-
-        			alert("일정 등록에 성공했습니다");
-        			/*  calendar.addEvent({         				
-        			   title: msg.title,
-  			           start: msg.start,
-  			           end: msg.end,
-  			           textColor:msg.textColor,
-  			           backgroundColor:msg.backgroundColor,
-  			           extendedProps:msg.description,	
-  			           id:msg.id
-        			});  */   
+        			alert("일정 등록에 성공했습니다");   
+        			
         			$('#content').load("./loadForm.do"); 
         		},
         		
@@ -206,34 +167,18 @@ request.done(function(data) {
       	    eventModal.modal('show');
     	
       },*/
-      eventClick: function(msg) { // 있는 일정 클릭시, 
-    	 
-      	    if (msg.event.end == null) {
-      	        msg.event.end = msg.event.start;
-      	    }
-      	  	     
-      		console.log(msg.event.extendedProps.description);
-          	
+      eventClick: function(msg) { // 있는 일정 클릭시,       	
       	    modalTitle.html('일정 수정');
       	    editTitle.val(msg.event.title);
-      	    console.log(msg.event.start);
-      	    console.log(msg.event.end);
       	  	editStart.val(dateFormat3(msg.event.start));
       	    editEnd.val(dateFormat3(msg.event.end));
-      		console.log(msg.event.textColor);
-      	 	console.log(msg.event.backgroundColor);
       	    editColortx.val(msg.event.textColor).css('color', msg.event.textColor);
       	    editColorbg.val(msg.event.backgroundColor).css('color', msg.event.backgroundColor);
-      	 	console.log(msg.event.description);
-      	 	console.log(typeof(data));
       	    editDesc.val(msg.event.extendedProps.description);
       	    editid.val(msg.event.id);
-      	    console.log(msg.event.id);
-      	    console.log(editid.val());
       	    addBtnContainer.hide();
       	    modifyBtnContainer.show();
       	    eventModal.modal('show');
-
 			
       	   $('#updateEvent').on('click', function () {
       		 if (editStart.val() > editEnd.val()) {
@@ -241,13 +186,13 @@ request.done(function(data) {
                  return false;
              }
 
-             if (editTitle.val() === '') {
+             if (editTitle.val().trim() == '') {
                  alert('일정명은 필수입니다.')
                  return false;
              }
              
              eventModal.modal('hide');
-             $.ajax({
+               $.ajax({
             		url : "./calendarupdate.do",
             		type : "post",
             		dataType : "json",
