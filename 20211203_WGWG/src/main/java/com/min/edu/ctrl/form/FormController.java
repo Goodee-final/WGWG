@@ -36,19 +36,9 @@ public class FormController {
 	@RequestMapping(value="/formlist.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String formList(Model model, HttpServletRequest req){
 		logger.info("양식 리스트 화면 이동");
-//		List<Form> formList = service.selectFormList();
-//		model.addAttribute("formList",formList);
-		PagingDto paging = new PagingDto(
-				req.getParameter("index"), 
-				req.getParameter("pageStartNum"),
-				req.getParameter("listCnt")
-				);
-		paging.setTotal(service.selectTotalPaging());
-	  	List<Form> formList = service.selectPaging(paging);
+	  	List<Form> formList = service.selectFormList();
 	
 	  	model.addAttribute("formList", formList);
-	  	model.addAttribute("paging", paging);
-	  	logger.info("페이징 DTO 값: {}", paging.toString());
 		return "/form/formlist";
 	}
 	
@@ -80,17 +70,12 @@ public class FormController {
 		if(content.length()%3500 != 0) {
 			cnt ++;
 		}
-//		System.out.println(cnt);
 		int i;
 		for (i = 0; i < cnt-1; i++) {
 			longtemp.add(content.substring(i*3500, (i+1)*3500)) ;
 		}
 		
-//		System.out.println(template.size());
 		longtemp.add(content.substring(i*3500)) ;
-//		System.out.println(words.size());
-//		for (String s : words) {
-//			System.out.println(s.length());
 //		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("form_nm", title);
@@ -99,7 +84,7 @@ public class FormController {
 		
 		int insert = service.insertForm(map);
 		if(insert > 0) {
-			return "redirect:/formlist.do";
+			return "redirect:/home.do";
 		} else {
 			return "redirect:/insertform.do";
 		}
@@ -108,19 +93,8 @@ public class FormController {
 	@RequestMapping(value="/formsearch.do", method=RequestMethod.POST)
 	public String formSearch(@RequestParam String formtitle, Model model, HttpServletRequest req) {
 		System.out.println(formtitle);
-		PagingDto paging = new PagingDto(
-				req.getParameter("index"), 
-				req.getParameter("pageStartNum"),
-				req.getParameter("listCnt")
-				);
-		paging.setTotal(service.searchTotalPaging(formtitle));
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("formtitle",formtitle);
-		map.put("start", paging.getPageStartNum());
-		map.put("last",paging.getListCnt());
-		List<Form> formList = service.searchPaging(map);
+		List<Form> formList = service.searchFormList(formtitle);
 		model.addAttribute("formList",formList);
-		model.addAttribute("paging", paging);
 		return "/form/formlist";
 	}
 	

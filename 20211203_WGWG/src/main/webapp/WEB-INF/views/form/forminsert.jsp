@@ -98,7 +98,6 @@ $(function(){
       $("#save").click(function(){
           oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
           var formclassification = $("select[name=formclassification]").val();
-          $('#content').load('./formlist.do');
           $("#frm").submit();
       });
       
