@@ -209,7 +209,7 @@ th {
 </style>
 <body>
 
-	<form action="./docinsert.do" method="post">
+	<form action="./docinsert.do" method="post" id="frmDoc">
 		<div class="container">
 			<h1>기안하기</h1>
 			<p>결재문서 작성하기</p>
@@ -259,9 +259,10 @@ th {
 				<textarea rows="20" cols="135" id="ir1" name="app_doc_content"></textarea>
 			</div>
 			<div id="nextbtn">
-				<button type="button" class="bttn" onclick="">임시저장</button>
+				<button type="button" class="bttn" id="tempSave">임시저장</button>
 				<button type="submit" class="bttn" id="save" >상신</button>
 				<button type="button" class="bttn" onclick="stopdoc()">기안취소</button>
+				<input type="hidden" name="doc_state" id="doc_state" value="">
 			</div>
 		</div>
 	</form>
@@ -606,12 +607,51 @@ th {
              var content = document.getElementById("ir1").value;
              //var data = data.replace(/[<][^>]*[>]/g, '');
              //console.log(data);
-
-             var form_no = $('#formList option:selected').val();
-             console.log(form_no);
-             $("input[name=form_num]").attr("value", form_no);
+             if($('#formList option:selected').val() == ''){
+            	 alert('양식을 선택해 주세요');
+             } else if($('#lineDiv0').length <= 0){
+            	 alert('결재라인을 선택해 주세요.')
+             } else if($("#title").val() == ''){
+                 alert("제목을 입력해 주세요.");
+             } else{
+            	 
+	             var form_no = $('#formList option:selected').val();
+	             console.log(form_no);
+	             $("input[name=form_num]").attr("value", form_no);
+	             $("#doc_state").attr("value","상신");
+	             
+	             $("#frm").submit();
+             	 alert('결재문서가 상신 되었습니다.');
+             }
              
-             $("#frm").submit();
+             
+
+         });
+         $("#tempSave").click(function(){
+             oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+             var content = document.getElementById("ir1").value;
+             //var data = data.replace(/[<][^>]*[>]/g, '');
+             //console.log(data);
+             if($('#formList option:selected').val() == ''){
+            	 alert('양식을 선택해 주세요');
+             } else if($('#lineDiv0').length <= 0){
+            	 alert('결재라인을 선택해 주세요.')
+             } else if($("#title").val() == ''){
+                 alert("제목을 입력해 주세요.");
+             } else{
+            	 
+	             var form_no = $('#formList option:selected').val();
+	             console.log(form_no);
+	             $("input[name=form_num]").attr("value", form_no);
+	             $("#doc_state").attr("value","임시저장");
+	             
+	             
+	             $("#frmDoc").submit();
+             
+             	 alert('결재문서가 임시저장 되었습니다.');
+             }
+             
+             
 
          });
    });

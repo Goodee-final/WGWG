@@ -42,6 +42,7 @@
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+<script src="js/approve.js"></script>
 
 <script type="text/javascript">
 	
@@ -50,7 +51,7 @@
 
 	$(document).ready(function() {
 		console.log(loc);
-
+	
 		if (loc != "") {
 			$("#content").load(loc);
 		}else{
@@ -69,21 +70,63 @@
 			$('#content').load('./main.do');
 		});
 		
+	
+
+
+
+		
+// 		var doclist = $('#doclist').val();
+		
+		$('#alert-img').popover({title: "<h6>결재 요청</h6>", container: 'body', 
+			content:	" <c:if test='${!empty doclist}'><c:forEach var='doc' items='${doclist}' varStatus='i'><div class='noticeDoc' onclick='docwait()' value='${doc.app_doc_no}'><p id='pp'>${doc.emp_nm}에게서 새로운 결재요청이 왔습니다.</p><input type='hidden' value='${doc.app_doc_no}'> </div> <hr> </c:forEach></c:if>"
+    					, html: true, placement: "bottom"}); 
+		
+	
+		$('.noticeDoc').click(function(){
+			var no =  $(this).find('input[type=hidden]').val();
+			console.log(no);
+			var state = '결재대기'
+			
+			$("#content").load("./docdetail.do?docno=" + no + "&docBox=" + state);
+		});
 		
 	});
 
+	
+	function docwait(){
 
-
+		$('.noticeDoc').click(function(){
+			var no =  $(this).find('input[type=hidden]').val();
+			console.log(no);
+			var state = '결재대기'
+		
+		$("#content").load("./docdetail.do?docno=" + no + "&docBox=" + state);
+		});
+	}	
 </script>
 
 
 <style>
 
+.noticeDoc:hover{ 
+	background-color: #eee; 
+	cursor: pointer; 
+} 
+
 /*header  */
 html, body {
+	
 	margin: 0;
 	padding: 0;
 }
+
+#id{
+	margin: 0px;
+}
+
+.popover{ 
+    max-width: 100%; /* Max Width of the popover (depending on the container!) */
+} 
 
 /*a {
 	text-decoration: none;
@@ -421,6 +464,8 @@ i {
 				</li>
 				<li>
 					<div class="nav-icon" id="alert-img"></div>
+<%-- 					<input type="hidden" name="emp_nm" id="doclist" value="${emp_nm}" hidden="hidden"/> --%>
+					
 				</li>
 				<li>
 					<div class="nav-icon" id="logout-img" onclick="location.href='./logout.do'"></div>
@@ -589,4 +634,6 @@ i {
 			<p>상호명: GOODEE</p>
 		</div>
     </footer>
+    
+   
 </body>

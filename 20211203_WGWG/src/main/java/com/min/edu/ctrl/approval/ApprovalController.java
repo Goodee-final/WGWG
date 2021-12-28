@@ -117,7 +117,7 @@ public class ApprovalController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("doclists", doclists);
 
-		session.setAttribute("loc", "./approval/mydoclist");
+		session.setAttribute("loc", "./mydoclist.do");
 
 		return "/approval/mydoclist";
 	}
@@ -127,6 +127,7 @@ public class ApprovalController {
 		logger.info("ApprovalController 기안하기 문서 작성");
 		int empno = (Integer) session.getAttribute("loginEmp");
 		Emp empinfo = approvalServiceImpl.selectEmpInfo(empno);
+		
 		model.addAttribute("empinfo", empinfo);
 		List<Department> deptlists = approvalServiceImpl.selectAllDept();
 		List<Emp> emplists = approvalServiceImpl.selectAllEmp();
@@ -202,11 +203,20 @@ public class ApprovalController {
 		int app_line_no = Integer.parseInt(req.getParameter("app_line_no"));
 		String app_doc_title = req.getParameter("app_doc_title");
 		String app_doc_content = req.getParameter("app_doc_content");
+		String state = req.getParameter("doc_state");
 		int emp_no = Integer.parseInt(req.getParameter("emp_no"));
+		
 		Approval_Doc doc = new Approval_Doc(app_doc_title, app_doc_content, app_line_no, emp_no, form_no);
+		if(state.equals("임시저장")) {
+			doc.setApp_doc_st("임시저장");
+		}else {
+			doc.setApp_doc_st("진행");
+		}
+		
 		approvalServiceImpl.insertDoc(doc);
 		System.out.println("문서" + doc);
-		return "redirect:/";
+		session.setAttribute("loc", "");
+		return "redirect:/home.do";
 	}
 	
 	@GetMapping(value = "ingdoclist.do")
@@ -305,7 +315,7 @@ public class ApprovalController {
 
 		// 현재시간
 		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:MI");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:mm");
 		String nowTime = format.format(date);
 
 		// 라인에 싸인 정보 저장
