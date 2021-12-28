@@ -36,11 +36,10 @@ public class MainController {
 	private IMainService mainService;
 	
 	@Autowired
-	private IApprovalService appService;
+	private IApprovalService approvalServiceImpl;
 	
 	@Autowired
 	private IWorkLogService workLogService;
-	
 	
 	@RequestMapping(value="/home.do", method=RequestMethod.GET)
 	public String home(Model model, HttpSession session) {
@@ -50,7 +49,7 @@ public class MainController {
 		model.addAttribute("noticeList", noticeList);
 		logger.info("로그인한 사원번호{}",session.getAttribute("loginEmp"));
 		int emp_no = (Integer)session.getAttribute("loginEmp");
-		Emp emp = appService.selectEmpInfo(emp_no);
+		Emp emp = empService.selectEmpByNo(emp_no);
 
 		Approval_Doc doc = new Approval_Doc();
 		Approval_Doc doc1 = new Approval_Doc();
@@ -79,6 +78,7 @@ public class MainController {
 		}	
 		
 	    model.addAttribute("emp",emp);
+	    logger.info("*******dept_no : {}",emp.getDept_no());
 	    model.addAttribute("doclist",doclist);
 	    model.addAttribute("doclist1",doclist1);
 //	    session.setAttribute("loc", "./main.do");
