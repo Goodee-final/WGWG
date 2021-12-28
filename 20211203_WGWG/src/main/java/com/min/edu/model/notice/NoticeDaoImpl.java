@@ -119,6 +119,12 @@ public class NoticeDaoImpl implements INoticeDao {
 		return sqlSession.selectOne(NS+"selectEList",emp_no);
 	}
 
+	@Override
+	public Emp selectEmpDeptNm(int emp_no) {
+		logger.info("selectEmpDeptNm 부서이름가져오기 {}",emp_no);
+		return sqlSession.selectOne(NS+"selectEmpDeptNm",emp_no);
+	}
+
 	
 
 	
