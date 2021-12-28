@@ -52,68 +52,57 @@
 				SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, 
 				SCHEDULE_TX_COLOR, SCHEDULE_BG_COLOR, SCHEDULE_CHK, EMP_NO)
 		VALUES(SCHEDULE_NO_SEQ.NEXTVAL, #{schedule_title}, #{schedule_content},
-				 #{schedule_startday}, #{schedule_endday}, #{allday},
-				 #{schedule_tx_color}, #{schedule_bg_color}, 'C', #{emp_no})
+				 TO_DATE(#{schedule_startday}, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(#{schedule_endday}, 'YYYY-MM-DD HH24:MI:SS'),NULL, 
+				  #{schedule_tx_color}, #{schedule_bg_color}, 'C', #{emp_no})
 </insert>
 <!-- 개인일정 List -->
 <select id="getAllPerList" parameterType="java.lang.Integer" resultType="ScheduleVo">
-	 SELECT SCHEDULE_NO,SCHEDULE_TITLE,SCHEDULE_CONTENT, SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, SCHEDULE_TX_COLOR, SCHEDULE_BG_COLOR,EMP_NO
+	 SELECT SCHEDULE_NO,SCHEDULE_TITLE,SCHEDULE_CONTENT, 
+	 		SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, 
+	 		SCHEDULE_TX_COLOR, SCHEDULE_BG_COLOR,EMP_NO
  		FROM SCHEDULE
  		WHERE EMP_NO = #{emp_no} AND SCHEDULE_CHK ='P'
 </select>
 <!-- 회사일정 List -->
 <select id="getAllComList" resultType="ScheduleVo">
-	SELECT SCHEDULE_NO,SCHEDULE_TITLE, SCHEDULE_CONTENT,
+	SELECT SCHEDULE_NO,SCHEDULE_TITLE,SCHEDULE_CONTENT, 
 	 		SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, 
-			 SCHEDULE_TX_COLOR, SCHEDULE_BG_COLOR
-	FROM SCHEDULE s 
-	WHERE SCHEDULE_CHK ='C'
+	 		SCHEDULE_TX_COLOR, SCHEDULE_BG_COLOR,EMP_NO
+		FROM SCHEDULE
+		WHERE SCHEDULE_CHK ='C'
 </select>
-<!-- 굥유일정 List -->
+<!-- 공유일정 List -->
 <select id="getAllSharedList" parameterType="Integer" resultType="ScheduleVo">
-SELECT S.SCHEDULE_NO ,S.SCHEDULE_TITLE ,S.SCHEDULE_CONTENT,
-		S.SCHEDULE_STARTDAY ,S.SCHEDULE_ENDDAY ,S.ALLDAY,
-		S.SCHEDULE_TX_COLOR ,S.SCHEDULE_BG_COLOR
-	FROM SCHEDULE S JOIN SHARED_SCHEDULE P
-	ON S.SCHEDULE_NO = P.SCHEDULE_NO AND P.SCHEDULE_CHK ='Y' AND S.SCHEDULE_CHK ='P'
- 	WHERE P.EMP_NO = #{emp_no}
+	SELECT S.SCHEDULE_NO ,S.SCHEDULE_TITLE ,S.SCHEDULE_CONTENT,
+			S.SCHEDULE_STARTDAY ,S.SCHEDULE_ENDDAY ,S.ALLDAY,
+			S.SCHEDULE_TX_COLOR ,S.SCHEDULE_BG_COLOR,EMP_NO
+		FROM SCHEDULE S JOIN SHARED_SCHEDULE P
+		ON S.SCHEDULE_NO = P.SCHEDULE_NO AND P.SCHEDULE_CHK ='Y' AND S.SCHEDULE_CHK ='P'
+ 		WHERE P.EMP_NO = #{emp_no}
  </select>
-<!-- 개인일정 상세보기 -->
-<select id="getOnePerson" parameterType="Integer" resultType="ScheduleVo"> 
-	SELECT SCHEDULE_NO,SCHEDULE_TITLE, SCHEDULE_CONTENT,
-	 		SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, 
-			 SCHEDULE_TX_COLOR, SCHEDULE_BG_COLOR
-	FROM SCHEDULE s 
-	WHERE SCHEDULE_CHK ='P' AND SCHEDULE_NO =#{schedule_no}
-</select>
+ 
+ 
+
 <!-- 공유한 일정이 있으면 공유한 사람들 인원 나오도록? -->
 <select id="getShaPerson">
 	SELECT *
 		FROM 
-</select>
-<!-- 회사일정 상세보기 -->
-<select id="getOneCompany" parameterType="Integer" resultType="ScheduleVo">
-	SELECT SCHEDULE_NO,SCHEDULE_TITLE, SCHEDULE_CONTENT,
-	 		SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, 
-			 SCHEDULE_TX_COLOR, SCHEDULE_BG_COLOR
-	FROM SCHEDULE s 
-	WHERE SCHEDULE_CHK ='C' AND SCHEDULE_NO =#{schedule_no}
-</select>
+</select> 
+
 <!-- 개인일정 수정 -->
 <update id="updateScheduleP" parameterType="ScheduleVo">
 	UPDATE SCHEDULE 	
-	SET SCHEDULE_TITLE=#{schedule_title}, SCHEDULE_CONTENT=#{schedule_content}, SCHEDULE_STARTDAY=#{schedule_startday}, 
-		SCHEDULE_ENDDAY=#{schedule_endday}, ALLDAY=#{allday}, SCHEDULE_TX_COLOR=#{schedule_tx_color},
-		SCHEDULE_BG_COLOR=#{schedule_bg_color}
-	WHERE SCHEDULE_NO=#{schedule_no} AND EMP_NO =#{emp_no} AND SCHEDULE_CHK ='P'
+	SET SCHEDULE_TITLE=#{schedule_title}, SCHEDULE_CONTENT=#{schedule_content}, SCHEDULE_STARTDAY= TO_DATE(#{schedule_startday}, 'YYYY-MM-DD HH24:MI:SS'), 
+		SCHEDULE_ENDDAY=TO_DATE(#{schedule_endday}, 'YYYY-MM-DD HH24:MI:SS'), SCHEDULE_TX_COLOR=#{schedule_tx_color}, SCHEDULE_BG_COLOR=#{schedule_bg_color}
+	WHERE SCHEDULE_NO=#{schedule_no} AND EMP_NO =#{emp_no}	
 </update>
 <!-- 회사일정 수정 부서까지 생각해야됨 -->
 <update id="updateScheduleC" parameterType="ScheduleVo">
-UPDATE SCHEDULE
-	SET SCHEDULE_TITLE=#{schedule_title}, SCHEDULE_CONTENT=#{schedule_content}, SCHEDULE_STARTDAY=#{schedule_startday}, 
-		SCHEDULE_ENDDAY=#{schedule_endday}, ALLDAY=#{allday}, SCHEDULE_TX_COLOR=#{schedule_tx_color},
-		SCHEDULE_BG_COLOR=#{schedule_bg_color}
-	WHERE SCHEDULE_NO=#{schedule_no} EMP_NO =#{emp_no}
+UPDATE SCHEDULE 	
+	SET SCHEDULE_TITLE=#{schedule_title}, SCHEDULE_CONTENT=#{schedule_content}, SCHEDULE_STARTDAY= TO_DATE(#{schedule_startday}, 'YYYY-MM-DD HH24:MI:SS'),  
+		SCHEDULE_ENDDAY=TO_DATE(#{schedule_endday}, 'YYYY-MM-DD HH24:MI:SS'), SCHEDULE_TX_COLOR=#{schedule_tx_color}, SCHEDULE_BG_COLOR=#{schedule_bg_color},
+		EMP_NO = #{emp_no}
+	WHERE SCHEDULE_NO=#{schedule_no}
 </update>
 
 <!-- 개인일정 삭제 -->
@@ -126,4 +115,25 @@ UPDATE SCHEDULE
 	DELETE 
 		FROM SCHEDULE WHERE SCHEDULE_NO=#{schedule_no} AND SCHEDULE_CHK ='C'
 </delete>
+
+
+
+<!-- 개인일정 상세보기 -->
+<select id="getOnePerson" parameterType="Integer" resultType="ScheduleVo"> 
+	SELECT SCHEDULE_NO,SCHEDULE_TITLE, SCHEDULE_CONTENT,
+	 		SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, 
+			 SCHEDULE_TX_COLOR, SCHEDULE_BG_COLOR
+	FROM SCHEDULE s 
+	WHERE SCHEDULE_CHK ='P' AND SCHEDULE_NO =#{schedule_no}
+</select>
+<!-- 회사일정 상세보기 -->
+<select id="getOneCompany" parameterType="Integer" resultType="ScheduleVo">
+	SELECT SCHEDULE_NO,SCHEDULE_TITLE, SCHEDULE_CONTENT,
+	 		SCHEDULE_STARTDAY, SCHEDULE_ENDDAY, ALLDAY, 
+			 SCHEDULE_TX_COLOR, SCHEDULE_BG_COLOR
+	FROM SCHEDULE s 
+	WHERE SCHEDULE_CHK ='C' AND SCHEDULE_NO =#{schedule_no}
+</select>
+
+
 </mapper>

@@ -52,13 +52,17 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public String login(Emp emp, Model model, HttpSession session) throws IOException {
+	public String login(Emp emp, Model model, HttpSession session, HttpServletRequest req) throws IOException {
 		logger.info("LoginController @SessionAttribute 사용 {}", emp);
-
+  
+    Emp chkemp = service.selectEmpByNo(Integer.parseInt(req.getParameter("emp_no")));
 		Emp loginEmp = service.getLogin(emp);
 		logger.info("로그인 값{}", loginEmp);
 		if (loginEmp == null) {
 			model.addAttribute("message", "정보가 일치하지 않습니다.");
+			return "emp/loginForm";
+		}else if(chkemp.getWork_st().equals("퇴직")) {
+			model.addAttribute("message","존재하지 않는 사용자입니다.");
 			return "emp/loginForm";
 		}
 		model.addAttribute("loginEmp", loginEmp);
@@ -74,7 +78,6 @@ public class LoginController {
 		logger.info("@@@@ session.setAttribute(\"loginList\", allSessionList) : {}", allSessionList);
 
 		return "redirect:/home.do";
-
 	}
 
 
@@ -120,33 +123,33 @@ public class LoginController {
 		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
 		Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(user, password);
-			}
-		});
-		try {
-			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(user));
 
-			// 수신자메일주소
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-			// Subject
-			message.setSubject("구디 그룹웨어에서 전송한 메일입니다."); // 메일 제목을 입력
-			// Text
+			protected PasswordAuthentication getPasswordAuthentication() { 
+				return new PasswordAuthentication(user, password); 
+				} 
+			}); 
+		try { 
+			MimeMessage message = new MimeMessage(session); 
+			message.setFrom(new InternetAddress(user)); 
+			
+			//수신자메일주소 
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email)); 
+			message.setSubject("구디 그룹웨어에서 전송한 메일입니다.");
 			String content = "<h3>아래 임시 비밀번호로 로그인 해 주시기 바랍니다.</h3><br>"
 					+ "<div style='height: 50px; width: 150px; border: 1px solid #eee;'>"
-					+ "<p style='margin-left: 15px;'>" + RandomPw + "</p>" + "</div><br>"
-					+ "<a href='http://localhost:8096/20211203_WGWG/loginForm.do'>로그인페이지로 이동</a>";
-			message.setText(content, "UTF-8", "html"); // 메일 내용을 입력
-			// send the message
-			Transport.send(message); // 전송
-			System.out.println("전송완료!");
-
-		} catch (AddressException e) {
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
+					+ "<p style='margin-left: 15px;'>"+RandomPw+"</p>"
+							+ "</div><br>"
+							+ "<a href='http://localhost:8096/20211203_WGWG/loginForm.do'>로그인페이지로 이동</a>";
+			message.setText(content,"UTF-8","html");
+			Transport.send(message); //전송 
+			System.out.println("전송완료!"); 
+			
+			} catch (AddressException e) {
+				e.printStackTrace(); 
+			} catch (MessagingException e) { 
+				e.printStackTrace(); 
+			}
+    
 		return RandomPw;
 	}
 
@@ -160,10 +163,9 @@ public class LoginController {
 		System.out.println(getEmail + "&&&&" + email);
 		if (getEmail.equals(email)) {
 			String pw = sendMail(email);
-			model.addAttribute("message", "전송이 완료되었습니다.");
 
-			// 비밀번호 update해서 임시 비밀번호를 db에 저장
-
+			model.addAttribute("message","전송이 완료되었습니다.");
+			
 			emp.setEmp_no(emp_no);
 			emp.setPw(pw);
 			service.updatePW(emp);

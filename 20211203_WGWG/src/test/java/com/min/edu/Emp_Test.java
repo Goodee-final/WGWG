@@ -10,7 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.min.edu.model.department.IDeptDao;
 import com.min.edu.model.emp.IEmpDao;
+import com.min.edu.model.position.IPositionDao;
 import com.min.edu.vo.emp.Emp;
 import com.min.edu.vo.emp.Emp_Page;
 
@@ -21,6 +23,12 @@ public class Emp_Test {
 
 	@Autowired
 	private IEmpDao edao;
+	
+	@Autowired
+	private IDeptDao ddao;
+	
+	@Autowired 
+	private IPositionDao pdao;
 	
 	@Autowired
 	private ApplicationContext context;
@@ -49,9 +57,14 @@ public class Emp_Test {
 		
 //		assertEquals("사업지원팀", edao.selectInsertEmpInfo(20211242).getdVo().getDept_nm());
 		
-		Emp_Page epage = new Emp_Page();
-		assertNotNull(edao.selectPaging(epage));
+//		Emp_Page epage = new Emp_Page();
+//		assertNotNull(edao.selectPaging(epage));
 		
+//		assertNotNull(ddao.selectAllDept());
+		
+//		assertNotNull(ddao.selectDeptByNo(10));
+		
+		assertNotNull(pdao.selectAllPosition());
 	}
 
 }

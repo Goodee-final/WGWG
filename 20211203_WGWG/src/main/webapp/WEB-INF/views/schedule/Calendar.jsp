@@ -5,19 +5,13 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Insert title here</title>
+<title>개인일정</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="fullcalenda/lib/main.css" rel="stylesheet" />
 <script type="text/javascript" src="fullcalenda/lib/main.js"></script>
 <script type="text/javascript" src="fullcalenda/lib/locales-all.min.js"></script>
 
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="fullcalenda/js/addEvent.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
- <link rel="stylesheet" href="fullcalenda/css/main.css">
-
- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> 
  
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -26,13 +20,17 @@
  $(function(){
 	 
 	 var eventModal = $('#reply');
-	 var modalTitle = $('.modal-title');
-     var editTitle = $('#edit-title');
-     var editStart = $('#edit-start');
-     var editEnd = $('#edit-end');
-     var editColortx = $('#edit-colortx');
-     var editColorbg = $('#edit-colorbg');
-     var editDesc = $('#edit-desc');
+	 	var modalTitle = $('.modal-title');
+	   	var editTitle = $('#edit-title');
+	   	var editStart = $('#edit-start');
+	    var editEnd = $('#edit-end');
+	    var editColortx = $('#edit-colortx');
+	    var editColorbg = $('#edit-colorbg');
+	    var editDesc = $('#edit-desc');
+	    var editid = $('#editid');
+	    
+	    var addBtnContainer = $('.modalBtnContainer-addEvent');
+	    var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
      
     
      
@@ -48,31 +46,33 @@ var request = $.ajax({
 			  console.log(value.description);
 			  events: ([
 			         {
-					  title: value.title,
+					   title: value.title,
 			           start: value.start,
 			           end: value.end,
 			           textColor:value.textColor,
 			           backgroundColor:value.backgroundColor,
-			           description:value.description		
+			           extendedProps:value.description,	
+			           id:value.id
 			  }]);
 		         
 		 });
 	  } 
 });
 
+var doubleSubmitFlag = false;
+function doubleSubmitCheck(){
+    if(doubleSubmitFlag){
+        return doubleSubmitFlag;
+    }else{
+        doubleSubmitFlag = true;
+        return false;
+    }
+}
+
+
 request.done(function(data) {
 	console.log(data);
-	var eventModal = $('#reply');
- 	var modalTitle = $('.modal-title');
-   	var editTitle = $('#edit-title');
-   	var editStart = $('#edit-start');
-    var editEnd = $('#edit-end');
-    var editColortx = $('#edit-colortx');
-    var editColorbg = $('#edit-colorbg');
-    var editDesc = $('#edit-desc');
-    
-    var addBtnContainer = $('.modalBtnContainer-addEvent');
-    var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
+	
     
 	var calendarEl = document.getElementById('calendar');
 	
@@ -95,23 +95,19 @@ request.done(function(data) {
       selectable: true, // 달력 일자 드래그 설정가능
       nowIndicator: true, // 현재 시간 마크
       dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-      showNonCurrentDates:false, // 다음달 이전달  캘린더에 안보이게 설정
+      //showNonCurrentDates:false, 달력에 3~4일씩 추가로 보이도록 설정
       locale: 'ko',
       
       
       //드래그로 이벤트발생
-      select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+      select: function(msg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
     	  
-    	  var starts=new Date(arg.start);
     	 
     	  modalTitle.html('일정 등록');
-      	  console.log(arg);
-      	  console.log(arg.startStr);
-      	  console.log(arg.endStr); 
       	    
           editTitle.val('');
-          editStart.val(dateFormat(arg.start));
-          editEnd.val(dateFormat2(arg.end));
+          editStart.val(dateFormat(msg.start));
+          editEnd.val(dateFormat2(msg.end));
           editColortx.val();
           editColorbg.val();
           editDesc.val('');
@@ -128,7 +124,7 @@ request.done(function(data) {
                  end: editEnd.val(),		                     
                  textColor: editColortx.val(),
                  backgroundColor: editColorbg.val(),
-                 description: editDesc.val(),
+                 description: editDesc.val()
              };
 
              if (eventData.start > eventData.end) {
@@ -168,11 +164,23 @@ request.done(function(data) {
                     "description": eventData.description
          		},
         		success : function(msg){
+        			 if(doubleSubmitCheck()) return;
+
         			alert("일정 등록에 성공했습니다");
-        			location.href="./loadForm.do";
+        			/*  calendar.addEvent({         				
+        			   title: msg.title,
+  			           start: msg.start,
+  			           end: msg.end,
+  			           textColor:msg.textColor,
+  			           backgroundColor:msg.backgroundColor,
+  			           extendedProps:msg.description,	
+  			           id:msg.id
+        			});  */   
+        			$('#content').load("./loadForm.do"); 
         		},
+        		
          		error : function() {
-         			alert("잘못된 요청입니다.");
+         			alert("등록에 실패하셨습니다.");
          		}
          	});
          });
@@ -181,14 +189,14 @@ request.done(function(data) {
 
       /*
     	//일정 등록	
-    	  dateClick: function (arg) {
+    	  dateClick: function (msg) {
       	  	modalTitle.html('일정 등록');
       	  	
       	    
       	    
           editTitle.val('');
-          editStart.val(dateFormat(arg.start));
-          editEnd.val(dateFormat(arg.end));
+          editStart.val(dateFormat(msg.start));
+          editEnd.val(dateFormat(msg.end));
       	    editType.val('');
       	    editDesc.val('');
       	    editColor.val('');
@@ -198,44 +206,96 @@ request.done(function(data) {
       	    eventModal.modal('show');
     	
       },*/
-      eventClick: function(arg) { // 있는 일정 클릭시, 
+      eventClick: function(msg) { // 있는 일정 클릭시, 
     	 
-    	  $.each(data,function(key,value){	
-    		  
-    		  console.log(value.description);
-    	  })
-      		
-
-      	    if (arg.event.end == null) {
-      	        arg.event.end = arg.event.start;
+      	    if (msg.event.end == null) {
+      	        msg.event.end = msg.event.start;
       	    }
-          
-      	    
+      	  	     
+      		console.log(msg.event.extendedProps.description);
+          	
       	    modalTitle.html('일정 수정');
-      	    editTitle.val(arg.event.title);
-      	    console.log(arg.event.start);
-      	    console.log(arg.event.end);
-      	  	editStart.val(dateFormat3(arg.event.start));
-      	    editEnd.val(dateFormat3(arg.event.end));
-      		console.log(arg.event.textColor);
-      	 	console.log(arg.event.backgroundColor);
-      	    editColortx.val(arg.event.textColor).css('color', arg.event.textColor);
-      	    editColorbg.val(arg.event.backgroundColor).css('color', arg.event.backgroundColor);
-      	 	console.log(arg.event.description);
+      	    editTitle.val(msg.event.title);
+      	    console.log(msg.event.start);
+      	    console.log(msg.event.end);
+      	  	editStart.val(dateFormat3(msg.event.start));
+      	    editEnd.val(dateFormat3(msg.event.end));
+      		console.log(msg.event.textColor);
+      	 	console.log(msg.event.backgroundColor);
+      	    editColortx.val(msg.event.textColor).css('color', msg.event.textColor);
+      	    editColorbg.val(msg.event.backgroundColor).css('color', msg.event.backgroundColor);
+      	 	console.log(msg.event.description);
       	 	console.log(typeof(data));
-      	    editDesc.val(arg.event.description);
-      	    
-      	    
+      	    editDesc.val(msg.event.extendedProps.description);
+      	    editid.val(msg.event.id);
+      	    console.log(msg.event.id);
+      	    console.log(editid.val());
       	    addBtnContainer.hide();
       	    modifyBtnContainer.show();
       	    eventModal.modal('show');
 
 			
-      		//calendar.on('beforeUpdateSchedule', function(event) {
-      		
-      		 
-      		//});
-    
+      	   $('#updateEvent').on('click', function () {
+      		 if (editStart.val() > editEnd.val()) {
+                 alert('끝나는 날짜가 앞설 수 없습니다.');
+                 return false;
+             }
+
+             if (editTitle.val() === '') {
+                 alert('일정명은 필수입니다.')
+                 return false;
+             }
+             
+             eventModal.modal('hide');
+             $.ajax({
+            		url : "./calendarupdate.do",
+            		type : "post",
+            		dataType : "json",
+            		data :
+            		{
+            			"emp_no" : ${emp.emp_no},
+            			"title" : editTitle.val(),         			
+            			"start" : editStart.val(),
+            			"end" : editEnd.val(),
+            			"textColor": editColortx.val(),
+                        "backgroundColor": editColorbg.val(),
+                        "description": editDesc.val(),
+                        "no":editid.val()
+            		},
+           		success : function(msg){
+           		    if(doubleSubmitCheck()) return;
+           			alert("일정 수정을 성공했습니다");
+           			$('#content').load("./loadForm.do"); 
+           		},
+            		error : function() {
+            			alert("수정을 실패하셨습니다.");
+            		}
+            	});
+      	   });
+    		
+      	  $('#deleteEvent').on('click', function () {
+      	    
+      	    eventModal.modal('hide');
+
+      	    //삭제시
+      	    $.ajax({
+      	    	url : "./calendardelete.do",
+        		type : "post",
+        		dataType : "json",
+        		data :
+        		{
+        			"no":editid.val()
+        		},
+      	        success: function (msg) {
+      	            alert('일정이 삭제되었습니다.');
+      	            $('#content').load("./loadForm.do");
+      	        },
+      	      	error : function() {
+      			alert("일정삭제를 실패하셨습니다.");
+      		}
+      	    });
+
+      	});
       },
      
     	 
@@ -249,21 +309,7 @@ request.done(function(data) {
 });
     
 
- 
-
- 
-	$("#updateEvent").click(function(e){
-		e.preventDefault();
-		console.log($("#edit-start").val());
-	})	  
-  	  
-/* function frm() {  
-		
-	   	if(document.getElementById('calendarinsert')){
-	 	document.getElementById('calendarinsert').submit();
-		
-		}
-	}	*/	
+	
  function dateFormat(date) {
 	 let month = date.getMonth() +1;
      let day = date.getDate();
@@ -303,42 +349,9 @@ request.done(function(data) {
 
 	     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
 	} 
+
  
- /* 
- function datetimelocalcha(date) {
-     let month = date.getMonth() +1;
-     let day = date.getDate()-1;
-     let hour = date.getHours();
-     let minute = date.getMinutes();
-
-     month = month >= 10 ? month : '0' + month;
-     day = day >= 10 ? day : '0' + day;
-     hour = hour >= 10 ? hour : '0' + hour;
-     minute = minute >= 10 ? minute : '0' + minute;
-
-     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
-}
- function datetimelocalsum(date) {
-	 console.log(date);
-     let month = date.getMonth() + 1;
-     let day = date.getDate()+1;
-     let hour = date.getHours();
-     let minute = date.getMinutes();
-
-     month = month >= 10 ? month : '0' + month;
-     day = day >= 10 ? day : '0' + day;
-     hour = hour >= 10 ? hour : '0' + hour;
-     minute = minute >= 10 ? minute : '0' + minute;
-
-     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
-} */
 </script>
-<style>
-#calendar{
-   width:60%;
-   margin:20px auto;
-}
-</style>
 </head>
 <body>
 		
@@ -356,8 +369,9 @@ request.done(function(data) {
           
         </div>
           <form action="" method="post" id="calendarinsert" class="form-margin">
+          <input type="hidden" id="editid" name="editid">
          <div class="modal-body">
-                        
+                       
 
                         <div class="row">
                             <div class="col-xs-12">

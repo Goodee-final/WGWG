@@ -4,81 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="css/default.css" />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-
-        <!-- fullcalendar CDN -->
-        <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css" rel="stylesheet"/>
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js"></script>
-        <!-- fullcalendar 언어 CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js"></script>
-    <style>
-    	.main {
-    		margin: 0 auto;
-    		max-width: 1200px;
-    		display: flex;
-    	}
-    	#calendar {
-    		width: 800px;
-    		margin: 20px;
-    	}
-    	.content {
-    		margin: 20px;
-    	}
-    	a {
-    		text-decoration: none !important;
-    	}
-    	
-            th .fc-scrollgrid-sync-inner {
-                background-color: #468c91;
-            }
-            a.fc-col-header-cell-cushion {
-                color: white;
-            }
-            .fc-daygrid-day-number {
-                color: #468c91;
-            }
-            .rest,
-            .fc-day-past .fc-daygrid-day-number,
-            .fc-day-today .fc-daygrid-day-number,
-            .fc-day-sat div a,
-            .fc-day-sun div a,
-            .rest div a {
-                color: #b8b8b8;
-            }
-            .fc .fc-daygrid-day.fc-day-today {
-                background-color: rgba(255, 255, 255, 0);
-            }
-            .fc-header-toolbar {
-                padding-top: 1em;
-                padding-left: 1em;
-                padding-right: 1em;
-            }
-            .fc-h-event {
-           		border: none;
-            }
-            .home-img{
-         background-image: url("img/home.png");
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          width: 20px;
-          height: 20px;
-      }
-      .fmenu{
-         padding-left: 0px;
-      }
-      .fmenu li:not(.fmenu li:first-child)::before{
-         content: ">";
-      }
-    </style>
+   
     <script>
 $(function () {
-    	
     	function XMLToString(oXML) {
             //code for IE
             if (window.ActiveXObject) {
@@ -96,136 +24,205 @@ $(function () {
         	height: '800px', // calendar 높이 설정
         	expandRows: true, // 화면에 맞게 높이 재설정
             slotMinTime: "09:00", // Day 캘린더에서 시작 시간
-            slotMaxTime: "19:59", // Day 캘린더에서 종료 시간
+            slotMaxTime: "19:00", // Day 캘린더에서 종료 시간
         	headerToolbar: {
-        		left: 'prev,next today',
+        		left: 'prev,next',
         		center: 'title',
-        		right: 'dayGridMonth,listWeek'
+        		right: 'timeGridWeek,timeGridDay'
         },
-          initialView: 'dayGridMonth',
+          initialView: 'timeGridWeek',
           navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
           editable: false, // 수정 가능?
        	  selectMirror: true,
-          selectable: false, // 달력 일자 드래그 설정가능
-          nowIndicator: true, // 현재 시간 마크
-          dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+          selectable: true, // 달력 일자 드래그 설정가능
+          nowIndicator: false, // 현재 시간 마크
+          dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
           locale: 'ko', // 한국어 설정
+          hiddenDays: [ 0, 6 ],
           eventDidMount: function(arg){
-              var el = $(arg.el).closest("td.fc-day");
-              $(el).addClass("rest");
-              console.log(el);
+             
            },
            datesSet: function(dateInfo){
-               calendar.removeAllEvents();
-                calendar.addEvent({
-                    title: "주말",
-                    daysOfWeek: ["0", "6"],
-                    color : "rgb(243, 243, 243)",
-                    textColor : "black",
-                    classNames: ["rest-children"],
-                });
-                let url = "dschedule";
-				let dcode = "${dcode}";
-                $.get(url, { dcode: dcode }, function (data) {
-                	console.log(XMLToString(data));
-                    var schedule = $(data).find("schedule");
-                    if (schedule.length > 0) {
-                        $(schedule).each(function (idx, item) {
-                            var restdate = $(item)
-                                .find("restdate")
-                                .text();
-                            var day = $(item).find("day").text();
-
-                            if (restdate != "") {
+        	   
+        	   calendar.removeAllEvents();
+               let room_no = $("select[name=roomselect]").val();
+                let url = "chkReservation.do";
+				$.get(url, { "room_no": room_no }, function (data) {//회의실 번호 별 예약내역 확인
+                    var reservation = $(data).find("reservation");
+                    if ($(reservation).length > 0) {
+                        $(reservation).each(function (idx, item) {
+                            var rsvtime = $(item).find("res_dt").text();
+                            var rsvendtime = $(item).find("res_et").text();
+                            var title = $(item).find("title").text();
+                            if (rsvtime != "" && rsvendtime != "") {
                                 calendar.addEvent({
-                                    title: "휴진",
-                                    start: restdate,
-                                    color : "rgb(243, 243, 243)",
-                                    textColor : "black",
-                                    classNames: ["rest-children"],
-                                });
-                            }
-                            else if (day != "") {
-                            	console.log(String(Number(day) - 1));
-                                calendar.addEvent({
-                                    title: "휴진",
-                                    color: "rgb(243, 243, 243",
+                                    title: title,
+                                    start: rsvtime,
+                                    end: rsvendtime,
+                                    classNames: ["rsv"],
                                     textColor: "black",
-                                    daysOfWeek: [String(Number(day) - 1)],
-                                    classNames: ["rest-children"],
                                 });
                             }
-                        });      
+                        });
                     }
-                    var rsv = $(data).find("rsv");
-                    if (rsv.length > 0) {
-                        $(rsv).each(function (idx, item) {
-                            var rsvdate = $(this)
-                                .text();
-                            calendar.addEvent({
-                                title: "예약 있음",
-                                start: rsvdate,
-                                color : "white",
-                                textColor : "rgb(70, 145, 140)",
-                                classNames: ["rest-children"],
-                            
-                        });  
-                    })
-                    }
-                    var waitSchedule = $(data).find("waitSchedule");
-                    if(waitSchedule.length > 0){
-                    	$(waitSchedule).each(function (idx, item) {
-                            var restdate = $(item)
-                                .find("restdatewait")
-                                .text();
-                            if (restdate != "") {
-                                calendar.addEvent({
-                                    title: "휴진 승인 대기",
-                                    start: restdate,
-                                    classNames: ["rest-children"],
-                                    color: "#FFD700",
-                  	                textColor: "black", 
-                                });
-                            }
-                        });	
-                    }
-                    var denSchedule = $(data).find("denSchedule");
-                    if(denSchedule.length > 0){
-                    	$(denSchedule).each(function (idx, item) {
-                            var restdate = $(item)
-                                .find("restdateden")
-                                .text();
-                            if (restdate != "") {
-                                calendar.addEvent({
-                                    title: "승인 거절",
-                                    start: restdate,
-                                    classNames: ["rest-children"],
-                                    color: "white",
-                  	                textColor: "rgb(70, 145, 140)", 
-                                });
-                            }
-                        });	
-                    }
-                    
-                    
                 });
-            }
+        	   
+        	   $('#roomList').change(function(){
+               calendar.removeAllEvents();
+               let room_no = $("select[name=roomselect]").val();
+                let url = "chkReservation.do";
+				$.get(url, { "room_no": room_no }, function (data) {//회의실 번호 별 예약내역 확인
+                    var reservation = $(data).find("reservation");
+                    if ($(reservation).length > 0) {
+                        $(reservation).each(function (idx, item) {
+                            var rsvtime = $(item).find("res_dt").text();
+                            var rsvendtime = $(item).find("res_et").text();
+                            var title = $(item).find("title").text();
+                            if (rsvtime != "" && rsvendtime != "") {
+                                calendar.addEvent({
+                                    title: title,
+                                    start: rsvtime,
+                                    end: rsvendtime,
+                                    classNames: ["rsv"],
+                                    textColor: "black",
+                                });
+                            }
+                        });
+                    }
+                });
+        	   });
+           },
+           selectOverlap: function(event) {
+        	   
+       	    return false;
+       	  },
+           select: function(date){
+        	   var room_no = $("select[name=roomselect]").val();
+        	   if(room_no == 0){
+        		   alert("회의실을 선택해주세요");
+        		   return false;
+        	   } else {
+        		   console.log(date.startStr);
+            	   console.log(date.endStr);
+            	   if(!checkTime(date.startStr, date.endStr)){
+            		   alert("예약 불가능 시간입니다.");
+            		   //$("#calendar").load("reservation.do");
+            	} else{
+            	   
+               	  var reason = prompt("사용 목적을 입력해주세요");
+                    	  if(reason){
+                    		  var rsvdate = {"room_no": room_no, "res_dt":  moment(date.startStr).format('YYYY-MM-DD HH:mm'), "res_et":moment(date.endStr).format('YYYY-MM-DD HH:mm'), "res_title": reason};
+                           	  
+                    		  $.ajax({
+                      	        url:"insertReservation.do",
+                      	        type:'POST',
+                      	        data: rsvdate,
+                      	        success:function(data){
+                      	        	console.log(data);
+                      	        	calendar.addEvent( {
+                      	        		title: reason, 
+                      	        		start: rsvdate.res_dt,
+                      	        		end: rsvdate.res_et,
+                      	                textColor: "black",
+                      	                classNames: ["rsv"],
+                      	                color: "#fff396",
+                      	        	});
+                      	        },error:function(request,status,error){
+                      	          alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+                      	       },
+                      	    });
+                    	  
+                    	  } else {
+                    		  alert("사용목적은 필수로 입력해야 합니다");
+                    		  return false;
+                    	  }
+            	   }
+        	   }
+        	   
+           }
         });
-        calendar.render();
-   
-    });
-    
+
+//캘린더 렌더링
+calendar.render();
+});
     </script>
   </head>
+  <style>
+    	#calendar {
+    		width: 900px;
+    	}
+    	a {
+    		text-decoration: none !important;
+    	}
+    	
+            th .fc-scrollgrid-sync-inner {
+                background-color: #073865;
+            }
+            a.fc-col-header-cell-cushion {
+                color: white;
+            }
+            .fc-timegrid-day-number {
+                color: #073865;
+            }
+            .fc-day-past .fc-daygrid-day-number,
+            .fc-day-today .fc-daygrid-day-number,
+            .fc-day-sat div a,
+            .fc-day-sun div a,
+            .rest div a{
+                color: #b8b8b8;
+            }
+            .fc .fc-daygrid-day.fc-day-today {
+                background-color: rgba(255, 255, 255, 0);
+            }
+            .fc-header-toolbar {
+                padding-top: 1em;
+                padding-left: 1em;
+                padding-right: 1em;
+            }
+            .fc-h-event {
+           		border: none;
+           		text-align: center;
+            }
+      .fmenu{
+         padding-left: 0px;
+      }
+      .fmenu li:not(.fmenu li:first-child)::before{
+         content: ">";
+      }
+      .rsv {
+      	background-color: #fff396;
+      	border: none;
+      }
+    </style>
   <body>
-  	<div class = "main">
-  		<div class = "content">
-  			<ul class="fmenu">
-            	<li><div class="home-img"></div></li>
-            	<li>업무관리</li>
-            	<li>진료 스케줄 조회</li>
-            </ul>
-  		  	<h1>진료 스케줄 조회</h1>
-    		<div id="calendar"></div>
+  		<div class="content">
+  			<select name="roomselect" id="roomList">
+  				<c:forEach var="room" items="${roomList}">
+  					<option class="room_no" value="${room.room_no}">${room.room_nm}</option>
+  				</c:forEach>
+  			</select>
+  			<div id="calendar"></div>
   		</div>
-  	</div>
+  <script type="text/javascript">
+  function checkTime(st,et){
+		
+		var today = new Date();
+		var year = today.getFullYear();
+		var month = ('0' + (today.getMonth() + 1)).slice(-2);
+		var day = ('0' + today.getDate()).slice(-2);
+		var hours = ('0' + today.getHours()).slice(-2); 
+		var minutes = ('0' + today.getMinutes()).slice(-2);
+		var seconds = ('0' + today.getSeconds()).slice(-2); 
+		var dateString = year + '-' + month  + '-' + day;
+		var timeString = hours + ':' + minutes  + ':' + seconds;
+		var now = dateString +' '+ timeString; //현재시간
+		
+		if(now > st || now > et ){
+			return false;
+		} else{
+			return true;
+		}
+  }
+  </script>		
+ </body>
+ </html>
