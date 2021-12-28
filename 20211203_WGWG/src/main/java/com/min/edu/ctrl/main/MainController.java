@@ -36,7 +36,7 @@ public class MainController {
 	private IMainService mainService;
 	
 	@Autowired
-	private IApprovalService approvalServiceImpl;
+	private IApprovalService appService;
 	
 	@Autowired
 	private IWorkLogService workLogService;
