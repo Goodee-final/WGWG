@@ -5,7 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>채팅화면</title>
-<script type="text/javascript" src="/chat.js"></script>
+
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+	
+</script>
 </head>
 <body>
 

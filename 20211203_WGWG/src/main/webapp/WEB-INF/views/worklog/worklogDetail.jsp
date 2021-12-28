@@ -116,17 +116,14 @@ p{
 	margin: auto;
 }
 </style>
+
 </head>
 <body>
 	<div class="container">
 		<h1>업무일지 상세조회</h1>
-<!-- 		<button id="btn" onclick="location.href='./worklogList.do'">목록 가기</button> -->		
-<%-- <c:if test="${loginEmp.emp_no == selectWorklog.emp_no}"> 
-		<input class="btn" type="button" value="글수정하기" 
-		onclick="location.href='./worklogModifyForm.do?worklog_no=${selectWorklog.worklog_no}'">
-</c:if>	 --%>
-		<button type="button" class="btn" data-toggle="modal" data-target="#reply">댓글 달기</button>
-		<input type="button" class="btn" value="전체글목록" onclick="history.back(-1)">	
+
+		<!-- <button type="button" class="btn" data-toggle="modal" data-target="#reply">댓글 달기</button> -->
+		<input type="button" class="btn" id="listBtn" value="전체글목록">	
 		<table class="table table-hover">
 			<thead>
             	<tr>
@@ -167,7 +164,7 @@ p{
 	</div>
 		
 		<!-- Modal -->
-<div class="modal fade" id="reply" role="dialog">
+<%-- <div class="modal fade" id="reply" role="dialog">
 <div class="modal-dialog">
   
     <!-- Modal content-->
@@ -200,9 +197,9 @@ p{
      </form>
     </div>
   </div>
-</div>
+</div> --%>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	function replyValue() {
 		console.log('답글 submit');
 		var frm = document.getElementById('frmREply');
@@ -218,7 +215,14 @@ p{
 		frm.submit();
 	}
 </script>
-
+ -->
 
 </body>
+<script type="text/javascript">
+$(document).ready(function(){
+	   $('#listBtn').click(function(){
+	      $('#content').load('./worklogList.do');
+	   });
+	})
+</script>
 </html>
