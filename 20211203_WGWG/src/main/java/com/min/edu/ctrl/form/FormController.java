@@ -33,7 +33,7 @@ public class FormController {
 	private IFormService service;
 	
 	
-	@RequestMapping(value="/formlist.do", method=RequestMethod.GET)
+	@RequestMapping(value="/formlist.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String formList(Model model, HttpServletRequest req){
 		logger.info("양식 리스트 화면 이동");
 //		List<Form> formList = service.selectFormList();
@@ -50,25 +50,6 @@ public class FormController {
 	  	model.addAttribute("paging", paging);
 	  	logger.info("페이징 DTO 값: {}", paging.toString());
 		return "/form/formlist";
-	}
-	
-	@RequestMapping(value="/formlist.do", method=RequestMethod.POST)
-	public String formListt(Model model, HttpServletRequest req){
-		logger.info("양식 리스트 화면 이동");
-//		List<Form> formList = service.selectFormList();
-//		model.addAttribute("formList",formList);
-		PagingDto paging = new PagingDto(
-				req.getParameter("index"), 
-				req.getParameter("pageStartNum"),
-				req.getParameter("listCnt")
-				);
-		paging.setTotal(service.selectTotalPaging());
-	  	List<Form> formList = service.selectPaging(paging);
-	
-	  	model.addAttribute("formList", formList);
-	  	model.addAttribute("paging", paging);
-	  	logger.info("페이징 DTO 값: {}", paging.toString());
-		return "redirect:/formlist.do";
 	}
 	
 	@RequestMapping(value="/formdetail.do", method=RequestMethod.GET)
