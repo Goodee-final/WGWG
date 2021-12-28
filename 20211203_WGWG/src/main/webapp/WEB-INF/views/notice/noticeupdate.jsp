@@ -38,6 +38,7 @@ $(document).ready(function() {
 	.content{
  		width: 1100px;
 		padding: 100px 30px;
+		margin: 0 auto;
  	}
  	.box{
  		border:none;
@@ -63,7 +64,8 @@ $(document).ready(function() {
 	<h2>글수정</h2>
 	<form:form action="./noticeupdate.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="notice_no" value="${vo.notice_no}">
-		작성자:<input type="text" class="box" name="emp_no" style="width: 20%;" value="${vo.emp_no}" readonly/><br>		
+		<input type="hidden"  name="emp_no" style="width: 20%;" value="${vo.emp_no}"><br>
+		작성자:<input type="text" class="box" name="emp_nm" style="width: 20%;" value="${vo.emp_nm}" readonly/><br>		
 		부서:<input type="text" class="box" name="notice_chk" style="width: 20%;" value="${vo.notice_chk}" readonly/><br>
 		제목:<input type="text" name="notice_title" style="width: 40%;" value="${vo.notice_title}"/><br>
 		${vo.noticefile.notice_file_nm } <input type="file" name="file"><br><br>

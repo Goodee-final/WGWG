@@ -19,6 +19,20 @@
 			<result column="NOTICE_FILE_REG_DT" property="notice_file_reg_dt"/>
 			<result column="NOTICE_NO" property="notice_no"/>
 	</resultMap>
+	
+	
+	<resultMap type="empvo" id="empvoMap">
+			<result column="EMP_NO" property="emp_no"/>
+			<result column="EMP_NM" property="emp_nm"/>
+			<result column="DEPT_NO" property="dept_no"/>
+			<collection property="dVo" resultMap="deptVoMap"/>
+	</resultMap>
+	
+	<resultMap type="deptVo" id="deptVoMap">
+			<result column="DEPT_NO" property="dept_no"/>
+			<result column="DEPT_NM" property="dept_nm"/>
+	</resultMap>
+	
 	<!-- 글입력 -->
 	<insert id="insertNotice" parameterType="NoticeVo">		
 	INSERT INTO NOTICE (NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT,
@@ -164,12 +178,22 @@
 		WHERE RN BETWEEN #{start} AND #{last} 		
 	</select>
 	
+	
+	<!-- 사원번호로 emp테이블 정보 가져오기 -->
 	<select id="selectEList" parameterType="Integer" resultType="empvo">
 		SELECT EMP_NO, EMP_NM, PW, EMAIL, PHOTO, ADDRESS, TEL, HIREDATE, WORK_ST, BIRTH, POSITION_NO, DEPT_NO
 			FROM EMP
 			WHERE EMP_NO = #{emp_no}
 		
 	</select>
+	<!-- 사원번호로 부서의 이름 가져오기 -->
+	<select id="selectEmpDeptNm" parameterType="Integer" resultMap="empvoMap">
+		SELECT e.EMP_NO,e.EMP_NM , d.DEPT_NM 
+			FROM EMP e JOIN DEPARTMENT d 
+			ON e.DEPT_NO  = d.DEPT_NO 
+			WHERE e.EMP_NO = #{emp_no}
+	</select>
+	
 	
 	
 </mapper>

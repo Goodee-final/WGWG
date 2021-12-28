@@ -19,17 +19,16 @@ public class NoticeVO implements Serializable{
 	private NoticeFileVO noticefile;
 	private MultipartFile file;
 	
+	private String emp_nm;
+	private String dept_nm;
 	
 	public NoticeVO() {		
 	}
 
 	
 
-	
-
-
 	public NoticeVO(int notice_no, String notice_title, String notice_content, String notice_reg_dt, String notice_chk,
-			int emp_no, int notice_cnt, NoticeFileVO noticefile, MultipartFile file) {
+			int emp_no, int notice_cnt, NoticeFileVO noticefile, MultipartFile file, String emp_nm, String dept_nm) {
 		super();
 		this.notice_no = notice_no;
 		this.notice_title = notice_title;
@@ -40,11 +39,9 @@ public class NoticeVO implements Serializable{
 		this.notice_cnt = notice_cnt;
 		this.noticefile = noticefile;
 		this.file = file;
+		this.emp_nm = emp_nm;
+		this.dept_nm = dept_nm;
 	}
-
-
-
-
 
 
 	@Override
@@ -53,10 +50,6 @@ public class NoticeVO implements Serializable{
 				+ notice_content + ", notice_reg_dt=" + notice_reg_dt + ", notice_chk=" + notice_chk + ", emp_no="
 				+ emp_no + ", notice_cnt=" + notice_cnt + ", noticefile=" + noticefile + ", file=" + file + "]";
 	}
-
-
-
-
 
 
 	public int getNotice_no() {
@@ -127,6 +120,21 @@ public class NoticeVO implements Serializable{
 	}
 	public void setNoticefile(NoticeFileVO noticefile) {
 		this.noticefile = noticefile;
+	}
+
+	public String getEmp_nm() {
+		return emp_nm;
+	}
+
+	public void setEmp_nm(String emp_nm) {
+		this.emp_nm = emp_nm;
+	}
+	public String getDept_nm() {
+		return dept_nm;
+	}
+
+	public void setDept_nm(String dept_nm) {
+		this.dept_nm = dept_nm;
 	}
 
 

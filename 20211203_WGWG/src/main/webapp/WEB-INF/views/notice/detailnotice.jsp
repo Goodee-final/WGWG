@@ -12,6 +12,7 @@
 	#container{
 		width: 1100px;
 		padding: 100px 30px;	
+		margin: 0 auto;
 	}
  	.content{
  		width: 500px;
@@ -43,7 +44,7 @@
 				</tr>
 				<tr>
 					<th>작성자</th>
-					<td>${vo.emp_no}</td>
+					<td>${vo.emp_nm}</td>
 				</tr>
 				<tr>
 					<th>부서</th>
