@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.min.edu.model.approval.IApprovalService;
 import com.min.edu.model.emp.IEmpService;
 import com.min.edu.model.main.IMainService;
 
@@ -35,10 +36,10 @@ public class MainController {
 	private IMainService mainService;
 	
 	@Autowired
-	private IApprovalService appService;
+	private IApprovalService approvalServiceImpl;
 	
 	@Autowired
-	private IApprovalService approvalServiceImpl;
+	private IWorkLogService workLogService;
 	
 	@RequestMapping(value="/home.do", method=RequestMethod.GET)
 	public String home(Model model, HttpSession session) {
@@ -48,7 +49,7 @@ public class MainController {
 		model.addAttribute("noticeList", noticeList);
 		logger.info("로그인한 사원번호{}",session.getAttribute("loginEmp"));
 		int emp_no = (Integer)session.getAttribute("loginEmp");
-		Emp emp = appService.selectEmpInfo(emp_no);
+		Emp emp = empService.selectEmpByNo(emp_no);
 
 		Approval_Doc doc = new Approval_Doc();
 		Approval_Page paging = new Approval_Page();
@@ -66,6 +67,7 @@ public class MainController {
 		}	
 		
 	    model.addAttribute("emp",emp);
+	    logger.info("*******dept_no : {}",emp.getDept_no());
 	    model.addAttribute("doclist",doclist);
 //	    session.setAttribute("loc", "./main.do");
 		return "index";

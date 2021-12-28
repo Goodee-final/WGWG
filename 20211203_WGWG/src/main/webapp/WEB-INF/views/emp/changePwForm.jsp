@@ -37,6 +37,9 @@
 	#password_chk{
 		color: tomato;
 	}
+	#password{
+		width: 220px;
+	}
 </style>
 
 </head>
