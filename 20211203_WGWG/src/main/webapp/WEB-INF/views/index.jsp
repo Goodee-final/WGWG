@@ -47,16 +47,9 @@
 <link rel="stylesheet" href="fullcalenda/css/main.css">
 
 
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
-<script src="js/approve.js"></script>
-
-
 <script type="text/javascript">
 	
 	var loc =  "<%=session.getAttribute("loc") %>"
-	var cal =  "<%=session.getAttribute("cal") %>"
 
 	$(document).ready(function() {
 		console.log(loc);
@@ -88,24 +81,9 @@
 		});
 		
 	
-
-
-
-		
-// 		var doclist = $('#doclist').val();
-		
 		$('#alert-img').popover({title: "<h6>결재 요청</h6>", container: 'body', 
-			content:	" <c:if test='${!empty doclist}'><c:forEach var='doc' items='${doclist}' varStatus='i'><div class='noticeDoc' onclick='docwait()' value='${doc.app_doc_no}'><p id='pp'>${doc.emp_nm}에게서 새로운 결재요청이 왔습니다.</p><input type='hidden' value='${doc.app_doc_no}'> </div> <hr> </c:forEach></c:if>"
+			content:	" <c:if test='${!empty doclist}'><c:forEach var='doc' items='${doclist}' varStatus='i'><div class='noticeDoc' value='${doc.app_doc_no}'><p id='pp'>${doc.emp_nm}에게서 새로운 결재요청이 왔습니다.</p><input type='hidden' value='${doc.app_doc_no}'> </div> <hr> </c:forEach></c:if>"
     					, html: true, placement: "bottom"}); 
-		
-	
-		$('.noticeDoc').click(function(){
-			var no =  $(this).find('input[type=hidden]').val();
-			console.log(no);
-			var state = '결재대기'
-			
-			$("#content").load("./docdetail.do?docno=" + no + "&docBox=" + state);
-		});
 		
 	});
 
