@@ -93,7 +93,7 @@ public class EmpController {
 			inputStream = file.getInputStream();
 					
 			String serverPath = WebUtils.getRealPath(request.getSession().getServletContext(), "/img/emp");
-			String path = "C:\\Users\\ttiat\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\img\\emp";
+			String path = "C:\\Users\\GDJ38\\git\\WGWG\\20211203_WGWG\\src\\main\\webapp\\img\\emp";
 			logger.info("##### 실제 업로드 될 경로 : "+serverPath);
 			File storage = new File(serverPath);
 			if(!storage.exists()) {
