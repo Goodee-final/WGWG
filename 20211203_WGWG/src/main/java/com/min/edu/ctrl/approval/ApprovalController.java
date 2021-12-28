@@ -92,7 +92,7 @@ public class ApprovalController {
 //		if(active.equals("3")) { doc.setApp_doc_st("진행"); doclists =
 //		approvalServiceImpl.selectListDocSt(doc);
 //		paging.setTotal(approvalServiceImpl.selectTotalPaging(doc)); }else
-//		 
+		 
 		if (active.equals("4")) {
 			doc.setApp_doc_st("진행");
 			doclists = approvalServiceImpl.selectListDocSt(doc);
@@ -143,7 +143,7 @@ public class ApprovalController {
 
 	@PostMapping(value = "/appline.do")
 	@ResponseBody
-	public int appline(@RequestParam(value = "arr[]") int[] arr, Model model) {
+	public String appline(@RequestParam(value = "arr[]") int[] arr, Model model) {
 		logger.info("ApprovalController 결재라인 등록");
 		System.out.println("ajax 전달값 : " + arr);
 		int[] applinenum = arr;
@@ -187,35 +187,31 @@ public class ApprovalController {
 		// 마지막 결재자일시
 		approval += appJson + "]}";
 
-		Approval_line appline = new Approval_line(approval);
-
-		// 결재라인 등록
-		int applineno = approvalServiceImpl.insertappline(appline);
-
-		return applineno;
+		return approval;
 	}
 
 	@PostMapping(value = "/docinsert.do")
-	public String docapproval(Model model, HttpServletRequest req, @RequestParam String form_num) {
+	public String docapproval(Model model, HttpServletRequest req, @RequestParam String form_num, @RequestParam String app_line) {
 		logger.info("ApprovalController 기안하기 문서 작성");
 		System.out.println("form_num : " + form_num);
 		int form_no = Integer.parseInt(form_num);
-		int app_line_no = Integer.parseInt(req.getParameter("app_line_no"));
 		String app_doc_title = req.getParameter("app_doc_title");
 		String app_doc_content = req.getParameter("app_doc_content");
 		String state = req.getParameter("doc_state");
 		int emp_no = Integer.parseInt(req.getParameter("emp_no"));
-		
-		Approval_Doc doc = new Approval_Doc(app_doc_title, app_doc_content, app_line_no, emp_no, form_no);
-		if(state.equals("임시저장")) {
+		String ref_emp_no = req.getParameter("ref_emp_no");
+		// 결재라인 등록
+		Approval_line appline = new Approval_line(app_line);
+		int app_line_no = approvalServiceImpl.insertappline(appline);
+		Approval_Doc doc = new Approval_Doc(app_doc_title, ref_emp_no, app_doc_content, app_line_no, emp_no, form_no);
+    if(state.equals("임시저장")) {
 			doc.setApp_doc_st("임시저장");
 		}else {
 			doc.setApp_doc_st("진행");
 		}
-		
 		approvalServiceImpl.insertDoc(doc);
 		System.out.println("문서" + doc);
-		session.setAttribute("loc", "");
+    session.setAttribute("loc", "");
 		return "redirect:/home.do";
 	}
 	
@@ -226,7 +222,6 @@ public class ApprovalController {
 		return "/approval/ingdoclist";
 	}
 
-	
 
 	@Autowired
 	ISignDao signdao;
@@ -559,6 +554,53 @@ public class ApprovalController {
 
 		return "redirect:/home.do";
 	}
+	
+		// 진행 문서함
+		@GetMapping(value = "/progressdoc.do")
+		@PostMapping(value = "/progressdoc.do")
+		public String docListProgress(Model model, HttpServletRequest request) {
+
+			logger.info("진행 문서함");
+			Approval_Doc doc = new Approval_Doc();
+			int empno = (Integer) session.getAttribute("loginEmp");
+			doc.setEmp_no(empno);
+			doc.setApp_doc_st("진행");
+			String active;
+
+			if (request.getParameter("active") != null) {
+				
+				active = request.getParameter("active");
+			} else {
+				active = "1";
+			}
+			Approval_Page paging = new Approval_Page(request.getParameter("index"), request.getParameter("pageStartNum"),
+					request.getParameter("listCnt"), request.getParameter("app_chk"), request.getParameter("searchKeyword"),
+					request.getParameter("active"));
+			doc.setPaging(paging);
+
+			System.out.println(paging);
+			// 송신
+			List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+			// 수신경우
+			List<Approval_Doc> doclist2 = approvalServiceImpl.selectListDocStApp(doc);
+
+			if (active.equals("2")) {
+				paging.setTotal(approvalServiceImpl.selectTotalPagingApp(doc));
+				System.out.println("paging 마지막 번호: " + paging.getTotal());
+			} else {
+				paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+				System.out.println("paging 마지막 번호: " + paging.getTotal());
+			}
+
+			model.addAttribute("doclist1", doclist1);
+			model.addAttribute("doclist2", doclist2);
+			model.addAttribute("paging", paging);
+
+			session.setAttribute("loc", "./progressdoc.do");
+
+			return "/approval/ingdoclist";
+		}
+	
 
 	// 완료 문서함
 	@GetMapping(value = "/completedoc.do")
