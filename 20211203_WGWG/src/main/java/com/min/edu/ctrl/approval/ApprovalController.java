@@ -463,10 +463,11 @@ public class ApprovalController {
 
 		int docno = Integer.parseInt(req.getParameter("docNo"));
 		String reason = req.getParameter("reason");
-
+		int empno = (Integer) session.getAttribute("loginEmp");
+		
 		// 현재시간
 		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:MI");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:mm");
 		String nowTime = format.format(date);
 
 		// 내 결재 대기 상태 n로 변경
@@ -498,7 +499,7 @@ public class ApprovalController {
 
 			// 1은 세션에 있는 회원 번호
 			// JSONARRAY에서 결재자 회원번호와 로그인한 회원번호 동일시
-			if (empJson1.getAsInt() == 2) {
+			if (empJson1.getAsInt() == empno) {
 
 				// APPROVAL[i].approval_st(승인여부) 값을 -> '반려'로 변경
 				approver = new Approver(empJson1.getAsInt(), // 결재자 회원번호
