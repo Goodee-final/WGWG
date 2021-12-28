@@ -84,6 +84,7 @@
 <style type="text/css">
 #table1{
 	border: 1px solid #ddd;
+	width:600px;
 }
 
 .flex-box {
@@ -94,6 +95,7 @@
 
 #table1 tbody td{
 	border: 1px solid #eee;
+	
 }
 
 </style>
