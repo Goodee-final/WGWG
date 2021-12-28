@@ -137,7 +137,7 @@ request.done(function(data) {
                  return false;
              }
 
-             if (eventData.title === '') {
+             if (eventData.title.trim() == '') {
                  alert('일정명은 필수입니다.');
                  return false;
              }
@@ -235,7 +235,7 @@ request.done(function(data) {
                  return false;
              }
 
-             if (editTitle.val() === '') {
+             if (editTitle.val().trim() == '') {
                  alert('일정명은 필수입니다.')
                  return false;
              }

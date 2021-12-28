@@ -27,7 +27,7 @@
 
 <script src="https://kit.fontawesome.com/d42fd504d6.js" crossorigin="anonymous"></script>
 
-<!-- <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
@@ -427,7 +427,19 @@ request.done(function(data) {
 			content:	" <c:if test='${!empty doclist}'><c:forEach var='doc' items='${doclist}' varStatus='i'><div class='noticeDoc' value='${doc.app_doc_no}'><p id='pp'>${doc.emp_nm}에게서 새로운 결재요청이 왔습니다.</p><input type='hidden' value='${doc.app_doc_no}'> </div> <hr> </c:forEach></c:if>"
     					, html: true, placement: "bottom"}); 
 		
+	
+		$('.docSign').click(function(){
+			console.log()
+			var state = '진행';
+			var no =  $(this).attr('value');
+			
+			$("#content").load("./docdetail.do?docno=" + no + "&docBox=" + state);
+
+		});
+	
 	});
+	
+	
 	
 	function docwait(){
 
@@ -464,7 +476,42 @@ request.done(function(data) {
 </script>
 
 <style>
+#docSign{
 
+	display: flex;
+	border: 1px solid #eee;
+	
+}
+#docSign:hover{
+	background-color: #eee;
+	cursor: pointer;
+}
+
+#docSignInfo{
+	display: flex;
+	flex-direction:column;
+	justify-content: center;
+	align-items: center;
+}
+
+
+#Isign{
+
+	width: 30px;
+	height: 30px;
+}
+
+#docSignImg{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	background-color: #073865;
+	width: 80px;
+	height: 100px;
+	margin-right: 30px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+}
 .noticeDoc:hover{ 
 	background-color: #eee; 
 	cursor: pointer; 
@@ -499,6 +546,8 @@ html, body {
 ul {
 	list-style: none;
 }
+
+
 
 .header {
 	display: inline-block;
@@ -742,7 +791,7 @@ i {
 .main-approval {
 	width: 550px;
 	height: 250px;
-	background-color: green;
+	
 	margin-top: 30px;
 }
 
@@ -979,7 +1028,27 @@ i {
 					
 				</div>
 				<div class="main-approval">
-					결재
+				<h4>전자결재</h4>
+				<hr>
+				<c:if test="${empty doclist1}">
+					진행중인 결재가 없습니다.
+				</c:if>
+				<c:if test="${!empty doclist1}">
+				<p>진행중</p>
+				
+						<c:forEach items="${doclist1}" var="doc">
+				<div id="docSign" class="docSign" value="${doc.app_doc_no}">
+					<div id="docSignImg">
+						<i id="Isign" class="fas fa-file-signature fa-3x"></i>
+					</div>
+					<div id="docSignInfo">
+						<h5><b>${doc.app_doc_title }</b></h5>
+						<p>${doc.emp_nm}</p>
+						<p>${doc.app_doc_reg_dt}</p>
+					</div>
+				</div>
+				</c:forEach>
+				</c:if>
 				</div>
 			</div>
 		</div>

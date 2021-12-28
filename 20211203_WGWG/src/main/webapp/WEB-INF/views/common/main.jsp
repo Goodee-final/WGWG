@@ -17,6 +17,16 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
  <script>
  $(function(){
+		$('.docSign').click(function(){
+			console.log()
+			var state = '진행';
+			var no =  $(this).attr('value');
+			
+			$("#content").load("./docdetail.do?docno=" + no + "&docBox=" + state);
+
+		});
+	
+	 
 	 
 	 var eventModal = $('#reply');
 	 	var modalTitle = $('.modal-title');
@@ -398,8 +408,29 @@ request.done(function(data) {
 					
 				</div>
 				<div class="main-approval">
-					결재
+				<h4>전자결재</h4>
+				<hr>
+				<c:if test="${empty doclist1}">
+					진행중인 결재가 없습니다.
+				</c:if>
+				<c:if test="${!empty doclist1}">
+				<p>진행중</p>
+				
+						<c:forEach items="${doclist1}" var="doc">
+				<div id="docSign" class="docSign" value="${doc.app_doc_no}">
+					<div id="docSignImg">
+						<i id="Isign" class="fas fa-file-signature fa-3x"></i>
+					</div>
+					<div id="docSignInfo">
+						<h5><b>${doc.app_doc_title }</b></h5>
+						<p>${doc.emp_nm}</p>
+						<p>${doc.app_doc_reg_dt}</p>
+					</div>
 				</div>
+				</c:forEach>
+				</c:if>
+				</div>
+				
 			</div>
 		</div>
 	</section>

@@ -279,7 +279,7 @@ SELECT NVL(count(*),0) from(SELECT *
 				                        waiting VARCHAR2(4) PATH '$.waiting',
 				                        signimg VARCHAR2(4000) PATH '$.signimg')) AS U
 				                        WHERE U.EMP_NO = #{emp_no}) 
-				       and APP_DOC_ST = #{app_doc_st} 
+				       					and APP_DOC_ST = #{app_doc_st} 
 				       <if test="paging.searchkeyword != null and paging.searchkeyword != ''">
 			 				AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
 			 			</if>
