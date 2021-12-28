@@ -30,7 +30,7 @@ public interface IApprovalService {
     public int insertDoc(Approval_Doc doc);
     public int insertappline(Approval_line appline);
     //결재진행함
-  	public List<Approval_Doc> selectListIng(Approval_Doc doc);
+  	//public List<Approval_Doc> selectListIng(Approval_Doc doc);
   
 	//결재자
 	public List<Approval_Doc> selectAllDocApp(int empno);

@@ -104,6 +104,15 @@ th {
 	color: white;
 }
 
+.listbtn {
+	height: 30px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	background-color: #073865;
+	margin-left: 900px;
+	color: white;
+}
+
 #formselect {
 	justify-content: space-between;
 	width: 120px;
@@ -140,7 +149,6 @@ th {
 }
 
 #sign-td {
-	
 	padding: 25px;
 	border: 0px;
 }
@@ -192,8 +200,8 @@ th {
 
 	<div class="container">
 		<h1>결재문서상세보기</h1>
-		<h1>${docBox}</h1>
-		
+		<h2 style="display:inline;">${docBox}</h2>
+		<button id="backto" class="listbtn">목록으로 돌아가기</button>
 		<hr>
 		<div id="doccont">
 		<div id="formnm">
@@ -437,6 +445,7 @@ th {
 
 <script>
 	$(document).ready(function() {
+		
 		$("#btn-ref").click(function(e) {
 			e.preventDefault();
 			$("#myModal3").modal();

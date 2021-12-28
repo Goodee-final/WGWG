@@ -66,10 +66,10 @@ public class ApprovalServiceImpl implements IApprovalService {
 		return dao.insertappline(appline);
 	}
 	
-	@Override
-	public List<Approval_Doc> selectListIng(Approval_Doc doc) {
-		return dao.selectListIng(doc);
-	}
+//	@Override
+//	public List<Approval_Doc> selectListIng(Approval_Doc doc) {
+//		return dao.selectListIng(doc);
+//	}
 	
 	@Override
 	public List<Approval_Doc> selectAllDocApp(int empno) {

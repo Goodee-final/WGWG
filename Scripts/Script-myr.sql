@@ -36,3 +36,44 @@ VALUES(1, 0, 3);
 INSERT INTO NOTIFICATION
 (NOTIFICATION_NO, NOTIFICATION_CHK, APP_DOC_NO)
 VALUES(2, 1, 4);
+
+
+SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MI') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM APPROVAL_DOCUMENT ad 
+							WHERE EMP_NO = 2 AND APP_DOC_ST = '진행'
+							ORDER BY app_doc_no DESC 
+							) A
+					);
+				
+		WHERE RN BETWEEN #{paging.start} AND #{paging.last};
+		
+	
+	SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.*
+					FROM(
+						SELECT *
+						FROM APPROVAL_DOCUMENT ad 
+				WHERE APP_LINE_NO IN (
+					SELECT APP_LINE_NO 
+			  			FROM APPROVAL_LINE al, 
+				    		JSON_TABLE(al.APPROVAL , '$.APPROVAL[*]'
+				               COLUMNS (EMP_NO VARCHAR2(100) PATH '$.emp_no',
+				                        APPROVAL_ST  VARCHAR(20) PATH '$.approval_st',
+				                        REASON  VARCHAR(200) PATH '$.reason',
+				                        APPROVAL_DT VARCHAR(200) PATH '$.approval_dt',
+				                        waiting VARCHAR2(4) PATH '$.waiting',
+				                        signimg VARCHAR2(4000) PATH '$.signimg')) AS U
+				                        WHERE U.EMP_NO = 2) 
+				       and APP_DOC_ST = '진행'
+				       <if test="paging.searchkeyword != null and paging.searchkeyword != ''">
+			 				AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
+			 			</if>
+				       order by APP_DOC_NO DESC
+					)A
+			)
+			WHERE RN BETWEEN #{paging.start} AND #{paging.last}

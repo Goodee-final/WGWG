@@ -32,7 +32,7 @@ public interface IApprovalDocDao {
 	public List<Department> selectAllDept();
 	public List<Position> selectAllPosition();
 	//결재진행함
-	public List<Approval_Doc> selectListIng(Approval_Doc doc);
+	//public List<Approval_Doc> selectListIng(Approval_Doc doc);
   
 	
 	//결재자

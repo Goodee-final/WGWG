@@ -25,9 +25,10 @@ public class Approval_Doc {
 		super();
 	}
 	
-	public Approval_Doc(String app_doc_title, String app_doc_content, int app_line_no, int emp_no, int form_no) {
+	public Approval_Doc(String app_doc_title, String ref_emp_no, String app_doc_content, int app_line_no, int emp_no, int form_no) {
 		super();
 		this.app_doc_title = app_doc_title;
+		this.ref_emp_no = ref_emp_no;
 		this.app_doc_content = app_doc_content;
 		this.app_line_no = app_line_no;
 		this.emp_no = emp_no;
