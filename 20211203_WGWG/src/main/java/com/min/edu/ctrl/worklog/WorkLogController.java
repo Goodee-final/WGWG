@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.min.edu.model.form.IFormService;
 import com.min.edu.model.worklog.IWorkLogService;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.paging.PagingDto;
 import com.min.edu.vo.worklog.WorkLog;
 
 @Controller
@@ -40,19 +42,16 @@ public class WorkLogController {
 	private IFormService formService;
 
 	@RequestMapping(value = "/worklogList.do", method = RequestMethod.GET)
-	public String worklogList(Model model) {
+	public String worklogList(Model model, HttpServletRequest req) {
 		logger.info("WorkLogController worklogList 리스트 화면");
 		logger.info("업무일지 조회 페이지로 이동");
 
 		Emp emp = null;
 		int emp_no = (Integer) session.getAttribute("loginEmp");
-
 		emp = workLogService.selectEmpNo(emp_no);
 		logger.info("emp selectEmpNo(emp_no) : ", emp.toString());
-
 		model.addAttribute("emp", emp);
 
-//		model.addAttribute("emp_no", emp.getEmp_no());
 		logger.info("전달받은 개인 번호 {}", emp.getEmp_no());
 
 		List<WorkLog> worklogmylist = workLogService.selectAllMyWorkLog(emp.getEmp_no());
@@ -64,6 +63,17 @@ public class WorkLogController {
 		List<WorkLog> worklogdeptlist = workLogService.selectAllDeptWorkLog(emp.getDept_no());
 		model.addAttribute("worklogdeptlist", worklogdeptlist);
 
+		///////
+//		PagingDto paging = new PagingDto(
+//				req.getParameter("index"), 
+//				req.getParameter("pageStartNum"),
+//				req.getParameter("listCnt")
+//				);
+//		paging.setTotal(formService.selectTotalPaging());
+//	  	model.addAttribute("paging", paging);
+//	  	logger.info("페이징 DTO 값: {}", paging.toString());
+		////
+		
 		return "/worklog/worklogList";
 	}
 
@@ -75,8 +85,7 @@ public class WorkLogController {
 		model.addAttribute("selectWorklog", selectWorklog);
 
 //		int emp_no = (Integer) session.getAttribute("loginEmp");
-		
-		
+
 		return "/worklog/worklogDetail";
 	}
 
@@ -104,9 +113,18 @@ public class WorkLogController {
 	public String searchWorkLog(Model model, @RequestParam String searchWord) {
 		logger.info("WorkLogController searchWorkLog 검색");
 		logger.info("#######전달받은 검색어 {}", searchWord);
+		
+		
 		List<WorkLog> wordList = workLogService.searchWorkLog(searchWord);
+		
 		model.addAttribute("searchList", wordList);
 
+		Emp emp = null;
+		int emp_no = (Integer) session.getAttribute("loginEmp");
+		emp = workLogService.selectEmpNo(emp_no);
+		logger.info("emp selectEmpNo(emp_no) : ", emp.toString());
+		model.addAttribute("emp", emp);
+		
 		return "/worklog/worklogSearchList";
 //		return "redirect:/worklogList.do";
 	}
@@ -144,9 +162,14 @@ public class WorkLogController {
 		List<WorkLog> dateList = new ArrayList<WorkLog>();
 		dateList = workLogService.searchByDate(map);
 		model.addAttribute("searchList", dateList);
+		
+		Emp emp = null;
+		int emp_no = (Integer) session.getAttribute("loginEmp");
+		emp = workLogService.selectEmpNo(emp_no);
+		logger.info("emp selectEmpNo(emp_no) : ", emp.toString());
+		model.addAttribute("emp", emp);
 
 		return "/worklog/worklogSearchList";
-//		return "redirect:/worklogList.do";
 	}
 
 	@RequestMapping(value = "/worklogInsert.do", method = RequestMethod.GET)
@@ -188,6 +211,7 @@ public class WorkLogController {
 			logger.info("업무일지 새글 작성 실패!!");
 			return null;
 		}
+		
 	}
 
 	// updateWorkLogContent(WorkLog workLog)

@@ -8,7 +8,7 @@
 <title>인덱스</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	
+   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -65,10 +65,28 @@
 		
 	});
 
-
+</script>
+<script type="text/javascript">
+/* function openChat(){
+	var newWindow = open("./memberList.do", "memberList", "height=550px, width=400px, top=200px, left=200px, location, resizable=no")
+} */
+   
+       var openWin;
+   
+       function openChat()
+       {
+           // window.name = "부모창 이름"; 
+           window.name = "index";
+           // window.open("open할 window", "자식창 이름", "팝업창 옵션");
+           openWin = window.open("./memberList.do",
+                   "memberList", "height=550px, width=400px, top=200px, left=200px, location, resizable=no");    
+       }
+       
+       function setChildText(){
+           openWin.document.getElementById("cInput").value = document.getElementById("pInput").value;
+       }
 
 </script>
-
 
 <style>
 
@@ -495,6 +513,10 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="fas fa-sms"></i>채팅
 				<ul class="nav-flyout">
+				<li class="w3-bar-item w3-button" onclick="openChat()">채채팅팅
+					<input type="hidden" value="${loginEmp}" id="pInput">
+					<input type="button" value="전달" onclick="setChildText()">
+				</li>
 					<li class="w3-bar-item w3-button" value="./chatOpen.do">채팅 시작</li>
 					<!-- <li class="w3-bar-item w3-button" value="./socketOpen.do">채팅 시작</li> -->
 				</ul></li>
