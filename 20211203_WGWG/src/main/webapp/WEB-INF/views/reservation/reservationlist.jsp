@@ -80,11 +80,11 @@ function checkTime(res_no){
 			console.log(res);
 			if(now < res){
 				alert("예약을 취소합니다.");
-				location.href="./delReservation.do?res_no="+res_no;
 			} else {
 				alert("예약을 취소할 수 없습니다.");
 				return false;
 			}
+		$('#content').load('./delReservation.do?res_no='+res_no);
 		}, error(res){
 			console.log(res);
 		}

@@ -7,6 +7,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
+$(document).ready(function(){
+	$('#insertbtn').click(function(){
+		$('#content').load('./forminsert.do');
+	});
+	$('.body').click(function(){
+		var val = $(this).children().first().text();
+		console.log(val);
+		$('#content').load('./formdetail.do?form_no='+val);
+	});
+})
+
 function frmPaging(){
 	document.getElementById('frmPaging').submit();
 }
@@ -143,9 +154,9 @@ function pageLast(num, total, listNum, pageCnt){
 				<th>양식등록일</th>
 			</tr>
 			<c:forEach var="form" items="${formList}">
-				<tr>
+				<tr class="body">
 					<td>${form.form_no}</td>
-					<td><a href="./formdetail.do?form_no=${form.form_no}">${form.form_nm}</a></td>
+					<td>${form.form_nm}</td>
 					<td>${form.fcdto.form_class_nm}</td>
 					<td>${form.form_reg_dt}</td>
 				</tr>
@@ -155,7 +166,7 @@ function pageLast(num, total, listNum, pageCnt){
 		<input type="hidden" name="pageStartNum" id="pageStartNum" value="${paging.pageStartNum}">
 		<input type="hidden" name="listCnt" id="listCnt" value="${paging.listCnt}">
 		
-		<button type="button" id="insertbtn" onclick="location.href='./forminsert.do'">양식등록</button>
+		<button type="button" id="insertbtn">양식등록</button>
 	<div class="center">
 			<ul class="pagination">
 				<li><a href="#" onclick="pageFirst()">&laquo;</a></li>

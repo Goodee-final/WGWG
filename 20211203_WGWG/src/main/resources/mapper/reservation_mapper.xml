@@ -58,10 +58,10 @@ DELETE FROM RESERVATION WHERE RES_NO = #{res_no}
 </delete>
 
 <!-- 회의실 목록 별 현재날짜보다 이후에 있는 예약 갯수 -->
-<select id="selectRsvCnt"  resultMap="reservationAll">
-SELECT r.room_no, r.room_nm, re.cnt, r.room_state 
-	FROM room r JOIN (SELECT room_no, count(*) cnt FROM reservation WHERE res_et > sysdate GROUP BY room_no) re
-	ON r.room_no = re.room_no
+<select id="selectRsvCnt"  resultType="RoomDto">
+SELECT ROOM_NO, ROOM_NM, ROOM_STATE 
+	FROM ROOM
+	ORDER BY ROOM_NO ASC
 </select>
 
 <!-- 회의실 추가하기 -->

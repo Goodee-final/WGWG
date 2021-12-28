@@ -73,10 +73,23 @@ public class ReservationController {
 		return st;
 	}
 	
-	@GetMapping(value="/delReservation.do")
+	@RequestMapping(value="/delReservation.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String deleteReservation(@RequestParam int res_no) {
 		int cnt = rsvService.deleteReservation(res_no);
 		return "redirect:/empReservationList.do";
 //		return "/reservation/reservationlist";
+	}
+	
+	@GetMapping(value="/adminRsvlist.do")
+	public String adminRsvList(Model model) {
+		List<Reservation> rsvList = rsvService.selectRsvCnt();
+		model.addAttribute("rsvList",rsvList);
+		return "/reservation/adminRsvlist";
+	}
+	
+	@GetMapping(value="/insertRoom.do")
+	public String insertRoom(@RequestParam String room_nm) {
+		int cnt = rsvService.insertRoom(room_nm);
+		return "redirect:/adminRsvlist.do";
 	}
 }

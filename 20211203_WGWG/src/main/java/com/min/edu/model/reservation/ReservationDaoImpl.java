@@ -53,5 +53,20 @@ public class ReservationDaoImpl implements IReservationDao{
 		return sqlSession.delete(NS+"deleteReservation", res_no);
 	}
 
+	@Override
+	public List<Reservation> selectRsvCnt() {
+		return sqlSession.selectList(NS+"selectRsvCnt");
+	}
+
+	@Override
+	public int insertRoom(String room_nm) {
+		return sqlSession.insert(NS+"insertRoom",room_nm);
+	}
+
+	@Override
+	public int updateRoom(Room room) {
+		return sqlSession.update(NS+"updateRoom", room);
+	}
+
 	
 }

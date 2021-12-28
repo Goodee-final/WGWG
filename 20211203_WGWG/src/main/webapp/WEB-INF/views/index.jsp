@@ -82,13 +82,13 @@ html, body {
 	padding: 0;
 }
 
-a {
+/* a {
 	text-decoration: none;
 	width: max-content;
 	height: max-content;
 	color: black;
 	cursor: pointer;
-}
+} */
 
 ul {
 	list-style: none;
@@ -486,9 +486,13 @@ i {
 
 			<li class="w3-bar-item nav1"><i class="far fa-calendar-check"></i>예약
 				<ul class="nav-flyout">
-					<li class="w3-bar-item w3-button" value="#"><a href="./reservation.do">예약하기</a></li>
+					<li class="w3-bar-item w3-button" value="./reservation.do">예약하기</li>
 					<li class="w3-bar-item w3-button" value="./empReservationList.do">예약목록</li>
-				</ul></li>
+					<c:if test="${emp.dept_no eq 40}">
+					<li class="w3-bar-item w3-button" value="./adminRsvlist.do">회의실 관리</li>
+					</c:if>
+				</ul>
+			</li>
 
 			<li class="w3-bar-item nav1"><i class="far fa-file"></i>업무일지
 				<ul class="nav-flyout">

@@ -13,4 +13,7 @@ public interface IReservationService {
 	public List<Reservation> selectResListByEmpno(int emp_no);
 	public String selectRsvTime(int res_no);
 	public int deleteReservation(int res_no);
+	public List<Reservation> selectRsvCnt();
+	public int insertRoom(String room_nm);
+	public int updateRoom(Room room);
 }

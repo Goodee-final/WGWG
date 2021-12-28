@@ -4,15 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- fullcalendar CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js"></script>
-    <!-- fullcalendar 언어 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js"></script>
-    <script class="cssdesk" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js" type="text/javascript"></script>
+   
     <script>
 $(function () {
     	function XMLToString(oXML) {
@@ -51,6 +43,30 @@ $(function () {
              
            },
            datesSet: function(dateInfo){
+        	   
+        	   calendar.removeAllEvents();
+               let room_no = $("select[name=roomselect]").val();
+                let url = "chkReservation.do";
+				$.get(url, { "room_no": room_no }, function (data) {//회의실 번호 별 예약내역 확인
+                    var reservation = $(data).find("reservation");
+                    if ($(reservation).length > 0) {
+                        $(reservation).each(function (idx, item) {
+                            var rsvtime = $(item).find("res_dt").text();
+                            var rsvendtime = $(item).find("res_et").text();
+                            var title = $(item).find("title").text();
+                            if (rsvtime != "" && rsvendtime != "") {
+                                calendar.addEvent({
+                                    title: title,
+                                    start: rsvtime,
+                                    end: rsvendtime,
+                                    classNames: ["rsv"],
+                                    textColor: "black",
+                                });
+                            }
+                        });
+                    }
+                });
+        	   
         	   $('#roomList').change(function(){
                calendar.removeAllEvents();
                let room_no = $("select[name=roomselect]").val();
@@ -88,6 +104,11 @@ $(function () {
         	   } else {
         		   console.log(date.startStr);
             	   console.log(date.endStr);
+            	   if(!checkTime(date.startStr, date.endStr)){
+            		   alert("예약 불가능 시간입니다.");
+            		   //$("#calendar").load("reservation.do");
+            	} else{
+            	   
                	  var reason = prompt("사용 목적을 입력해주세요");
                     	  if(reason){
                     		  var rsvdate = {"room_no": room_no, "res_dt":  moment(date.startStr).format('YYYY-MM-DD HH:mm'), "res_et":moment(date.endStr).format('YYYY-MM-DD HH:mm'), "res_title": reason};
@@ -110,10 +131,12 @@ $(function () {
                       	          alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
                       	       },
                       	    });
+                    	  
                     	  } else {
                     		  alert("사용목적은 필수로 입력해야 합니다");
                     		  return false;
-                    	  } 
+                    	  }
+            	   }
         	   }
         	   
            }
@@ -127,11 +150,6 @@ calendar.render();
   <style>
     	#calendar {
     		width: 900px;
-    	}
-    	.content {
-    		margin-top: 80px;
-			margin-left: 230px;
-			padding: 50px;
     	}
     	a {
     		text-decoration: none !important;
@@ -179,13 +197,32 @@ calendar.render();
   <body>
   		<div class="content">
   			<select name="roomselect" id="roomList">
-  				<option class="room_no" value="0">회의실 선택하기</option>
   				<c:forEach var="room" items="${roomList}">
   					<option class="room_no" value="${room.room_no}">${room.room_nm}</option>
   				</c:forEach>
   			</select>
   			<div id="calendar"></div>
   		</div>
-  		
+  <script type="text/javascript">
+  function checkTime(st,et){
+		
+		var today = new Date();
+		var year = today.getFullYear();
+		var month = ('0' + (today.getMonth() + 1)).slice(-2);
+		var day = ('0' + today.getDate()).slice(-2);
+		var hours = ('0' + today.getHours()).slice(-2); 
+		var minutes = ('0' + today.getMinutes()).slice(-2);
+		var seconds = ('0' + today.getSeconds()).slice(-2); 
+		var dateString = year + '-' + month  + '-' + day;
+		var timeString = hours + ':' + minutes  + ':' + seconds;
+		var now = dateString +' '+ timeString; //현재시간
+		
+		if(now > st || now > et ){
+			return false;
+		} else{
+			return true;
+		}
+  }
+  </script>		
  </body>
  </html>

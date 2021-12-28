@@ -54,4 +54,22 @@ public class ReservationServiceImpl implements IReservationService {
 		return dao.deleteReservation(res_no);
 	}
 
+	@Override
+	public List<Reservation> selectRsvCnt() {
+		logger.info("회의실 별 예약갯수 확인");
+		return dao.selectRsvCnt();
+	}
+
+	@Override
+	public int insertRoom(String room_nm) {
+		logger.info("회의실 추가하기");
+		return dao.insertRoom(room_nm);
+	}
+
+	@Override
+	public int updateRoom(Room room) {
+		logger.info("회의실 수정하기");
+		return dao.updateRoom(room);
+	}
+
 }
