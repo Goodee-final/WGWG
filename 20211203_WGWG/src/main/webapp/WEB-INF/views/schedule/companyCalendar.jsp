@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Insert title here</title>
+<title>회사일정</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="fullcalenda/lib/main.css" rel="stylesheet" />
 <script type="text/javascript" src="fullcalenda/lib/main.js"></script>
