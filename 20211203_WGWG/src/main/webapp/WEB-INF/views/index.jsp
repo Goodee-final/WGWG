@@ -524,7 +524,6 @@ html, body {
 	padding: 0;
 }
 
-
 #id{
 	margin: 0px;
 }
