@@ -17,7 +17,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 
 <!-- include summernote-ko-KR -->
-<script src="./js/summernote-ko-KR.js"></script>
+<script src="./js/summernote-ko-KR.js?ver=1"></script>
 
 
 <title>글수정</title>

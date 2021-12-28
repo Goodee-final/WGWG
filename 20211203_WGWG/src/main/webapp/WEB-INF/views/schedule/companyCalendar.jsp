@@ -307,21 +307,6 @@ request.done(function(data) {
 });
     
 
- 
-
- 
-	$("#updateEvent").click(function(e){
-		e.preventDefault();
-		console.log($("#edit-start").val());
-	})	  
-  	  
-/* function frm() {  
-		
-	   	if(document.getElementById('calendarinsert')){
-	 	document.getElementById('calendarinsert').submit();
-		
-		}
-	}	*/	
  function dateFormat(date) {
 	 let month = date.getMonth() +1;
      let day = date.getDate();
@@ -362,34 +347,6 @@ request.done(function(data) {
 	     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
 	} 
  
- /* 
- function datetimelocalcha(date) {
-     let month = date.getMonth() +1;
-     let day = date.getDate()-1;
-     let hour = date.getHours();
-     let minute = date.getMinutes();
-
-     month = month >= 10 ? month : '0' + month;
-     day = day >= 10 ? day : '0' + day;
-     hour = hour >= 10 ? hour : '0' + hour;
-     minute = minute >= 10 ? minute : '0' + minute;
-
-     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
-}
- function datetimelocalsum(date) {
-	 console.log(date);
-     let month = date.getMonth() + 1;
-     let day = date.getDate()+1;
-     let hour = date.getHours();
-     let minute = date.getMinutes();
-
-     month = month >= 10 ? month : '0' + month;
-     day = day >= 10 ? day : '0' + day;
-     hour = hour >= 10 ? hour : '0' + hour;
-     minute = minute >= 10 ? minute : '0' + minute;
-
-     return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute;
-} */
 </script>
 
 </head>
