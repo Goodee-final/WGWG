@@ -14,6 +14,7 @@ public class Approval_Doc {
 	private int app_file_no;
 	private int emp_no;
 	private int form_no;
+	private String emp_nm;
 	
 	private Approval_Page paging;
 	private Form fvo;
@@ -200,6 +201,14 @@ public class Approval_Doc {
 
 	public void setFvo(Form fvo) {
 		this.fvo = fvo;
+	}
+
+	public String getEmp_nm() {
+		return emp_nm;
+	}
+
+	public void setEmp_nm(String emp_nm) {
+		this.emp_nm = emp_nm;
 	}
 
 	public Approval_line getAlvo() {

@@ -46,6 +46,8 @@ public interface IApprovalService {
 	//문서 상태 업데이트
 	public int updateDocSt(Approval_Doc doc);
 	
+	//문서 내용 및 결재라인 수정
+	public int updateDoc(Approval_Doc doc);
 	//결재자 정보 업데이트
 	public int updateApproval(Approval_line line);
 	

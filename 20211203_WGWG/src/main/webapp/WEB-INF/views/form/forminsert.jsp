@@ -14,7 +14,6 @@
 <!-- jQuery를 사용하기위해 jQuery라이브러리 추가 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
 
-
 <style>
 	#backbtn {
 		width: 150px;
@@ -64,8 +63,8 @@
 	        양식제목 <input type="text" id="title" name="title"/>
 	        <textarea rows="20" cols="135" id="ir1" name="content"></textarea>
 			<p class="count"><span>0</span> / 40000</p>
-			<input id="save" type="submit" value="저장">
-			<input type="button" id="backbtn" onclick="location.href='./formlist.do'" value="목록으로 돌아가기">
+			<input id="save" type="button" value="저장">
+			<input type="button" id="backbtn" value="목록으로 돌아가기">
 		</form>
 	</div>
 </body>
@@ -99,7 +98,7 @@ $(function(){
       $("#save").click(function(){
           oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
           var formclassification = $("select[name=formclassification]").val();
-          var data = data.replace(/[<][^>]*[>]/g, '');
+          $('#content').load('./formlist.do');
           $("#frm").submit();
       });
       
@@ -120,6 +119,11 @@ $(function(){
     		  }
     	  });
       }, 1000)
+
+    	   $('#backbtn').click(function(){
+    		   $('#content').load('./formlist.do');
+    	   });
+
 });
 
 </script>

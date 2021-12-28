@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.min.edu.vo.emp.Department;
 import com.min.edu.vo.emp.Emp;
+import com.min.edu.vo.form.Form;
+import com.min.edu.vo.paging.PagingDto;
 import com.min.edu.vo.worklog.WorkLog;
 
 public interface IWorkLogDao {
@@ -17,9 +19,7 @@ public interface IWorkLogDao {
 
 //	public List<WorkLog> searchWorkLog(Map<String, String> map);
 	public List<WorkLog> searchWorkLog(String searchWord);
-//	public List<WorkLog> searchByDate(String startDate, String endDate);
 	public List<WorkLog> searchByDate(Map<String, Object> map);
-	
 	
 	public int insertWorkLog(WorkLog workLog);
 
@@ -29,8 +29,13 @@ public interface IWorkLogDao {
 
 //	public int deleteWorkLog(Map<String, String[]> worklog_nos);
 
-	//
-//	public Emp selectEmpDP(int emp_no);
 	public Emp selectEmpNo(int emp_no);
 
+	public List<WorkLog> worklogDeptPaging(int dept_no);
+	public List<WorkLog> worklogMyPaging(int emp_no);
+	
+	public int worklogTotalPaging();
+	public List<WorkLog> worklogSWordPaging(String searchWord);
+	public int searchTotalPaging(String formtitle);
+	
 }

@@ -197,4 +197,10 @@ public class ApprovalDocDaoImpl implements IApprovalDocDao {
 		return sqlSession.selectList(NS + "selectfeedback", docno);
 	}
 
+	@Override
+	public int updateDoc(Approval_Doc doc) {
+		logger.info("ApprovalDocDaoImpl 문서 내용 및 결재라인 수정 updateDoc");
+		return sqlSession.update(NS+"updateDoc", doc);
+	}
+
 }
