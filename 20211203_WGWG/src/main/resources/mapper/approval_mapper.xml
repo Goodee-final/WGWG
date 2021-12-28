@@ -110,7 +110,7 @@
 	<insert id="insertDoc" parameterType="DocVo">
 		INSERT INTO "C##WG".APPROVAL_DOCUMENT
 			(APP_DOC_NO, APP_DOC_ST, APP_DOC_REG_DT, APP_DOC_TITLE, REF_EMP_NO, APP_DOC_CONTENT, APP_LINE_NO, APP_FILE_NO, EMP_NO, FORM_NO)
-		VALUES(APP_DOC_SEQ.NEXTVAL, '진행', sysdate, #{app_doc_title}, '', #{app_doc_content}, #{app_line_no}, null, #{emp_no}, #{form_no})
+		VALUES(APP_DOC_SEQ.NEXTVAL, #{app_doc_st}, sysdate, #{app_doc_title}, #{ref_emp_no}, #{app_doc_content}, #{app_line_no}, null, #{emp_no}, #{form_no})
 	</insert>
 	
 	<insert id="insertappline" parameterType="LineVo" useGeneratedKeys="true" keyColumn="APP_LINE_NO" keyProperty="app_line_no">
@@ -118,23 +118,7 @@
 			(APP_LINE_NO, APPROVAL, BOOKMARK)
 		VALUES(APP_LINE_SEQ.NEXTVAL, #{approval}, '')
 	</insert>
-	
-	
-	<!-- 결재대기함 송신 -->
-  	<select id="selectListIng" parameterMap="DocPaging" resultType="DocVo">
-		SELECT APP_DOC_NO, APP_DOC_ST, TO_CHAR(APP_DOC_REG_DT, 'YYYY-MM-DD HH24:MI') APP_DOC_REG_DT, APP_DOC_TITLE, EMP_NO, FORM_NO, REF_EMP_NO
-			FROM (
-				SELECT ROWNUM RN, A.* 
-					FROM (
-							SELECT *
-							FROM APPROVAL_DOCUMENT ad 
-							WHERE EMP_NO = #{emp_no} AND APP_DOC_ST = #{app_doc_st}
-							ORDER BY app_doc_no DESC 
-							) A
-					)
-		WHERE RN BETWEEN #{paging.start} AND #{paging.last}
-	</select>
-  
+	  
   
 	<!--결재자 문서 selectALL    -->
 	<select id="selectAllDocApproval" resultType="DocVo">
@@ -295,7 +279,7 @@ SELECT NVL(count(*),0) from(SELECT *
 				                        waiting VARCHAR2(4) PATH '$.waiting',
 				                        signimg VARCHAR2(4000) PATH '$.signimg')) AS U
 				                        WHERE U.EMP_NO = #{emp_no}) 
-				       and APP_DOC_ST = #{app_doc_st} 
+				       					and APP_DOC_ST = #{app_doc_st} 
 				       <if test="paging.searchkeyword != null and paging.searchkeyword != ''">
 			 				AND LOWER(app_doc_title) LIKE LOWER('%'||#{paging.searchkeyword}||'%')
 			 			</if>

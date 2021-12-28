@@ -53,7 +53,8 @@ th {
 }
 
 #liner {
-	font-size: 1.1rem;
+	font-size: 1.3rem;
+	text-align: center;
 	width: 80px;
 }
 
@@ -209,7 +210,7 @@ th {
 </style>
 <body>
 
-	<form action="./docinsert.do" method="post">
+	<form action="./docinsert.do" method="post" id="frmDoc">
 		<div class="container">
 			<h1>기안하기</h1>
 			<p>결재문서 작성하기</p>
@@ -223,7 +224,7 @@ th {
 				</select> 
 				<input type="text" name="form_num" value="" hidden="hidden">
 				<button type="button" id="lineselect" class="bttn" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
-				<input type="text" hidden="hidden" value="" name="app_line_no">
+				<input type="text" value="" name="app_line" hidden="hidden">
 				<input type="text" name="emp_no" value="${empinfo.emp_no}" hidden="hidden"/>
 			</div>
 
@@ -231,7 +232,7 @@ th {
 				<table class="docinfo" id="docinfotable">
 					<tr id="tr1">
 						<th>문서번호</th>
-						<td id="AppDocNo">년월+시퀀스</td>
+						<td id="AppDocNo">년월+문서번호</td>
 					</tr>
 					<tr id="tr2">
 						<th>작성일자</th>
@@ -239,15 +240,15 @@ th {
 					</tr>
 					<tr>
 						<th>부서</th>
-						<td>${empinfo.dVo.dept_nm}</td>
+						<td>${empinfo.dVo.dept_nm}  ${empinfo.pVo.position_nm}</td>
 					</tr>
 					<tr id="tr3">
 						<th>작성자</th>
-						<td id="EmpNM">${empinfo.emp_nm}${empinfo.pVo.position_nm}</td>
+						<td id="EmpNM">${empinfo.emp_nm}</td>
 					</tr>
 					<tr>
-						<th>참조</th>
-						<td id="REFNM" colspan=5><input type="text" name="ref_emp_no" hidden="hidden"/></td>
+						<th>참조<input type="text" name="ref_emp_no" value="" hidden="hidden"/></th>
+						<td id="REFNM" colspan=5></td>
 					</tr>
 					<tr>
 						<th>제목</th>
@@ -259,9 +260,10 @@ th {
 				<textarea rows="20" cols="135" id="ir1" name="app_doc_content"></textarea>
 			</div>
 			<div id="nextbtn">
-				<button type="button" class="bttn" onclick="">임시저장</button>
-				<button type="submit" class="bttn" id="save" >상신</button>
+				<button type="button" class="bttn" id="tempSave">임시저장</button>
+				<button type="submit" class="bttn" id="save" onclick="finish()">상신</button>
 				<button type="button" class="bttn" onclick="stopdoc()">기안취소</button>
+				<input type="hidden" name="doc_state" id="doc_state" value="">
 			</div>
 		</div>
 	</form>
@@ -314,23 +316,25 @@ th {
 							<button class="removebtn" id="removeref">◁</button>
 						</div>
 						<div id="linebox">
-							<p id="boxtitle">결재자</p>
+							<p id="boxtitle">결재자<button id="faddline" style="margin-left:165px;">완료</button></p>
 							<div id="line"></div>
 						</div>
 						<div id="refbox">
-							<p id="boxtitle">참조인</p>
+							<p id="boxtitle">참조<button id="faddref" style="margin-left:180px;">완료</button></p>
 							<div id="ref"></div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-success" data-dismiss="modal" value="등록" onclick="submitLine()" />
+					<input type="submit" id="linesubmitbtn" class="btn btn-success" data-dismiss="modal" value="등록" onclick="submitLine()" disabled="disabled"/>
 					<input type="reset" class="btn btn-default" value="초기화" onclick="resetLine()" />
 					<button type="button" id="close" class="btn btn-default" data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
 	<script>
@@ -354,10 +358,6 @@ th {
  	var cntref = 0;
  	var divvv = "";
  	var apprline = "";
- 	var idarr = []; 
-	var nmarr = [];
-	var refid = [];
-	var refnm = [];
 	
 	$('#jstree').bind('select_node.jstree', function(event, data){
 		var a = $('#jstree').jstree('get_selected',true);
@@ -365,6 +365,31 @@ th {
 		console.log(a);
 	});
 	
+	$("#faddline").click(function(){
+		document.getElementById('addline').disabled = true;
+		document.getElementById('removeline').disabled = true;
+		document.getElementById('faddline').disabled = true;
+		
+		var node = $('#jstree').jstree(true).get_node('#').children_d;
+		$("#jstree").jstree("enable_node", node);
+		
+		if (document.getElementById('faddref').disabled){
+			document.getElementById('linesubmitbtn').disabled = false;
+		}
+	});
+	
+	$("#faddref").click(function(){
+		document.getElementById('addref').disabled = true;
+		document.getElementById('removeref').disabled = true;
+		document.getElementById('faddref').disabled = true;
+		
+		var node = $('#jstree').jstree(true).get_node('#').children_d;
+		$("#jstree").jstree("enable_node", node);
+		
+		if (document.getElementById('faddline').disabled){
+			document.getElementById('linesubmitbtn').disabled = false;
+		}
+	});
 	
 	$("#addline").click(function(){
 		var newappdiv = document.createElement('div');
@@ -445,6 +470,9 @@ th {
 		var line = document.getElementById("ref"); // <p "id=p"> 태그의 DOM 객체 찾기 
 		line.appendChild(newappdiv);
 		console.log(cntref);
+		
+		var node = $('#jstree').jstree('get_selected',true);
+		$("#jstree").jstree("disable_node", node);
 	});
 	
 	$("#removeref").click(function(){
@@ -462,6 +490,13 @@ th {
 		$("#jstree").jstree("deselect_all");
 		var node = $('#jstree').jstree(true).get_node('#').children_d;
 		$("#jstree").jstree("enable_node", node);
+		document.getElementById('linesubmitbtn').disabled = true;
+		document.getElementById('addline').disabled = false;
+		document.getElementById('removeline').disabled = false;
+		document.getElementById('faddline').disabled = false;
+		document.getElementById('addref').disabled = false;
+		document.getElementById('removeref').disabled = false;
+		document.getElementById('faddref').disabled = false;
 		cntline = 0;
 		cntref = 0;
 	}
@@ -477,12 +512,14 @@ th {
 		
 		var idarr = [];
 		var nmarr = [];
-		var refid = [];
-		var refnm = [];
+		var refidarr = [];
+		var refnmarr = [];
 		
 		var docno = $('#AppDocNo').text();
 		var regdate =$('#AppDocRegDt').text();
 		var empinfo = $('#EmpNM').text();
+		var refinfo = $('#REFNM').text();
+		console.log(refinfo);
 		
 		
 		for(var i = 0; i < 4; i++){
@@ -494,16 +531,15 @@ th {
 			}
 		}
 		
-/* 		for(var i = 0; i < 4; i++){
-			if(document.getElementById('lineDiv'+i) != null){
-				var lineid = document.getElementById('lineDiv'+i).innerHTML.split('"');
-				idarr[i] = lineid[3];
-				var jbText = $('#lineDiv'+i).text();
-				nmarr[i] = jbText;
+ 		for(var i = 0; i < cntref; i++){
+			if(document.getElementById('refDiv'+i) != null){
+				var refid = document.getElementById('refDiv'+i).innerHTML.split('"');
+				refidarr[i] = refid[3];
+				var jbtext = $('#refDiv'+i).text();
+				refnmarr[i] = jbtext;
 			}
-		} */
+		}
 
-		console.log("idarr:" + idarr);
 		$.ajax({
             type : "post",  
             url : "appline.do",// 컨트롤러에서 대기중인 URL 주소이다.
@@ -512,16 +548,16 @@ th {
             	"arr":idarr
             },
             success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
-                console.log(res);
-               	var linenoooo = res;
-               	$("input[name=app_line_no]").attr("value", linenoooo);
+             
+            	var idddd = JSON.stringify(res);
+            	$("input[name=app_line]").attr("value", idddd);
                	
                	var varhtml1 = "";
         		var varhtml2 = "";
         		var varhtml3 = "";
                	
         		varhtml1 += "<th>문서번호</th>                                               ";
-        		varhtml1 += "<td id='AppDocNo'>년월 문서번호</td>                           ";
+        		varhtml1 += "<td id='AppDocNo'>년월+문서번호</td>                           ";
         	                                                                   
         		varhtml2 += "<th>작성일자</th>                                      ";
         		varhtml2 += "<td id='AppDocRegDt'>"+regdate+"</td>                   ";
@@ -542,15 +578,14 @@ th {
     		
         		
             },
-            error : function(){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
-                alert("통신 실패.")
+            error : function(){
+                //alert("통신 실패.");
             }
         });
 		
-		//$("input[name=ref_emp_no]").attr("value", form_no);
-		
-// 		$('#approverline').modal('hide'); 
-		
+		$("#REFNM").text(refnmarr);
+		$("input[name=ref_emp_no]").attr("value", refidarr);
+			
 	}
 	
 	</script>
@@ -607,14 +642,60 @@ th {
              //var data = data.replace(/[<][^>]*[>]/g, '');
              //console.log(data);
 
-             var form_no = $('#formList option:selected').val();
-             console.log(form_no);
-             $("input[name=form_num]").attr("value", form_no);
+             if($('#formList option:selected').val() == ''){
+            	 alert('양식을 선택해 주세요');
+             } else if($('#lineDiv0').length <= 0){
+            	 alert('결재라인을 선택해 주세요.')
+             } else if($("#title").val() == ''){
+                 alert("제목을 입력해 주세요.");
+             } else{
+	             var form_no = $('#formList option:selected').val();
+	             console.log(form_no);
+	             $("input[name=form_num]").attr("value", form_no);
+	             $("#doc_state").attr("value","상신");
+	             
+	             $("#frmDoc").submit();
+             	 alert('결재문서가 상신 되었습니다.');
+             }
              
-             $("#frm").submit();
-
+         });
+         $("#tempSave").click(function(){
+             oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+             var content = document.getElementById("ir1").value;
+             //var data = data.replace(/[<][^>]*[>]/g, '');
+             //console.log(data);
+             if($('#formList option:selected').val() == ''){
+            	 alert('양식을 선택해 주세요');
+             } else if($('#lineDiv0').length <= 0){
+            	 alert('결재라인을 선택해 주세요.')
+             } else if($("#title").val() == ''){
+                 alert("제목을 입력해 주세요.");
+             } else{
+            	 
+	             var form_no = $('#formList option:selected').val();
+	             console.log(form_no);
+	             $("input[name=form_num]").attr("value", form_no);
+	             $("#doc_state").attr("value","임시저장");
+	             
+	             
+	             $("#frmDoc").submit();
+             
+             	 alert('결재문서가 임시저장 되었습니다.');
+             }
          });
    });
+   
+   function stopdoc(){
+		if (confirm("기안을 취소하면 작성한 내용이 사라집니다.") == true) {    //확인
+			$('#content').load('./ingdoclist.do');
+		} else {   //취소
+			return false;
+		}
+	}
+   
+   function finish(){
+	   $('#content').load('./ingdoclist.do');
+   }
    </script>
 
 </body>

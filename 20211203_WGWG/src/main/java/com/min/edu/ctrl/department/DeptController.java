@@ -56,7 +56,7 @@ public class DeptController {
 	}
 	
 	@PostMapping(value="/updateDept.do")
-	public String updateDept(Department dept,HttpServletRequest req) {
+	public String updateDept(Department dept,HttpServletRequest req, HttpSession session) {
 		logger.info("DeptController updateDept 수정완료");
 		int no = Integer.parseInt(req.getParameter("dept_no"));
 		String nm = req.getParameter("dept_nm");
@@ -65,7 +65,7 @@ public class DeptController {
 		dept.setDept_nm(nm);
 		
 		dservice.updateDept(dept);
-		
+		session.setAttribute("loc", "./deptList.do");
 		return "redirect:/home.do";
 	}
 	
@@ -79,7 +79,7 @@ public class DeptController {
 		String newNm = req.getParameter("dept_nm");
 		logger.info("DeptController newDept 새로운 부서 이름 : {}",newNm);
 		dservice.insertDept(newNm);
-		session.setAttribute("loc", "./main.do");
+		session.setAttribute("loc", "./deptList.do");
 		return "redirect:/home.do";
 	}
 	

@@ -118,6 +118,7 @@ canvas {
 
 	<script>
 		var canvas = $("#signature-pad canvas")[0];
+		
 		var sign = new SignaturePad(canvas, {
 			minWidth : 4,
 			maxWidth : 4,

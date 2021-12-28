@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="./css/paging.css">
 <!-- 사용자 Css -->
-<script type="text/javascript" src="./js/paging.js"></script>
+<script type="text/javascript" src="./js/paging.js?ver=1"></script>
 <!-- 사용자 js -->
 <style type="text/css">
    

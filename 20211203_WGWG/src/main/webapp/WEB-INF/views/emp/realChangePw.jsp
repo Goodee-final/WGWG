@@ -80,6 +80,7 @@ $("#send").click(function(){
 		$("#pw").val('');
 		$("#pwChk").val('');
 		$("#pw").focus();
+		return false;
 	}
 	
 	if(!pw_value){

@@ -23,11 +23,3 @@ function validateForm(){
 }
 
 
-function stopdoc(){
-	if (confirm("기안을 취소하면 작성한 내용이 사라집니다.") == true) {    //확인
-		window.location = './mydoclist.do';
-	} else {   //취소
-		return false;
-	}
-}
-

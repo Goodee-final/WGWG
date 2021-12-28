@@ -92,7 +92,7 @@ public class ApprovalController {
 //		if(active.equals("3")) { doc.setApp_doc_st("진행"); doclists =
 //		approvalServiceImpl.selectListDocSt(doc);
 //		paging.setTotal(approvalServiceImpl.selectTotalPaging(doc)); }else
-//		 
+		 
 		if (active.equals("4")) {
 			doc.setApp_doc_st("진행");
 			doclists = approvalServiceImpl.selectListDocSt(doc);
@@ -117,7 +117,7 @@ public class ApprovalController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("doclists", doclists);
 
-		session.setAttribute("loc", "./approval/mydoclist");
+		session.setAttribute("loc", "./mydoclist.do");
 
 		return "/approval/mydoclist";
 	}
@@ -127,6 +127,7 @@ public class ApprovalController {
 		logger.info("ApprovalController 기안하기 문서 작성");
 		int empno = (Integer) session.getAttribute("loginEmp");
 		Emp empinfo = approvalServiceImpl.selectEmpInfo(empno);
+		
 		model.addAttribute("empinfo", empinfo);
 		List<Department> deptlists = approvalServiceImpl.selectAllDept();
 		List<Emp> emplists = approvalServiceImpl.selectAllEmp();
@@ -142,7 +143,7 @@ public class ApprovalController {
 
 	@PostMapping(value = "/appline.do")
 	@ResponseBody
-	public int appline(@RequestParam(value = "arr[]") int[] arr, Model model) {
+	public String appline(@RequestParam(value = "arr[]") int[] arr, Model model) {
 		logger.info("ApprovalController 결재라인 등록");
 		System.out.println("ajax 전달값 : " + arr);
 		int[] applinenum = arr;
@@ -186,27 +187,32 @@ public class ApprovalController {
 		// 마지막 결재자일시
 		approval += appJson + "]}";
 
-		Approval_line appline = new Approval_line(approval);
-
-		// 결재라인 등록
-		int applineno = approvalServiceImpl.insertappline(appline);
-
-		return applineno;
+		return approval;
 	}
 
 	@PostMapping(value = "/docinsert.do")
-	public String docapproval(Model model, HttpServletRequest req, @RequestParam String form_num) {
+	public String docapproval(Model model, HttpServletRequest req, @RequestParam String form_num, @RequestParam String app_line) {
 		logger.info("ApprovalController 기안하기 문서 작성");
 		System.out.println("form_num : " + form_num);
 		int form_no = Integer.parseInt(form_num);
-		int app_line_no = Integer.parseInt(req.getParameter("app_line_no"));
 		String app_doc_title = req.getParameter("app_doc_title");
 		String app_doc_content = req.getParameter("app_doc_content");
+		String state = req.getParameter("doc_state");
 		int emp_no = Integer.parseInt(req.getParameter("emp_no"));
-		Approval_Doc doc = new Approval_Doc(app_doc_title, app_doc_content, app_line_no, emp_no, form_no);
+		String ref_emp_no = req.getParameter("ref_emp_no");
+		// 결재라인 등록
+		Approval_line appline = new Approval_line(app_line);
+		int app_line_no = approvalServiceImpl.insertappline(appline);
+		Approval_Doc doc = new Approval_Doc(app_doc_title, ref_emp_no, app_doc_content, app_line_no, emp_no, form_no);
+    if(state.equals("임시저장")) {
+			doc.setApp_doc_st("임시저장");
+		}else {
+			doc.setApp_doc_st("진행");
+		}
 		approvalServiceImpl.insertDoc(doc);
 		System.out.println("문서" + doc);
-		return "redirect:/";
+    session.setAttribute("loc", "");
+		return "redirect:/home.do";
 	}
 	
 	@GetMapping(value = "ingdoclist.do")
@@ -216,7 +222,6 @@ public class ApprovalController {
 		return "/approval/ingdoclist";
 	}
 
-	
 
 	@Autowired
 	ISignDao signdao;
@@ -305,7 +310,7 @@ public class ApprovalController {
 
 		// 현재시간
 		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:MI");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:mm");
 		String nowTime = format.format(date);
 
 		// 라인에 싸인 정보 저장
@@ -320,24 +325,11 @@ public class ApprovalController {
 		// 내 결재 대기 상태 n로 변경
 		Approval_Doc doc = approvalServiceImpl.selectOneDoc(docno);
 
-		System.out.println("doc: " + doc);
-		// Approval_line appline = doc.getAlvo();
-		System.out.println("doc: " + doc);
-//		System.out.println("appline: "+ appline);
-//		System.out.println("applineNo " + appline.get);
 		int lineNo = approvalServiceImpl.selectOneDoc(docno).getApp_line_no();
-		System.out.println(doc.getApp_line_no());
-//		appline.setApp_line_no(1);
-//		appline.setApp_line_no(doc.getApp_line_no());
-//		System.out.println("appline: "+ appline);
 
 		Approval_line appline = approvalServiceImpl.selectLine(doc.getApp_line_no());
-		System.out.println("appline : " + appline);
-
-		System.out.println("라인넘버 :: " + appline.getApp_line_no() + "!!!!");
 
 		String jsonObj = appline.getApproval();
-		System.out.println("applineNo: " + lineNo + "!!!!!!!!!!!!");
 
 		Gson gson = new Gson();
 
@@ -402,20 +394,19 @@ public class ApprovalController {
 				}
 			}
 
+			
 			String appJson = gson.toJson(approver);
 			System.out.println(appJson);
 
 			// 마지막 결재자일시
 			if (i == dataCNT - 1) {
 				approval += appJson + "]}";
-
 				appline.setApproval(approval);
 				System.out.println("업데이트 된 결재자 리스트 : " + appline.getApproval());
 			} else {
 				approval += appJson + ",";
 				System.out.println();
 				System.out.println("변경후: " + approval);
-
 			}
 
 			System.out.println();
@@ -436,10 +427,7 @@ public class ApprovalController {
 
 			doc.setApp_doc_no(docno);
 			doc.setApp_doc_st("완료");
-//			System.out.println(doc.getApp_doc_no());
-//			System.out.println(doc.getApp_doc_st());
 			approvalServiceImpl.updateDocSt(doc);
-//			map.put("docBox", "완료");
 		}
 		map.put("docBox", "개인");
 		map.put("docno", docno);
@@ -453,10 +441,11 @@ public class ApprovalController {
 
 		int docno = Integer.parseInt(req.getParameter("docNo"));
 		String reason = req.getParameter("reason");
-
+		int empno = (Integer) session.getAttribute("loginEmp");
+		
 		// 현재시간
 		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:MI");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH24:mm");
 		String nowTime = format.format(date);
 
 		// 내 결재 대기 상태 n로 변경
@@ -488,7 +477,7 @@ public class ApprovalController {
 
 			// 1은 세션에 있는 회원 번호
 			// JSONARRAY에서 결재자 회원번호와 로그인한 회원번호 동일시
-			if (empJson1.getAsInt() == 2) {
+			if (empJson1.getAsInt() == empno) {
 
 				// APPROVAL[i].approval_st(승인여부) 값을 -> '반려'로 변경
 				approver = new Approver(empJson1.getAsInt(), // 결재자 회원번호
@@ -548,6 +537,53 @@ public class ApprovalController {
 
 		return "redirect:/home.do";
 	}
+	
+		// 진행 문서함
+		@GetMapping(value = "/progressdoc.do")
+		@PostMapping(value = "/progressdoc.do")
+		public String docListProgress(Model model, HttpServletRequest request) {
+
+			logger.info("진행 문서함");
+			Approval_Doc doc = new Approval_Doc();
+			int empno = (Integer) session.getAttribute("loginEmp");
+			doc.setEmp_no(empno);
+			doc.setApp_doc_st("진행");
+			String active;
+
+			if (request.getParameter("active") != null) {
+				
+				active = request.getParameter("active");
+			} else {
+				active = "1";
+			}
+			Approval_Page paging = new Approval_Page(request.getParameter("index"), request.getParameter("pageStartNum"),
+					request.getParameter("listCnt"), request.getParameter("app_chk"), request.getParameter("searchKeyword"),
+					request.getParameter("active"));
+			doc.setPaging(paging);
+
+			System.out.println(paging);
+			// 송신
+			List<Approval_Doc> doclist1 = approvalServiceImpl.selectListDocSt(doc);
+			// 수신경우
+			List<Approval_Doc> doclist2 = approvalServiceImpl.selectListDocStApp(doc);
+
+			if (active.equals("2")) {
+				paging.setTotal(approvalServiceImpl.selectTotalPagingApp(doc));
+				System.out.println("paging 마지막 번호: " + paging.getTotal());
+			} else {
+				paging.setTotal(approvalServiceImpl.selectTotalPaging(doc));
+				System.out.println("paging 마지막 번호: " + paging.getTotal());
+			}
+
+			model.addAttribute("doclist1", doclist1);
+			model.addAttribute("doclist2", doclist2);
+			model.addAttribute("paging", paging);
+
+			session.setAttribute("loc", "./progressdoc.do");
+
+			return "/approval/ingdoclist";
+		}
+	
 
 	// 완료 문서함
 	@GetMapping(value = "/completedoc.do")
