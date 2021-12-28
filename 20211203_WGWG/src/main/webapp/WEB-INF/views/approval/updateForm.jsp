@@ -13,14 +13,10 @@ String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 <head>
 <meta charset="UTF-8">
 <title>기안하기</title>
-
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script type="text/javascript" src="./js/insertDoc.js"></script>
-<script type="text/javascript"
-	src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="<%=ctx%>/SE/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 </head>
 <style type="text/css">
 .docinfo {
@@ -65,7 +61,7 @@ th {
 }
 
 #nextbtn {
-	margin-left: 200px;
+	margin-left: 285px;
 }
 
 .bttn {
@@ -92,9 +88,7 @@ th {
 }
 
 #formname {
-	justify-content: space-between;
 	font-size: 3rem;
-	margin-left: 150px;
 }
 
 #lineselect {
@@ -203,22 +197,35 @@ th {
 	padding: 5px;
 	border-bottom: 1px solid silver;
 }
+
+.docheader{
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#formnm{
+	margin: 0 auto;
+	width: 1000px;
+	text-align: center;
+}
 </style>
 <body>
 
-	
+	<form action="./updateDoc.do" id="frm" method="post">
 		<div class="container">
 			
 			<div id="formnm">
 			<label id="formname">${detaildoc.fvo.form_nm}</label>
 			</div>
-		
-			
-			<div>
-				
-				
+			<div class="docheader">
 				<button type="button" id="lineselect" class="bttn" data-toggle="modal" data-target="#approverline">결재라인 지정</button>
-				<input type="text" hidden="hidden" value="" name="app_line_no">
+				<input type="text" hidden="hidden" value="${detaildoc.app_line_no}" name="app_line_no">
+<!-- 				<input type="text" hidden="hidden" value="" name="app_doc_content"> -->
+				<input type="text" hidden="hidden" value="${detaildoc.app_doc_no}" name="docno">
+				<input type="text" hidden="hidden" value="" name="refNo">
+				<input type="text" hidden="hidden" id="appState" value="" name="appState">
+		
+				
 			</div>
 
 			<div>
@@ -273,8 +280,8 @@ th {
 			</div>
 		
 			<div id="nextbtn">
-				<button type="button" class="bttn" onclick="">임시저장</button>
-				<button type="submit" class="bttn" id="save" >재상신</button>
+				<button type="button" class="bttn" id="saveApp">임시저장</button>
+				<button type="submit" class="bttn" id="reApp" >재상신</button>
 			</div>
 			
 		</div>
@@ -343,14 +350,14 @@ th {
 				<div class="modal-footer">
 					<input type="button" id="lineSaveBtn" class="btn btn-success" value="등록" data-dismiss="modal" onclick="submitLine()" />
 					 <input type="reset" class="btn btn-default" value="초기화" onclick="resetLine()" />
-					<button type="button" id="close" class="btn btn-default"
-						data-dismiss="modal">취소</button>
+					<button type="button" id="close" class="btn btn-default" data-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
+	</form>
+</body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 	<script>
 	
 	$(function () { 
@@ -384,7 +391,8 @@ th {
 	});
 	
 	
-	$("#addline").click(function(){
+	$("#addline").click(function(e){
+		e.preventDefault();
 		var newappdiv = document.createElement('div');
 		newappdiv.innerHTML = empid;
 		newappdiv.setAttribute("id","lineDiv"+cntline);
@@ -590,18 +598,25 @@ th {
              fCreator: "createSEditor2"
          });
          
-         $("#save").click(function(){
+         $("#saveApp").click(function(){
              oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
              var content = document.getElementById("ir1").value;
-             //var data = data.replace(/[<][^>]*[>]/g, '');
-             //console.log(data);
-             var form_no = $('#formList option:selected').val();
-             console.log(form_no);
-             $("input[name=form_num]").attr("value", form_no);
+             $('#appState').val('임시저장');
+        
+            
              $("#frm").submit();
          });
+         
+         $("#reApp").click(function(){
+	          oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+	          var content = document.getElementById("ir1").value;
+	          $('#appState').val('진행');
+	        
+	          
+	          $("#docForm").submit();
+	      });
    });
    </script>
 
-</body>
+
 </html>

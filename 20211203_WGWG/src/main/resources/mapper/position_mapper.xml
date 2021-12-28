@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.position.PositionDaoImpl">
+
+	<select id="selectAllPosition" resultType="pVo">
+		SELECT POSITION_NO , POSITION_NM
+			FROM "POSITION" p
+	</select>
+	
+</mapper>

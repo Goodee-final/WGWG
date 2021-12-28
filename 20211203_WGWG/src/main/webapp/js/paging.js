@@ -130,6 +130,8 @@ function AppPaging() {
 //		alert('안녕');
 		console.log('왜 이동을 안하는가');
 		$('#content').load('./waitdoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);		
+	}else if(app_chk == '진행'){
+		$('#content').load('./progdoclist.do?app_chk=' + app_chk + '&searchKeyword=' + searchKeyword + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt + "&active=" + active);		
 	}
 
 }
@@ -175,21 +177,25 @@ function frmPaging() {
 	}else if(document.getElementById('app_chk')){
    		AppPaging();
 //		pageAjax();
-	}	
+	}else if(document.getElementById('deptpaging')){
+		deptPaging();
+		console.log("dept도착");
+	}
+	
 	
 }
 //몇개씩 보여줄 것인지 
 function listCnt(){
 	document.getElementById("index").value=0;
 	document.getElementById("pageStartNum").value=1;
-	document.getElementById("listCnt").value=document.getElementById("listCount").value	
+	document.getElementById("listCnt").value=document.getElementById("listCnt").value	
 	frmPaging();
 }
 function nchk(){
 	console.log("체크");
 	document.getElementById("index").value=0;
 	document.getElementById("pageStartNum").value=1;
-	document.getElementById("listCount").value=document.getElementById("listCount").value		
+	document.getElementById("listCnt").value=document.getElementById("listCnt").value		
 	document.getElementById("notice_chk").value=document.getElementById("notice_chk").value		
 	document.getElementById("searchKeyword").value=document.getElementById("searchKeyword").value
 	console.log(document.getElementById("notice_chk").value);
@@ -212,6 +218,21 @@ function empPaging(){
 	
    console.log("select Box : "+searchBy + "검색어 : " + searchWord + "index : "+index + "pageStartNum : "+pageStartNum+"listCnt"+listCnt );
    $('#content').load('./empList.do?searchWord=' + searchWord + '&searchBy=' + searchBy + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt);            
+}
+
+function deptListCnt(){
+	document.getElementById("index").value=0;
+	document.getElementById("pageStartNum").value=1;
+	deptPaging();
+}
+
+function deptPaging(){
+   var index = $('#index').val();
+   var pageStartNum = $('#pageStartNum').val();
+   var listCnt = $('#listCnt').val();
+   var searchWord = $('#searchWord').val();
+	
+   $('#content').load('./deptList.do?searchWord=' + searchWord + '&index=' + index + '&pageStartNum=' + pageStartNum + '&listCnt=' + listCnt);            
 }
 
 function pageFirst() {

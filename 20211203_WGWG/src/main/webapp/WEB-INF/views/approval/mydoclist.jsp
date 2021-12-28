@@ -101,7 +101,7 @@ th, td {
 		<br>
 	
 		<ul class="nav nav-pills" style="height:18px;">
- 			<c:if test="${paging.active  == 3}">
+ 		<c:if test="${paging.active  == 3}">
  			<li id="li1"  val="3" class="active tog" ><a data-toggle="pill" href="#all" style="font-size: 0.8rem;">전체</a></li>		
 		</c:if>
 		<c:if test="${paging.active  != 3}">

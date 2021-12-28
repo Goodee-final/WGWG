@@ -6,9 +6,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.min.edu.vo.emp.Department;
+import com.min.edu.vo.emp.Dept_Page;
 
+@Repository
 public class DeptDaoImpl implements IDeptDao {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -17,12 +20,6 @@ public class DeptDaoImpl implements IDeptDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	@Override
-	public List<Department> selectDeptAll() {
-		logger.info("DeptDaoImpl selectDeptAll");
-		return sqlSession.selectList(NS+"selectDeptAll");
-	}
-
 	@Override
 	public int insertDept(String dept_nm) {
 		logger.info("DeptDaoImpl insertDept : ",dept_nm);
@@ -36,9 +33,27 @@ public class DeptDaoImpl implements IDeptDao {
 	}
 
 	@Override
-	public Department selectDeptByNo(Department dept) {
-		logger.info("DeptDaoImpl selectDeptByNo : {}",dept);
-		return sqlSession.selectOne(NS+"selectDeptByNo",dept);
+	public Department selectDeptByNo(int dept_no) {
+		logger.info("DeptDaoImpl selectDeptByNo : {}",dept_no);
+		return sqlSession.selectOne(NS+"selectDeptByNo",dept_no);
+	}
+
+	@Override
+	public List<Department> selectAllDept() {
+		logger.info("DeptDaoImpl selectAllDept");
+		return sqlSession.selectList(NS+"selectAllDept");
+	}
+
+	@Override
+	public List<Department> selectDeptPaging(Dept_Page paging) {
+		logger.info("DeptDaoImpl selectDeptPaging : {}",paging);
+		return sqlSession.selectList(NS+"selectDeptPaging",paging);
+	}
+
+	@Override
+	public int selectTotalDept() {
+		logger.info("DeptDaoImpl selectTotalDept");
+		return sqlSession.selectOne(NS+"selectTotalDept");
 	}
 
 }
