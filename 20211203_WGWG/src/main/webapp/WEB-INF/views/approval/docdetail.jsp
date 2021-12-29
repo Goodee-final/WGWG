@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 String ctx = request.getContextPath(); //콘텍스트명 얻어오기.
 %>
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate value="${now}" pattern="yyyyMM" var="docnum" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -214,7 +217,7 @@ th {
 			<table class="docinfo">
 				<tr>
 					<th>문서번호</th>
-					<td>년월+${detaildoc.app_doc_no}</td>
+					<td>${docnum}-${detaildoc.app_doc_no}</td>
 						<c:forEach var="app" items="${appInfo}" varStatus="status">
 							<td id="liner">결재자</td>
 						</c:forEach>
