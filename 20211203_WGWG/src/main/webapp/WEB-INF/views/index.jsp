@@ -106,7 +106,7 @@ request.done(function(data) {
 	var calendarEl = document.getElementById('calendar');
 	
     var calendar = new FullCalendar.Calendar(calendarEl, {
-    	height: '800px', // calendar 높이 설정
+    	height: 400, // calendar 높이 설정
     	expandRows: true, // 화면에 맞게 높이 재설정
         slotMinTime: "00:00", // Day 캘린더에서 시작 시간
         slotMaxTime: "23:59", // Day 캘린더에서 종료 시간
@@ -333,7 +333,6 @@ request.done(function(data) {
 
     calendar.render();								
 });		 
-		
 		
 });
     
@@ -779,7 +778,7 @@ i {
 }
 .main-calendar {
 	width:550px;
-	height: 300px;
+	height: 400px;
 	margin-top: 30px;
 }
 
@@ -885,7 +884,7 @@ i {
 	<!-- Sidebar -->
 	<!--  w3-light-grey -->
 	<article class="w3-sidebar w3-bar-block"
-		style="width: 180px; margin-top: 50px; background-color: white; border-right: 2px solid #EEEEEE;">
+		style="width: 180px; margin-top: 30px; background-color: white; border-right: 2px solid #EEEEEE;">
 		<ul>
 			<li class="w3-bar-item nav1"><i class="fas fa-file-signature"></i>전자결재
 				<ul class="nav-flyout">
@@ -1005,8 +1004,8 @@ i {
 						<button type="button" id="off">퇴근하기</button> -->
 					</div>
 				</div>
-				<div id="calendar" class="main-calendar">
-					
+				<div class="main-calendar">
+					<div id="calendar"></div>
 				</div>
 			</div>
 			<div id="main-content2">
