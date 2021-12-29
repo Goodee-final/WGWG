@@ -893,13 +893,11 @@ i {
 					<li class="w3-bar-item w3-button" 
               value="./docinsert.do">기안하기</li>
 					<li class="w3-bar-item w3-button" 
-
-              value="./progdoclist.do">결재 진행함</li>
-
+              value="./progressdoc.do">결재 진행함</li>
 					<li class="w3-bar-item w3-button" 
               value="./waitdoclist.do">결재 대기함</li>
 					<li class="w3-bar-item w3-button"
-						  value="./completedoc.do">결재 완료함</li>
+			  value="./completedoc.do">결재 완료함</li>
 					<li class="w3-bar-item w3-button" 
               value="./refdoclist.do">참조문서함</li>
 					<li class="w3-bar-item w3-button"

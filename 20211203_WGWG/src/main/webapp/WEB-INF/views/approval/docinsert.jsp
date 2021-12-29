@@ -335,8 +335,6 @@ th {
 	</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-
 	<script>
 	
 	$(function () { 
@@ -447,8 +445,8 @@ th {
 	
 	$("#removeline").click(function(){
 		var myDiv = document.getElementById(divvv);
-		var parent = myDiv.parentElement; // 부모 객체 알아내기 
-		parent.removeChild(myDiv); // 부모로부터 myDiv 객체 떼어내기
+		var parent = myDiv.parentElement; 
+		parent.removeChild(myDiv); 
 		cntline--;
 		console.log(cntline);
 		if(cntline < 4){
@@ -687,14 +685,14 @@ th {
    
    function stopdoc(){
 		if (confirm("기안을 취소하면 작성한 내용이 사라집니다.") == true) {    //확인
-			$('#content').load('./ingdoclist.do');
+			$('#content').load('./mydoclist.do');
 		} else {   //취소
 			return false;
 		}
 	}
    
    function finish(){
-	   $('#content').load('./ingdoclist.do');
+	   $('#content').load('./mydoclist.do');
    }
    </script>
 
